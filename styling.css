@@ -1,0 +1,23 @@
+#Moozo {
+    height: 500px;
+}
+
+#Suit {
+    height: 500px;
+}
+
+#Sad {
+    height: 500px;
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center; /* Centers the carousel horizontally */
+    align-items: center; /* Centers the carousel vertically */
+    height: 100vh; /* Full height of the viewport */
+}
+
+.Carousel {
+    max-width: 1000px; /* Set a max width for the carousel */
+    width: 100%; /* Make it responsive */
+}
