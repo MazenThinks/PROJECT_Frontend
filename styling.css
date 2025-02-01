@@ -1,23 +1,52 @@
-#Moozo {
-    height: 500px;
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+
+* {
+    font-family: "Gabarito", serif;
 }
 
-#Suit {
-    height: 500px;
+.Product {
+    height: 390px;
+    width: 250px;
+    border: 1px solid rgb(206, 206, 206);
+    border-radius: 10px;
 }
 
-#Sad {
-    height: 500px;
+.alignment {
+    text-align: center;
 }
 
-.carousel-container {
-    display: flex;
-    justify-content: center; /* Centers the carousel horizontally */
-    align-items: center; /* Centers the carousel vertically */
-    height: 100vh; /* Full height of the viewport */
+.productxt {
+    font-size: 18px;
+    font-weight: 800px;
+
 }
 
-.Carousel {
-    max-width: 1000px; /* Set a max width for the carousel */
-    width: 100%; /* Make it responsive */
+.price {
+    color: red;
+}
+
+.stars {
+    font-size: 15px;
+}
+
+.curr {
+    font-size: 13px;
+    color: rgba(29, 29, 29, 0.877);
+}
+
+.discountpercentage {
+    color: green;
+}
+
+.oldprice {
+    color: rgba(0, 0, 0, 0.678);
+}
+
+.cardlinking {
+    text-decoration: none;
+    text-transform: none;
+}
+
+.blacking {
+    color: black;
 }
