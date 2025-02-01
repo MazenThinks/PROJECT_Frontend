@@ -27,6 +27,7 @@
 
 .stars {
     font-size: 15px;
+    padding-top: 6px;
 }
 
 .curr {
@@ -49,4 +50,20 @@
 
 .blacking {
     color: black;
+}
+
+.navsearch {
+    width: 250px;
+}
+
+.timerr {
+    font-size: 80px;
+}
+
+.redtxt {
+    color: red;
+}
+
+.underlinedeco {
+    text-decoration: underline;
 }
