@@ -10,6 +10,7 @@
 </head>
 <body>
   <!-- navbar -->
+   <!-- <div class="fixed-top bg-body-tertiary"> -->
   <header class="py-3 mb-0 border-bottom">
     <div class="container d-flex flex-wrap justify-content-center">
       <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
@@ -18,7 +19,7 @@
         </svg>
       <span class="fs-4 ms-2">PickPay</span>
       </a>
-      <form class="d-flex" role="search">
+      <form class="d-flex searchmarg" role="search">
         <input class="form-control me-2 col-12 navsearch" type="search" placeholder="What are you looking for?" aria-label="Search">
       </form>
       <div class="text-end">
@@ -41,39 +42,46 @@
             <a class="nav-link" href="#">Today's Deals</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Electronics</a>
+            <a class="nav-link" href="#Electronics">Electronics</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Appliances</a>
+            <a class="nav-link" href="#Appliances">Appliances</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Grocery</a>
+            <a class="nav-link" href="#Home">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Video Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Fashion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Toys & Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Perfumes</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+</div>
 
   <!-- Carousel -->
   <div id="myCarousel" class="carousel slide container" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="active" aria-current="true"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="" aria-current="true"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item">
+      <div class="carousel-item active">
         <img src="Assets/Banner1.jpg" alt="Banner1" height="700px" width=100%>
         <div class="container">
           <div class="carousel-caption text-start">
             <h1>Latest Electronics.</h1>
-            <p>Apple Vision Pro and more...</p>
+            <p class="carsec">Apple Vision Pro and more...</p>
           </div>
         </div>
       </div>
@@ -82,16 +90,16 @@
         <div class="container">
           <div class="carousel-caption text-start">
             <h1>Check our newest products.</h1>
-            <p>Electronics, Appliances and more...</p>
+            <p class="carsec">Electronics, Appliances and more...</p>
           </div>
         </div>
       </div>
-      <div class="carousel-item active">
+      <div class="carousel-item">
         <img src="Assets/Banner3.jpg" alt="Banner3" height="700px" width="100%">
         <div class="container">
           <div class="carousel-caption text-start">
             <h1>Good measures.</h1>
-            <p>Take your tiiiiiiiiiiiiiiiiime........</p>
+            <p class="carsec">Take your tiiiiiiiiiiiiiiiiime........</p>
           </div>
         </div>
       </div>
@@ -266,9 +274,509 @@
     </div>
   </div>
 
+  <!-- Elecs -->
+  <section id="Electronics">
+    <h2 class="container pb-2 border-bottom">Electronics</h2>
+    <div class="d-flex justify-content-evenly container">
+        <!-- Card 1 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/elec Cat/ElecCat1.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Mobile & Tablets</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 2 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/elec Cat/ElecCat2.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">TVs</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/elec Cat/ElecCat3.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Video Games</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 4 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/elec Cat/ElecCat4.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Audio Devices</h3>
+            </div>
+          </a>
+        </div>
+    </div>
+    
+
+
+    <div class="container px-5 pt-1 pb-4 bg-body-tertiary rounded-3 my-3">
+    <h2 class="container pb-2 border-bottom pt-3">Electronics Bestsellers</h2>
+    <div class="container d-flex justify-content-evenly">
+      <!-- Product 1 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/Product1.jpg" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>R50i True Wireless Earbuds 10mm Drivers with Big Bass...</p>
+        <p><span class="curr">EGP</span><span class="price"> $60</span> &nbsp;&nbsp;<s class="oldprice">$80</s> <span class="discountpercentage">25%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(88)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 2 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/elec Cat/ElecProd1.jpg" alt="Product2" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>REDRAGON K617 Fizz RGB 60% Gaming Mechanical...</p>
+        <p><span class="curr">EGP</span><span class="price"> $20</span> &nbsp;&nbsp;<s class="oldprice">$40</s> <span class="discountpercentage">50%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/empty star.png" alt="star" height="15px" width="15px">
+          <span class="stars">(19)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 3 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/elec Cat/ElecProd2.jpg" alt="Product3" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Redragon H510 RGB Zeus X USB Gaming Headset...</p>
+        <p><span class="curr">EGP</span><span class="price"> $37.5</span> &nbsp;&nbsp;<s class="oldprice">$75</s> <span class="discountpercentage">50%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(58)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 4 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/elec Cat/ElecProd3.jpg" alt="Product4" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>UGREEN 4K HDMI 2.0 Cable Zinc Alloy (1M)...</p>
+        <p><span class="curr">EGP</span><span class="price"> $45</span> &nbsp;&nbsp;<s class="oldprice">$60</s> <span class="discountpercentage">25%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(92)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+    </div>
+    </div>
+  </section>
+
+    <!-- Appliances -->
+  <section id="Appliances">
+    <h2 class="container pb-2 border-bottom">Appliances</h2>
+    <div class="d-flex justify-content-evenly container">
+        <!-- Card 1 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/AppCat/AppCat1.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Large Appliances</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 2 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/AppCat/AppCat2.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Small Large Appliances</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/AppCat/AppCat3.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Refrigerators</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 4 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/AppCat/AppCat4.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Iron & Steamers</h3>
+            </div>
+          </a>
+        </div>
+    </div>
+
+    <div class="container px-5 pt-1 pb-4 bg-body-tertiary rounded-3 my-3">
+    <h2 class="container pb-2 border-bottom pt-3">Appliances Bestsellers</h2>
+    <div class="container d-flex justify-content-evenly">
+      <!-- Product 1 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/AppCat/AppProd1.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Toshiba Fridge 2D 411L Fixed Speed...</p>
+        <p><span class="curr">EGP</span><span class="price"> $60</span> &nbsp;&nbsp;<s class="oldprice">$80</s> <span class="discountpercentage">25%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(88)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 2 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/AppCat/AppProd2.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Samsung Refrigerator Top Mounted Freezer No Frost...</p>
+        <p><span class="curr">EGP</span><span class="price"> $20</span> &nbsp;&nbsp;<s class="oldprice">$40</s> <span class="discountpercentage">50%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/empty star.png" alt="star" height="15px" width="15px">
+          <span class="stars">(19)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 3 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/AppCat/AppProd3.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Top Load Automatic Washing Machine, 11 KG, Silver...</p>
+        <p><span class="curr">EGP</span><span class="price"> $37.5</span> &nbsp;&nbsp;<s class="oldprice">$75</s> <span class="discountpercentage">50%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(58)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 4 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/AppCat/AppProd4.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>JAC WATER DESPENSER w Noise Anti-bacterial Design...</p>
+        <p><span class="curr">EGP</span><span class="price"> $45</span> &nbsp;&nbsp;<s class="oldprice">$60</s> <span class="discountpercentage">25%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(92)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Home -->
+   <section id="Home">
+    <h2 class="container pb-2 border-bottom">Home</h2>
+    <div class="d-flex justify-content-evenly container">
+        <!-- Card 1 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/HomeCat/HomeCat1.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Furniture</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 2 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/HomeCat/HomeCat2.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Home Decor</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/HomeCat/HomeCat3.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Cookware</h3>
+            </div>
+          </a>
+        </div>
+
+        <!-- Card 4 -->
+        <div>
+          <a href="#" class="cardlinking blacking">
+            <div>
+              <img src="Assets/HomeCat/HomeCat4.png" alt="Cat1" height="200px" width="247px" class="imgradius">
+            </div>
+            <div>
+              <h3 class="text-center">Kitchen Gadgets</h3>
+            </div>
+          </a>
+        </div>
+    </div>
+
+    <div class="container px-5 pt-1 bgRadius">
+    <h2 class="container pb-2 border-bottom text-center pt-3 whiting">Shop By Color</h2>
+    <div class="d-flex justify-content-evenly container">
+      <div>
+        <a href="#" class="cardlinking blacking">
+        <img src="Assets/HomeCat/White.png" alt="WhitePalette" class="Colorpalette plaetteradius">
+        <h2 class="text-center whiting">White</h2>
+      </a>
+      </div>
+
+      <div>
+        <a href="#" class="cardlinking blacking">
+        <img src="Assets/HomeCat/Brown.png" alt="WhitePalette" class="Colorpalette plaetteradius">
+        <h2 class="text-center whiting">Brown</h2>
+        </a>
+      </div>
+
+      <div>
+        <a href="#" class="cardlinking blacking">
+        <img src="Assets/HomeCat/Grey.png" alt="WhitePalette" class="Colorpalette plaetteradius">
+        <h2 class="text-center whiting">Grey</h2>
+        </a>
+      </div>
+
+      <div>
+        <a href="#" class="cardlinking blacking">
+        <img src="Assets/HomeCat/Beige.png" alt="WhitePalette" class="Colorpalette plaetteradius">
+        <h2 class="text-center whiting">Beige</h2>
+        </a>
+      </div>
+
+      <div>
+        <a href="#" class="cardlinking blacking">
+        <img src="Assets/HomeCat/Black.png" alt="WhitePalette" class="Colorpalette plaetteradius">
+        <h2 class="text-center whiting">Black</h2>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container px-5 pt-1 pb-4 bg-body-tertiary rounded-3 my-3">
+    <h2 class="container pb-2 border-bottom pt-3">Appliances Bestsellers</h2>
+    <div class="container d-flex justify-content-evenly">
+      <!-- Product 1 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/HomeCat/HomeProd1.png" alt="Product1" height="200px" width="230px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Cloud Sofa Biege 3 Seats...</p>
+        <p><span class="curr">EGP</span><span class="price"> $60</span> &nbsp;&nbsp;<s class="oldprice">$80</s> <span class="discountpercentage">25%</span></p>
+        <br>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(88)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 2 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/HomeCat/HomeProd2.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>L- Shape Sofa M02267...</p>
+        <p><span class="curr">EGP</span><span class="price"> $20</span> &nbsp;&nbsp;<s class="oldprice">$40</s> <span class="discountpercentage">50%</span></p>
+        <br>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/empty star.png" alt="star" height="15px" width="15px">
+          <span class="stars">(19)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 3 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/HomeCat/HomeProd3.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Intex Curtains House Luxury Blackout Curtains-Steel...</p>
+        <p><span class="curr">EGP</span><span class="price"> $37.5</span> &nbsp;&nbsp;<s class="oldprice">$75</s> <span class="discountpercentage">50%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(58)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+
+      <!-- Product 4 -->
+      <div>
+        <a href="#" class="cardlinking">
+     <div class="Product d-flex flex-column blacking">
+      <div class="py-3 alignment">
+        <img src="Assets/HomeCat/HomeProd4.png" alt="Product1" height="200px">
+      </div>
+      <div class="align-items-start productxt p-2">
+        <p>Steco Turn Chandelier - 6 Branches - Black...</p>
+        <p><span class="curr">EGP</span><span class="price"> $45</span> &nbsp;&nbsp;<s class="oldprice">$60</s> <span class="discountpercentage">25%</span></p>
+        <p>
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <img src="Assets/star.png" alt="star" height="20px" width="20px">
+          <span class="stars">(92)</span>
+        </p>
+      </div>
+     </div>
+    </a>
+      </div>
+    </div>
+    </div>
 
 
 
+
+
+   </section>
+
+  
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

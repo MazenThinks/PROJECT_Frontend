@@ -2,6 +2,11 @@
 
 * {
     font-family: "Gabarito", serif;
+    color: rgb(49, 49, 49);
+}
+
+.carsec {
+    color: white;
 }
 
 .Product {
@@ -49,11 +54,11 @@
 }
 
 .blacking {
-    color: black;
+    color: rgb(49, 49, 49);
 }
 
 .navsearch {
-    width: 250px;
+    width: 850px;
 }
 
 .timerr {
@@ -67,3 +72,37 @@
 .underlinedeco {
     text-decoration: underline;
 }
+
+.categorycard {
+    /* border: 1px solid rgb(206, 206, 206); */
+    height: 250px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.imgradius {
+    border-radius: 10px;
+}
+
+.searchmarg {
+    margin-right: 50px;
+}
+
+.Colorpalette {
+    width: 200px;
+    height: 200px;
+}
+
+.bgRadius {
+    border-radius: 40px;
+    background-color: rgb(51, 51, 51);
+}
+
+.whiting {
+    color: white;
+}
+
+.plaetteradius {
+    border-radius: 30px;
+}
+
