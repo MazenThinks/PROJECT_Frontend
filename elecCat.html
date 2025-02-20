@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -103,6 +103,183 @@
       </div>
     </nav>
 
+    <!-- Sidebar -->
+    <div class="flex-shrink-0 p-3" style="width: 280px">
+      <a
+        href="/"
+        class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom"
+      >
+        <svg class="bi pe-none me-2" width="30" height="24">
+          <use xlink:href="#bootstrap"></use>
+        </svg>
+        <span class="fs-5 fw-semibold">Collapsible</span>
+      </a>
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
+            Home
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Overview</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Updates</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Reports</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse"
+            aria-expanded="false"
+          >
+            Dashboard
+          </button>
+          <div class="collapse" id="dashboard-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Overview</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Weekly</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Monthly</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Annually</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
+            Orders
+          </button>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >New</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Processed</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Shipped</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Returned</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
+            Account
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >New...</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Profile</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
     <!-- Products -->
     <div class="container">
       <div class="row pt-2">
@@ -113,13 +290,17 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd1.png"
+                    src="Assets/elec Cat/EditedElecProd1.jpg"
                     alt="Product1"
                     height="200px"
+                    width="280px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>Toshiba Fridge 2D 411L Fixed Speed...</p>
+                  <p class="slicingText">
+                    Generic Type-C USB Male to USB Female Converter,Assorted
+                    Colors
+                  </p>
                   <p>
                     <span class="curr">EGP</span
                     ><span class="price"> 6,580</span> &nbsp;&nbsp;<s
@@ -172,20 +353,23 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd2.png"
+                    src="Assets/AppCat/AppProd1.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>Samsung Refrigerator Top Mounted Freezer No Frost...</p>
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
+                  </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 20,890</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 6,580</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >40,542</s
+                      >80,000</s
                     >
-                    <span class="discountpercentage">50%</span>
+                    <span class="discountpercentage">25%</span>
                   </p>
                   <p>
                     <img
@@ -213,12 +397,12 @@
                       width="20px"
                     />
                     <img
-                      src="Assets/empty star.png"
+                      src="Assets/star.png"
                       alt="star"
-                      height="15px"
-                      width="15px"
+                      height="20px"
+                      width="20px"
                     />
-                    <span class="stars">(19)</span>
+                    <span class="stars">(88)</span>
                   </p>
                 </div>
               </div>
@@ -231,20 +415,23 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd3.png"
+                    src="Assets/AppCat/AppProd1.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>Top Load Automatic Washing Machine, 11 KG, Silver...</p>
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
+                  </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 37,895</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 6,580</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >50,750</s
+                      >80,000</s
                     >
-                    <span class="discountpercentage">50%</span>
+                    <span class="discountpercentage">25%</span>
                   </p>
                   <p>
                     <img
@@ -277,7 +464,7 @@
                       height="20px"
                       width="20px"
                     />
-                    <span class="stars">(58)</span>
+                    <span class="stars">(88)</span>
                   </p>
                 </div>
               </div>
@@ -296,9 +483,9 @@
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    Generic Type-C USB Male to USB Female Converter,Assorted
-                    Colors...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
@@ -362,9 +549,9 @@
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
+                  <p class="slicingText">
                     Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
-                    Lite 4K - QA55QE1DAUXEG [2024 Model]...
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
@@ -424,10 +611,9 @@
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    Samsung Galaxy Tab A9 4G LTE, 8.7 Inch Android Tablet, 8GB
-                    RAM, 128GB Storage, 8MP Rear Camera, Navy-1 Year
-                    Warranty/Local Version...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
@@ -481,23 +667,21 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd3.png"
+                    src="Assets/AppCat/AppProd2.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    Xiaomi Redmi Pad SE WiFi 11" FHD+ 90HZ refresh rate,
-                    Snapdragon 680 CPU, 8GB Ram+256GB ROM, Quad Speakers with
-                    Dolby Atmos, 8000mAh Bluetooth 5.3 8MP + Graphite Gray |1
-                    year manufacturer warranty...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 12,999.99</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >18,999.99</s
+                      >7000</s
                     >
                     <span class="discountpercentage">50%</span>
                   </p>
@@ -527,12 +711,12 @@
                       width="20px"
                     />
                     <img
-                      src="Assets/star.png"
+                      src="Assets/empty star.png"
                       alt="star"
-                      height="20px"
-                      width="20px"
+                      height="15px"
+                      width="15px"
                     />
-                    <span class="stars">(58)</span>
+                    <span class="stars">(19)</span>
                   </p>
                 </div>
               </div>
@@ -545,23 +729,23 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd4.png"
+                    src="Assets/AppCat/AppProd2.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    LENOVO ideapad slim3 15IRH8 -I5-13420H 8G-512SSD 83EM007LPS
-                    GREY...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 24,313.00</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >29,313.00</s
+                      >7000</s
                     >
-                    <span class="discountpercentage">25%</span>
+                    <span class="discountpercentage">50%</span>
                   </p>
                   <p>
                     <img
@@ -589,12 +773,12 @@
                       width="20px"
                     />
                     <img
-                      src="Assets/star.png"
+                      src="Assets/empty star.png"
                       alt="star"
-                      height="20px"
-                      width="20px"
+                      height="15px"
+                      width="15px"
                     />
-                    <span class="stars">(92)</span>
+                    <span class="stars">(19)</span>
                   </p>
                 </div>
               </div>
@@ -611,25 +795,23 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd1.png"
+                    src="Assets/AppCat/AppProd2.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    Lenovo Legion 5 15ACH6 Gaming Laptop - Ryzen 5-5600H, 16 GB
-                    RAM, 512 GB SSD, NVIDIA GeForce RTX 3050 Ti 4GB GDDR6
-                    Graphics, 15.6" FHD (1920x1080) IPS 120Hz, Backlit Keyboard,
-                    WIN 11...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 36,999.00</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >40,999.00</s
+                      >7000</s
                     >
-                    <span class="discountpercentage">25%</span>
+                    <span class="discountpercentage">50%</span>
                   </p>
                   <p>
                     <img
@@ -657,12 +839,12 @@
                       width="20px"
                     />
                     <img
-                      src="Assets/star.png"
+                      src="Assets/empty star.png"
                       alt="star"
-                      height="20px"
-                      width="20px"
+                      height="15px"
+                      width="15px"
                     />
-                    <span class="stars">(88)</span>
+                    <span class="stars">(19)</span>
                   </p>
                 </div>
               </div>
@@ -681,17 +863,15 @@
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    HP Victus Gaming Laptop (15-fb1004ne), CPU: Ryzen 5-7535HS,
-                    16GB DDR5 2DM 4800 Graphics Card: NVIDIA GeForce RTX 2050,
-                    VRAM: 4GB, Display: 15.6 FHD Antiglare IPS 250 nits 144Hz,
-                    512GB, Windows 11...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 30,999.00</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >60,000</s
+                      >7000</s
                     >
                     <span class="discountpercentage">50%</span>
                   </p>
@@ -739,218 +919,21 @@
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd3.png"
-                    alt="Product1"
-                    height="200px"
-                  />
-                </div>
-                <div class="align-items-start productxt p-2">
-                  <p>
-                    Xiaomi Band 9 Active Smartwatch, 18 Days of Continuous Use,
-                    1.47" TFT Display, 24-Hour Health, Enhanced Chip,
-                    Interchangeable Frame, Compatible with iPhone & Android
-                    Black|1 year manufacturer warranty...
-                  </p>
-                  <p>
-                    <span class="curr">EGP</span
-                    ><span class="price">1,272.00</span> &nbsp;&nbsp;<s
-                      class="oldprice"
-                      >4,500</s
-                    >
-                    <span class="discountpercentage">50%</span>
-                  </p>
-                  <p>
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <span class="stars">(58)</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- Product 12 -->
-          <div>
-            <a href="#" class="cardlinking">
-              <div class="Product d-flex flex-column blacking">
-                <div class="py-3 alignment">
-                  <img
-                    src="Assets/AppCat/AppProd4.png"
-                    alt="Product1"
-                    height="200px"
-                  />
-                </div>
-                <div class="align-items-start productxt p-2">
-                  <p>
-                    HUAWEI WATCH FIT 3 Smartwatch, 1.82" AMOLED Display,
-                    Ultra-Slim Design, All-Round Fitness Management,
-                    Comprehensive Health Management, Durable Battery Life,
-                    Compatible with iOS & Android, Black...
-                  </p>
-                  <p>
-                    <span class="curr">EGP</span
-                    ><span class="price"> 5,287.00</span> &nbsp;&nbsp;<s
-                      class="oldprice"
-                      >6,500</s
-                    >
-                    <span class="discountpercentage">25%</span>
-                  </p>
-                  <p>
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <span class="stars">(92)</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="row pt-2">
-        <div class="container d-flex justify-content-evenly">
-          <!-- Product 13 -->
-          <div>
-            <a href="#" class="cardlinking">
-              <div class="Product d-flex flex-column blacking">
-                <div class="py-3 alignment">
-                  <img
-                    src="Assets/AppCat/AppProd1.png"
-                    alt="Product1"
-                    height="200px"
-                  />
-                </div>
-                <div class="align-items-start productxt p-2">
-                  <p>
-                    Galaxy Watch Charging Station for Samsung Galaxy Watch
-                    Ultra/Watch 7/6/Watch 6 Classic/Watch 5/5 Pro/Watch
-                    4/3/Active 2, Smartwatch Charging Cable for Samsung Watch
-                    Charger, USB C Wireless Galaxy...
-                  </p>
-                  <p>
-                    <span class="curr">EGP</span
-                    ><span class="price">299.00</span> &nbsp;&nbsp;<s
-                      class="oldprice"
-                      >500</s
-                    >
-                    <span class="discountpercentage">25%</span>
-                  </p>
-                  <p>
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <img
-                      src="Assets/star.png"
-                      alt="star"
-                      height="20px"
-                      width="20px"
-                    />
-                    <span class="stars">(88)</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- Product 14 -->
-          <div>
-            <a href="#" class="cardlinking">
-              <div class="Product d-flex flex-column blacking">
-                <div class="py-3 alignment">
-                  <img
                     src="Assets/AppCat/AppProd2.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    Dl3 Mobilak Case Compatible with Xiaomi Redmi Watch 4 Case
-                    All-Around with Built-in Screen Protector Watch Soft TPU
-                    Shockproof Cover Slim Guard Thin Bumper Shell Protector
-                    (Black)...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 130.00</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >400</s
+                      >7000</s
                     >
                     <span class="discountpercentage">50%</span>
                   </p>
@@ -992,29 +975,27 @@
             </a>
           </div>
 
-          <!-- Product 15 -->
+          <!-- Product 12 -->
           <div>
             <a href="#" class="cardlinking">
               <div class="Product d-flex flex-column blacking">
                 <div class="py-3 alignment">
                   <img
-                    src="Assets/AppCat/AppProd3.png"
+                    src="Assets/AppCat/AppProd2.png"
                     alt="Product1"
                     height="200px"
                   />
                 </div>
                 <div class="align-items-start productxt p-2">
-                  <p>
-                    HP OfficeJet Pro 9720 Wide Format All-in-One Printer -
-                    Print, Scan, Copy,Wireless, Auto Document Feeder, Auto
-                    Duplex, Touchscreen, Quiet Mode; Input Capacity of up to 250
-                    sheets - [53N94C]...
+                  <p class="slicingText">
+                    Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                    Lite 4K - QA55QE1DAUXEG [2024 Model]
                   </p>
                   <p>
                     <span class="curr">EGP</span
-                    ><span class="price"> 7,199.00</span> &nbsp;&nbsp;<s
+                    ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
                       class="oldprice"
-                      >7,600</s
+                      >7000</s
                     >
                     <span class="discountpercentage">50%</span>
                   </p>
@@ -1044,25 +1025,216 @@
                       width="20px"
                     />
                     <img
-                      src="Assets/star.png"
+                      src="Assets/empty star.png"
                       alt="star"
-                      height="20px"
-                      width="20px"
+                      height="15px"
+                      width="15px"
                     />
-                    <span class="stars">(58)</span>
+                    <span class="stars">(19)</span>
                   </p>
                 </div>
               </div>
             </a>
           </div>
         </div>
-      </div>
-    </div>
+        <div class="row pt-2">
+          <div class="container d-flex justify-content-evenly">
+            <!-- Product 13 -->
+            <div>
+              <a href="#" class="cardlinking">
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/AppProd2.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                      Lite 4K - QA55QE1DAUXEG [2024 Model]
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >7000</s
+                      >
+                      <span class="discountpercentage">50%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
 
+            <!-- Product 14 -->
+            <div>
+              <a href="#" class="cardlinking">
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/AppProd2.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                      Lite 4K - QA55QE1DAUXEG [2024 Model]
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >7000</s
+                      >
+                      <span class="discountpercentage">50%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Product 15 -->
+            <div>
+              <a href="#" class="cardlinking">
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/AppProd2.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Samsung 55 Inch QLED Smart TV Neural HDR Quantum Processor
+                      Lite 4K - QA55QE1DAUXEG [2024 Model]
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 9,399.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >7000</s
+                      >
+                      <span class="discountpercentage">50%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Add missing closing div tag for the last opened div -->
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="elecCat.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

@@ -11,7 +11,7 @@
 
 .Product {
   height: 390px;
-  width: 250px;
+  width: 300px;
   border: 1px solid rgb(206, 206, 206);
   border-radius: 10px;
 }
@@ -103,4 +103,12 @@
 
 .plaetteradius {
   border-radius: 30px;
+}
+
+.truncateText {
+  width: 200px;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
