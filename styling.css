@@ -1,108 +1,106 @@
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
 * {
-    font-family: "Gabarito", serif;
-    color: rgb(49, 49, 49);
+  font-family: "Gabarito", serif;
+  color: rgb(49, 49, 49);
 }
 
 .carsec {
-    color: white;
+  color: white;
 }
 
 .Product {
-    height: 390px;
-    width: 250px;
-    border: 1px solid rgb(206, 206, 206);
-    border-radius: 10px;
+  height: 390px;
+  width: 250px;
+  border: 1px solid rgb(206, 206, 206);
+  border-radius: 10px;
 }
 
 .alignment {
-    text-align: center;
+  text-align: center;
 }
 
 .productxt {
-    font-size: 18px;
-    font-weight: 800px;
-
+  font-size: 18px;
+  font-weight: 800px;
 }
 
 .price {
-    color: red;
+  color: red;
 }
 
 .stars {
-    font-size: 15px;
-    padding-top: 6px;
+  font-size: 15px;
+  padding-top: 6px;
 }
 
 .curr {
-    font-size: 13px;
-    color: rgba(29, 29, 29, 0.877);
+  font-size: 13px;
+  color: rgba(29, 29, 29, 0.877);
 }
 
 .discountpercentage {
-    color: green;
+  color: green;
 }
 
 .oldprice {
-    color: rgba(0, 0, 0, 0.678);
+  color: rgba(0, 0, 0, 0.678);
 }
 
 .cardlinking {
-    text-decoration: none;
-    text-transform: none;
+  text-decoration: none;
+  text-transform: none;
 }
 
 .blacking {
-    color: rgb(49, 49, 49);
+  color: rgb(49, 49, 49);
 }
 
 .navsearch {
-    width: 850px;
+  width: 850px;
 }
 
 .timerr {
-    font-size: 80px;
+  font-size: 80px;
 }
 
 .redtxt {
-    color: red;
+  color: red;
 }
 
 .underlinedeco {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .categorycard {
-    /* border: 1px solid rgb(206, 206, 206); */
-    height: 250px;
-    width: 250px;
-    border-radius: 10px;
+  /* border: 1px solid rgb(206, 206, 206); */
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
 }
 
 .imgradius {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .searchmarg {
-    margin-right: 50px;
+  margin-right: 50px;
 }
 
 .Colorpalette {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 .bgRadius {
-    border-radius: 40px;
-    background-color: rgb(51, 51, 51);
+  border-radius: 40px;
+  background-color: rgb(51, 51, 51);
 }
 
 .whiting {
-    color: white;
+  color: white;
 }
 
 .plaetteradius {
-    border-radius: 30px;
+  border-radius: 30px;
 }
-
