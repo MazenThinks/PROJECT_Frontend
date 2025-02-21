@@ -112,3 +112,7 @@
   text-overflow: ellipsis;
   cursor: pointer;
 }
+
+.brdradius {
+  border-radius: 10px;
+}
