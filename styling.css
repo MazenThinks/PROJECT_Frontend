@@ -93,8 +93,9 @@
 }
 
 .bgRadius {
-  border-radius: 40px;
-  background-color: rgb(51, 51, 51);
+  border-radius: 7px;
+  /* background-color: rgb(170, 170, 170); */
+  width: ;
 }
 
 .whiting {
