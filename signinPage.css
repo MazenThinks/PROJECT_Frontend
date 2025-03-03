@@ -1,0 +1,51 @@
+.title {
+  text-align: center;
+  padding-top: 100px;
+}
+
+.viewport {
+  height: 80vh;
+}
+
+.txtdecounderline {
+  text-decoration: underline 2px red;
+}
+
+.box {
+  /* background-color: rgba(0, 0, 0, 0.178); */
+  height: 500px;
+  width: 600px;
+  border: 1px solid rgb(133, 133, 133);
+  border-radius: 20px;
+}
+
+.maindiv {
+  height: 60vh;
+}
+
+.borderradius {
+  border-radius: 7px;
+}
+
+.notextdeco {
+  text-decoration: none;
+  color: black;
+}
+
+/*  */
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}

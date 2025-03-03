@@ -116,3 +116,7 @@
 .brdradius {
   border-radius: 10px;
 }
+
+.txtdecounderlineNavBar {
+  text-decoration: underline 2px black;
+}
