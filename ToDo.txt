@@ -1,10 +1,11 @@
 background logo
 
-photo for:
+photo for: (4 Photos for each sub category)
   appliances
   home
   videogame
   fashion
   toys and games
   skincare 
-
+  
+  
