@@ -5,6 +5,11 @@
   color: rgb(49, 49, 49);
 }
 
+.slicingText {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 .carsec {
   color: white;
 }
