@@ -25,20 +25,37 @@
           />PickPay
         </h2></a
       >
-      <h3 class="title signup">Sign in</h3>
+      <h3 class="title signup">Sign up</h3>
       <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
-            <img
-              src="Assets/sign In/signin2.jpg"
-              class="img-fluid"
-              alt="Sample image"
-            />
-          </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form>
               <!-- Email input -->
-              <div data-mdb-input-init class="form-outline mb-4">
+              <div class="row">
+                <div class="col">
+                  <label class="form-label" for="form3Example3"
+                    >First name</label
+                  >
+                  <input
+                    type="text"
+                    id="form3Example3"
+                    class="form-control form-control-lg"
+                    placeholder="Enter your first name"
+                  />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="form3Example3"
+                    >Last name</label
+                  >
+                  <input
+                    type="text"
+                    id="form3Example3"
+                    class="form-control form-control-lg"
+                    placeholder="Enter your last name"
+                  />
+                </div>
+              </div>
+              <div data-mdb-input-init class="form-outline mb-4 mt-3">
                 <label class="form-label" for="form3Example3"
                   >Email address</label
                 >
@@ -74,7 +91,6 @@
                     Remember me
                   </label>
                 </div>
-                <a href="#!" class="text-body">Forgot password?</a>
               </div>
 
               <div class="text-center text-lg-start mt-4 pt-2">
@@ -82,17 +98,24 @@
                   type="button"
                   data-mdb-button-init
                   data-mdb-ripple-init
-                  class="btn btn-primary btn-lg"
+                  class="btn btn-danger btn-lg"
                   style="padding-left: 2.5rem; padding-right: 2.5rem"
                 >
-                  Login
+                  Create account
                 </button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?
-                  <a href="signoutPage.html" class="link-danger">Register</a>
-                </p>
               </div>
             </form>
+            <p class="small fw-bold mt-2 pt-1 mb-0">
+              Already have an account?
+              <a href="signinPage.html" class="link-danger">Login</a>
+            </p>
+          </div>
+          <div class="col-md-9 col-lg-6 col-xl-5">
+            <img
+              src="Assets/sign In/signin.jpg"
+              class="img-fluid"
+              alt="Sample image"
+            />
           </div>
         </div>
       </div>

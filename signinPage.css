@@ -1,14 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
+
+* {
+  font-family: "Gabarito", serif;
+  color: rgb(49, 49, 49);
+}
+
 .title {
   text-align: center;
   padding-top: 100px;
 }
 
 .viewport {
-  height: 80vh;
+  height: 50vh;
 }
 
 .txtdecounderline {
   text-decoration: underline 2px red;
+}
+
+.signup {
+  color: red;
+  text-decoration: underline;
+}
+
+.signin {
+  color: blue;
+  text-decoration: underline;
 }
 
 .box {
