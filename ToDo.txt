@@ -8,4 +8,5 @@ photo for: (4 Photos for each sub category)
   toys and games
   skincare 
   
-  
+  navbar underline removal 
+  lining sidebar attributes
