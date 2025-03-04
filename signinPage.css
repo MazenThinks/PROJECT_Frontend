@@ -20,12 +20,12 @@
 
 .signup {
   color: red;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .signin {
   color: rgb(0, 89, 255);
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .box {
