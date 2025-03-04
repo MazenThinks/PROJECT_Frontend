@@ -123,5 +123,6 @@
 }
 
 .txtdecounderlineNavBar {
-  text-decoration: underline 2px black;
+  text-decoration: underline 2px rgb(255, 0, 0);
+  text-underline-offset: 20px;
 }
