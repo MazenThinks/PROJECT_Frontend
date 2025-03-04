@@ -4,6 +4,9 @@
   font-family: "Gabarito", serif;
   color: rgb(49, 49, 49);
 }
+.title {
+  text-shadow: 4px 4px 5px rgba(0, 0, 0, 0.178);
+}
 
 .slicingText {
   text-align: justify;
@@ -19,6 +22,7 @@
   width: 300px;
   border: 1px solid rgb(206, 206, 206);
   border-radius: 10px;
+  box-shadow: 0 8px 6px -10px black;
 }
 
 .alignment {
