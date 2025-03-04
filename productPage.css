@@ -1,0 +1,25 @@
+.ProductCard {
+  width: 400px;
+  height: 500px;
+}
+
+.otherProds {
+  border: 1px solid rgba(0, 0, 0, 0.158);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.title {
+  margin-top: 30px;
+  margin-left: 50px;
+  margin-right: 50px;
+  width: 450px;
+}
+
+.rightBox {
+  width: 300px;
+  height: 700px;
+  border: 3px solid rgba(0, 0, 0, 0.651);
+  margin-top: 70px;
+  border-radius: 12px;
+}
