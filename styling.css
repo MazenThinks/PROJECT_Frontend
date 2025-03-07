@@ -17,6 +17,10 @@
   color: white;
 }
 
+.underlinedecoo {
+  text-decoration: underline 2px;
+}
+
 .Product {
   height: 390px;
   width: 300px;
