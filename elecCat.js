@@ -1,10 +1,10 @@
 // Apply slicing to all paragraphs with class 'slicingText'
-var paragraphs = document.querySelectorAll(".slicingText");
-paragraphs.forEach((paragraph) => {
-  if (paragraph.textContent.length > 70) {
-    paragraph.textContent = paragraph.textContent.slice(0, 70) + "...";
-  }
-});
+// var paragraphs = document.querySelectorAll(".slicingText");
+// paragraphs.forEach((paragraph) => {
+//   if (paragraph.textContent.length > 75) {
+//     paragraph.textContent = paragraph.textContent.slice(0, 75) + "...";
+//   }
+// });
 
 // Slider
 const rangevalue = document.querySelector(".slider-container .price-slider");
