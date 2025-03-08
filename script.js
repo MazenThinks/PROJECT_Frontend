@@ -36,9 +36,9 @@ paragraphs.forEach((paragraph) => {
 });
 
 $(".cart").hover(mousenter, mouseleave);
-$(".bi").hover(mousenter, mouseleave);
+$(".titleanimation").hover(mousenter, mouseleave);
+$(".navsearch").hover(mousenter, mouseleave);
 $(".cardlinking").hover(mousenterprod, mouseleaveprod);
-
 function mousenter() {
   $(this).animate({
     opacity: 0.7,
