@@ -1,0 +1,35 @@
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+.nigga {
+  background-color: black;
+  width: 100%;
+  height: auto;
+}
+
+.emptyphoto {
+  margin-top: 70px;
+}
+
+.emptytext {
+  margin-top: 150px;
+}
+
+.signinbtn {
+  margin-top: 5px;
+  width: 200px;
+}
+
+.signupbtn {
+  margin-top: 5px;
+  width: 200px;
+}
+
+.side {
+  border-left: 2px dashed rgb(182, 182, 182);
+  /* border-right: 1px solid rgb(182, 182, 182); */
+  /* text-align: center; */
+}
