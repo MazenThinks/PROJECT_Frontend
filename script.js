@@ -34,3 +34,18 @@ paragraphs.forEach((paragraph) => {
     paragraph.textContent = paragraph.textContent.slice(0, 80) + "...";
   }
 });
+
+$(".cart").hover(mousenter, mouseleave);
+$(".bi").hover(mousenter, mouseleave);
+
+function mousenter() {
+  $(this).animate({
+    opacity: 0.7,
+  });
+}
+
+function mouseleave() {
+  $(this).animate({
+    opacity: 1,
+  });
+}
