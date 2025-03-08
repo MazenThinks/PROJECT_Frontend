@@ -37,7 +37,7 @@ paragraphs.forEach((paragraph) => {
 
 $(".cart").hover(mousenter, mouseleave);
 $(".bi").hover(mousenter, mouseleave);
-$(".slicingText").hover(mousenter, mouseleave);
+$(".cardlinking").hover(mousenterprod, mouseleaveprod);
 
 function mousenter() {
   $(this).animate({
@@ -46,6 +46,18 @@ function mousenter() {
 }
 
 function mouseleave() {
+  $(this).animate({
+    opacity: 1,
+  });
+}
+
+function mousenterprod() {
+  $(this).animate({
+    opacity: 0.8,
+  });
+}
+
+function mouseleaveprod() {
   $(this).animate({
     opacity: 1,
   });
