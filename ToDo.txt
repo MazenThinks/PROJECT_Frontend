@@ -13,3 +13,7 @@ photo for: (4 Photos for each sub category)
 
   nav on hover
   responevsivness
+
+
+
+  dark mode
