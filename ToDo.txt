@@ -1,19 +1,16 @@
-background logo
-
-photo for: (4 Photos for each sub category)
-  appliances
-  home
-  videogame
-  fashion
-  toys and games
-  skincare 
-  
-  navbar underline removal 
-  lining sidebar attributes
-
-  nav on hover
-  responevsivness
-
-
-
   dark mode
+
+  5 appliances products photos {
+    3 small 
+    2 large
+  }
+
+  Beauty {
+    Makeup
+    Skincare
+    Haircare
+    Fragrance
+  }
+
+  Categories sidebar brands 
+
