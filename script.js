@@ -40,25 +40,37 @@ $(".titleanimation").hover(mousenter, mouseleave);
 $(".navsearch").hover(mousenter, mouseleave);
 $(".cardlinking").hover(mousenterprod, mouseleaveprod);
 function mousenter() {
-  $(this).animate({
-    opacity: 0.7,
-  });
+  $(this).stop(true, true).animate(
+    {
+      opacity: 0.7,
+    },
+    300
+  );
 }
 
 function mouseleave() {
-  $(this).animate({
-    opacity: 1,
-  });
+  $(this).stop(true, true).animate(
+    {
+      opacity: 1,
+    },
+    300
+  );
 }
 
 function mousenterprod() {
-  $(this).animate({
-    opacity: 0.8,
-  });
+  $(this).stop(true, true).animate(
+    {
+      opacity: 0.8,
+    },
+    300
+  );
 }
 
 function mouseleaveprod() {
-  $(this).animate({
-    opacity: 1,
-  });
+  $(this).stop(true, true).animate(
+    {
+      opacity: 1,
+    },
+    300
+  );
 }
