@@ -5,12 +5,8 @@
     2 large
   }
 
-  Beauty {
-    Makeup
-    Skincare
-    Haircare
-    Fragrance
-  }
+ 
 
   Categories sidebar brands 
 
+1  more photo for videogames Console

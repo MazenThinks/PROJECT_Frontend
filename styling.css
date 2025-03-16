@@ -14,6 +14,12 @@ html {
 }
 
 .slicingText {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 15px;
+  margin-bottom: 10px;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -29,23 +35,65 @@ html {
 .Product {
   height: 390px;
   width: 300px;
-  border: 1px solid rgb(206, 206, 206);
-  border-radius: 10px;
-  box-shadow: 0 8px 6px -10px black;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   margin-right: 4px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+
+  /* Reset animation properties that conflict with scroll animations */
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+/* Stronger hover effect that takes precedence */
+.Product:hover {
+  transform: translateY(
+    -3px
+  ) !important; /* Added !important to override any other transforms */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+  border-color: rgba(52, 152, 219, 0.3) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease !important;
+}
+
+/* When Product is visible after scroll animation, ensure hover works */
+.Product.fade-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.Product.fade-section.is-visible:hover {
+  transform: translateY(-3px) !important;
 }
 
 .alignment {
   text-align: center;
+  padding: 12px;
+  background: rgba(249, 249, 249, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .productxt {
   font-size: 18px;
   font-weight: 800px;
+  padding: 10px 12px;
 }
 
 .price {
-  color: red;
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 17px;
 }
 
 .stars {
@@ -59,16 +107,27 @@ html {
 }
 
 .discountpercentage {
-  color: green;
+  color: #27ae60;
+  font-weight: bold;
+  background: rgba(39, 174, 96, 0.1);
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-left: 4px;
+  animation: pulse 2s infinite alternate;
 }
 
 .oldprice {
-  color: rgba(0, 0, 0, 0.678);
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  text-decoration: line-through;
 }
 
 .cardlinking {
   text-decoration: none;
   text-transform: none;
+  display: block;
+  height: 100%;
 }
 
 .blacking {
@@ -137,7 +196,8 @@ html {
 }
 
 .txtdecounderlineNavBar {
-  text-decoration: underline 2px rgb(255, 0, 0);
+  color: rgb(255, 0, 0);
+  /* Removed underline decoration */
   text-underline-offset: 20px;
 }
 
@@ -145,11 +205,55 @@ html {
   margin-top: 2px;
   text-decoration: none;
   text-transform: none;
-  /* margin-right: 10px; */
+  background-color: #f8f9fa;
+  border-radius: 25px;
+  padding: 5px 12px; /* Smaller padding */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.cart:hover {
+  background-color: #e74c3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart:hover .cartext {
+  color: white;
+}
+
+.cart:hover img {
+  filter: brightness(10);
 }
 
 .cartext {
-  font-size: 21px;
+  font-size: 16px; /* Smaller font size */
+  font-weight: 500;
+  margin-left: 6px; /* Smaller margin */
+  transition: color 0.3s ease;
+}
+
+/* Cart badge for item count */
+.cart-badge {
+  position: absolute;
+  top: -6px; /* Adjusted position */
+  right: -6px; /* Adjusted position */
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 18px; /* Smaller size */
+  height: 18px; /* Smaller size */
+  font-size: 11px; /* Smaller font */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /*  */
@@ -163,6 +267,7 @@ html {
   /* font-size: 30px; */
 }
 
+/* Modified to exclude cart animation */
 .cartanim::after {
   content: "";
   position: absolute;
@@ -178,4 +283,554 @@ html {
 .cartanim:hover::after {
   transform: scale(1);
   transition: transform 0.4s ease-out;
+}
+
+/* Add new rule to specifically disable underline for cart */
+.cart .cartanim::after {
+  display: none;
+}
+
+/* ========== HOMEPAGE ANIMATIONS & COLORS ========== */
+
+/* Animated section headers */
+h2.container.pb-2.border-bottom {
+  position: relative;
+  overflow: hidden;
+  padding-left: 5px;
+  color: #2c3e50;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Today Sale section enhancements */
+.redtxt.underlinedecoo {
+  position: relative;
+  color: #e74c3c;
+  animation: pulsate 2s infinite alternate ease-in-out;
+  text-shadow: 0 0 3px rgba(231, 76, 60, 0.3);
+}
+
+#demo.timerr {
+  color: #e74c3c;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Section background enhancements */
+.container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3 {
+  background: linear-gradient(
+    to bottom,
+    rgba(236, 240, 241, 0.5),
+    rgba(245, 247, 250, 0.8)
+  ) !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Button animations */
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-light {
+  transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Category cards enhancement */
+.cardlinking.blacking img {
+  transition: all 0.3s ease;
+}
+
+.cardlinking.blacking:hover img {
+  transform: scale(1.05);
+}
+
+.cardlinking.blacking h3 {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.cardlinking.blacking:hover h3 {
+  color: #e74c3c; /* Changed from #3498db (blue) to #e74c3c (red) */
+}
+
+/* Navigation animation */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #e74c3c; /* Changed from #3498db (blue) to #e74c3c (red) */
+}
+
+/* Make active navbar link red */
+.nav-link.active {
+  color: rgb(255, 0, 0) !important;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #e74c3c; /* Changed from #3498db (blue) to #e74c3c (red) */
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 70%;
+}
+
+/* Carousel indicators enhancement */
+.carousel-indicators button {
+  background-color: rgba(52, 152, 219, 0.7);
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.carousel-indicators button.active {
+  background-color: #3498db;
+  transform: scale(1.2);
+}
+
+/* Footer enhancements */
+.bg-body-tertiary footer {
+  background: linear-gradient(
+    to right,
+    rgba(236, 240, 241, 0.5),
+    rgba(245, 247, 250, 0.8)
+  );
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Remove underline on hover for footer links */
+footer .nav-link::after {
+  display: none;
+}
+
+footer .nav-link:hover {
+  color: #e74c3c;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLTR {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInNav {
+  animation: fadeInLTR 0.8s forwards;
+  opacity: 0; /* Start from nothing */
+}
+
+/* Scroll-triggered animations - Updated for better visibility */
+.fade-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+  visibility: visible !important; /* Ensure elements aren't hidden by other CSS */
+}
+
+.fade-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Override animations for elements that should animate on scroll instead of page load */
+.animate-on-scroll {
+  animation: none !important;
+  opacity: 0;
+}
+
+/* More pronounced animation variations */
+.fade-right {
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-right.is-visible {
+  transform: translateX(0);
+}
+
+.fade-left {
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-left.is-visible {
+  transform: translateX(0);
+}
+
+/* Delay classes */
+.delay-100 {
+  transition-delay: 0.1s;
+}
+
+.delay-200 {
+  transition-delay: 0.2s;
+}
+
+.delay-300 {
+  transition-delay: 0.3s;
+}
+
+/* Important rule to override potential conflicts */
+.fade-section:not(.is-visible) {
+  opacity: 0 !important;
+}
+
+/* Animated scroll for page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Initialize animations for page load */
+@media (prefers-reduced-motion: no-preference) {
+  .Product,
+  .container,
+  h2,
+  .carousel {
+    animation-name: fadeIn;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+  }
+
+  /* Override Product animation to use scroll animation instead */
+  .Product {
+    animation: none;
+  }
+
+  .carousel-item {
+    transition: transform 0.6s ease-in-out;
+  }
+}
+
+/* Text-specific animations */
+.text-fade {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+  visibility: visible !important;
+}
+
+.text-fade.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Standard fade-up animation for non-text elements */
+.fade-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+  visibility: visible !important;
+}
+
+.fade-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Remove the directional variations since we're using element-based animations now */
+.fade-right,
+.fade-left {
+  /* Styles now handled by text-fade and fade-section */
+}
+
+/* ========== COLORFUL HOMEPAGE ENHANCEMENTS ========== */
+
+/* Colorful hero section background */
+.hero-section,
+.jumbotron,
+.bg-body-tertiary.p-5 {
+  background: linear-gradient(
+    135deg,
+    rgba(231, 76, 60, 0.05) 0%,
+    rgba(41, 128, 185, 0.1) 100%
+  );
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient text for main headings */
+.homepage-heading,
+h1.display-5,
+h2.display-6 {
+  background: linear-gradient(90deg, #e74c3c, #9b59b6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e74c3c; /* Fallback */
+  font-weight: bold;
+  text-shadow: none;
+}
+
+/* Colorful category section backgrounds */
+.category-section:nth-of-type(3n + 1) {
+  background: linear-gradient(
+    to right,
+    rgba(52, 152, 219, 0.05),
+    rgba(52, 152, 219, 0.1)
+  );
+  border-radius: 12px;
+}
+
+.category-section:nth-of-type(3n + 2) {
+  background: linear-gradient(
+    to right,
+    rgba(155, 89, 182, 0.05),
+    rgba(155, 89, 182, 0.1)
+  );
+  border-radius: 12px;
+}
+
+.category-section:nth-of-type(3n + 3) {
+  background: linear-gradient(
+    to right,
+    rgba(46, 204, 113, 0.05),
+    rgba(46, 204, 113, 0.1)
+  );
+  border-radius: 12px;
+}
+
+/* Colorful accent borders for featured products */
+.featured-product {
+  border-left: 3px solid #3498db;
+}
+
+/* Rainbow separator replaced with solid red separator */
+.rainbow-separator {
+  height: 3px;
+  background: #e74c3c; /* Changed from gradient to solid red */
+  margin: 25px 0;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Today's deals badge with gradient */
+.deal-badge {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+/* Category card colorful overlay on hover */
+.categorycard {
+  position: relative;
+  overflow: hidden;
+}
+
+.categorycard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(231, 76, 60, 0.3),
+    rgba(41, 128, 185, 0.3)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
+}
+
+.categorycard:hover::after {
+  opacity: 1;
+}
+
+/* Colorful price tag */
+.price {
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e74c3c; /* Fallback */
+  font-weight: bold;
+  padding: 2px 0;
+}
+
+/* Enhance section titles with color accent */
+h2.container.pb-2.border-bottom {
+  border-bottom: 3px solid #3498db !important; /* Changed from red to blue */
+  border-image: none !important; /* Remove gradient border image */
+  padding-bottom: 8px !important;
+}
+
+/* Add colorful cards for featured content */
+.feature-card {
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card.purple {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+}
+
+.feature-card.blue {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.feature-card.green {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+}
+
+.feature-card.orange {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+  color: white;
+}
+
+.feature-card.red {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.feature-card h3,
+.feature-card p {
+  color: white;
+}
+
+/* Colorful top navbar */
+.navbar.bg-body-tertiary {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.95),
+    rgba(245, 247, 250, 0.95)
+  ) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer with color accent */
+footer.py-3.my-4 {
+  background: linear-gradient(
+    to right,
+    rgba(236, 240, 241, 0.8),
+    rgba(245, 247, 250, 0.9)
+  );
+  border-top: 3px solid;
+  border-image: linear-gradient(to right, #e74c3c, #3498db) 1;
+}
+
+/* Color pulse animation for call to action buttons */
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cta::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  opacity: 0;
+  transform: scale(0.5);
+  animation: ripple 3s ease-out infinite;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Color theme switching for dark mode/light mode (if needed) */
+@media (prefers-color-scheme: dark) {
+  .feature-card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
 }
