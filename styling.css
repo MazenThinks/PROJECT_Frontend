@@ -470,6 +470,22 @@ footer .nav-link:hover {
   }
 }
 
+@keyframes fadeInLTR {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInNav {
+  animation: fadeInLTR 0.8s forwards;
+  opacity: 0; /* Start from nothing */
+}
+
 /* Scroll-triggered animations - Updated for better visibility */
 .fade-section {
   opacity: 0;

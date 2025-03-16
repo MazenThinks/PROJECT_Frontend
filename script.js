@@ -98,6 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1000);
     }
   }
+
+  // Navigation animation - fade in LTR one by one
+  const navItems = document.querySelectorAll("nav .nav-link");
+  navItems.forEach((item, index) => {
+    item.style.animationDelay = `${index * 0.3}s`;
+    item.classList.add("fadeInNav");
+  });
 });
 
 var paragraphs = document.querySelectorAll(".slicingText");
