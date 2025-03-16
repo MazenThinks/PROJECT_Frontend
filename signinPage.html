@@ -10,103 +10,125 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="signinPage.css" />
-    <title>Sign In</title>
+    <title>Sign In | PickPay</title>
   </head>
   <body>
-    <section class="viewport">
-      <a href="index.html" class="notextdeco"
-        ><h2 class="title">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="45"
-            height="45"
-            fill="currentColor"
-            class="bi bi-box-seam me-2"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"
-            /></svg
-          >PickPay
-        </h2></a
-      >
-      <h3 class="title signin">Log in</h3>
-      <div class="container-fluid h-custom">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
-            <img
-              src="Assets/sign In/signin2.jpg"
-              class="img-fluid"
-              alt="Sample image"
+    <div class="login-container">
+      <div class="login-background"></div>
+
+      <div class="login-card">
+        <div class="login-header">
+          <a href="index.html" class="brand-link">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="35"
+              height="35"
+              fill="rgb(49, 49, 49)"
+              class="bi bi-box-seam logo-icon"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"
+              />
+            </svg>
+            <span class="brand-text">PickPay</span>
+          </a>
+        </div>
+
+        <h2 class="login-title">Welcome back!</h2>
+
+        <div class="login-form">
+          <div class="form-floating mb-4">
+            <input
+              type="email"
+              class="form-control"
+              id="emailInput"
+              placeholder="name@example.com"
+              required
             />
+            <label for="emailInput">Email address</label>
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form>
-              <!-- Email input -->
-              <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="form3Example3"
-                  >Email address</label
-                >
-                <input
-                  type="email"
-                  id="form3Example3"
-                  class="form-control form-control-lg"
-                  placeholder="Enter a valid email address"
+
+          <div class="form-floating mb-3 password-container">
+            <input
+              type="password"
+              class="form-control"
+              id="passwordInput"
+              placeholder="Password"
+              required
+            />
+            <label for="passwordInput">Password</label>
+            <button type="button" class="btn-toggle-password">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-eye"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
                 />
-              </div>
-
-              <!-- Password input -->
-              <div data-mdb-input-init class="form-outline mb-3">
-                <label class="form-label" for="form3Example4">Password</label>
-                <input
-                  type="password"
-                  id="form3Example4"
-                  class="form-control form-control-lg"
-                  placeholder="Enter password"
+                <path
+                  d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
                 />
-              </div>
+              </svg>
+            </button>
+          </div>
 
-              <div class="d-flex justify-content-between align-items-center">
-                <!-- Checkbox -->
-                <div class="form-check mb-0">
-                  <input
-                    class="form-check-input me-2"
-                    type="checkbox"
-                    value=""
-                    id="form2Example3"
-                  />
-                  <label class="form-check-label" for="form2Example3">
-                    Remember me
-                  </label>
-                </div>
-                <a href="#!" class="text-body">Forgot password?</a>
-              </div>
+          <div class="remember-forgot-row">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="rememberCheck"
+              />
+              <label class="form-check-label" for="rememberCheck"
+                >Remember me</label
+              >
+            </div>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
 
-              <div class="text-center text-lg-start mt-4 pt-2">
-                <button
-                  type="button"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem"
-                >
-                  Login
-                </button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?
-                  <a href="signoutPage.html" class="link-danger">Register</a>
-                </p>
-              </div>
-            </form>
+          <button type="submit" class="btn btn-primary login-btn" id="loginBtn">
+            <span class="btn-text">Log In</span>
+            <div class="loader"></div>
+          </button>
+
+          <div class="separator">
+            <span>or</span>
+          </div>
+
+          <div class="social-login">
+            <button class="btn btn-outline-secondary social-btn google-btn">
+              <img
+                src="Assets/icons/google.svg"
+                alt="Google"
+                class="social-icon"
+              />
+              <span>Continue with Google</span>
+            </button>
+            <button class="btn btn-outline-secondary social-btn facebook-btn">
+              <img
+                src="Assets/icons/facebook.svg"
+                alt="Facebook"
+                class="social-icon"
+              />
+              <span>Continue with Facebook</span>
+            </button>
           </div>
         </div>
+
+        <div class="signup-prompt">
+          Don't have an account?
+          <a href="signoutPage.html" class="signup-link">Sign up</a>
+        </div>
       </div>
-    </section>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>
