@@ -834,3 +834,19 @@ footer.py-3.my-4 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 }
+
+/* Add these CSS rules at the end of your existing styling.css file */
+
+.navbar-fade-in {
+  animation: fadeIn 1.2s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
