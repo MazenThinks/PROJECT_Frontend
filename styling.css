@@ -965,23 +965,6 @@ footer.py-3.my-4 {
   transition: background-color 0.3s ease;
 }
 
-/* Gradient animation for hero section */
-.carousel-caption {
-  position: relative;
-}
-
-.carousel-caption::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg, #e74c3c, #3498db, #2ecc71);
-  background-size: 300% 300%;
-  animation: gradient-shift 5s ease infinite;
-}
-
 /* Color shift animation */
 @keyframes gradient-shift {
   0% {
