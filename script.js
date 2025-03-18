@@ -118,6 +118,131 @@ document.addEventListener("DOMContentLoaded", function () {
       item.classList.add("fadeInNav");
     });
   }
+
+  // Enhanced Product Image Gallery
+  // Product Image Gallery with smooth transitions
+  const productThumbnails = document.querySelectorAll(".otherProds");
+  const mainProductImage = document.querySelector(".ProductCard");
+
+  if (productThumbnails.length > 0 && mainProductImage) {
+    // Set first thumbnail as active by default
+    productThumbnails[0].classList.add("active");
+
+    productThumbnails.forEach((thumb) => {
+      thumb.addEventListener("click", function () {
+        // Get image source from thumbnail
+        const imgSrc = this.querySelector("img").src;
+
+        // Prepare transition
+        mainProductImage.style.opacity = "0.5";
+        mainProductImage.style.transform = "scale(0.98)";
+
+        // Update main image with short delay for transition effect
+        setTimeout(() => {
+          mainProductImage.src = imgSrc;
+
+          // Restore appearance
+          setTimeout(() => {
+            mainProductImage.style.opacity = "1";
+            mainProductImage.style.transform = "scale(1)";
+          }, 100);
+        }, 200);
+
+        // Update active state
+        productThumbnails.forEach((t) => t.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+  }
+
+  // Fix similar products image dimensions
+  document
+    .querySelectorAll(".similar-products-container .Product img")
+    .forEach((img) => {
+      img.style.width = "400px";
+      img.style.height = "300px";
+      img.style.objectFit = "contain";
+    });
+
+  // Quantity dropdown functionality
+  const quantityDropdown = document.querySelector(".dropdown-menu");
+  const quantityButton = document.querySelector(".dropdown-toggle");
+
+  if (quantityDropdown && quantityButton) {
+    const quantityItems = quantityDropdown.querySelectorAll(".dropdown-item");
+    quantityItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        quantityButton.textContent = this.textContent;
+      });
+    });
+  }
+
+  // Add to Cart animation
+  const addToCartBtn = document.querySelector(".sideboxbuttons");
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", function () {
+      this.innerHTML = '<i class="fas fa-check"></i> Added!';
+      this.classList.add("added");
+
+      setTimeout(() => {
+        this.innerHTML = "Add to Cart";
+        this.classList.remove("added");
+
+        // Update cart badge
+        const cartBadge = document.querySelector(".cart-badge");
+        if (cartBadge) {
+          cartBadge.classList.add("visible");
+          cartBadge.textContent = parseInt(cartBadge.textContent || 0) + 1;
+        }
+      }, 1500);
+    });
+  }
+
+  // Image zoom functionality
+  const zoomWrapper = document.querySelector(".image-zoom-wrapper");
+  const zoomImage = document.querySelector(".zoom-image");
+
+  if (zoomWrapper && zoomImage) {
+    const zoomLevel = 2.5; // Zoom magnification level
+
+    zoomWrapper.addEventListener("mousemove", function (e) {
+      const { left, top, width, height } = zoomWrapper.getBoundingClientRect();
+
+      // Calculate cursor position as percentage of the container
+      const x = ((e.clientX - left) / width) * 100;
+      const y = ((e.clientY - top) / height) * 100;
+
+      // Set the transform origin to the cursor position
+      zoomImage.style.transformOrigin = `${x}% ${y}%`;
+
+      // Apply zoom
+      zoomImage.style.transform = `scale(${zoomLevel})`;
+    });
+
+    zoomWrapper.addEventListener("mouseleave", function () {
+      // Reset zoom when mouse leaves the image
+      zoomImage.style.transform = "scale(1)";
+    });
+
+    // Add touch support for mobile devices
+    zoomWrapper.addEventListener("touchmove", function (e) {
+      e.preventDefault(); // Prevent scrolling while zooming
+
+      const touch = e.touches[0];
+      const { left, top, width, height } = zoomWrapper.getBoundingClientRect();
+
+      const x = ((touch.clientX - left) / width) * 100;
+      const y = ((touch.clientY - top) / height) * 100;
+
+      zoomImage.style.transformOrigin = `${x}% ${y}%`;
+      zoomImage.style.transform = `scale(${zoomLevel})`;
+    });
+
+    zoomWrapper.addEventListener("touchend", function () {
+      zoomImage.style.transform = "scale(1)";
+    });
+  }
 });
 
 var paragraphs = document.querySelectorAll(".slicingText");

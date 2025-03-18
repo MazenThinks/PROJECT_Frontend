@@ -15,13 +15,18 @@ html {
 
 .slicingText {
   display: -webkit-box;
+  display: -ms-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  -moz-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical !important;
   overflow: hidden;
   font-size: 15px;
   margin-bottom: 10px;
   text-align: justify;
   text-justify: inter-word;
+  max-height: 4.5em; /* Fallback for browsers that don't support line-clamp */
+  text-overflow: ellipsis;
 }
 
 .carsec {
@@ -894,5 +899,222 @@ footer.py-3.my-4 {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ========== BACKGROUND COLOR ANIMATIONS ========== */
+
+/* Animated background gradients */
+.animated-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Subtle section background animations */
+.bg-body-tertiary.rounded-3 {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-body-tertiary.rounded-3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(52, 152, 219, 0.03),
+    rgba(231, 76, 60, 0.03),
+    rgba(46, 204, 113, 0.03)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  z-index: -1;
+}
+
+/* Special animation for Today Sale section */
+#FreshSale .p-5 {
+  position: relative;
+  overflow: hidden;
+}
+
+#FreshSale .p-5::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(231, 76, 60, 0.05),
+    rgba(241, 196, 15, 0.05),
+    rgba(231, 76, 60, 0.05)
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+  z-index: -1;
+}
+
+/* Hover effect for category cards */
+.cardlinking.blacking:hover div {
+  background-color: rgba(52, 152, 219, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+/* Gradient animation for hero section */
+.carousel-caption {
+  position: relative;
+}
+
+.carousel-caption::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #e74c3c, #3498db, #2ecc71);
+  background-size: 300% 300%;
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* Color shift animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glowing highlight animation for featured sections */
+.highlighted-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.highlighted-section::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(52, 152, 219, 0.2) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0;
+  transform: scale(0.5);
+  animation: section-glow 8s ease-in-out infinite;
+}
+
+@keyframes section-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Enhanced animation for Today Sale section */
+.vibrate-animation {
+  animation: vibrate 0.3s linear infinite both;
+  display: inline-block;
+  position: relative;
+}
+
+.vibrate-animation::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #e74c3c, #f39c12, #e74c3c);
+  background-size: 200% 200%;
+  animation: gradient-shift 2s ease infinite;
+}
+
+/* Color pulse animation for call-to-action elements */
+.btn-primary,
+.discountpercentage {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after,
+.discountpercentage::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0;
+  transform: scale(0.5);
+  animation: button-glow 4s ease-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes button-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Animated border for sections */
+.animated-border-section {
+  border: 1px solid transparent;
+  border-image: linear-gradient(90deg, #3498db, #2ecc71, #3498db);
+  border-image-slice: 1;
+  animation: border-animation 8s linear infinite;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+@keyframes border-animation {
+  0% {
+    border-image-source: linear-gradient(90deg, #3498db, #2ecc71, #3498db);
+  }
+  33% {
+    border-image-source: linear-gradient(90deg, #2ecc71, #3498db, #2ecc71);
+  }
+  66% {
+    border-image-source: linear-gradient(90deg, #3498db, #2ecc71, #3498db);
+  }
+  100% {
+    border-image-source: linear-gradient(90deg, #3498db, #2ecc71, #3498db);
   }
 }
