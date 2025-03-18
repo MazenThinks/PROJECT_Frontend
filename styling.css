@@ -850,3 +850,49 @@ footer.py-3.my-4 {
     opacity: 1;
   }
 }
+
+/* Category Pages Product Card Animations */
+.category-product-animation {
+  animation-name: categoryProductAppear;
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.26, 0.86, 0.44, 1);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes categoryProductAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure category product animation overrides other animations */
+.category-product-animation.Product {
+  animation: categoryProductAppear 0.8s forwards;
+  opacity: 0; /* Start invisible */
+}
+
+/* Override Product hover for animated products */
+.category-product-animation.Product:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+  border-color: rgba(52, 152, 219, 0.3) !important;
+}
+
+/* Ensure hover effect works after animation completes */
+@keyframes categoryProductAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

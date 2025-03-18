@@ -66,18 +66,25 @@ document.addEventListener("DOMContentLoaded", function () {
     price.classList.add("oldprice");
   });
 
-  // Add staggered animation for product cards on category pages
-  const productCards = document.querySelectorAll(
-    ".row .Product:not(.carousel .Product)"
-  );
+  // Add staggered animation for product cards on category pages ONLY
+  const currentPage = window.location.pathname;
+  // Check if current page is NOT index.html
+  const isCategoryPage =
+    !currentPage.endsWith("index.html") &&
+    !currentPage.endsWith("/") &&
+    currentPage !== "";
 
-  // Apply staggered delay to each product
-  productCards.forEach((card, index) => {
-    // Calculate delay based on index (0.1s between each card)
-    const delay = 0.1 + index * 0.1;
-    // Set the delay as a CSS variable
-    card.style.setProperty("--animation-delay", `${delay}s`);
-  });
+  if (isCategoryPage) {
+    const productCards = document.querySelectorAll(".Product");
+
+    // Apply staggered animation classes to each product
+    productCards.forEach((card, index) => {
+      // Calculate delay based on index (0.2s between each card)
+      const delay = 0.2 + index * 0.2;
+      card.classList.add("category-product-animation");
+      card.style.animationDelay = `${delay}s`;
+    });
+  }
 
   // Cart button enhancement - remove jQuery hover
   const cartButton = document.querySelector(".cart");
@@ -99,12 +106,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Navigation animation - fade in LTR one by one
-  const navItems = document.querySelectorAll("nav .nav-link");
-  navItems.forEach((item, index) => {
-    item.style.animationDelay = `${index * 0.3}s`;
-    item.classList.add("fadeInNav");
-  });
+  // Navigation animation - only apply on index.html page
+  if (
+    currentPage.endsWith("index.html") ||
+    currentPage.endsWith("/") ||
+    currentPage === ""
+  ) {
+    const navItems = document.querySelectorAll("nav .nav-link");
+    navItems.forEach((item, index) => {
+      item.style.animationDelay = `${index * 0.3}s`;
+      item.classList.add("fadeInNav");
+    });
+  }
 });
 
 var paragraphs = document.querySelectorAll(".slicingText");
