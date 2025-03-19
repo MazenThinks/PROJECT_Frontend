@@ -1,3 +1,7 @@
   dark mode
-  
+
   Categories sidebar brands elec app home
+
+
+  logo in sidebar
+  blue checkbox
