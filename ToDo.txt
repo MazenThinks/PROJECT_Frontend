@@ -1,12 +1,3 @@
   dark mode
-
-  5 appliances products photos {
-    3 small 
-    2 large
-  }
-
- 
-
-  Categories sidebar brands 
-
-1  more photo for videogames Console
+  
+  Categories sidebar brands elec app home
