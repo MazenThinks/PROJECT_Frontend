@@ -241,6 +241,53 @@
             <p class="iconsdesc">Free delivery</p>
             <p class="iconsdesc">Secure transaction</p>
           </div>
+          <div class="row mt-3">
+            <div class="col desc d-flex align-items-center">
+              <h5 class="productdesc">
+                Size: <span id="selectedSize" class="text-danger ms-1"></span>
+              </h5>
+            </div>
+            <div class="col d-flex align-items-center flex-wrap">
+              <div class="btn-group" role="group" aria-label="Size options">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  XSmall
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  Small
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  Medium
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  Large
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  XLarge
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger size-btn m-1"
+                >
+                  XXLarge
+                </button>
+              </div>
+            </div>
+          </div>
           <hr class="horiz" />
           <!--  -->
           <div class="row mt-3">
@@ -251,6 +298,8 @@
               <h5 class="productbrand">Silver</h5>
             </div>
           </div>
+          <!--  -->
+
           <!--  -->
           <div class="row mt-3">
             <div class="col desc d-flex align-items-center">
@@ -824,5 +873,22 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../../script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sizeButtons = document.querySelectorAll(".size-btn");
+        const selectedSizeSpan = document.getElementById("selectedSize");
+        sizeButtons.forEach((btn) =>
+          btn.addEventListener("click", function () {
+            sizeButtons.forEach((b) => {
+              b.classList.remove("btn-danger");
+              b.classList.add("btn-outline-danger");
+            });
+            this.classList.remove("btn-outline-danger");
+            this.classList.add("btn-danger");
+            selectedSizeSpan.textContent = this.textContent.trim();
+          })
+        );
+      });
+    </script>
   </body>
 </html>
