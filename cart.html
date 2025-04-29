@@ -478,6 +478,135 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="cart.js"></script>
     <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const cartContainer = document.querySelector(".col-8 .row");
+        const emptyCartSection = cartContainer.innerHTML;
+
+        // Helper to render cart items
+        function renderCartItems(items) {
+          if (!items || items.length === 0) {
+            cartContainer.innerHTML = emptyCartSection;
+            return;
+          }
+          let html = `<h2 class="mb-4">Your Cart</h2>`;
+          html += '<ul class="list-group mb-3">';
+          let total = 0;
+          items.forEach((item) => {
+            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.product?.name || "Product"}</strong><br>
+                <span>Qty: ${item.quantity || 1}</span>
+                ${
+                  item.color
+                    ? `<span class='ms-2'>Color: ${item.color}</span>`
+                    : ""
+                }
+              </div>
+              <div>
+                <span class="me-3">EGP ${item.product?.price || 0}</span>
+                <button class="btn btn-danger btn-sm remove-item-btn" data-id="${
+                  item._id
+                }">Remove</button>
+              </div>
+            </li>`;
+            total += (item.product?.price || 0) * (item.quantity || 1);
+          });
+          html += "</ul>";
+          html += `<div class="mb-3"><strong>Total: EGP ${total}</strong></div>`;
+          html +=
+            '<button class="btn btn-warning" id="clearCartBtn">Clear Cart</button>';
+          cartContainer.innerHTML = html;
+
+          // Remove item event
+          document.querySelectorAll(".remove-item-btn").forEach((btn) => {
+            btn.addEventListener("click", async function () {
+              await document.removeFromCart(this.dataset.id);
+              location.reload();
+            });
+          });
+          // Clear cart event
+          document
+            .getElementById("clearCartBtn")
+            .addEventListener("click", async function () {
+              await document.clearCart();
+              location.reload();
+            });
+        }
+
+        if (token) {
+          // User is logged in, fetch cart
+          const cartData = await document.getCart();
+          renderCartItems(cartData?.items || []);
+        } else {
+          // Not logged in, show empty cart and set up buttons
+          cartContainer.innerHTML = emptyCartSection;
+          document.querySelector(".signinbtn").onclick = function () {
+            window.location.href = "signinPage.html";
+          };
+          document.querySelector(".signupbtn").onclick = function () {
+            window.location.href = "signupPage.html";
+          };
+        }
+      });
+    </script>
+    <script>
+      // User state display in navbar with username dropdown and avatar (Bootstrap default)
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const navEnd = document.querySelector(".text-end");
+        if (navEnd) {
+          if (token) {
+            let username = "User";
+            let avatarUrl = "Assets/BlankPFP.png";
+            try {
+              const payload = JSON.parse(atob(token.split(".")[1]));
+              if (payload.name) username = payload.name;
+              if (payload.photo) avatarUrl = payload.photo;
+            } catch (e) {
+              try {
+                const res = await fetch(
+                  "http://localhost:5000/api/v1/users/me",
+                  {
+                    headers: { Authorization: `Bearer ${token}` },
+                  }
+                );
+                if (res.ok) {
+                  const data = await res.json();
+                  username = data.data.name || username;
+                  avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
+                }
+              } catch {}
+            }
+            navEnd.innerHTML = `
+              <div class="dropdown d-flex align-items-center">
+                <img src="Assets/BlankPFP.png" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+                <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
+                  ${username}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                  <li><a class="dropdown-item" href="orders.html">Orders</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+              </div>
+            `;
+            document.getElementById("logoutBtn").onclick = function () {
+              localStorage.removeItem("token");
+              location.reload();
+            };
+          } else {
+            navEnd.innerHTML = `
+              <a href="signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
+              <a href="signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
+            `;
+          }
+        }
+      });
+    </script>
   </body>
 </html>

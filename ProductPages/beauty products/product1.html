@@ -870,5 +870,31 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../../script.js"></script>
+    <script src="../../cart.js"></script>
+    <script>
+      // Replace with the actual product ID for this page
+      const PRODUCT_ID = "PRODUCT_ID_HERE"; // <-- Set this to the real product ID
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.querySelector(
+          ".sideboxbuttons.btn-primary"
+        );
+        if (addToCartBtn) {
+          addToCartBtn.addEventListener("click", async function () {
+            // Optionally, get color/size if your UI supports it
+            // const color = ...;
+            const result = await document.addToCart(PRODUCT_ID);
+            if (result && !result.error) {
+              alert("Added to cart!");
+            } else if (result && result.error === "Not authenticated") {
+              alert("Please sign in to add items to your cart.");
+              window.location.href = "../../signinPage.html";
+            } else {
+              alert("Could not add to cart.");
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

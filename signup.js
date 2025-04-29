@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Form submission with validation
-  signupBtn.addEventListener("click", function (e) {
+  signupBtn.addEventListener("click", async function (e) {
     e.preventDefault();
 
     // Reset validation
@@ -100,16 +100,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Submit form
     signupBtn.classList.add("loading");
 
-    // Simulate API call
-    setTimeout(() => {
+    // Send signup data to backend
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: firstNameInput.value + " " + lastNameInput.value,
+          email: emailInput.value,
+          password: passwordInput.value,
+          passwordConfirm: confirmPasswordInput.value,
+        }),
+      });
+      const data = await response.json();
       signupBtn.classList.remove("loading");
-
-      // Show success message or redirect
-      window.location.href = "index.html"; // Redirect to homepage after successful signup
-    }, 2000);
+      if (response.ok) {
+        // Store token and redirect
+        localStorage.setItem("token", data.token);
+        window.location.href = "index.html";
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      signupBtn.classList.remove("loading");
+      alert("Signup failed. Please try again.");
+    }
   });
 
   // Input validation on blur

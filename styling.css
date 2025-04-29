@@ -1101,3 +1101,18 @@ footer.py-3.my-4 {
     border-image-source: linear-gradient(90deg, #3498db, #2ecc71, #3498db);
   }
 }
+
+/* Custom dropdown animation for user menu in navbar */
+.dropdown-menu.dropdown-menu-animate {
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  pointer-events: none;
+}
+.dropdown.show .dropdown-menu.dropdown-menu-animate {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}

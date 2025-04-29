@@ -25,40 +25,51 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Login form submission with animation
-  loginBtn.addEventListener("click", function (e) {
+  loginBtn.addEventListener("click", async function (e) {
     e.preventDefault();
+    loginBtn.classList.add("loading");
+    // Remove previous errors
+    emailInput.classList.remove("is-invalid");
+    passwordInput.classList.remove("is-invalid");
 
-    // Validate inputs
+    // Basic validation
     let isValid = true;
-
-    // Basic validation for demonstration
     if (!emailInput.value.trim()) {
       emailInput.classList.add("is-invalid");
       isValid = false;
-      loginForm.classList.add("shake");
-      setTimeout(() => loginForm.classList.remove("shake"), 500);
-    } else {
-      emailInput.classList.remove("is-invalid");
     }
-
     if (!passwordInput.value.trim()) {
       passwordInput.classList.add("is-invalid");
       isValid = false;
+    }
+    if (!isValid) {
       loginForm.classList.add("shake");
       setTimeout(() => loginForm.classList.remove("shake"), 500);
-    } else {
-      passwordInput.classList.remove("is-invalid");
+      loginBtn.classList.remove("loading");
+      return;
     }
 
-    if (isValid) {
-      // Show loading animation
-      loginBtn.classList.add("loading");
-
-      // Simulate API call
-      setTimeout(() => {
-        loginBtn.classList.remove("loading");
-        window.location.href = "index.html"; // Redirect to homepage after successful login
-      }, 2000);
+    // Send login data to backend
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailInput.value,
+          password: passwordInput.value,
+        }),
+      });
+      const data = await response.json();
+      loginBtn.classList.remove("loading");
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "index.html";
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      loginBtn.classList.remove("loading");
+      alert("Login failed. Please try again.");
     }
   });
 

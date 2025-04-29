@@ -4369,5 +4369,75 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scroll-animations.js"></script>
     <script src="script.js"></script>
+    <script src="cart.js"></script>
+    <script>
+      // User state display in navbar with username dropdown and avatar
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const navEnd = document.querySelector(".text-end");
+        if (token) {
+          let username = "User";
+          let avatarUrl = "Assets/BlankPFP.png";
+          try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            if (payload.name) username = payload.name;
+            if (payload.photo) avatarUrl = payload.photo;
+          } catch (e) {
+            try {
+              const res = await fetch("http://localhost:5000/api/v1/users/me", {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              if (res.ok) {
+                const data = await res.json();
+                username = data.data.name || username;
+                avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
+              }
+            } catch {}
+          }
+          navEnd.innerHTML = `
+            <div class="dropdown d-flex align-items-center">
+              <img src="${avatarUrl}" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+              <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
+                ${username}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                <li><a class="dropdown-item" href="orders.html">Orders</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+              </ul>
+            </div>
+          `;
+          document.getElementById("logoutBtn").onclick = function () {
+            localStorage.removeItem("token");
+            location.reload();
+          };
+        } else {
+          navEnd.innerHTML = `
+            <a href="signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
+            <a href="signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
+          `;
+        }
+      });
+
+      // Add to Cart button logic for each product
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+          btn.addEventListener("click", async function () {
+            const productId = this.dataset.productId;
+            const color = this.dataset.color || undefined;
+            const result = await document.addToCart(productId, color);
+            if (result && !result.error) {
+              alert("Added to cart!");
+            } else if (result && result.error === "Not authenticated") {
+              alert("Please sign in to add items to your cart.");
+              window.location.href = "signinPage.html";
+            } else {
+              alert("Could not add to cart.");
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

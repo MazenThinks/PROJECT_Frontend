@@ -245,6 +245,66 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+document.addEventListener("DOMContentLoaded", async function () {
+  const navEnd = document.querySelector(".text-end");
+  if (!navEnd) return;
+  const token = localStorage.getItem("token");
+
+  // Detect if we are in ProductPages subfolder
+  const isProductPages = window.location.pathname.includes("/ProductPages/");
+  const prefix = isProductPages ? "../../" : "";
+  const avatarUrlDefault = prefix + "Assets/BlankPFP.png";
+  const profileUrl = prefix + "profile.html";
+  const ordersUrl = prefix + "orders.html";
+
+  if (token) {
+    let username = "User";
+    let avatarUrl = avatarUrlDefault;
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      if (payload.name) username = payload.name;
+      if (payload.photo) avatarUrl = payload.photo;
+    } catch (e) {
+      try {
+        const res = await fetch(
+          prefix + "http://localhost:5000/api/v1/users/me",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          username = data.data.name || username;
+          avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
+        }
+      } catch {}
+    }
+    navEnd.innerHTML = `
+      <div class="dropdown d-flex align-items-center">
+        <img src="${avatarUrlDefault}" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+        <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
+          ${username}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" href="${profileUrl}">Profile</a></li>
+          <li><a class="dropdown-item" href="${ordersUrl}">Orders</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+      </div>
+    `;
+    document.getElementById("logoutBtn").onclick = function () {
+      localStorage.removeItem("token");
+      location.reload();
+    };
+  } else {
+    navEnd.innerHTML = `
+      <a href="${prefix}signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
+      <a href="${prefix}signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
+    `;
+  }
+});
+
 var paragraphs = document.querySelectorAll(".slicingText");
 paragraphs.forEach((paragraph) => {
   if (paragraph.textContent.length > 110) {
