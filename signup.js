@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Send signup data to backend
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/signup", {
+      const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -117,11 +117,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
       signupBtn.classList.remove("loading");
       if (response.ok) {
-        // Store token and redirect
         localStorage.setItem("token", data.token);
         window.location.href = "index.html";
       } else {
-        alert(data.message || "Signup failed");
+        // Show backend validation errors if present
+        if (
+          data.errors &&
+          Array.isArray(data.errors) &&
+          data.errors.length > 0
+        ) {
+          alert(data.errors[0].msg || "Signup failed");
+        } else {
+          alert(data.message || "Signup failed");
+        }
       }
     } catch (err) {
       signupBtn.classList.remove("loading");
