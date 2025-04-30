@@ -393,7 +393,11 @@
                 <li><a class="dropdown-item" href="#">5</a></li>
               </ul>
             </div>
-            <button type="button" class="btn btn-primary mt-4 sideboxbuttons">
+            <button
+              type="button"
+              class="btn btn-primary mt-4 sideboxbuttons"
+              id="addToCartBtn"
+            >
               <i class="fas fa-shopping-cart me-2"></i> Add to Cart
             </button>
             <button type="button" class="btn btn-secondary mt-2 sideboxbuttons">
@@ -835,6 +839,23 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../../cart.js"></script>
     <script src="../../script.js"></script>
+    <script>
+      const productId = "113";
+      const addToCartBtn = document.getElementById("addToCartBtn");
+      addToCartBtn.addEventListener("click", async () => {
+        const color =
+          document.querySelector('input[name="color"]:checked')?.value || null;
+        const quantity =
+          parseInt(document.getElementById("quantity")?.value) || 1;
+        try {
+          await document.addToCart(productId, color, quantity);
+          alert("Product added to cart!");
+        } catch (err) {
+          alert("Failed to add to cart.");
+        }
+      });
+    </script>
   </body>
 </html>

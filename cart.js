@@ -1,6 +1,6 @@
 // Handles cart operations: fetch, add, remove items using backend API
 
-const API_URL = "http://localhost:5000/api/v1/cart";
+const API_URL = "http://localhost:3000/api/v1/cart";
 
 function getToken() {
   return localStorage.getItem("token");

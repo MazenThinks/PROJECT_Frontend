@@ -26,7 +26,12 @@
           href="../../index.html"
           class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none titleanimation"
         >
-          <img src="../../logoo/logo1.png" alt="logo" width="50px" height="40px" />
+          <img
+            src="../../logoo/logo1.png"
+            alt="logo"
+            width="50px"
+            height="40px"
+          />
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
         <form class="d-flex searchmarg" role="search">
@@ -110,7 +115,9 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="../../Beauty.html">Beauty & Fragrance</a>
+              <a class="nav-link" href="../../Beauty.html"
+                >Beauty & Fragrance</a
+              >
             </li>
           </ul>
         </div>
@@ -376,7 +383,11 @@
                 <li><a class="dropdown-item" href="#">5</a></li>
               </ul>
             </div>
-            <button type="button" class="btn btn-primary mt-4 sideboxbuttons">
+            <button
+              type="button"
+              class="btn btn-primary mt-4 sideboxbuttons"
+              id="addToCartBtn"
+            >
               <i class="fas fa-shopping-cart me-2"></i> Add to Cart
             </button>
             <button type="button" class="btn btn-secondary mt-2 sideboxbuttons">
@@ -819,5 +830,23 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../../script.js"></script>
+
+    <script>
+      const productId = "12";
+      const addToCartBtn = document.getElementById("addToCartBtn");
+      addToCartBtn.addEventListener("click", async () => {
+        const color =
+          document.querySelector('input[name="color"]:checked')?.value || null;
+        const quantity =
+          parseInt(document.getElementById("quantity")?.value) || 1;
+        try {
+          await document.addToCart(productId, color, quantity);
+          alert("Product added to cart!");
+        } catch (err) {
+          alert("Failed to add to cart.");
+        }
+      });
+    </script>
+    <script src="../../cart.js"></script>
   </body>
 </html>
