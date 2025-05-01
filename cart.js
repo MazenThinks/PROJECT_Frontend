@@ -18,19 +18,31 @@ document.getCart = async function () {
 };
 
 // Add product to cart
-// Usage: addToCart(productId, color)
-document.addToCart = async function (productId, color) {
+// Usage: addToCart(productId, color, quantity)
+document.addToCart = async function (productId, color, quantity) {
   const token = getToken();
   if (!token) return { error: "Not authenticated" };
+  const body = { productId };
+  if (color) body.color = color;
+  if (quantity) body.quantity = quantity;
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ productId, color }),
+    body: JSON.stringify(body),
   });
-  return res.json();
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    data = { error: "Server error" };
+  }
+  if (!res.ok && data && data.message) {
+    return { error: data.message };
+  }
+  return data;
 };
 
 // Remove item from cart

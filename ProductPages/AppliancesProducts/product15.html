@@ -847,20 +847,34 @@
     <script src="../../cart.js"></script>
     <script src="../../script.js"></script>
     <script>
-      const productId = "115";
-      const addToCartBtn = document.getElementById("addToCartBtn");
-      addToCartBtn.addEventListener("click", async () => {
-        const color =
-          document.querySelector('input[name="color"]:checked')?.value || null;
-        const quantity =
-          parseInt(document.getElementById("quantity")?.value) || 1;
-        try {
-          await document.addToCart(productId, color, quantity);
-          alert("Product added to cart!");
-        } catch (err) {
-          alert("Failed to add to cart.");
+      const productId = "68132a95ff7813b3d47f9db3";
+    </script>
+
+    <script>
+      /* Add to Cart Script Start */
+      document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        if (addToCartBtn) {
+          addToCartBtn.addEventListener("click", async function () {
+            const result = await document.addToCart("68132a95ff7813b3d47f9db3");
+            if (result && !result.error) {
+              addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+              addToCartBtn.classList.add("added");
+              setTimeout(() => {
+                addToCartBtn.innerHTML =
+                  '<i class="fas fa-shopping-cart me-2"></i> Add to Cart';
+                addToCartBtn.classList.remove("added");
+              }, 1500);
+            } else if (result && result.error === "Not authenticated") {
+              alert("Please sign in to add items to your cart.");
+              window.location.href = "../../signinPage.html";
+            } else {
+              alert("Could not add to cart.");
+            }
+          });
         }
       });
+      /* Add to Cart Script End */
     </script>
   </body>
 </html>

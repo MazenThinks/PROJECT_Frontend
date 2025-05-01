@@ -487,19 +487,32 @@
         const emptyCartSection = cartContainer.innerHTML;
 
         // Helper to render cart items
-        function renderCartItems(items) {
+        function renderCartItems(items, userName) {
           if (!items || items.length === 0) {
             cartContainer.innerHTML = emptyCartSection;
             return;
           }
           let html = `<h2 class="mb-4">Your Cart</h2>`;
+          if (userName) {
+            html += `<h5 class="mb-3">User: <span class="text-primary">${userName}</span></h5>`;
+          }
           html += '<ul class="list-group mb-3">';
           let total = 0;
           items.forEach((item) => {
+            // Support both old and new backend structure
+            const name =
+              item.product && item.product.name
+                ? item.product.name
+                : item.name || "";
+            const price =
+              item.product && item.product.price
+                ? item.product.price
+                : item.price || 0;
+            const quantity = item.quantity || 1;
             html += `<li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
-                <strong>${item.product?.name || "Product"}</strong><br>
-                <span>Qty: ${item.quantity || 1}</span>
+                <strong>${name}</strong><br>
+                <span>Qty: ${quantity}</span>
                 ${
                   item.color
                     ? `<span class='ms-2'>Color: ${item.color}</span>`
@@ -507,18 +520,22 @@
                 }
               </div>
               <div>
-                <span class="me-3">EGP ${item.product?.price || 0}</span>
+                <span class="me-3">EGP ${price}</span>
                 <button class="btn btn-danger btn-sm remove-item-btn" data-id="${
                   item._id
                 }">Remove</button>
               </div>
             </li>`;
-            total += (item.product?.price || 0) * (item.quantity || 1);
+            total += price * quantity;
           });
           html += "</ul>";
           html += `<div class="mb-3"><strong>Total: EGP ${total}</strong></div>`;
+          html += '<div class="d-flex justify-content-between mb-4">';
           html +=
-            '<button class="btn btn-warning" id="clearCartBtn">Clear Cart</button>';
+            '<div><button class="btn btn-warning py-2 px-4" id="clearCartBtn" style="font-size: 0.95rem; border-radius: 18px; font-weight: 500; max-width: 140px;">Clear Cart</button></div>';
+          html +=
+            '<div><button class="btn btn-success py-2 px-4" id="checkoutBtn" style="font-size: 0.95rem; border-radius: 18px; font-weight: 500; max-width: 140px;">Checkout</button></div>';
+          html += "</div>";
           cartContainer.innerHTML = html;
 
           // Remove item event
@@ -535,21 +552,23 @@
               await document.clearCart();
               location.reload();
             });
+          // Checkout event
+          document
+            .getElementById("checkoutBtn")
+            .addEventListener("click", function () {
+              window.location.href = "checkout.html";
+            });
         }
 
         if (token) {
-          // User is logged in, fetch cart
           const cartData = await document.getCart();
-          renderCartItems(cartData?.items || []);
+          if (cartData && cartData.data && cartData.data.cartItems) {
+            renderCartItems(cartData.data.cartItems, cartData.user);
+          } else {
+            renderCartItems([], cartData ? cartData.user : undefined);
+          }
         } else {
-          // Not logged in, show empty cart and set up buttons
-          cartContainer.innerHTML = emptyCartSection;
-          document.querySelector(".signinbtn").onclick = function () {
-            window.location.href = "signinPage.html";
-          };
-          document.querySelector(".signupbtn").onclick = function () {
-            window.location.href = "signupPage.html";
-          };
+          renderCartItems([]);
         }
       });
     </script>
@@ -569,7 +588,7 @@
             } catch (e) {
               try {
                 const res = await fetch(
-                  "http://localhost:5000/api/v1/users/me",
+                  "http://localhost:3000/api/v1/users/me",
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }

@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (e) {
       try {
         const res = await fetch(
-          prefix + "http://localhost:5000/api/v1/users/me",
+          prefix + "http://localhost:3000/api/v1/users/me",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
