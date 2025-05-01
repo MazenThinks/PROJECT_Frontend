@@ -113,7 +113,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-8 mt-2">
+        <div class="col-8 mt-2" id="cart-items">
           <div>
             <div class="row">
               <div class="col">
@@ -483,8 +483,8 @@
     <script>
       document.addEventListener("DOMContentLoaded", async function () {
         const token = localStorage.getItem("token");
-        const cartContainer = document.querySelector(".col-8 .row");
-        const emptyCartSection = cartContainer.innerHTML;
+        const cartContainer = document.getElementById("cart-items");
+        const emptyCartSection = `<div class='text-center my-5'><img src='Assets/cart/empty.svg' alt='empty cart' class='emptyphoto'/><h2 class='emptytext'>Your cart is currently empty</h2><p><a href='index.html'>Shop Today's deals</a></p><button type='button' class='btn btn-outline-primary signinbtn'>Sign in to your account</button><br/><button type='button' class='btn btn-success signupbtn'>Create an account</button></div>`;
 
         // Helper to render cart items
         function renderCartItems(items, userName) {
@@ -499,28 +499,70 @@
           html += '<ul class="list-group mb-3">';
           let total = 0;
           items.forEach((item) => {
-            // Support both old and new backend structure
-            const name =
-              item.product && item.product.name
-                ? item.product.name
-                : item.name || "";
+            // Always display product name and image
+            let name = "";
+            if (item.product && item.product.name) {
+              name = item.product.name;
+            } else if (item.name) {
+              name = item.name;
+            } else if (item.product && item.product.title) {
+              name = item.product.title;
+            } else {
+              name = "Product";
+            }
+            // Slice name to 90 characters
+            if (name.length > 90) {
+              name = name.slice(0, 90) + "...";
+            }
+            // Try to get product image
+            let image = "";
+            if (item.product && item.product.image) {
+              image = item.product.image;
+            } else if (
+              item.product &&
+              item.product.images &&
+              item.product.images.length > 0
+            ) {
+              image = item.product.images[0];
+            } else {
+              image = "Assets/Box-seam.png"; // fallback image
+            }
             const price =
               item.product && item.product.price
                 ? item.product.price
                 : item.price || 0;
             const quantity = item.quantity || 1;
+            let priceDisplay = "";
+            if (quantity > 1) {
+              priceDisplay = `${quantity} x EGP ${price}<br>= EGP ${
+                price * quantity
+              }`;
+            } else {
+              priceDisplay = `EGP ${price}`;
+            }
             html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-              <div>
-                <strong>${name}</strong><br>
-                <span>Qty: ${quantity}</span>
-                ${
-                  item.color
-                    ? `<span class='ms-2'>Color: ${item.color}</span>`
-                    : ""
-                }
+              <div class="d-flex align-items-center">
+                <img src="${image}" alt="product" style="width:48px;height:48px;object-fit:cover;border-radius:8px;margin-right:12px;">
+                <div>
+                  <strong>${name}</strong><br>
+                  <span>Qty: 
+                    <button class="btn btn-light btn-sm px-2 py-0 quantity-decrease" data-id="${
+                      item._id
+                    }" style="font-size:1.2rem;">−</button>
+                    <span class="mx-2" id="qty-${item._id}">${quantity}</span>
+                    <button class="btn btn-light btn-sm px-2 py-0 quantity-increase" data-id="${
+                      item._id
+                    }" style="font-size:1.2rem;">+</button>
+                  </span>
+                  ${
+                    item.color
+                      ? `<span class='ms-2'>Color: ${item.color}</span>`
+                      : ""
+                  }
+                </div>
               </div>
               <div>
-                <span class="me-3">EGP ${price}</span>
+                <span class="me-3">${priceDisplay}</span>
                 <button class="btn btn-danger btn-sm remove-item-btn" data-id="${
                   item._id
                 }">Remove</button>
@@ -558,6 +600,36 @@
             .addEventListener("click", function () {
               window.location.href = "checkout.html";
             });
+
+          // Quantity increase/decrease events
+          document.querySelectorAll(".quantity-increase").forEach((btn) => {
+            btn.addEventListener("click", async function () {
+              const id = this.dataset.id;
+              const qtySpan = document.getElementById(`qty-${id}`);
+              let currentQty = parseInt(qtySpan.textContent);
+              const resp = await document.updateCartItemQuantity(
+                id,
+                currentQty + 1
+              );
+              console.log("Increase resp:", resp);
+              location.reload();
+            });
+          });
+          document.querySelectorAll(".quantity-decrease").forEach((btn) => {
+            btn.addEventListener("click", async function () {
+              const id = this.dataset.id;
+              const qtySpan = document.getElementById(`qty-${id}`);
+              let currentQty = parseInt(qtySpan.textContent);
+              if (currentQty > 1) {
+                const resp = await document.updateCartItemQuantity(
+                  id,
+                  currentQty - 1
+                );
+                console.log("Decrease resp:", resp);
+                location.reload();
+              }
+            });
+          });
         }
 
         if (token) {

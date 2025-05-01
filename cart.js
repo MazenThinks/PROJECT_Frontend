@@ -67,3 +67,19 @@ document.clearCart = async function () {
   });
   return res.ok;
 };
+
+// Update cart item quantity
+// Usage: updateCartItemQuantity(itemId, newQuantity)
+document.updateCartItemQuantity = async function (itemId, quantity) {
+  const token = getToken();
+  if (!token) return { error: "Not authenticated" };
+  const res = await fetch(`${API_URL}/${itemId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ quantity }),
+  });
+  return res.json();
+};
