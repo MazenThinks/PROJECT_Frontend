@@ -302,7 +302,7 @@
                     placeholder=""
                     required=""
                   />
-                  <div class="invalid-feedback">Zip code required.</div>
+                  <div class="invalid-feedback">Phone number required.</div>
                 </div>
               </div>
 
@@ -368,9 +368,21 @@
                   />
                   <label class="form-check-label" for="paypal">PayPal</label>
                 </div>
+                <div class="form-check">
+                  <input
+                    id="cash"
+                    name="paymentMethod"
+                    type="radio"
+                    class="form-check-input"
+                    required=""
+                  />
+                  <label class="form-check-label" for="paypal"
+                    >Cash on delivery</label
+                  >
+                </div>
               </div>
 
-              <div class="row gy-3">
+              <div class="row gy-3" id="card-fields-row">
                 <div class="col-md-6">
                   <label for="cc-name" class="form-label">Name on card</label>
                   <input
@@ -426,6 +438,23 @@
                     required=""
                   />
                   <div class="invalid-feedback">Security code required</div>
+                </div>
+              </div>
+              <div class="row gy-3" id="paypal-field" style="display: none">
+                <div class="col-12">
+                  <label for="paypal-email" class="form-label"
+                    >PayPal Email address</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="paypal-email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Valid PayPal email is required
+                  </div>
                 </div>
               </div>
 
@@ -595,6 +624,90 @@
       crossorigin="anonymous"
     ></script>
 
+    <script src="cart.js"></script>
     <script src="checkout.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // User state display in navbar with username dropdown and avatar (Bootstrap default)
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const navEnd = document.querySelector(".text-end");
+        if (navEnd) {
+          if (token) {
+            let username = "User";
+            let avatarUrl = "Assets/BlankPFP.png";
+            try {
+              const payload = JSON.parse(atob(token.split(".")[1]));
+              if (payload.name) username = payload.name;
+              if (payload.photo) avatarUrl = payload.photo;
+            } catch (e) {
+              try {
+                const res = await fetch(
+                  "http://localhost:3000/api/v1/users/me",
+                  {
+                    headers: { Authorization: `Bearer ${token}` },
+                  }
+                );
+                if (res.ok) {
+                  const data = await res.json();
+                  username = data.data.name || username;
+                  avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
+                }
+              } catch {}
+            }
+            navEnd.innerHTML = `
+              <div class="dropdown d-flex align-items-center">
+                <img src="${avatarUrl}" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+                <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
+                  ${username}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                  <li><a class="dropdown-item" href="orders.html">Orders</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+              </div>
+            `;
+            document.getElementById("logoutBtn").onclick = function () {
+              localStorage.removeItem("token");
+              location.reload();
+            };
+          } else {
+            navEnd.innerHTML = `
+              <a href="signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
+              <a href="signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
+            `;
+          }
+        }
+      });
+
+      // Hide card fields if Cash on delivery is selected, show PayPal field if PayPal is selected
+      document.addEventListener("DOMContentLoaded", function () {
+        function togglePaymentFields() {
+          const isCash = document.getElementById("cash").checked;
+          const isPayPal = document.getElementById("paypal").checked;
+          const cardFieldsRow = document.getElementById("card-fields-row");
+          const paypalField = document.getElementById("paypal-field");
+          if (isCash) {
+            cardFieldsRow.style.display = "none";
+            paypalField.style.display = "none";
+          } else if (isPayPal) {
+            cardFieldsRow.style.display = "none";
+            paypalField.style.display = "";
+          } else {
+            cardFieldsRow.style.display = "";
+            paypalField.style.display = "none";
+          }
+        }
+        const paymentRadios = document.querySelectorAll(
+          'input[name="paymentMethod"]'
+        );
+        paymentRadios.forEach((radio) => {
+          radio.addEventListener("change", togglePaymentFields);
+        });
+        togglePaymentFields(); // Initial call
+      });
+    </script>
   </body>
 </html>
