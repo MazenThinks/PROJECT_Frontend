@@ -119,18 +119,20 @@
       <div class="col-2 pt-4">
         <div class="border-right p-4 border-bottom ms-4">
           <h4 class="txtdecounderline">Brands</h4>
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Tornado</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> TOSHIBA</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Fresh</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Sharp</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1">Black & Decker</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> LG</label><br />
+          <input type="checkbox" name="brand" value="Tornado" />
+          <label for="brand"> Tornado</label><br />
+          <input type="checkbox" name="brand" value="Fresh" />
+          <label for="brand"> Fresh</label><br />
+          <input type="checkbox" name="brand" value="Midea" />
+          <label for="brand"> Midea</label><br />
+          <input type="checkbox" name="brand" value="Zanussi" />
+          <label for="brand"> Zanussi</label><br />
+          <input type="checkbox" name="brand" value="deime" />
+          <label for="brand"> deime</label><br />
+          <input type="checkbox" name="brand" value="Black & Decker" />
+          <label for="brand"> Black & Decker</label><br />
+          <input type="checkbox" name="brand" value="Panasonic" />
+          <label for="brand"> Panasonic</label><br />
         </div>
         <!-- Price Slider -->
         <div class="ms-5 pt-3 border-bottom">
@@ -387,970 +389,942 @@
       <div class="col-9">
         <!-- Products -->
         <div class="container">
-          <div class="row pt-2">
-            <div class="container d-flex justify-content-evenly">
-              <!-- Product 1 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product1.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="p-2 alignment">
-                      <img
-                        class="brdradius"
-                        src="Assets/AppCat/Large Appliances/Large Appliances 1.png"
-                        alt="Product1"
-                        height="200px"
-                        width="280px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Koldair Water Dispenser Cold And Hot 2 Tabs - Bottom
-                        Load KWDB Silver Cooler
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price">10,499.00</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <span class="stars">(88)</span>
-                      </p>
-                    </div>
+          <div class="row pt-2" id="product-list">
+            <!-- Product 1 -->
+            <div class="col-md-3 mb-4" data-brand="Tornado">
+              <a
+                href="ProductPages/AppliancesProducts/product1.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="p-2 alignment">
+                    <img
+                      class="brdradius"
+                      src="Assets/AppCat/Large Appliances/Large Appliances 1.png"
+                      alt="Product1"
+                      height="200px"
+                      width="280px"
+                    />
                   </div>
-                </a>
-              </div>
-
-              <!-- Product 2 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product2.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Koldair Water Dispenser Cold And Hot 2 Tabs - Bottom Load
+                      KWDB Silver Cooler
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price">10,499.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
                       <img
-                        src="Assets/AppCat/Large Appliances/Large Appliances 2.png"
-                        alt="Product1"
-                        height="200px"
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
                       />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Fresh Jumbo Stainless Steel Potato CB90
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 10,968.00 </span> &nbsp;&nbsp;<s
-                          class="oldprice"
-                          >10,525.00</s
-                        >
-                        <span class="discountpercentage">-4%</span>
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <span class="stars">(88)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 3 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product3.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
                       <img
-                        src="Assets/AppCat/Large Appliances/Large Appliances 3.png"
-                        alt="Product1"
-                        height="200px"
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
                       />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Midea Refrigerator 449L 2D TMF MDRT645MTE06E Inverter
-                        Quattro, No Frost, Cooling Box, Multi-Air Flow, Active-C
-                        Fresh, Humidity Contro Silver
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 26,999.00</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <span class="stars">(88)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 4 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product4.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
                       <img
-                        src="Assets/AppCat/Large Appliances/Large Appliances 4.png"
-                        alt="Product1"
-                        height="200px"
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
                       />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Zanussi Automatic Washing Machine, Silver, 8 KG -
-                        ZWF8240SX5
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price">17,023.43</span> &nbsp;&nbsp;<s
-                          class="oldprice"
-                          >17,950.00</s
-                        >
-                        <span class="discountpercentage"> -5%</span>
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <span class="stars">(92)</span>
-                      </p>
-                    </div>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <span class="stars">(88)</span>
+                    </p>
                   </div>
-                </a>
-              </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 2 -->
+            <div class="col-md-3 mb-4" data-brand="Fresh">
+              <a
+                href="ProductPages/AppliancesProducts/product2.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Large Appliances/Large Appliances 2.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Fresh Jumbo Stainless Steel Potato CB90
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 10,968.00 </span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >10,525.00</s
+                      >
+                      <span class="discountpercentage">-4%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <span class="stars">(88)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 3 -->
+            <div class="col-md-3 mb-4" data-brand="Midea">
+              <a
+                href="ProductPages/AppliancesProducts/product3.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Large Appliances/Large Appliances 3.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Midea Refrigerator 449L 2D TMF MDRT645MTE06E Inverter
+                      Quattro, No Frost, Cooling Box, Multi-Air Flow, Active-C
+                      Fresh, Humidity Contro Silver
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 26,999.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <span class="stars">(88)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 4 -->
+            <div class="col-md-3 mb-4" data-brand="Zanussi">
+              <a
+                href="ProductPages/AppliancesProducts/product4.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Large Appliances/Large Appliances 4.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Zanussi Automatic Washing Machine, Silver, 8 KG -
+                      ZWF8240SX5
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price">17,023.43</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >17,950.00</s
+                      >
+                      <span class="discountpercentage"> -5%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <span class="stars">(92)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 5 -->
+            <div class="col-md-3 mb-4" data-brand="Midea">
+              <a
+                href="ProductPages/AppliancesProducts/product5.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      class="imgwh"
+                      src="Assets/AppCat/Large Appliances/Large Appliances 5.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Midea Dishwasher - WQP13-5201C-S - 6 programs - Free
+                      standing - 13 Place set - Silver
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price">15,699.68</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <span class="stars">(88)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 6 -->
+            <div class="col-md-3 mb-4" data-brand="deime">
+              <a
+                href="ProductPages/AppliancesProducts/product6.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 1.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      deime Air Fryer 6.2 Quart, Large Air Fryer for Families, 5
+                      Cooking Functions AirFryer, 400°F Temp Controls in 5°
+                      Increments, Ceramic Coated Nonstick
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 3,699.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 7 -->
+            <div class="col-md-3 mb-4" data-brand="Black & Decker">
+              <a
+                href="ProductPages/AppliancesProducts/product7.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 2.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Black & Decker DCM25N-B5 Coffee Maker, Black - 1 Cup
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 930.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 8 -->
+            <div class="col-md-3 mb-4" data-brand="Black & Decker">
+              <a
+                href="ProductPages/AppliancesProducts/product8.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 3.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Black & Decker 1050W 2-Slice Stainless Steel Toaster,
+                      Silver/Black
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 2,540.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >2,995.00</s
+                      >
+                      <span class="discountpercentage"> -15%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 9 -->
+            <div class="col-md-3 mb-4" data-brand="Panasonic">
+              <a
+                href="ProductPages/AppliancesProducts/product9.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 4.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Panasonic Powerful Steam/Dry Iron, 1800W, NI-M300TVTD- 1
+                      Year Warranty
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 1,129.70</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 10 -->
+            <div class="col-md-3 mb-4" data-brand="Fresh">
+              <a
+                href="ProductPages/AppliancesProducts/product10.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 5.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Fresh 1600W Faster Vacuum Cleaner with Bag, Black
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 3,026.53</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 11 -->
+            <div class="col-md-3 mb-4" data-brand="Fresh">
+              <a
+                href="ProductPages/AppliancesProducts/product11.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Large Appliances/Large Appliances 6.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Fresh Wall fan 50 watts 18 inches with charger with 3
+                      blades, black and white
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 3,629.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 12 -->
+            <div class="col-md-3 mb-4" data-brand="Tornado">
+              <a
+                href="ProductPages/AppliancesProducts/product12.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Large Appliances/Large Appliances 7.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      TORNADO Gas Water Heater 6 Liter, Digital, Natural Gas,
+                      Silver GHM-C06CNE-S
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 3,719.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                      >
+                        4,881.09</s
+                      >
+                      <span class="discountpercentage">-24%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 13 -->
+            <div class="col-md-3 mb-4" data-brand="Black & Decker">
+              <a
+                href="ProductPages/AppliancesProducts/product13.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 6.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Black & Decker 500W 1.5L Blender with Grinder Mill, White
+                      - BX520-B5
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 1,396.26 </span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >1,999.00</s
+                      >
+                      <span class="discountpercentage"> -30% </span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 14 -->
+            <div class="col-md-3 mb-4" data-brand="Black & Decker">
+              <a
+                href="ProductPages/AppliancesProducts/product14.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 7.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      Black & Decker 1.7L Concealed Coil Stainless Steel Kettle,
+                      Jc450-B5, Silver
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 1,648.00</span> &nbsp;&nbsp;<s
+                        class="oldprice"
+                        >1,936.80</s
+                      >
+                      <span class="discountpercentage">-15%</span>
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Product 15 -->
+            <div class="col-md-3 mb-4" data-brand="Black & Decker">
+              <a
+                href="ProductPages/AppliancesProducts/product15.html"
+                class="cardlinking"
+              >
+                <div class="Product d-flex flex-column blacking">
+                  <div class="py-3 alignment">
+                    <img
+                      src="Assets/AppCat/Small Appliances/Small Appliances 8.png"
+                      alt="Product1"
+                      height="200px"
+                    />
+                  </div>
+                  <div class="align-items-start productxt p-2">
+                    <p class="slicingText">
+                      BLACK & DECKER Dough Mixer With 1000W 3-Blade Motor And 4L
+                      Stainless Steel Mixer For 600G Dough Mixer 5.76 Kilograms
+                      White/Sliver
+                    </p>
+                    <p>
+                      <span class="curr">EGP</span
+                      ><span class="price"> 6,911.00</span> &nbsp;&nbsp;
+                    </p>
+                    <p>
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/star.png"
+                        alt="star"
+                        height="20px"
+                        width="20px"
+                      />
+                      <img
+                        src="Assets/empty star.png"
+                        alt="star"
+                        height="15px"
+                        width="15px"
+                      />
+                      <span class="stars">(19)</span>
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
-
-          <div class="row pt-2">
-            <div class="container d-flex justify-content-evenly">
-              <!-- Product 5 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product5.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        class="imgwh"
-                        src="Assets/AppCat/Large Appliances/Large Appliances 5.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Midea Dishwasher - WQP13-5201C-S - 6 programs - Free
-                        standing - 13 Place set - Silver
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price">15,699.68</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <span class="stars">(88)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 6 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product6.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Small Appliances/Small Appliances 1.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        deime Air Fryer 6.2 Quart, Large Air Fryer for Families,
-                        5 Cooking Functions AirFryer, 400°F Temp Controls in 5°
-                        Increments, Ceramic Coated Nonstick
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 3,699.00</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 7 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product7.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Small Appliances/Small Appliances 2.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Black & Decker DCM25N-B5 Coffee Maker, Black - 1 Cup
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 930.00</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 8 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product8.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Small Appliances/Small Appliances 3.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Black & Decker 1050W 2-Slice Stainless Steel Toaster,
-                        Silver/Black
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 2,540.00</span> &nbsp;&nbsp;<s
-                          class="oldprice"
-                          >2,995.00</s
-                        >
-                        <span class="discountpercentage"> -15%</span>
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="row pt-2">
-            <div class="container d-flex justify-content-evenly">
-              <!-- Product 9 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product9.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Small Appliances/Small Appliances 4.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Panasonic Powerful Steam/Dry Iron, 1800W, NI-M300TVTD- 1
-                        Year Warranty
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 1,129.70</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 10 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product10.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Small Appliances/Small Appliances 5.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Fresh 1600W Faster Vacuum Cleaner with Bag, Black
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 3,026.53</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 11 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product11.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Large Appliances/Large Appliances 6.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        Fresh Wall fan 50 watts 18 inches with charger with 3
-                        blades, black and white
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 3,629.00</span> &nbsp;&nbsp;
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <!-- Product 12 -->
-              <div>
-                <a
-                  href="ProductPages/AppliancesProducts/product12.html"
-                  class="cardlinking"
-                >
-                  <div class="Product d-flex flex-column blacking">
-                    <div class="py-3 alignment">
-                      <img
-                        src="Assets/AppCat/Large Appliances/Large Appliances 7.png"
-                        alt="Product1"
-                        height="200px"
-                      />
-                    </div>
-                    <div class="align-items-start productxt p-2">
-                      <p class="slicingText">
-                        TORNADO Gas Water Heater 6 Liter, Digital, Natural Gas,
-                        Silver GHM-C06CNE-S
-                      </p>
-                      <p>
-                        <span class="curr">EGP</span
-                        ><span class="price"> 3,719.00</span> &nbsp;&nbsp;<s
-                          class="oldprice"
-                        >
-                          4,881.09</s
-                        >
-                        <span class="discountpercentage">-24%</span>
-                      </p>
-                      <p>
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/star.png"
-                          alt="star"
-                          height="20px"
-                          width="20px"
-                        />
-                        <img
-                          src="Assets/empty star.png"
-                          alt="star"
-                          height="15px"
-                          width="15px"
-                        />
-                        <span class="stars">(19)</span>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="row pt-2">
-              <div class="container d-flex justify-content-evenly">
-                <!-- Product 13 -->
-                <div>
-                  <a
-                    href="ProductPages/AppliancesProducts/product13.html"
-                    class="cardlinking"
-                  >
-                    <div class="Product d-flex flex-column blacking">
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/AppCat/Small Appliances/Small Appliances 6.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Black & Decker 500W 1.5L Blender with Grinder Mill,
-                          White - BX520-B5
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 1,396.26 </span> &nbsp;&nbsp;<s
-                            class="oldprice"
-                            >1,999.00</s
-                          >
-                          <span class="discountpercentage"> -30% </span>
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Product 14 -->
-                <div>
-                  <a
-                    href="ProductPages/AppliancesProducts/product14.html"
-                    class="cardlinking"
-                  >
-                    <div class="Product d-flex flex-column blacking">
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/AppCat/Small Appliances/Small Appliances 7.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Black & Decker 1.7L Concealed Coil Stainless Steel
-                          Kettle, Jc450-B5, Silver
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 1,648.00</span> &nbsp;&nbsp;<s
-                            class="oldprice"
-                            >1,936.80</s
-                          >
-                          <span class="discountpercentage">-15%</span>
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Product 15 -->
-                <div>
-                  <a
-                    href="ProductPages/AppliancesProducts/product15.html"
-                    class="cardlinking"
-                  >
-                    <div class="Product d-flex flex-column blacking">
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/AppCat/Small Appliances/Small Appliances 8.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          BLACK & DECKER Dough Mixer With 1000W 3-Blade Motor
-                          And 4L Stainless Steel Mixer For 600G Dough Mixer 5.76
-                          Kilograms White/Sliver
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 6,911.00</span> &nbsp;&nbsp;
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Add missing closing div tag for the last opened div -->
         </div>
       </div>
     </div>
@@ -1518,7 +1492,7 @@
             } catch (e) {
               try {
                 const res = await fetch(
-                  "http://localhost:5000/api/v1/users/me",
+                  "http://localhost:3000/api/v1/users/me",
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
@@ -1555,6 +1529,100 @@
             `;
           }
         }
+      });
+
+      // Brand filtering functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const brandsSection = document.querySelector(
+          ".border-right.p-4.border-bottom.ms-4"
+        );
+        const brandInputs = brandsSection.querySelectorAll(
+          'input[type="checkbox"][name="brand"]'
+        );
+        const productDivs = document.querySelectorAll("[data-brand]");
+        const priceInputs = document.querySelectorAll(".price-input input");
+        const rangeInputs = document.querySelectorAll(".range-input input");
+
+        // Helper to get product price as number
+        function getProductPrice(div) {
+          const priceSpan = div.querySelector(".price");
+          if (!priceSpan) return null;
+          // Remove commas and parse float
+          return parseFloat(priceSpan.textContent.replace(/,/g, ""));
+        }
+
+        // Filtering function (brand + price)
+        function filterProducts() {
+          const checkedBrands = Array.from(brandInputs)
+            .filter((cb) => cb.checked)
+            .map((cb) => cb.value.trim());
+          const minPrice = parseFloat(priceInputs[0].value) || 0;
+          const maxPrice = parseFloat(priceInputs[1].value) || 100000;
+          const filtered = [];
+          productDivs.forEach((div) => {
+            const brand = div.getAttribute("data-brand").trim();
+            const price = getProductPrice(div);
+            const brandMatch =
+              checkedBrands.length === 0 || checkedBrands.includes(brand);
+            const priceMatch = price >= minPrice && price <= maxPrice;
+            if (brandMatch && priceMatch) {
+              div.style.display = "";
+              filtered.push(div);
+            } else {
+              div.style.display = "none";
+            }
+          });
+          // Move filtered products to the top
+          moveFilteredToTop(filtered);
+        }
+
+        // Find the main container for products
+        const mainProductContainer = document.getElementById("product-list");
+        function moveFilteredToTop(filteredDivs) {
+          if (!mainProductContainer) return;
+          // Remove all product divs
+          const allProductDivs = Array.from(
+            mainProductContainer.querySelectorAll("[data-brand]")
+          );
+          allProductDivs.forEach((div) =>
+            mainProductContainer.removeChild(div)
+          );
+          // Add filtered first, then the rest (hidden)
+          filteredDivs.forEach((div) => mainProductContainer.appendChild(div));
+          allProductDivs
+            .filter((div) => !filteredDivs.includes(div))
+            .forEach((div) => mainProductContainer.appendChild(div));
+        }
+
+        // Brand filter
+        brandInputs.forEach((checkbox) => {
+          checkbox.addEventListener("change", filterProducts);
+        });
+        // Price filter
+        priceInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync range sliders with input fields
+            if (input.classList.contains("min-input")) {
+              rangeInputs[0].value = input.value;
+            } else {
+              rangeInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+        rangeInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync input fields with range sliders
+            if (input.classList.contains("min-range")) {
+              priceInputs[0].value = input.value;
+            } else {
+              priceInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+        // Initial filter
+        filterProducts();
       });
     </script>
   </body>
