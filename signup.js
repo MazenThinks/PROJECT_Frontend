@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Form submission with validation
   signupBtn.addEventListener("click", async function (e) {
     e.preventDefault();
+    if (signupBtn.classList.contains("loading")) return; // Prevent double submit
 
     // Reset validation
     const inputs = [
@@ -53,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
       lastNameInput,
     ];
     inputs.forEach((input) => input.classList.remove("is-invalid"));
+    agreeCheck.classList.remove("is-invalid");
 
     // Validate inputs
     let isValid = true;
@@ -72,8 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // Check password length
-    if (passwordInput.value.trim() && passwordInput.value.trim().length < 8) {
+    // Check password length (min 6)
+    if (passwordInput.value.trim() && passwordInput.value.trim().length < 6) {
       passwordInput.classList.add("is-invalid");
       isValid = false;
     }
@@ -116,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       const data = await response.json();
       signupBtn.classList.remove("loading");
-      if (response.ok) {
+      if (response.ok && data.token) {
         localStorage.setItem("token", data.token);
         window.location.href = "index.html";
       } else {
@@ -127,8 +129,10 @@ document.addEventListener("DOMContentLoaded", function () {
           data.errors.length > 0
         ) {
           alert(data.errors[0].msg || "Signup failed");
+        } else if (data.message) {
+          alert(data.message);
         } else {
-          alert(data.message || "Signup failed");
+          alert("Signup failed");
         }
       }
     } catch (err) {
