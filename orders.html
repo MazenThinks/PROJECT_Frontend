@@ -1,0 +1,274 @@
+<!-- filepath: /home/mazen/Desktop/PROJECT/PROJECT_Frontend/orders.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styling.css" />
+    <title>My Orders | PickPay</title>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .orders-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        padding: 32px 28px 24px 28px;
+      }
+      .order-card {
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        padding: 18px 20px;
+        background: #fcfcfc;
+      }
+      .order-header {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+      }
+      .order-status {
+        font-size: 0.98rem;
+      }
+      .order-items-list {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .order-items-list li {
+        font-size: 0.97rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="py-3 mb-0 border-bottom">
+      <div class="container d-flex flex-wrap justify-content-center">
+        <a
+          href="index.html"
+          class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none titleanimation"
+        >
+          <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
+          <span class="fs-4 me-1 title">PickPay</span>
+        </a>
+        <form class="d-flex searchmarg" role="search">
+          <input
+            class="form-control me-2 col-12 navsearch"
+            type="search"
+            placeholder="What are you looking for?"
+            aria-label="Search"
+          />
+        </form>
+        <div class="cart text-decoration-none me-3">
+          <a
+            href="cart.html"
+            class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none cartanim"
+          >
+            <img
+              src="Assets/cart.svg"
+              width="23"
+              height="23"
+              fill="currentColor"
+              class="bi bi-box-seam me-1"
+              viewBox="0 0 16 16"
+            />
+            <span class="cartext">Cart</span>
+          </a>
+        </div>
+        <div class="text-end">
+          <!-- Will be filled by script.js for user dropdown -->
+        </div>
+      </div>
+    </header>
+    <nav
+      class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center"
+    >
+      <div class="container-fluid d-flex flex-wrap justify-content-center">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse d-flex justify-content-center"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">All</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="elecCat.html">Electronics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="ApplianCat.html">Appliances</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="HomeCat.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="videogamecat.html">Video Games</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Fashion.html">Fashion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Beauty.html">Beauty & Fragrance</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="orders-container mt-4 mb-5">
+      <h2 class="mb-4">My Orders</h2>
+      <div id="ordersList">
+        <div class="text-center text-muted py-5">Loading your orders...</div>
+      </div>
+    </div>
+    <div class="px-5 text-center bg-body-tertiary mt-4">
+      <footer class="py-4">
+        <div class="py-5 border-top">
+          <p>© 2025 PickPay, Inc. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const ordersList = document.getElementById("ordersList");
+        if (!token) {
+          ordersList.innerHTML =
+            '<div class="text-center text-danger py-5">You must be logged in to view your orders.</div>';
+          return;
+        }
+        let userId = null;
+        try {
+          userId =
+            jwt_decode(token).userId ||
+            jwt_decode(token).id ||
+            jwt_decode(token)._id;
+        } catch (e) {}
+        try {
+          const res = await fetch("http://localhost:3000/api/v1/orders", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          if (!res.ok || !data.data || !Array.isArray(data.data)) {
+            ordersList.innerHTML =
+              '<div class="text-center text-danger py-5">Failed to load orders.</div>';
+            return;
+          }
+          // Filter orders by userId (extra safety)
+          const filteredOrders = userId
+            ? data.data.filter(
+                (order) =>
+                  order.user &&
+                  (order.user._id === userId || order.user === userId)
+              )
+            : data.data;
+          if (filteredOrders.length === 0) {
+            ordersList.innerHTML =
+              '<div class="text-center text-muted py-5">You have no orders yet.</div>';
+            return;
+          }
+          ordersList.innerHTML = filteredOrders
+            .map(
+              (order) => `
+            <div class="order-card">
+              <div class="order-header">Order #${
+                order._id
+              } <span class="order-status ms-2 badge bg-success">Delivered</span></div>
+              <div class="mb-2"><strong>Date:</strong> ${new Date(
+                order.createdAt
+              ).toLocaleString()}</div>
+              <div class="mb-2"><strong>Total:</strong> EGP ${
+                order.totalOrderPrice || 0
+              }</div>
+              <div class="mb-2"><strong>Payment:</strong> ${
+                order.paymentMethodType || "N/A"
+              }${
+                order.isPaid
+                  ? ' <span class="badge bg-success ms-2">Paid</span>'
+                  : ""
+              }</div>
+              <div><strong>Items:</strong>
+                <ul class="order-items-list">
+                  ${order.cartItems
+                    .map((item) => {
+                      let productName =
+                        item.product &&
+                        (item.product.name || item.product.title)
+                          ? item.product.name || item.product.title
+                          : "Product";
+                      let productId =
+                        item.product && (item.product._id || item.product.id)
+                          ? item.product._id || item.product.id
+                          : null;
+                      return `<li><a href="#" onclick="findAndOpenProductPage('${productId}'); return false;">${productName}</a> x${item.quantity} <span class="text-muted">EGP ${item.price}</span></li>`;
+                    })
+                    .join("")}
+                </ul>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } catch (e) {
+          ordersList.innerHTML =
+            '<div class="text-center text-danger py-5">Failed to load orders.</div>';
+        }
+      });
+
+      // Add this function to search for the product HTML file by productId
+      window.findAndOpenProductPage = function (productId) {
+        if (!productId) return;
+        // List of all product folders (add more if needed)
+        const folders = [
+          "ProductPages/AppliancesProducts",
+          "ProductPages/beauty products",
+          "ProductPages/fashion products",
+          // Add more folders as needed
+        ];
+        // Try product1.html to product30.html (adjust range as needed)
+        const maxProducts = 30;
+        let found = false;
+        let checked = 0;
+        for (let f = 0; f < folders.length; f++) {
+          for (let i = 1; i <= maxProducts; i++) {
+            const file = `${folders[f]}/product${i}.html`;
+            fetch(file)
+              .then((resp) => resp.text())
+              .then((html) => {
+                if (html.includes(`const productId = "${productId}"`)) {
+                  found = true;
+                  window.open(file, "_blank");
+                }
+              })
+              .catch(() => {});
+            checked++;
+          }
+        }
+        // Optionally, show a message if not found after a delay
+        setTimeout(() => {
+          if (!found) alert("Product page not found for this item.");
+        }, 1500);
+      };
+    </script>
+  </body>
+</html>

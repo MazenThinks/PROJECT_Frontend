@@ -9,10 +9,10 @@
     />
     <title>Order Confirmed | PickPay</title>
   </head>
-  <body>
-    <div class="container text-center mt-5">
+  <body class="min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="container text-center">
       <img
-        src="Assets/order-confirmed.svg"
+        src="Assets/Box-seam.png"
         alt="Order Confirmed"
         style="width: 120px"
         class="mb-4"
@@ -22,7 +22,17 @@
         Your order has been placed successfully.<br />We appreciate your
         purchase and will process your order soon.
       </p>
+      <div id="orderIdBox" class="mb-4" style="font-size: 1.2rem"></div>
       <a href="index.html" class="btn btn-primary">Back to Home</a>
     </div>
+    <script>
+      // Display order ID from localStorage
+      const orderId = localStorage.getItem("lastOrderId");
+      if (orderId) {
+        document.getElementById(
+          "orderIdBox"
+        ).textContent = `Order ID: ${orderId}`;
+      }
+    </script>
   </body>
 </html>

@@ -123,9 +123,13 @@ document.addEventListener("DOMContentLoaded", async function () {
           details: document.getElementById("address").value,
           phone: document.getElementById("zip").value,
           city: document.getElementById("state").value,
-          postalCode: "" // Add if you have a postal code field
+          postalCode: "", // Add if you have a postal code field
         };
-        const paymentMethodType = document.getElementById("paypal") && document.getElementById("paypal").checked ? "card" : "cash";
+        const paymentMethodType =
+          document.getElementById("paypal") &&
+          document.getElementById("paypal").checked
+            ? "card"
+            : "cash";
 
         // 3. Call backend order API
         const token = localStorage.getItem("token");
@@ -133,16 +137,23 @@ document.addEventListener("DOMContentLoaded", async function () {
           alert("You must be logged in to place an order.");
           return;
         }
-        const res = await fetch(`http://localhost:3000/api/v1/orders/${cartId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ shippingAddress, paymentMethodType })
-        });
+        const res = await fetch(
+          `http://localhost:3000/api/v1/orders/${cartId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ shippingAddress, paymentMethodType }),
+          }
+        );
         const data = await res.json();
         if (res.ok && data.status === "success") {
+          // Store order ID in localStorage
+          if (data.data && data.data._id) {
+            localStorage.setItem("lastOrderId", data.data._id);
+          }
           window.location.href = "OrderConfirmed.html";
         } else {
           alert("Order failed: " + (data.message || JSON.stringify(data)));
