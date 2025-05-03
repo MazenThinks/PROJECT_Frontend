@@ -459,10 +459,11 @@
               </div>
 
               <hr class="my-4" />
-
-              <button class="w-100 btn btn-primary btn-lg mb-5" type="submit">
-                Place Order
-              </button>
+              <a href="/OrderConfirmed.html">
+                <button class="w-100 btn btn-primary btn-lg mb-5" type="submit">
+                  Place Order
+                </button>
+              </a>
             </form>
           </div>
         </div>
@@ -707,6 +708,18 @@
           radio.addEventListener("change", togglePaymentFields);
         });
         togglePaymentFields(); // Initial call
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Adjust selector as needed for your product title element(s)
+        const titleElements = document.querySelectorAll(
+          ".product-title, .checkout-product-title"
+        );
+        titleElements.forEach(function (el) {
+          if (el.textContent.length > 50) {
+            el.textContent = el.textContent.slice(0, 50) + "...";
+          }
+        });
       });
     </script>
   </body>

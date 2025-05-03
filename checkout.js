@@ -106,61 +106,56 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Form validation and order submission
   const checkoutForm = document.querySelector("form.needs-validation");
-  checkoutForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!checkoutForm.checkValidity()) {
-      checkoutForm.classList.add("was-validated");
-      return;
-    }
-    // Gather shipping address and payment info
-    const shippingAddress = {
-      details: document.getElementById("address").value,
-      phone: document.getElementById("zip").value,
-      city: document.getElementById("state").value,
-      postalCode: "",
-    };
-    // Get payment method
-    let paymentMethodType = "cash";
-    if (
-      document.getElementById("credit").checked ||
-      document.getElementById("debit").checked
-    ) {
-      paymentMethodType = "card";
-    }
-    // Get cartId
-    const cartData = await fetchCart();
-    if (!cartData || !cartData._id) {
-      checkoutForm.innerHTML = `<div class='alert alert-danger mt-4'>Could not find your cart. Please try again.</div>`;
-      return;
-    }
-    const cartId = cartData._id;
-    // Place order via backend
-    const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(`http://localhost:3000/api/v1/orders/${cartId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          shippingAddress,
-          paymentMethodType,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok && data.status === "success") {
-        window.location.href = "OrderConfirmed.html";
-      } else {
-        checkoutForm.innerHTML = `<div class='alert alert-danger mt-4'>Order failed: ${
-          data.message || "Unknown error"
-        }</div>`;
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      try {
+        // 1. Get cart for logged-in user
+        const cartData = await document.getCart();
+        if (!cartData || !cartData.data || !cartData.data._id) {
+          alert("No cart found for this user.");
+          return;
+        }
+        const cartId = cartData.data._id;
+
+        // 2. Collect shipping and payment info from form
+        const shippingAddress = {
+          details: document.getElementById("address").value,
+          phone: document.getElementById("zip").value,
+          city: document.getElementById("state").value,
+          postalCode: "" // Add if you have a postal code field
+        };
+        const paymentMethodType = document.getElementById("paypal") && document.getElementById("paypal").checked ? "card" : "cash";
+
+        // 3. Call backend order API
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("You must be logged in to place an order.");
+          return;
+        }
+        const res = await fetch(`http://localhost:3000/api/v1/orders/${cartId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ shippingAddress, paymentMethodType })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === "success") {
+          window.location.href = "OrderConfirmed.html";
+        } else {
+          alert("Order failed: " + (data.message || JSON.stringify(data)));
+          console.error("Order API error:", data);
+        }
+      } catch (err) {
+        alert("Unexpected error: " + err.message);
+        console.error("Order submit error:", err);
       }
-    } catch (err) {
-      checkoutForm.innerHTML = `<div class='alert alert-danger mt-4'>Order failed: ${err.message}</div>`;
-    }
-  });
+    });
+  } else {
+    console.error("Checkout form not found!");
+  }
 
   // Initial load
   const cartData = await fetchCart();
