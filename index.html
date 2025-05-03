@@ -4456,17 +4456,71 @@
         if (!searchInput || !dropdown) return;
 
         function showDropdown(items) {
+          const query = searchInput.value.trim();
           if (!items.length) {
             dropdown.innerHTML =
               '<span class="dropdown-item disabled">No results found</span>';
             dropdown.style.display = "block";
             return;
           }
+          // Automated mapping from productId to HTML page (AppliancesProducts only)
+          const productPageMap = {
+            "68132a95ff7813b3d47f9da5":
+              "ProductPages/AppliancesProducts/product1.html",
+            "68132a95ff7813b3d47f9da6":
+              "ProductPages/AppliancesProducts/product2.html",
+            "68132a95ff7813b3d47f9da7":
+              "ProductPages/AppliancesProducts/product3.html",
+            "68132a95ff7813b3d47f9da8":
+              "ProductPages/AppliancesProducts/product4.html",
+            "68132a95ff7813b3d47f9da9":
+              "ProductPages/AppliancesProducts/product5.html",
+            "68132a95ff7813b3d47f9daa":
+              "ProductPages/AppliancesProducts/product6.html",
+            "68132a95ff7813b3d47f9dab":
+              "ProductPages/AppliancesProducts/product7.html",
+            "68132a95ff7813b3d47f9dac":
+              "ProductPages/AppliancesProducts/product8.html",
+            "68132a95ff7813b3d47f9dad":
+              "ProductPages/AppliancesProducts/product9.html",
+            "68132a95ff7813b3d47f9dae":
+              "ProductPages/AppliancesProducts/product10.html",
+            "68132a95ff7813b3d47f9daf":
+              "ProductPages/AppliancesProducts/product11.html",
+            "68132a95ff7813b3d47f9db0":
+              "ProductPages/AppliancesProducts/product12.html",
+            "68132a95ff7813b3d47f9db1":
+              "ProductPages/AppliancesProducts/product13.html",
+            "68132a95ff7813b3d47f9db2":
+              "ProductPages/AppliancesProducts/product14.html",
+            "68132a95ff7813b3d47f9db3":
+              "ProductPages/AppliancesProducts/product15.html",
+          };
+          // Highlight function
+          function highlight(text, term) {
+            if (!term) return text;
+            return text.replace(
+              new RegExp(`(${term})`, "ig"),
+              "<mark>$1</mark>"
+            );
+          }
           dropdown.innerHTML = items
-            .map(
-              (item) =>
-                `<a href="productPage.html?id=${item._id}" class="dropdown-item">${item.title}</a>`
-            )
+            .map((item) => {
+              const page = productPageMap[item._id] || "#";
+              const disabled = page === "#";
+              return `<a href="${
+                !disabled ? page : "#"
+              }" class="dropdown-item d-flex align-items-center${
+                disabled ? " disabled" : ""
+              }" style="gap:8px;">
+                <span>${highlight(item.title, query)}</span>
+                ${
+                  disabled
+                    ? '<span class="text-danger ms-2">No page</span>'
+                    : ""
+                }
+              </a>`;
+            })
             .join("");
           dropdown.style.display = "block";
         }
