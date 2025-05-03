@@ -25,13 +25,27 @@
           <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
-        <form class="d-flex searchmarg" role="search">
+        <form class="d-flex searchmarg position-relative" role="search">
           <input
             class="form-control me-2 col-12 navsearch"
             type="search"
             placeholder="What are you looking for?"
             aria-label="Search"
+            autocomplete="off"
           />
+          <div
+            id="searchDropdown"
+            class="dropdown-menu w-100"
+            style="
+              max-height: 300px;
+              overflow-y: auto;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              z-index: 1000;
+              display: none;
+            "
+          ></div>
         </form>
         <div class="cart text-decoration-none me-3">
           <a
@@ -4436,6 +4450,87 @@
               alert("Could not add to cart.");
             }
           });
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.querySelector(".navsearch");
+        const dropdown = document.getElementById("searchDropdown");
+        let debounceTimeout;
+
+        if (!searchInput || !dropdown) return;
+
+        function showDropdown(items) {
+          if (!items.length) {
+            dropdown.innerHTML =
+              '<span class="dropdown-item disabled">No results found</span>';
+            dropdown.style.display = "block";
+            return;
+          }
+          dropdown.innerHTML = items
+            .map(
+              (item) =>
+                `<a href="productPage.html?id=${item._id}" class="dropdown-item">${item.title}</a>`
+            )
+            .join("");
+          dropdown.style.display = "block";
+        }
+
+        function hideDropdown() {
+          dropdown.style.display = "none";
+        }
+
+        searchInput.addEventListener("input", function () {
+          const query = searchInput.value.trim();
+          clearTimeout(debounceTimeout);
+          if (!query) {
+            hideDropdown();
+            return;
+          }
+          debounceTimeout = setTimeout(() => {
+            fetch(
+              `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(
+                query
+              )}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Search API response:", data); // Debug log
+                let products = [];
+                if (data) {
+                  if (Array.isArray(data.data)) {
+                    products = data.data;
+                  } else if (Array.isArray(data.products)) {
+                    products = data.products;
+                  }
+                }
+                if (products.length) {
+                  showDropdown(products.slice(0, 8));
+                } else {
+                  dropdown.innerHTML =
+                    '<span class="dropdown-item disabled">No results found</span>';
+                  dropdown.style.display = "block";
+                }
+              })
+              .catch((err) => {
+                console.error("Search error:", err);
+                dropdown.innerHTML =
+                  '<span class="dropdown-item disabled">Error fetching results</span>';
+                dropdown.style.display = "block";
+              });
+          }, 250);
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!dropdown.contains(e.target) && e.target !== searchInput) {
+            hideDropdown();
+          }
+        });
+
+        searchInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            hideDropdown();
+          }
         });
       });
     </script>
