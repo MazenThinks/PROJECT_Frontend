@@ -843,16 +843,28 @@
     <script src="../../script.js"></script>
     <script src="../../cart.js"></script>
     <script>
-      const productId = "68132a95ff7813b3d47f9da5";
+      const productId = "6819e22b123a4faad16613c9";
     </script>
 
     <script>
       /* Add to Cart Script Start */
       document.addEventListener("DOMContentLoaded", function () {
         const addToCartBtn = document.getElementById("addToCartBtn");
+        const quantityButton = document.querySelector(
+          ".dropdown-toggle.bg-body-secondary"
+        );
         if (addToCartBtn) {
           addToCartBtn.addEventListener("click", async function () {
-            const result = await document.addToCart(productId);
+            let quantity = 1;
+            if (quantityButton) {
+              const match = quantityButton.textContent.match(/\d+/);
+              if (match) quantity = parseInt(match[0]);
+            }
+            const result = await document.addToCart(
+              productId,
+              undefined,
+              quantity
+            );
             if (result && !result.error) {
               addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
               addToCartBtn.classList.add("added");
