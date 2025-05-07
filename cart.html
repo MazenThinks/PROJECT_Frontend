@@ -503,10 +503,10 @@
             let name = "";
             if (item.product && item.product.name) {
               name = item.product.name;
-            } else if (item.name) {
-              name = item.name;
             } else if (item.product && item.product.title) {
               name = item.product.title;
+            } else if (item.name) {
+              name = item.name;
             } else {
               name = "Product";
             }
