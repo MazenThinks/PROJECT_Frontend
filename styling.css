@@ -1116,3 +1116,302 @@ footer.py-3.my-4 {
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
+
+/* Add these CSS rules at the end of your styling.css file */
+
+/* Dark mode styles */
+:root {
+  --background-color: #ffffff;
+  --text-color: rgb(49, 49, 49);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --section-bg: rgba(245, 247, 250, 0.8);
+  --card-hover-shadow: rgba(0, 0, 0, 0.12);
+  --carousel-control-filter: invert(1);
+  --heading-color: #2c3e50;
+  --product-text-color: rgb(49, 49, 49);
+  --link-hover-color: #e74c3c;
+  --card-text-color: rgb(49, 49, 49);
+  --oldprice-color: rgba(0, 0, 0, 0.5);
+  --stars-color: #666;
+  --blue-text-color: #3498db;
+  --product-box-bg: #ffffff;
+  --blacking-text-color: rgb(49, 49, 49);
+}
+
+body.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --navbar-bg: rgba(18, 18, 18, 0.95);
+  --section-bg: rgba(30, 30, 30, 0.8);
+  --card-hover-shadow: rgba(255, 255, 255, 0.1);
+  --carousel-control-filter: none;
+  --heading-color: #ffffff;
+  --product-text-color: #ffffff;
+  --link-hover-color: #ffffff;
+  --card-text-color: #ffffff;
+  --oldprice-color: rgba(255, 255, 255, 0.5);
+  --stars-color: #ffffff;
+  --blue-text-color: #ffffff;
+  --product-box-bg: #1e1e1e;
+  --blacking-text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply text color to all elements */
+body.dark-mode {
+  color: var(--text-color);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: var(--heading-color);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.price):not(.discountpercentage):not(.stars),
+body.dark-mode div {
+  color: var(--text-color);
+}
+
+body.dark-mode .slicingText {
+  color: var(--product-text-color);
+}
+
+body.dark-mode .stars {
+  color: var(--stars-color);
+}
+
+body.dark-mode .oldprice {
+  color: var(--oldprice-color);
+}
+
+.navbar,
+header,
+nav,
+.bg-body-tertiary {
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
+}
+
+.Product {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+.Product:hover {
+  box-shadow: 0 6px 16px var(--card-hover-shadow) !important;
+}
+
+.bg-body-tertiary {
+  background-color: var(--section-bg) !important;
+}
+
+/* Dark mode toggle button styles */
+#darkModeToggle {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+}
+
+#darkModeToggle:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+body.dark-mode #darkModeToggle {
+  color: #f1c40f;
+}
+
+body.dark-mode .carousel-control-prev-icon,
+body.dark-mode .carousel-control-next-icon {
+  filter: var(--carousel-control-filter);
+}
+
+body.dark-mode .link-body-emphasis {
+  color: var(--text-color) !important;
+}
+
+body.dark-mode .btn-light {
+  background-color: #333;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+body.dark-mode .card,
+body.dark-mode .dropdown-menu {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+body.dark-mode .form-control {
+  background-color: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+body.dark-mode .text-body-emphasis {
+  color: #e0e0e0 !important;
+}
+
+body.dark-mode .nav-link {
+  color: #e0e0e0;
+}
+
+body.dark-mode .nav-link.active {
+  color: #ff6b6b !important;
+}
+
+/* Preserve certain color elements in dark mode */
+body.dark-mode .price {
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e74c3c; /* Fallback */
+}
+
+body.dark-mode .discountpercentage {
+  color: #2ecc71;
+}
+
+body.dark-mode .alignment {
+  background: rgba(40, 40, 40, 0.6);
+}
+
+body.dark-mode img {
+  filter: brightness(0.95);
+}
+
+body.dark-mode .btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+/* Adjust border styles for dark mode */
+body.dark-mode .border-bottom {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Add smooth transitions for color changes */
+.color-transition,
+.color-transition * {
+  transition: color 0.3s ease, background-color 0.3s ease !important;
+}
+
+/* Additional dark mode text color fixes */
+body.dark-mode .nav-item a,
+body.dark-mode .blacking,
+body.dark-mode .card-title,
+body.dark-mode .card-text,
+body.dark-mode .title,
+body.dark-mode .cartext {
+  color: var(--text-color) !important;
+}
+
+body.dark-mode .productxt p {
+  color: var(--text-color);
+}
+
+body.dark-mode .Product .slicingText {
+  color: var(--text-color);
+}
+
+body.dark-mode .Product {
+  background-color: var(--product-box-bg);
+}
+
+body.dark-mode .Product div {
+  color: var(--text-color);
+}
+
+body.dark-mode h3.text-center {
+  color: var(--text-color);
+}
+
+body.dark-mode .blacking * {
+  color: var(--text-color);
+}
+
+body.dark-mode footer h5 {
+  color: var(--heading-color);
+}
+
+body.dark-mode footer .nav-link {
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+body.dark-mode footer .nav-link:hover {
+  color: var(--link-hover-color);
+  opacity: 1;
+}
+
+/* Fix Product text in dark mode */
+body.dark-mode .cardlinking .blacking * {
+  color: var(--text-color) !important;
+}
+
+/* Override any blue text colors in dark mode */
+body.dark-mode .btn-primary,
+body.dark-mode .nav-link:hover,
+body.dark-mode h2.container.pb-2.border-bottom,
+body.dark-mode .navbar-nav a {
+  color: var(--text-color) !important;
+}
+
+/* Fix for elements with background-color that may be too dark */
+body.dark-mode .bg-body-tertiary {
+  background-color: var(--section-bg) !important;
+}
+
+body.dark-mode .alignment {
+  background: rgba(40, 40, 40, 0.6) !important;
+}
+
+/* Make sure all div elements in dark mode use proper background color */
+body.dark-mode .Product,
+body.dark-mode .blacking {
+  background-color: var(--product-box-bg) !important;
+}
+
+/* Override all default * styling without !important for text colors */
+body.dark-mode * {
+  color: inherit;
+}
+
+/* Additional fixes for specific elements in dark mode */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6,
+body.dark-mode p, 
+body.dark-mode span:not(.price):not(.discountpercentage), 
+body.dark-mode .nav-link,
+body.dark-mode .title {
+  color: var(--text-color) !important;
+}
+
+body.dark-mode .slicingText,
+body.dark-mode .stars,
+body.dark-mode .curr {
+  color: var(--text-color) !important;
+}
