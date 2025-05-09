@@ -47,7 +47,7 @@
               viewBox="0 0 16 16"
             />
             <path
-              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"
+              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"
             />
             <span class="cartext">Cart</span>
           </a>
@@ -119,20 +119,20 @@
       <div class="col-2 pt-4">
         <div class="border-right p-4 border-bottom ms-4">
           <h4 class="txtdecounderline">Brands</h4>
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Furgle</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Janssen</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Amotpo</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Oliruim</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Neoflam</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Pasabahce</label><br />
-          <input type="checkbox" name="chck1" />
-          <label for="chck1"> Generic</label><br />
+          <input type="checkbox" name="brand" value="Furgle" />
+          <label for="brand"> Furgle</label><br />
+          <input type="checkbox" name="brand" value="Janssen" />
+          <label for="brand"> Janssen</label><br />
+          <input type="checkbox" name="brand" value="Amotpo" />
+          <label for="brand"> Amotpo</label><br />
+          <input type="checkbox" name="brand" value="Oliruim" />
+          <label for="brand"> Oliruim</label><br />
+          <input type="checkbox" name="brand" value="Neoflam" />
+          <label for="brand"> Neoflam</label><br />
+          <input type="checkbox" name="brand" value="Pasabahce" />
+          <label for="brand"> Pasabahce</label><br />
+          <input type="checkbox" name="brand" value="Generic" />
+          <label for="brand"> Generic</label><br />
         </div>
         <!-- Price Slider -->
         <div class="ms-5 pt-3 border-bottom">
@@ -159,7 +159,7 @@
               class="min-range"
               min="0"
               max="100000"
-              value="25000"
+              value="0"
               step="1"
             />
             <input
@@ -167,7 +167,7 @@
               class="max-range"
               min="0"
               max="100000"
-              value="85000"
+              value="100000"
               step="1"
             />
           </div>
@@ -388,16 +388,19 @@
       </div>
       <div class="col-9">
         <!-- Products -->
-        <div class="container">
+        <div class="container" id="product-list">
           <div class="row pt-2">
-            <div class="container d-flex justify-content-evenly">
+            <div class="container d-flex justify-content-evenly flex-wrap">
               <!-- Product 1 -->
               <div>
                 <a
                   href="ProductPages/home products/product1.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Generic"
+                  >
                     <div class="p-2 alignment">
                       <img
                         class="brdradius"
@@ -459,7 +462,10 @@
                   href="ProductPages/home products/product2.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Star Bags"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Furniture/Furniture 2.png"
@@ -524,7 +530,10 @@
                   href="ProductPages/home products/product3.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Generic"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Furniture/Furniture 3.png"
@@ -584,7 +593,10 @@
                   href="ProductPages/home products/product4.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Furgle"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Furniture/Furniture 4.png"
@@ -655,7 +667,10 @@
                   href="ProductPages/home products/product5.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Janssen"
+                  >
                     <div class="py-3 alignment">
                       <img
                         class="imgwh"
@@ -717,7 +732,10 @@
                   href="ProductPages/home products/product6.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Golden Lighting"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Home Decor/Home Decor 1.png"
@@ -778,7 +796,10 @@
                   href="ProductPages/home products/product7.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Luxury"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Home Decor/Home Decor 2.png"
@@ -840,7 +861,10 @@
                   href="ProductPages/home products/product8.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Generic"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Home Decor/Home Decor 3.png"
@@ -902,7 +926,10 @@
                   href="ProductPages/home products/product9.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Amotpo"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Home Decor/Home Decor 4.png"
@@ -964,7 +991,10 @@
                   href="ProductPages/home products/product10.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Oliruim"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Home Decor/Home Decor 5.png"
@@ -1032,7 +1062,10 @@
                   href="ProductPages/home products/product11.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Neoflam"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Kitchen&Dining/Kitchen 1.png"
@@ -1092,7 +1125,10 @@
                   href="ProductPages/home products/product12.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Pasabahce"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Kitchen&Dining/Kitchen 2.png"
@@ -1156,7 +1192,10 @@
                   href="ProductPages/home products/product13.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="P&P CHEF"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Kitchen&Dining/Kitchen 3.png"
@@ -1219,7 +1258,10 @@
                   href="ProductPages/home products/product14.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="LIANYU"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Kitchen&Dining/Kitchen 4.png"
@@ -1281,7 +1323,10 @@
                   href="ProductPages/home products/product15.html"
                   class="cardlinking"
                 >
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Generic"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Kitchen&Dining/Kitchen 5.png"
@@ -1345,7 +1390,10 @@
               <!-- Product 16 -->
               <div>
                 <a href="#" class="cardlinking">
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Banotex"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Bath&Bedding/Bath 1.png"
@@ -1406,7 +1454,10 @@
               <!-- Product 17 -->
               <div>
                 <a href="#" class="cardlinking">
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Generic"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Bath&Bedding/Bath 2.png"
@@ -1463,7 +1514,10 @@
               <!-- Product 18 -->
               <div>
                 <a href="#" class="cardlinking">
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Bedsure"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Bath&Bedding/Bath 3.png"
@@ -1522,7 +1576,10 @@
               <!-- Product 19 -->
               <div>
                 <a href="#" class="cardlinking">
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Home of linen"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Bath&Bedding/Bath 4.png"
@@ -1580,7 +1637,10 @@
               <!-- Product 20 -->
               <div>
                 <a href="#" class="cardlinking">
-                  <div class="Product d-flex flex-column blacking">
+                  <div
+                    class="Product d-flex flex-column blacking"
+                    data-brand="Home of Linen"
+                  >
                     <div class="py-3 alignment">
                       <img
                         src="Assets/HomeCat/Bath&Bedding/Bath 5.png"
@@ -1837,6 +1897,212 @@
             `;
           }
         }
+      });
+
+      // Brand filtering functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const brandsSection = document.querySelector(
+          ".border-right.p-4.border-bottom.ms-4"
+        );
+        const brandInputs = brandsSection.querySelectorAll(
+          'input[type="checkbox"][name="brand"]'
+        );
+        const productDivs = document.querySelectorAll("[data-brand]");
+        const priceInputs = document.querySelectorAll(".price-input input");
+        const rangeInputs = document.querySelectorAll(".range-input input");
+
+        // Helper to get product price as number
+        function getProductPrice(div) {
+          const priceSpan = div.querySelector(".price");
+          if (!priceSpan) return null;
+          // Remove commas and parse float
+          return parseFloat(priceSpan.textContent.replace(/,/g, ""));
+        }
+
+        // Filtering function (brand + price)
+        function filterProducts() {
+          const checkedBrands = Array.from(brandInputs)
+            .filter((cb) => cb.checked)
+            .map((cb) => cb.value.trim());
+          const minPrice = parseFloat(priceInputs[0].value) || 0;
+          const maxPrice = parseFloat(priceInputs[1].value) || 100000;
+
+          productDivs.forEach((productCard) => {
+            // productCard is the div.Product[data-brand]
+            const brand = productCard.getAttribute("data-brand").trim();
+            const price = getProductPrice(productCard);
+
+            // Get the wrapper div that should be shown/hidden.
+            // Structure: (immediate parent of a product card's <a> tag's parent)
+            const displayableItemContainer =
+              productCard.parentElement.parentElement;
+
+            const brandMatch =
+              checkedBrands.length === 0 || checkedBrands.includes(brand);
+            const priceMatch =
+              price !== null && price >= minPrice && price <= maxPrice;
+
+            if (displayableItemContainer) {
+              if (brandMatch && priceMatch) {
+                displayableItemContainer.style.display = ""; // Show the container
+              } else {
+                displayableItemContainer.style.display = "none"; // Hide the container
+              }
+            }
+          });
+        }
+
+        // Event listeners for brand checkboxes
+        brandInputs.forEach((checkbox) => {
+          checkbox.addEventListener("change", filterProducts);
+        });
+
+        // Event listeners for price input fields
+        priceInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync range sliders with input fields
+            if (input.classList.contains("min-input")) {
+              rangeInputs[0].value = input.value;
+            } else {
+              rangeInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+
+        // Event listeners for range sliders
+        rangeInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync input fields with range sliders
+            if (input.classList.contains("min-range")) {
+              priceInputs[0].value = input.value;
+            } else {
+              priceInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+
+        // Initial filter application on page load
+        filterProducts();
+      });
+    </script>
+    <script>
+      // Brand filtering functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const brandsSection = document.querySelector(
+          ".border-right.p-4.border-bottom.ms-4"
+        );
+        const brandInputs = brandsSection.querySelectorAll(
+          'input[type="checkbox"][name="brand"]'
+        );
+        const productDivs = document.querySelectorAll("[data-brand]");
+        const priceInputs = document.querySelectorAll(".price-input input");
+        const rangeInputs = document.querySelectorAll(".range-input input");
+
+        // Helper to get product price as number
+        function getProductPrice(div) {
+          const priceSpan = div.querySelector(".price");
+          if (!priceSpan) return null;
+          // Remove commas and parse float
+          return parseFloat(priceSpan.textContent.replace(/,/g, ""));
+        }
+
+        // Filtering function (brand + price)
+        function filterProducts() {
+          const checkedBrands = Array.from(brandInputs)
+            .filter((cb) => cb.checked)
+            .map((cb) => cb.value.trim());
+          const minPrice = parseFloat(priceInputs[0].value) || 0;
+          const maxPrice = parseFloat(priceInputs[1].value) || 100000;
+          const filtered = [];
+          productDivs.forEach((div) => {
+            const brand = div.getAttribute("data-brand").trim();
+            const price = getProductPrice(div);
+            const brandMatch =
+              checkedBrands.length === 0 || checkedBrands.includes(brand);
+            const priceMatch = price >= minPrice && price <= maxPrice;
+            if (brandMatch && priceMatch) {
+              div.style.display = "";
+              filtered.push(div);
+            } else {
+              div.style.display = "none";
+            }
+          });
+          // Move filtered products to the top
+          moveFilteredToTop(filtered);
+        }
+
+        // Find the main container for products
+        const mainProductContainer = document.getElementById("product-list");
+        function moveFilteredToTop(filteredDivs) {
+          if (!mainProductContainer) return;
+          // Find the flex container that holds the product cards
+          const flexContainer = mainProductContainer.querySelector(
+            ".container.d-flex.justify-content-evenly.flex-wrap"
+          );
+          if (!flexContainer) return;
+          // Remove all product divs from the flex container
+          const allProductDivs = Array.from(
+            flexContainer.querySelectorAll("[data-brand]")
+          );
+          allProductDivs.forEach((div) => flexContainer.removeChild(div));
+          // Remove all row divs from the flex container
+          Array.from(flexContainer.querySelectorAll(".row.pt-2")).forEach(
+            (row) => flexContainer.removeChild(row)
+          );
+          // Re-insert filtered products in order, 4 per row
+          let rowDiv = null;
+          filteredDivs.forEach((div, idx) => {
+            if (idx % 4 === 0) {
+              rowDiv = document.createElement("div");
+              rowDiv.className = "row pt-2";
+              flexContainer.appendChild(rowDiv);
+            }
+            rowDiv.appendChild(div);
+          });
+          // Add the rest (hidden) to the last row
+          allProductDivs
+            .filter((div) => !filteredDivs.includes(div))
+            .forEach((div) => {
+              if (!rowDiv || rowDiv.children.length >= 4) {
+                rowDiv = document.createElement("div");
+                rowDiv.className = "row pt-2";
+                flexContainer.appendChild(rowDiv);
+              }
+              rowDiv.appendChild(div);
+            });
+        }
+
+        // Brand filter
+        brandInputs.forEach((checkbox) => {
+          checkbox.addEventListener("change", filterProducts);
+        });
+        // Price filter
+        priceInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync range sliders with input fields
+            if (input.classList.contains("min-input")) {
+              rangeInputs[0].value = input.value;
+            } else {
+              rangeInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+        rangeInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            // Sync input fields with range sliders
+            if (input.classList.contains("min-range")) {
+              priceInputs[0].value = input.value;
+            } else {
+              priceInputs[1].value = input.value;
+            }
+            filterProducts();
+          });
+        });
+        // Initial filter
+        filterProducts();
       });
     </script>
   </body>
