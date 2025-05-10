@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +9,15 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="styling.css" />
-    <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="styling.css" />
+    <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
     <title>PickPay</title>
+    <!-- Add dark mode script in head to prevent flashing -->
+    <script src="dark-mode.js"></script>
   </head>
   <body>
     <!-- navbar -->
@@ -51,13 +53,6 @@
             "
           ></div>
         </form>
-        <button
-          id="darkModeToggle"
-          class="btn btn-sm me-3 d-flex align-items-center justify-content-center"
-          aria-label="Toggle dark mode"
-        >
-          <i class="fas fa-sun"></i>
-        </button>
         <div class="cart text-decoration-none me-3">
           <a
             href="cart.html"
@@ -77,7 +72,16 @@
             <span class="cartext">Cart</span>
           </a>
         </div>
-        <div class="text-end">
+        <div class="dark-mode-toggle mx-2 d-flex align-items-center">
+          <button
+            id="darkModeToggle"
+            class="btn btn-sm theme-toggle-btn"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        <div class="text-end d-flex align-items-center">
           <a href="signinPage.html"
             ><button type="button" class="btn btn-light text-dark me-2 ms-4">
               Login

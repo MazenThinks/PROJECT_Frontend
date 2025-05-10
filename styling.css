@@ -1,5 +1,241 @@
 @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
+/* Dark Mode Variables */
+:root {
+  --light-bg: #ffffff;
+  --light-text: #212529;
+  --light-bg-secondary: #f8f9fa;
+  --light-border: #dee2e6;
+
+  --dark-bg: #212529;
+  --dark-text: #f8f9fa;
+  --dark-bg-secondary: #343a40;
+  --dark-border: #495057;
+
+  /* Light mode defaults */
+  --body-bg: #fff;
+  --text-color: #333;
+  --navbar-bg: #f8f9fa;
+  --card-bg: #fff;
+  --card-border: #dee2e6;
+  --link-color: #0d6efd;
+  --bestseller-bg: #fff;
+  --secondary-navbar-bg: #f8f9fa;
+  --category-card-bg: #fff;
+
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --text-color-light: #f8f9fa;
+  --background-light: #f8f9fa;
+  --background-card: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --nav-background: #f8f9fa;
+  --bestseller-background: #ffffff;
+  --category-card-background: #fff;
+  --animation-timing: 0.3s;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --category-card-background: #ffffff;
+  --category-card-bg: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+  --input-bg: #ffffff;
+  --input-text: #212529;
+  --dropdown-bg: #ffffff;
+}
+
+[data-theme="light"] {
+  --bg-color: var(--light-bg);
+  --text-color: var(--light-text);
+  --bg-secondary: var(--light-bg-secondary);
+  --border-color: var(--light-border);
+  --body-background: #ffffff;
+  --text-color: #333333;
+  --card-background: #ffffff;
+  --card-border: #dee2e6;
+  --input-background: #ffffff;
+  --input-text: #495057;
+  --input-border: #ced4da;
+  --nav-background: #f8f9fa;
+  --footer-background: #f8f9fa;
+  --link-color: #007bff;
+  --hover-color: #0056b3;
+  --bestseller-background: #ffffff;
+  --secondary-nav-background: #f8f9fa;
+  --category-card-background: #ffffff;
+  --product-background: #ffffff;
+  --btn-light-background: #ffffff;
+  --btn-light-text: #212529;
+
+  --body-bg: #fff;
+  --text-color: #333;
+  --navbar-bg: #f8f9fa;
+  --card-bg: #fff;
+  --card-border: #dee2e6;
+  --link-color: #0d6efd;
+  --bestseller-bg: #fff;
+  --secondary-navbar-bg: #f8f9fa;
+  --category-card-bg: #fff;
+
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --text-color-light: #f8f9fa;
+  --background-light: #f8f9fa;
+  --background-card: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --category-card-background: #ffffff;
+  --category-card-bg: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+  --input-bg: #ffffff;
+  --input-text: #212529;
+  --dropdown-bg: #ffffff;
+  --text-color: #212529;
+  --background-color: #ffffff;
+  --category-card-background: #ffffff;
+  --category-card-hover: #f8f9fa;
+  --category-card-text: #212529;
+  --bg-body-tertiary: #f8f9fa; /* Added for sections with bg-body-tertiary class */
+  --card-bg: #ffffff; /* Added for product cards background */
+  --border-color: #dee2e6; /* Added for borders */
+  --navbar-bg: #f8f9fa; /* Added for navbar background */
+  --bestseller-bg: #ffffff; /* Added for bestseller sections */
+  --input-bg: #ffffff; /* Added for input fields */
+  --input-color: #212529; /* Added for input text */
+}
+
+[data-theme="dark"] {
+  --bg-color: var(--dark-bg);
+  --text-color: var(--dark-text);
+  --bg-secondary: var(--dark-bg-secondary);
+  --border-color: var(--dark-border);
+  --body-background: #121212;
+  --text-color: #e0e0e0;
+  --card-background: #1e1e1e;
+  --card-border: #333333;
+  --input-background: #2c2c2c;
+  --input-text: #e0e0e0;
+  --input-border: #444444;
+  --nav-background: #1a1a1a;
+  --footer-background: #1a1a1a;
+  --link-color: #90caf9;
+  --hover-color: #42a5f5;
+  --bestseller-background: #1e1e1e;
+  --secondary-nav-background: #1a1a1a;
+  --category-card-background: #1e1e1e;
+  --product-background: #1e1e1e;
+  --btn-light-background: #2c2c2c;
+  --btn-light-text: #e0e0e0;
+
+  --body-bg: #121212;
+  --text-color: #e1e1e1;
+  --navbar-bg: #1f1f1f;
+  --card-bg: #1f1f1f;
+  --card-border: #333;
+  --link-color: #8ab4f8;
+  --bestseller-bg: #1f1f1f;
+  --secondary-navbar-bg: #1f1f1f;
+  --category-card-bg: #1f1f1f;
+
+  --primary-color: #0d6efd;
+  --primary-hover: #3384fd;
+  --text-color-light: #f8f9fa;
+  --background-light: #212529;
+  --background-card: #343a40;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #252525;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border-color: #333333;
+  --category-card-background: #1e1e1e;
+  --category-card-bg: linear-gradient(to bottom right, #252525, #1e1e1e);
+  --input-bg: #333333;
+  --input-text: #e0e0e0;
+  --dropdown-bg: #1e1e1e;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --text-color: #f8f9fa;
+  --background-color: #121212;
+  --category-card-background: #2d2d2d;
+  --category-card-hover: #3d3d3d;
+  --category-card-text: #f8f9fa;
+  --bg-body-tertiary: #1e1e1e; /* Added darker background for sections with bg-body-tertiary class */
+  --card-bg: #252525; /* Added for product cards background */
+  --border-color: #444; /* Added for borders */
+  --navbar-bg: #1e1e1e; /* Added for navbar background */
+  --bestseller-bg: #252525; /* Added for bestseller sections */
+  --input-bg: #333; /* Added for input fields */
+  --input-color: #f8f9fa; /* Added for input text */
+  --text-color: #e1e1e1;
+  --background-color: #121212;
+  --primary-color: #bb86fc;
+  --category-card-background: #1e1e1e;
+  --category-card-hover: #333333;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --gray-bg: #1e1e1e; /* For secondary background colors */
+  --card-bg: #1e1e1e; /* For bestseller cards and other card elements */
+  --navbar-bg: #1e1e1e; /* For navbar backgrounds */
+  --border-color: #333333; /* For borders */
+  --hover-color: #3700b3; /* Darker variant of primary color for hover states */
+}
+
+/* Add dark mode styling for second navbar */
+[data-theme="dark"] .bg-body-tertiary {
+  background-color: var(--navbar-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Bestseller divs and other card elements */
+[data-theme="dark"] .Product,
+[data-theme="dark"] .categorycard,
+[data-theme="dark"] .container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3,
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary.rounded-3,
+[data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary,
+[data-theme="dark"] .px-5.text-center.bg-body-tertiary {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color);
+}
+
+/* Make sure text in dark mode is visible */
+[data-theme="dark"] .productxt,
+[data-theme="dark"] .stars,
+[data-theme="dark"] .curr,
+[data-theme="dark"] .blacking,
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] h3,
+[data-theme="dark"] h2,
+[data-theme="dark"] p {
+  color: var(--text-color) !important;
+}
+
+/* Specific override for the active nav-link */
+[data-theme="dark"] .nav-link.active {
+  color: var(--primary-color) !important;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  font-family: "Gabarito", sans-serif;
+  background-color: var(--body-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -54,6 +290,20 @@ html {
   opacity: 1;
   transform: none;
   animation: none;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  background-color: var(--product-background);
+  color: var(--text-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    transform 0.3s ease;
+
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary);
 }
 
 /* Stronger hover effect that takes precedence */
@@ -93,22 +343,36 @@ html {
   font-size: 18px;
   font-weight: 800px;
   padding: 10px 12px;
+  color: var(--text-color);
+
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .price {
   color: #e74c3c;
   font-weight: bold;
   font-size: 17px;
+  color: var(--text-color);
+
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .stars {
   font-size: 15px;
   padding-top: 6px;
+
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .curr {
   font-size: 13px;
   color: rgba(29, 29, 29, 0.877);
+
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .discountpercentage {
@@ -124,8 +388,6 @@ html {
 
 .oldprice {
   color: rgba(0, 0, 0, 0.5);
-  font-size: 14px;
-  text-decoration: line-through;
 }
 
 .cardlinking {
@@ -160,6 +422,9 @@ html {
   height: 250px;
   width: 250px;
   border-radius: 10px;
+  background-color: var(--category-card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .imgradius {
@@ -329,6 +594,25 @@ h2.container.pb-2.border-bottom {
   ) !important;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
   animation: fadeIn 1s ease-in-out;
+  background-color: var(--bestseller-background) !important;
+  color: var(--text-color);
+
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
+}
+
+.bg-body-tertiary {
+  background-color: var(--bg-secondary) !important;
+
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
+  color: var(--text-primary) !important;
+  background-color: var(--bg-body-tertiary) !important;
+  transition: background-color 0.3s ease;
+}
+
+.navbar.bg-body-tertiary {
+  background-color: var(--navbar-bg) !important;
 }
 
 /* Button animations */
@@ -347,11 +631,16 @@ h2.container.pb-2.border-bottom {
 
 .btn-light {
   transition: all 0.3s ease;
+  background-color: var(--btn-light-background);
+  color: var (--btn-light-text);
+  border-color: var(--input-border);
 }
 
 .btn-light:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--input-background);
+  color: var(--text-color);
 }
 
 /* Category cards enhancement */
@@ -603,9 +892,17 @@ html {
 }
 
 /* Remove the directional variations since we're using element-based animations now */
-.fade-right,
+/* These styles are now handled by text-fade and fade-section */
+.fade-right {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
 .fade-left {
-  /* Styles now handled by text-fade and fade-section */
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 /* ========== COLORFUL HOMEPAGE ENHANCEMENTS ========== */
@@ -644,6 +941,8 @@ h2.display-6 {
     rgba(52, 152, 219, 0.1)
   );
   border-radius: 12px;
+
+  background-color: var(--bestseller-background) !important;
 }
 
 .category-section:nth-of-type(3n + 2) {
@@ -653,6 +952,8 @@ h2.display-6 {
     rgba(155, 89, 182, 0.1)
   );
   border-radius: 12px;
+
+  background-color: var(--bestseller-background) !important;
 }
 
 .category-section:nth-of-type(3n + 3) {
@@ -662,6 +963,8 @@ h2.display-6 {
     rgba(46, 204, 113, 0.1)
   );
   border-radius: 12px;
+
+  background-color: var(--bestseller-background) !important;
 }
 
 /* Colorful accent borders for featured products */
@@ -783,6 +1086,11 @@ h2.container.pb-2.border-bottom {
     rgba(245, 247, 250, 0.95)
   ) !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background-color: var(--secondary-nav-background) !important;
+  color: var(--text-color);
+
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
 }
 
 /* Footer with color accent */
@@ -794,6 +1102,9 @@ footer.py-3.my-4 {
   );
   border-top: 3px solid;
   border-image: linear-gradient(to right, #e74c3c, #3498db) 1;
+
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
 }
 
 /* Color pulse animation for call to action buttons */
@@ -1117,301 +1428,529 @@ footer.py-3.my-4 {
   pointer-events: auto;
 }
 
-/* Add these CSS rules at the end of your styling.css file */
-
-/* Dark mode styles */
-:root {
-  --background-color: #ffffff;
-  --text-color: rgb(49, 49, 49);
-  --card-bg: #ffffff;
-  --card-border: rgba(0, 0, 0, 0.08);
-  --navbar-bg: rgba(255, 255, 255, 0.95);
-  --section-bg: rgba(245, 247, 250, 0.8);
-  --card-hover-shadow: rgba(0, 0, 0, 0.12);
-  --carousel-control-filter: invert(1);
-  --heading-color: #2c3e50;
-  --product-text-color: rgb(49, 49, 49);
-  --link-hover-color: #e74c3c;
-  --card-text-color: rgb(49, 49, 49);
-  --oldprice-color: rgba(0, 0, 0, 0.5);
-  --stars-color: #666;
-  --blue-text-color: #3498db;
-  --product-box-bg: #ffffff;
-  --blacking-text-color: rgb(49, 49, 49);
-}
-
-body.dark-mode {
-  --background-color: #121212;
-  --text-color: #ffffff;
-  --card-bg: #1e1e1e;
-  --card-border: rgba(255, 255, 255, 0.1);
-  --navbar-bg: rgba(18, 18, 18, 0.95);
-  --section-bg: rgba(30, 30, 30, 0.8);
-  --card-hover-shadow: rgba(255, 255, 255, 0.1);
-  --carousel-control-filter: none;
-  --heading-color: #ffffff;
-  --product-text-color: #ffffff;
-  --link-hover-color: #ffffff;
-  --card-text-color: #ffffff;
-  --oldprice-color: rgba(255, 255, 255, 0.5);
-  --stars-color: #ffffff;
-  --blue-text-color: #ffffff;
-  --product-box-bg: #1e1e1e;
-  --blacking-text-color: #ffffff;
-}
-
-body {
-  background-color: var(--background-color);
+/* Dark mode toggle button styling */
+.theme-toggle-btn {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+
+  background: none;
+  border: none;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
-/* Apply text color to all elements */
-body.dark-mode {
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--border-color);
+}
+
+.theme-toggle-btn i {
+  font-size: 18px;
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+  color: #f8f9fa;
+}
+
+[data-theme="light"] .theme-toggle-btn {
+  color: #333;
+}
+
+/* Additional Dark Mode styling for specific elements */
+[data-theme="dark"] .btn-light {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text) !important;
+  border-color: var(--dark-border);
+
+  background-color: #333;
+  color: #f8f9fa;
+  border-color: #555;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .dropdown-menu {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: var(--dark-bg);
+}
+
+[data-theme="dark"] .blacking {
+  background-color: var(--dark-bg-secondary);
+}
+
+[data-theme="dark"] .productxt {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .form-control {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .carousel-control-prev-icon,
+[data-theme="dark"] .carousel-control-next-icon {
+  filter: invert(0) !important;
+}
+
+/* Fix for the star ratings in dark mode */
+[data-theme="dark"] .stars {
+  color: #ffc107;
+}
+
+/* Ensure price and other text is visible in dark mode */
+[data-theme="dark"] .price,
+[data-theme="dark"] .curr,
+[data-theme="dark"] .stars,
+[data-theme="dark"] .slicingText {
+  color: var(--dark-text);
+}
+
+/* Ensure category and product cards adopt dark mode colors */
+.Product {
+  background-color: var(--product-background);
+  color: var(--text-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+
+  box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.05);
+}
+
+/* Bestseller and featured products */
+.container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3 {
+  background-color: var(--bestseller-background) !important;
   color: var(--text-color);
 }
 
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-  color: var(--heading-color);
-}
-
-body.dark-mode p,
-body.dark-mode span:not(.price):not(.discountpercentage):not(.stars),
-body.dark-mode div {
+/* Category cards */
+.categorycard {
+  background-color: var(--category-card-background);
   color: var(--text-color);
 }
 
-body.dark-mode .slicingText {
-  color: var(--product-text-color);
+/* Secondary navbar */
+.navbar.bg-body-tertiary,
+.bg-body-tertiary,
+nav.navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: var(--secondary-nav-background) !important;
+  color: var(--text-color);
+
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
 }
 
-body.dark-mode .stars {
-  color: var(--stars-color);
+/* Button light styling */
+.btn-light {
+  background-color: var(--btn-light-background);
+  color: var(--btn-light-text);
+  border-color: var(--input-border);
+
+  background-color: #333;
+  color: #f8f9fa;
+  border-color: #555;
 }
 
-body.dark-mode .oldprice {
-  color: var(--oldprice-color);
+.btn-light:hover {
+  background-color: var(--input-background);
+  color: var (--text-color);
 }
 
+/* Card and container backgrounds */
+.card,
+.card-body {
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+/* Price and product text colors */
+.price,
+.productxt {
+  color: var(--text-color);
+}
+
+/* Category section text colors */
+.category-section h2,
+.category-section h3,
+.category-section p {
+  color: var(--text-color);
+}
+
+/* Ensure sidebar elements in category pages adapt to dark mode */
+.border-right,
+.border-bottom,
+.border-top {
+  border-color: var(--card-border) !important;
+}
+
+/* Ensure proper dark mode for side content */
+.side {
+  background-color: var(--card-background);
+  color: var (--text-color);
+  border-color: var(--card-border) !important;
+}
+
+/* Navbar styles with dark mode support */
 .navbar,
-header,
-nav,
+.navbar-expand-lg,
 .bg-body-tertiary {
   background-color: var(--navbar-bg) !important;
   transition: background-color 0.3s ease;
 }
 
-.Product {
-  background-color: var(--card-bg);
-  border-color: var(--card-border);
-}
-
-.Product:hover {
-  box-shadow: 0 6px 16px var(--card-hover-shadow) !important;
-}
-
+/* Today's sale section and other section backgrounds */
+.container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3,
 .bg-body-tertiary {
-  background-color: var(--section-bg) !important;
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s ease;
 }
 
-/* Dark mode toggle button styles */
-#darkModeToggle {
+/* Ensure inputs and form controls adapt to dark mode */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: #333;
+  color: #f8f9fa;
+  border-color: #555;
+}
+
+/* Ensure buttons maintain proper contrast in dark mode */
+[data-theme="dark"] .btn-light {
+  background-color: #333;
+  color: #f8f9fa;
+  border-color: #555;
+}
+
+/* Second navbar specific styling for dark mode */
+[data-theme="dark"] .navbar-nav .nav-link {
+  color: #e1e1e1;
+}
+
+[data-theme="dark"] .navbar-nav .nav-link:hover,
+[data-theme="dark"] .navbar-nav .nav-link.active {
+  color: #fff;
+}
+
+/* Fix bestseller divs to match theme */
+[data-theme="dark"] .bestseller,
+[data-theme="dark"] .bg-white {
+  background-color: var(--bestseller-bg) !important;
+}
+
+/* Navbar items color in dark mode */
+[data-theme="dark"] .navbar-nav .nav-link {
+  color: var(--text-color-light);
+}
+
+/* Make bestseller divs respect dark mode */
+.bestseller-div {
+  background-color: var(--bestseller-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Make category card respect dark mode */
+.categorycard {
+  border-radius: 10px;
+  background-color: var(--category-card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Adapt card products to dark mode */
+[data-theme="dark"] .Product {
+  background-color: var(--background-card);
+  color: var(--text-color);
+}
+
+/* Make card titles respect dark mode */
+[data-theme="dark"] .productxt {
+  color: var(--text-color);
+}
+
+/* Ensure price text is visible in dark mode */
+[data-theme="dark"] .price,
+[data-theme="dark"] .curr {
+  color: var(--text-color);
+}
+
+/* Better contrast for product stars in dark mode */
+[data-theme="dark"] .stars {
+  color: gold;
+}
+
+/* Ensure all h2 and h3 elements are visible in dark mode */
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
+  color: var(--text-color);
+}
+
+/* Navbar and other container backgrounds */
+.bg-body-tertiary {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Category cards enhancement */
+.categorycard {
+  background-color: var(--category-card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Bestseller divs and other card elements */
+.Product {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary);
+}
+
+/* Form inputs in dark mode */
+input.form-control,
+select.form-control,
+textarea.form-control {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--border-color);
+}
+
+/* Dropdown menus */
+.dropdown-menu {
+  background-color: var(--dropdown-bg);
+  border-color: var(--border-color);
+}
+
+.dropdown-item {
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+/* Fix navbar text color */
+.navbar .nav-link {
+  color: var(--text-primary);
+}
+
+.navbar .navbar-toggler {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Fix border colors */
+.border,
+.border-bottom,
+.border-top,
+.border-start,
+.border-end {
+  border-color: var(--border-color) !important;
+}
+
+/* Fix form-check (checkboxes) in dark mode */
+.form-check-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+}
+
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.form-check-label {
+  color: var(--text-primary);
+}
+
+/* Card shadows adjustment for dark mode */
+.card,
+.Product,
+.categorycard {
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+/* Additional Dark Mode Fixes */
+[data-theme="dark"] .bg-body-tertiary {
+  background-color: var(--dark-bg-secondary) !important;
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: var(--dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3,
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary.rounded-3,
+[data-theme="dark"] .px-5.text-center.bg-body-tertiary {
+  background-color: var(--dark-bg-secondary) !important;
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .alignment {
+  background-color: rgba(30, 30, 30, 0.6) !important;
+}
+
+[data-theme="dark"] .oldprice {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Fix dropdown menu in dark mode */
+[data-theme="dark"] #searchDropdown {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: var(--dark-bg);
+}
+
+/* Force background color for today's sale section in dark mode */
+[data-theme="dark"] #FreshSale .bg-body-tertiary {
+  background-color: var(--dark-bg-secondary) !important;
+}
+
+/* Ensure all backgrounds are properly applied */
+[data-theme="dark"] .bg-body-tertiary,
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary,
+[data-theme="dark"] .container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3,
+[data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: var(--dark-bg-secondary) !important;
+}
+
+/* Fix any remaining bestseller divs */
+[data-theme="dark"] .bestseller,
+[data-theme="dark"] .bg-white {
+  background-color: var(--dark-bg-secondary) !important;
+}
+
+/* Make divs inside bestseller sections dark */
+[data-theme="dark"] .category-section,
+[data-theme="dark"] .trending-section,
+[data-theme="dark"] .featured-section {
+  background-color: var(--dark-bg-secondary) !important;
+  color: var(--dark-text);
+}
+
+/* Dark mode toggle button enhancements */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  padding: 8px;
   width: 40px;
   height: 40px;
-  padding: 0;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
-  background-color: transparent;
-  border: 1px solid var(--card-border);
   color: var(--text-color);
 }
 
-#darkModeToggle:hover {
-  background-color: rgba(52, 152, 219, 0.1);
+.theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
 }
 
-body.dark-mode #darkModeToggle {
-  color: #f1c40f;
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .carousel-control-prev-icon,
-body.dark-mode .carousel-control-next-icon {
-  filter: var(--carousel-control-filter);
+/* Sun icon in dark mode */
+[data-theme="dark"] .theme-toggle-btn i.fa-sun {
+  color: #ffd43b;
 }
 
-body.dark-mode .link-body-emphasis {
+/* Moon icon in light mode */
+[data-theme="light"] .theme-toggle-btn i.fa-moon {
+  color: #495057;
+}
+
+/* ...existing code... */
+[data-theme="dark"] .bg-body-tertiary,
+[data-theme="dark"] .navbar.bg-body-tertiary,
+[data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary,
+[data-theme="dark"] .container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3,
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary.rounded-3,
+[data-theme="dark"] .px-5.text-center.bg-body-tertiary,
+[data-theme="dark"] footer.py-3.my-4,
+[data-theme="dark"] footer.py-4,
+[data-theme="dark"] footer {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .footer *,
+[data-theme="dark"] .px-5.text-center.bg-body-tertiary *,
+[data-theme="dark"] footer *,
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary.rounded-3 * {
   color: var(--text-color) !important;
 }
 
-body.dark-mode .btn-light {
-  background-color: #333;
-  color: #e0e0e0;
-  border-color: #444;
-}
-
-body.dark-mode .card,
-body.dark-mode .dropdown-menu {
-  background-color: var(--card-bg);
-  border-color: var(--card-border);
-}
-
-body.dark-mode .form-control {
-  background-color: #333;
-  border-color: #444;
-  color: #e0e0e0;
-}
-
-body.dark-mode .text-body-emphasis {
-  color: #e0e0e0 !important;
-}
-
-body.dark-mode .nav-link {
-  color: #e0e0e0;
-}
-
-body.dark-mode .nav-link.active {
-  color: #ff6b6b !important;
-}
-
-/* Preserve certain color elements in dark mode */
-body.dark-mode .price {
-  background: linear-gradient(90deg, #e74c3c, #c0392b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #e74c3c; /* Fallback */
-}
-
-body.dark-mode .discountpercentage {
-  color: #2ecc71;
-}
-
-body.dark-mode .alignment {
-  background: rgba(40, 40, 40, 0.6);
-}
-
-body.dark-mode img {
-  filter: brightness(0.95);
-}
-
-body.dark-mode .btn-primary {
-  background-color: #3498db;
-  border-color: #3498db;
-}
-
-/* Adjust border styles for dark mode */
-body.dark-mode .border-bottom {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Add smooth transitions for color changes */
-.color-transition,
-.color-transition * {
-  transition: color 0.3s ease, background-color 0.3s ease !important;
-}
-
-/* Additional dark mode text color fixes */
-body.dark-mode .nav-item a,
-body.dark-mode .blacking,
-body.dark-mode .card-title,
-body.dark-mode .card-text,
-body.dark-mode .title,
-body.dark-mode .cartext {
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] .nav-link.active,
+[data-theme="dark"] .nav-link:focus,
+[data-theme="dark"] .nav-link:hover {
   color: var(--text-color) !important;
 }
 
-body.dark-mode .productxt p {
-  color: var(--text-color);
+[data-theme="dark"] .Product,
+[data-theme="dark"] .categorycard {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
 }
 
-body.dark-mode .Product .slicingText {
-  color: var(--text-color);
-}
-
-body.dark-mode .Product {
-  background-color: var(--product-box-bg);
-}
-
-body.dark-mode .Product div {
-  color: var(--text-color);
-}
-
-body.dark-mode h3.text-center {
-  color: var(--text-color);
-}
-
-body.dark-mode .blacking * {
-  color: var(--text-color);
-}
-
-body.dark-mode footer h5 {
-  color: var(--heading-color);
-}
-
-body.dark-mode footer .nav-link {
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-body.dark-mode footer .nav-link:hover {
-  color: var(--link-hover-color);
-  opacity: 1;
-}
-
-/* Fix Product text in dark mode */
-body.dark-mode .cardlinking .blacking * {
+[data-theme="dark"] .container.px-5.pt-1.pb-4.bg-body-tertiary.rounded-3.my-3 {
+  background-color: var(--card-bg) !important;
   color: var(--text-color) !important;
 }
 
-/* Override any blue text colors in dark mode */
-body.dark-mode .btn-primary,
-body.dark-mode .nav-link:hover,
-body.dark-mode h2.container.pb-2.border-bottom,
-body.dark-mode .navbar-nav a {
+[data-theme="dark"] .p-5.text-center.bg-body-tertiary.rounded-3 {
+  background-color: var(--card-bg) !important;
   color: var(--text-color) !important;
 }
 
-/* Fix for elements with background-color that may be too dark */
-body.dark-mode .bg-body-tertiary {
-  background-color: var(--section-bg) !important;
-}
-
-body.dark-mode .alignment {
-  background: rgba(40, 40, 40, 0.6) !important;
-}
-
-/* Make sure all div elements in dark mode use proper background color */
-body.dark-mode .Product,
-body.dark-mode .blacking {
-  background-color: var(--product-box-bg) !important;
-}
-
-/* Override all default * styling without !important for text colors */
-body.dark-mode * {
-  color: inherit;
-}
-
-/* Additional fixes for specific elements in dark mode */
-body.dark-mode h1, 
-body.dark-mode h2, 
-body.dark-mode h3, 
-body.dark-mode h4, 
-body.dark-mode h5, 
-body.dark-mode h6,
-body.dark-mode p, 
-body.dark-mode span:not(.price):not(.discountpercentage), 
-body.dark-mode .nav-link,
-body.dark-mode .title {
+[data-theme="dark"] .px-5.text-center.bg-body-tertiary {
+  background-color: var(--card-bg) !important;
   color: var(--text-color) !important;
 }
 
-body.dark-mode .slicingText,
-body.dark-mode .stars,
-body.dark-mode .curr {
+[data-theme="dark"] .navbar.bg-body-tertiary,
+[data-theme="dark"] .bg-body-tertiary,
+[data-theme="dark"] nav.navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: var(--navbar-bg) !important;
   color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
 }
+
+[data-theme="dark"] footer {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ...existing code... */

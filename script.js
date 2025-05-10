@@ -243,48 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
       zoomImage.style.transform = "scale(1)";
     });
   }
-
-  // Dark mode toggle functionality
-  const darkModeToggle = document.getElementById("darkModeToggle");
-
-  // Check if user previously enabled dark mode
-  const isDarkMode = localStorage.getItem("darkMode") === "true";
-
-  // Apply dark mode if previously enabled
-  if (isDarkMode) {
-    document.body.classList.add("dark-mode");
-    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-  } else {
-    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  }
-
-  // Toggle dark mode when button is clicked
-  darkModeToggle.addEventListener("click", function () {
-    // Add transition class before toggling dark mode
-    document.body.classList.add("color-transition");
-
-    // Toggle dark mode
-    document.body.classList.toggle("dark-mode");
-
-    const isDarkModeNow = document.body.classList.contains("dark-mode");
-
-    // Update the icon based on current mode
-    if (isDarkModeNow) {
-      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-      darkModeToggle.setAttribute("aria-label", "Switch to light mode");
-    } else {
-      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-      darkModeToggle.setAttribute("aria-label", "Switch to dark mode");
-    }
-
-    // Save preference to localStorage
-    localStorage.setItem("darkMode", isDarkModeNow);
-
-    // Remove transition class after animation completes
-    setTimeout(() => {
-      document.body.classList.remove("color-transition");
-    }, 500);
-  });
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
