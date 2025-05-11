@@ -9,6 +9,10 @@
       rel="stylesheet"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="styling.css" />
     <title>My Orders | PickPay</title>
     <style>
@@ -50,26 +54,48 @@
   <body>
     <!-- Navbar -->
     <header class="py-3 mb-0 border-bottom">
-      <div class="container d-flex flex-wrap justify-content-center">
+      <div
+        class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
+      >
         <a
-          href="index.html"
-          class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none titleanimation"
+          href="/"
+          class="d-flex align-items-center mb-0 me-2 link-body-emphasis text-decoration-none titleanimation"
         >
           <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
-        <form class="d-flex searchmarg" role="search">
+        <form
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          role="search"
+          style="max-width: 600px"
+        >
           <input
-            class="form-control me-2 col-12 navsearch"
+            class="form-control me-2 navsearch"
             type="search"
             placeholder="What are you looking for?"
             aria-label="Search"
+            autocomplete="off"
           />
+          <div
+            id="searchDropdown"
+            class="dropdown-menu w-100"
+            style="
+              max-height: 300px;
+              overflow-y: auto;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              z-index: 1000;
+              display: none;
+              background-color: var(--dropdown-bg, #fff);
+              color: var(--input-text, #212529);
+            "
+          ></div>
         </form>
-        <div class="cart text-decoration-none me-3">
+        <div class="cart text-decoration-none me-2">
           <a
             href="cart.html"
-            class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none cartanim"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none cartanim"
           >
             <img
               src="Assets/cart.svg"
@@ -82,13 +108,33 @@
             <span class="cartext">Cart</span>
           </a>
         </div>
-        <div class="text-end">
-          <!-- Will be filled by script.js for user dropdown -->
+        <div class="dark-mode-toggle d-flex align-items-center mx-2">
+          <button
+            id="darkModeToggle"
+            class="btn btn-sm theme-toggle-btn"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        <div class="text-end d-flex align-items-center ms-2">
+          <a href="signinPage.html"
+            ><button type="button" class="btn btn-light text-dark me-2 ms-2">
+              Login
+            </button></a
+          >
+          <a href="signupPage.html"
+            ><button type="button" class="btn btn-primary">Sign Up</button></a
+          >
         </div>
       </div>
     </header>
     <nav
-      class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center"
+      class="navbar navbar-expand-lg bg-body-tertiary second-navbar d-flex justify-content-center"
+      style="
+        background: none !important;
+        background-color: var(--navbar-bg) !important;
+      "
     >
       <div class="container-fluid d-flex flex-wrap justify-content-center">
         <button
@@ -110,6 +156,7 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="index.html">All</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="elecCat.html">Electronics</a>
             </li>
@@ -125,6 +172,7 @@
             <li class="nav-item">
               <a class="nav-link" href="Fashion.html">Fashion</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="Beauty.html">Beauty & Fragrance</a>
             </li>
@@ -138,8 +186,134 @@
         <div class="text-center text-muted py-5">Loading your orders...</div>
       </div>
     </div>
-    <div class="px-5 text-center bg-body-tertiary mt-4">
+    <div class="text-center bg-body-tertiary">
       <footer class="py-4">
+        <div class="row">
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Electronics</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Mobile & Tablets</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary">TVs</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary">Laptop</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Appliances</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Large Appliances</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Small Appliances</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Home</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Furniture</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Home Decor</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Kitchen & Dining</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Bath & Bedding</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Video Games</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary">Console</a>
+              </li>
+
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Controllers</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Accessories</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Fashion</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Women's Fashion</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Men's Fashion</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Kids' Fashion</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-2 mb-3">
+            <h5>Beauty & Fragrance</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary">Makeup</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Skincare</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Haircare</a
+                >
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary"
+                  >Fragrance</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div class="py-5 border-top">
           <p>© 2025 PickPay, Inc. All rights reserved.</p>
         </div>

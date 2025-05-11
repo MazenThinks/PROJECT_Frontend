@@ -16,8 +16,7 @@
     <link rel="stylesheet" href="styling.css" />
     <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
     <title>PickPay</title>
-    <!-- Add dark mode script in head to prevent flashing -->
-    <script src="dark-mode.js"></script>
+    <!-- Removed dark-mode.js script, dark mode handled by script.js only -->
   </head>
   <body>
     <!-- navbar -->
@@ -55,6 +54,8 @@
               left: 0;
               z-index: 1000;
               display: none;
+              background-color: var(--dropdown-bg, #fff);
+              color: var(--input-text, #212529);
             "
           ></div>
         </form>
@@ -97,6 +98,10 @@
     </header>
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary second-navbar d-flex justify-content-center"
+      style="
+        background: none !important;
+        background-color: var(--navbar-bg) !important;
+      "
     >
       <div class="container-fluid d-flex flex-wrap justify-content-center">
         <button

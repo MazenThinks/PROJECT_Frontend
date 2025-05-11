@@ -243,6 +243,55 @@ document.addEventListener("DOMContentLoaded", function () {
       zoomImage.style.transform = "scale(1)";
     });
   }
+
+  // Dark mode functionality for all pages
+  (function () {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  })();
+
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  if (!darkModeToggle) return;
+  const icon = darkModeToggle.querySelector("i");
+  const htmlElement = document.documentElement;
+
+  // Check if user has previously set a preference
+  const currentTheme = localStorage.getItem("theme") || "light";
+  htmlElement.setAttribute("data-theme", currentTheme);
+  updateIcon(currentTheme === "dark");
+  updateBodyTertiaryElements(currentTheme === "dark");
+
+  // Toggle dark mode when button is clicked
+  darkModeToggle.addEventListener("click", function () {
+    const currentTheme = htmlElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+    htmlElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateIcon(newTheme === "dark");
+    updateBodyTertiaryElements(newTheme === "dark");
+  });
+
+  function updateIcon(isDark) {
+    if (!icon) return;
+    if (isDark) {
+      icon.className = "fa-solid fa-sun";
+    } else {
+      icon.className = "fa-solid fa-moon";
+    }
+  }
+
+  function updateBodyTertiaryElements(isDark) {
+    const tertiaryElements = document.querySelectorAll(".bg-body-tertiary");
+    tertiaryElements.forEach((element) => {
+      if (isDark) {
+        element.classList.add("bg-dark", "bg-gradient");
+        element.classList.remove("bg-body-tertiary");
+      } else {
+        element.classList.add("bg-body-tertiary");
+        element.classList.remove("bg-dark", "bg-gradient");
+      }
+    });
+  }
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -351,3 +400,23 @@ function mouseleaveprod() {
     300
   );
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Dark mode toggle
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  if (themeToggle && themeIcon) {
+    // Set initial theme
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    themeIcon.className = savedTheme === "dark" ? "fa fa-sun" : "fa fa-moon";
+
+    themeToggle.addEventListener("click", function () {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      themeIcon.className = newTheme === "dark" ? "fa fa-sun" : "fa fa-moon";
+    });
+  }
+});

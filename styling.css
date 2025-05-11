@@ -162,7 +162,7 @@
   --category-card-bg: linear-gradient(to bottom right, #252525, #1e1e1e);
   --input-bg: #333333;
   --input-text: #e0e0e0;
-  --dropdown-bg: #1e1e1e;
+  --dropdown-bg: #23272b;
   --shadow-color: rgba(0, 0, 0, 0.4);
   --text-color: #f8f9fa;
   --background-color: #121212;
@@ -245,6 +245,11 @@
 
 [data-theme="dark"] .second-navbar .navbar-toggler-icon {
   filter: invert(1);
+}
+
+[data-theme="dark"] .col-2,
+[data-theme="dark"] .col-2 * {
+  color: var(--text-color) !important;
 }
 
 html,
@@ -1762,8 +1767,8 @@ textarea.form-control {
 
 /* Dropdown menus */
 .dropdown-menu {
-  background-color: var(--dropdown-bg);
-  border-color: var(--border-color);
+  background-color: var(--dropdown-bg, #fff) !important;
+  color: var(--input-text, #212529) !important;
 }
 
 .dropdown-item {
@@ -1772,6 +1777,14 @@ textarea.form-control {
 
 .dropdown-item:hover {
   background-color: var(--bg-tertiary);
+}
+
+.dropdown-menu .dropdown-item {
+  color: var(--input-text, #212529) !important;
+}
+
+[data-theme="dark"] .dropdown-menu .dropdown-item {
+  color: var(--input-text, #f8f9fa) !important;
 }
 
 /* Fix navbar text color */
@@ -1946,7 +1959,22 @@ textarea.form-control {
   color: #495057;
 }
 
-/* ...existing code... */
+.search-results {
+  background: var(--background-card, #fff);
+  color: var(--text-color, #333) !important;
+  /* Add more styling as needed */
+}
+
+[data-theme="light"] .search-results {
+  background: var(--background-card, #fff);
+  color: var(--text-color, #333) !important;
+}
+
+[data-theme="dark"] .search-results {
+  background: var(--dark-bg, #212529);
+  color: var(--dark-text, #f8f9fa) !important;
+}
+
 [data-theme="dark"] .bg-body-tertiary,
 [data-theme="dark"] .navbar.bg-body-tertiary,
 [data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary,
@@ -2043,4 +2071,22 @@ textarea.form-control {
 }
 [data-theme="dark"] .bg-body-tertiary.second-navbar .nav-link {
   color: var(--text-color) !important;
+}
+
+.search-results {
+  color: var(--text-color);
+  background: var(--background-light);
+}
+
+#searchDropdown,
+.search-results,
+[data-theme="light"] #searchDropdown,
+[data-theme="light"] .search-results {
+  background: var(--background-card, #fff) !important;
+  color: var(--input-text, #212529) !important;
+}
+[data-theme="dark"] #searchDropdown,
+[data-theme="dark"] .search-results {
+  background: var(--dark-bg, #212529) !important;
+  color: var(--dark-text, #f8f9fa) !important;
 }
