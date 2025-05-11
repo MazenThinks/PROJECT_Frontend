@@ -247,6 +247,12 @@
   filter: invert(1);
 }
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -262,6 +268,12 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
@@ -427,7 +439,8 @@ html {
 }
 
 .navsearch {
-  width: 800px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .timerr {
@@ -623,16 +636,6 @@ h2.container.pb-2.border-bottom {
   color: var(--text-color);
 
   background-color: var(--navbar-bg) !important;
-  transition: background-color 0.3s ease;
-}
-
-.bg-body-tertiary {
-  background-color: var(--bg-secondary) !important;
-
-  background-color: var(--navbar-bg) !important;
-  transition: background-color 0.3s ease;
-  color: var(--text-primary) !important;
-  background-color: var(--bg-body-tertiary) !important;
   transition: background-color 0.3s ease;
 }
 
