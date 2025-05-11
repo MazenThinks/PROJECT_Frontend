@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentTheme = localStorage.getItem("theme") || "light";
   htmlElement.setAttribute("data-theme", currentTheme);
   updateIcon(currentTheme === "dark");
+  updateBodyTertiaryElements(currentTheme === "dark");
 
   // Toggle dark mode when button is clicked
   darkModeToggle.addEventListener("click", function () {
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("theme", newTheme);
 
     updateIcon(newTheme === "dark");
+    updateBodyTertiaryElements(newTheme === "dark");
   });
 
   // Update the icon based on dark mode state
@@ -27,6 +29,23 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       icon.className = "fa-solid fa-moon"; // Moon icon for light mode
     }
+  }
+
+  // Update all bg-body-tertiary elements to use bg-dark.bg-gradient in dark mode
+  function updateBodyTertiaryElements(isDark) {
+    const tertiaryElements = document.querySelectorAll(".bg-body-tertiary");
+
+    tertiaryElements.forEach((element) => {
+      if (isDark) {
+        // In dark mode: add bg-dark.bg-gradient class and remove bg-body-tertiary
+        element.classList.add("bg-dark.bg-gradient");
+        element.classList.remove("bg-body-tertiary");
+      } else {
+        // In light mode: restore bg-body-tertiary and remove bg-dark.bg-gradient
+        element.classList.add("bg-body-tertiary");
+        element.classList.remove("bg-dark.bg-gradient");
+      }
+    });
   }
 });
 

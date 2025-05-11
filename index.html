@@ -21,19 +21,24 @@
   </head>
   <body>
     <!-- navbar -->
-    <!-- <div class="fixed-top bg-body-tertiary"> -->
     <header class="py-3 mb-0 border-bottom">
-      <div class="container d-flex flex-wrap justify-content-center">
+      <div
+        class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
+      >
         <a
           href="/"
-          class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none titleanimation"
+          class="d-flex align-items-center mb-0 me-2 link-body-emphasis text-decoration-none titleanimation"
         >
           <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
-        <form class="d-flex searchmarg position-relative" role="search">
+        <form
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          role="search"
+          style="max-width: 600px"
+        >
           <input
-            class="form-control me-2 col-12 navsearch"
+            class="form-control me-2 navsearch"
             type="search"
             placeholder="What are you looking for?"
             aria-label="Search"
@@ -53,10 +58,10 @@
             "
           ></div>
         </form>
-        <div class="cart text-decoration-none me-3">
+        <div class="cart text-decoration-none me-2">
           <a
             href="cart.html"
-            class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none cartanim"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none cartanim"
           >
             <img
               src="Assets/cart.svg"
@@ -66,13 +71,10 @@
               class="bi bi-box-seam me-1"
               viewBox="0 0 16 16"
             />
-            <path
-              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"
-            />
             <span class="cartext">Cart</span>
           </a>
         </div>
-        <div class="dark-mode-toggle mx-2 d-flex align-items-center">
+        <div class="dark-mode-toggle d-flex align-items-center mx-2">
           <button
             id="darkModeToggle"
             class="btn btn-sm theme-toggle-btn"
@@ -81,9 +83,9 @@
             <i class="fa-solid fa-moon"></i>
           </button>
         </div>
-        <div class="text-end d-flex align-items-center">
+        <div class="text-end d-flex align-items-center ms-2">
           <a href="signinPage.html"
-            ><button type="button" class="btn btn-light text-dark me-2 ms-4">
+            ><button type="button" class="btn btn-light text-dark me-2 ms-2">
               Login
             </button></a
           >
@@ -94,7 +96,7 @@
       </div>
     </header>
     <nav
-      class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center"
+      class="navbar navbar-expand-lg bg-body-tertiary second-navbar d-flex justify-content-center"
     >
       <div class="container-fluid d-flex flex-wrap justify-content-center">
         <button
@@ -2522,6 +2524,272 @@
                 </div>
               </div>
             </div>
+            <div class="carousel-item">
+              <div class="container d-flex justify-content-evenly pt-2">
+                <!-- Product 5 -->
+                <div>
+                  <a
+                    href="ProductPages/home products/product4.html"
+                    class="cardlinking"
+                  >
+                    <div
+                      class="Product d-flex flex-column blacking"
+                      data-brand="Furgle"
+                    >
+                      <div class="py-3 alignment">
+                        <img
+                          src="Assets/HomeCat/Furniture/Furniture 4.png"
+                          alt="Product1"
+                          height="200px"
+                        />
+                      </div>
+                      <div class="align-items-start productxt p-2">
+                        <p class="slicingText">
+                          Gaming Chair, Furgle Gocker Ergonomic Adjustable 3D
+                          Swivel Chair Gaming Chair One-Piece Steel Frame
+                          Adjustable Tilt Angle PU Leather Adjustable Work Chair
+                          Gas Lift
+                        </p>
+                        <p>
+                          <span class="curr">EGP</span
+                          ><span class="price"> 9,696.55</span> &nbsp;&nbsp;<s
+                            class="oldprice"
+                            >12,071.00</s
+                          >
+                          <span class="discountpercentage">-20%</span>
+                        </p>
+                        <p>
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/empty star.png"
+                            alt="star"
+                            height="15px"
+                            width="15px"
+                          />
+                          <span class="stars">(19)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Product 6 -->
+                <div>
+                  <a
+                    href="ProductPages/home products/product6.html"
+                    class="cardlinking"
+                  >
+                    <div
+                      class="Product d-flex flex-column blacking"
+                      data-brand="Golden Lighting"
+                    >
+                      <div class="py-3 alignment">
+                        <img
+                          src="Assets/HomeCat/Home Decor/Home Decor 1.png"
+                          alt="Product1"
+                          height="200px"
+                        />
+                      </div>
+                      <div class="align-items-start productxt p-2">
+                        <p class="slicingText">
+                          Golden Lighting LED Gold Lampshade + 1 Crystal
+                          Cylinder Bulb.
+                        </p>
+                        <p>
+                          <span class="curr">EGP</span
+                          ><span class="price">1,128.00</span> &nbsp;&nbsp;
+                        </p>
+                        <p>
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/empty star.png"
+                            alt="star"
+                            height="15px"
+                            width="15px"
+                          />
+                          <span class="stars">(19)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Product 7 -->
+                <div>
+                  <a
+                    href="ProductPages/home products/product9.html"
+                    class="cardlinking"
+                  >
+                    <div
+                      class="Product d-flex flex-column blacking"
+                      data-brand="Amotpo"
+                    >
+                      <div class="py-3 alignment">
+                        <img
+                          src="Assets/HomeCat/Home Decor/Home Decor 4.png"
+                          alt="Product1"
+                          height="200px"
+                        />
+                      </div>
+                      <div class="align-items-start productxt p-2">
+                        <p class="slicingText">
+                          Amotpo Indoor/Outdoor Wall Clock,12-Inch Waterproof
+                          Clock with Thermometer and Hygrometer Combo,Battery
+                          Operated Quality Quartz Round Clock,Silver
+                        </p>
+                        <p>
+                          <span class="curr">EGP</span
+                          ><span class="price"> 549.00</span> &nbsp;&nbsp;
+                        </p>
+                        <p>
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/empty star.png"
+                            alt="star"
+                            height="15px"
+                            width="15px"
+                          />
+                          <span class="stars">(19)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Product 8 -->
+                <div>
+                  <a
+                    href="ProductPages/home products/product12.html"
+                    class="cardlinking"
+                  >
+                    <div
+                      class="Product d-flex flex-column blacking"
+                      data-brand="Pasabahce"
+                    >
+                      <div class="py-3 alignment">
+                        <img
+                          src="Assets/HomeCat/Kitchen&Dining/Kitchen 2.png"
+                          alt="Product1"
+                          height="200px"
+                        />
+                      </div>
+                      <div class="align-items-start productxt p-2">
+                        <p class="slicingText">
+                          Pasabahce Set of 6 Large Mug with Handle -340ml Turkey
+                          Made
+                        </p>
+                        <p>
+                          <span class="curr">EGP</span
+                          ><span class="price"> 495.00</span> &nbsp;&nbsp;
+                        </p>
+                        <p>
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/star.png"
+                            alt="star"
+                            height="20px"
+                            width="20px"
+                          />
+                          <img
+                            src="Assets/empty star.png"
+                            alt="star"
+                            height="15px"
+                            width="15px"
+                          />
+                          <span class="stars">(19)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
           <button
             class="carousel-control-prev"
@@ -4387,7 +4655,7 @@
     </section>
 
     <!-- Footer -->
-    <div class="px-5 text-center bg-body-tertiary">
+    <div class="text-center bg-body-tertiary">
       <footer class="py-4">
         <div class="row">
           <div class="col-6 col-md-2 mb-3">
@@ -4574,7 +4842,7 @@
           };
         } else {
           navEnd.innerHTML = `
-            <a href="signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
+            <a href="signinPage.html"><button type="button" class="btn btn-secondary  me-2 ms-4">Log in</button></a>
             <a href="signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
           `;
         }

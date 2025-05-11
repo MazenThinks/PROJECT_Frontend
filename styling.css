@@ -223,6 +223,30 @@
   color: var(--primary-color) !important;
 }
 
+/* Specific styling for second navbar in dark mode */
+[data-theme="dark"] .second-navbar {
+  background-color: var(--navbar-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .second-navbar .nav-link {
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .second-navbar .nav-link.active {
+  color: rgb(255, 0, 0) !important;
+}
+
+[data-theme="dark"] .second-navbar .navbar-toggler {
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .second-navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -245,8 +269,9 @@ html {
   color: rgb(49, 49, 49);
   transition: all 0.1s ease-in-out;
 }
+
 .title {
-  /* text-shadow: 4px 4px 5px rgba(0, 0, 0, 0.178); */
+  color: var(--text-color) !important;
 }
 
 .slicingText {
@@ -1562,7 +1587,7 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
 /* Button light styling */
 .btn-light {
   background-color: var(--btn-light-background);
-  color: var(--btn-light-text);
+  color: var (--btn-light-text);
   border-color: var(--input-border);
 
   background-color: #333;
@@ -1827,6 +1852,36 @@ textarea.form-control {
   background-color: var(--dark-bg);
 }
 
+/* Force the second-navbar to use dark theme colors regardless of its other classes */
+[data-theme="dark"] .navbar.navbar-expand-lg.bg-body-tertiary.second-navbar {
+  background-color: var(--navbar-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .second-navbar .nav-link {
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .second-navbar .navbar-toggler {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .second-navbar .navbar-toggler-icon {
+  filter: invert(1) !important;
+}
+
+[data-theme="dark"] .second-navbar .nav-link.active,
+[data-theme="dark"] .second-navbar .txtdecounderlineNavBar {
+  color: rgb(255, 0, 0) !important;
+}
+
+/* Fix for the title (logo) in dark mode */
+[data-theme="dark"] .title {
+  color: var(--text-color) !important;
+}
+
 /* Force background color for today's sale section in dark mode */
 [data-theme="dark"] #FreshSale .bg-body-tertiary {
   background-color: var(--dark-bg-secondary) !important;
@@ -1953,4 +2008,36 @@ textarea.form-control {
   border-color: var(--border-color) !important;
 }
 
-/* ...existing code... */
+[data-theme="dark"] .navbar.bg-body-tertiary,
+[data-theme="dark"] .bg-body-tertiary,
+[data-theme="dark"] nav.navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: var(--navbar-bg, #23272b) !important;
+  color: var(--text-color, #f8f9fa) !important;
+  border-color: var(--border-color, #444) !important;
+}
+[data-theme="dark"] .navbar.bg-body-tertiary .nav-link,
+[data-theme="dark"] .bg-body-tertiary .nav-link {
+  color: var(--text-color, #f8f9fa) !important;
+}
+[data-theme="dark"] .navbar.bg-body-tertiary .nav-link.active {
+  color: var(--link-color, red) !important;
+}
+
+[data-theme="dark"] .bg-body-tertiary.second-navbar,
+[data-theme="dark"] nav.navbar.bg-body-tertiary.second-navbar {
+  background-color: var(--secondary-navbar-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .bg-body-tertiary.second-navbar .nav-link {
+  color: var(--text-color) !important;
+}
+[data-theme="dark"] .bg-body-tertiary.second-navbar,
+[data-theme="dark"] nav.navbar.bg-body-tertiary.second-navbar {
+  background-color: var(--secondary-nav-background) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .bg-body-tertiary.second-navbar .nav-link {
+  color: var(--text-color) !important;
+}
