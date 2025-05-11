@@ -25,10 +25,12 @@
     <!-- navbar -->
     <!-- <div class="fixed-top bg-body-tertiary"> -->
     <header class="py-3 mb-0 border-bottom">
-      <div class="container d-flex flex-wrap justify-content-center">
+      <div
+        class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
+      >
         <a
-          href="../../index.html"
-          class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none titleanimation"
+          href="/"
+          class="d-flex align-items-center mb-0 me-2 link-body-emphasis text-decoration-none titleanimation"
         >
           <img
             src="../../logoo/logo1.png"
@@ -38,18 +40,38 @@
           />
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
-        <form class="d-flex searchmarg" role="search">
+        <form
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          role="search"
+          style="max-width: 600px"
+        >
           <input
-            class="form-control me-2 col-12 navsearch"
+            class="form-control me-2 navsearch"
             type="search"
             placeholder="What are you looking for?"
             aria-label="Search"
+            autocomplete="off"
           />
+          <div
+            id="searchDropdown"
+            class="dropdown-menu w-100"
+            style="
+              max-height: 300px;
+              overflow-y: auto;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              z-index: 1000;
+              display: none;
+              background-color: var(--dropdown-bg, #fff);
+              color: var(--input-text, #212529);
+            "
+          ></div>
         </form>
-        <div class="cart text-decoration-none me-3">
+        <div class="cart text-decoration-none me-2">
           <a
             href="../../cart.html"
-            class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none cartanim"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none cartanim"
           >
             <img
               src="../../Assets/cart.svg"
@@ -59,26 +81,36 @@
               class="bi bi-box-seam me-1"
               viewBox="0 0 16 16"
             />
-            <path
-              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"
-            />
             <span class="cartext">Cart</span>
           </a>
         </div>
-        <div class="text-end">
-          <a href="../../signinPage.html"
-            ><button type="button" class="btn btn-light text-dark me-2 ms-4">
+        <div class="dark-mode-toggle d-flex align-items-center mx-2">
+          <button
+            id="darkModeToggle"
+            class="btn btn-sm theme-toggle-btn"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        <div class="text-end d-flex align-items-center ms-2">
+          <a href="signinPage.html"
+            ><button type="button" class="btn btn-light text-dark me-2 ms-2">
               Login
             </button></a
           >
-          <a href="../../signoutPage.html"
+          <a href="signupPage.html"
             ><button type="button" class="btn btn-primary">Sign Up</button></a
           >
         </div>
       </div>
     </header>
     <nav
-      class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center"
+      class="navbar navbar-expand-lg bg-body-tertiary second-navbar d-flex justify-content-center"
+      style="
+        background: none !important;
+        background-color: var(--navbar-bg) !important;
+      "
     >
       <div class="container-fluid d-flex flex-wrap justify-content-center">
         <button
@@ -102,6 +134,7 @@
                 >All</a
               >
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="../../elecCat.html">Electronics</a>
             </li>
@@ -731,22 +764,32 @@
         </div>
       </div>
     </div>
-    <div class="px-5 text-center bg-body-tertiary mt-3">
+    <div class="text-center bg-body-tertiary">
       <footer class="py-4">
         <div class="row">
           <div class="col-6 col-md-2 mb-3">
             <h5>Electronics</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../mobileandtablets.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Mobile & Tablets</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary">TVs</a>
+                <a
+                  href="../../tvs.html"
+                  class="nav-link p-0 text-body-secondary"
+                  >TVs</a
+                >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary">Laptop</a>
+                <a
+                  href="../../laptop.html"
+                  class="nav-link p-0 text-body-secondary"
+                  >Laptop</a
+                >
               </li>
             </ul>
           </div>
@@ -755,12 +798,16 @@
             <h5>Appliances</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../largeAppliances.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Large Appliances</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../smallAppliances.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Small Appliances</a
                 >
               </li>
@@ -771,22 +818,30 @@
             <h5>Home</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../furniture.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Furniture</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../homeDecor.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Home Decor</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../Kitchen&Dining.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Kitchen & Dining</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../bath&bedding.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Bath & Bedding</a
                 >
               </li>
@@ -797,16 +852,24 @@
             <h5>Video Games</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary">Console</a>
+                <a
+                  href="../../console.html"
+                  class="nav-link p-0 text-body-secondary"
+                  >Console</a
+                >
               </li>
 
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../controller.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Controllers</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../accessories.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Accessories</a
                 >
               </li>
@@ -817,17 +880,23 @@
             <h5>Fashion</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../woman.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Women's Fashion</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../men.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Men's Fashion</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../kids.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Kids' Fashion</a
                 >
               </li>
@@ -838,20 +907,30 @@
             <h5>Beauty & Fragrance</h5>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary">Makeup</a>
+                <a
+                  href="../../makeup.html"
+                  class="nav-link p-0 text-body-secondary"
+                  >Makeup</a
+                >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../skincare.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Skincare</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../haircare.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Haircare</a
                 >
               </li>
               <li class="nav-item mb-2">
-                <a href="#" class="nav-link p-0 text-body-secondary"
+                <a
+                  href="../../Fragrance.html"
+                  class="nav-link p-0 text-body-secondary"
                   >Fragrance</a
                 >
               </li>
