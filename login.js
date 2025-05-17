@@ -114,6 +114,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Add handler for forgot password link
+  const forgotLink = document.getElementById("forgotPasswordLink");
+  if (forgotLink) {
+    forgotLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = "forgotPassword.html";
+    });
+  }
+
   // Preload icons for password toggle
   const preloadIcon = new Image();
   preloadIcon.src = "Assets/icons/eye-slash.svg";

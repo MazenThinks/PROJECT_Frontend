@@ -166,18 +166,6 @@
   --shadow-color: rgba(0, 0, 0, 0.4);
   --text-color: #f8f9fa;
   --background-color: #121212;
-  --category-card-background: #2d2d2d;
-  --category-card-hover: #3d3d3d;
-  --category-card-text: #f8f9fa;
-  --bg-body-tertiary: #1e1e1e; /* Added darker background for sections with bg-body-tertiary class */
-  --card-bg: #252525; /* Added for product cards background */
-  --border-color: #444; /* Added for borders */
-  --navbar-bg: #1e1e1e; /* Added for navbar background */
-  --bestseller-bg: #252525; /* Added for bestseller sections */
-  --input-bg: #333; /* Added for input fields */
-  --input-color: #f8f9fa; /* Added for input text */
-  --text-color: #e1e1e1;
-  --background-color: #121212;
   --primary-color: #bb86fc;
   --category-card-background: #1e1e1e;
   --category-card-hover: #333333;
@@ -250,6 +238,36 @@
 [data-theme="dark"] .col-2,
 [data-theme="dark"] .col-2 * {
   color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .rightBox {
+  background: var(--bs-gray-900, #23272b) !important;
+  color: var(--text-color, #f8f9fa) !important;
+  border-color: var(--bs-gray-800, #343a40) !important;
+}
+[data-theme="dark"] .product-info-container,
+[data-theme="dark"] .productxt,
+[data-theme="dark"] .titlee,
+[data-theme="dark"] .titleprice,
+[data-theme="dark"] .listprice,
+[data-theme="dark"] .abt,
+[data-theme="dark"] .subtitle,
+[data-theme="dark"] .productdesc,
+[data-theme="dark"] .productbrand,
+[data-theme="dark"] .iconsdesc,
+[data-theme="dark"] .discount,
+[data-theme="dark"] .discountpercentage,
+[data-theme="dark"] .curr,
+[data-theme="dark"] .price {
+  color: var(--text-color, #f8f9fa) !important;
+}
+[data-theme="dark"] .rightBox .btn,
+[data-theme="dark"] .rightBox .dropdown-menu {
+  background: var(--bs-gray-800, #343a40) !important;
+  color: var(--text-color, #f8f9fa) !important;
+}
+[data-theme="dark"] .rightBox .dropdown-menu .dropdown-item {
+  color: var(--text-color, #f8f9fa) !important;
 }
 
 html,
@@ -2089,4 +2107,15 @@ textarea.form-control {
 [data-theme="dark"] .search-results {
   background: var(--dark-bg, #212529) !important;
   color: var(--dark-text, #f8f9fa) !important;
+}
+
+[data-theme="dark"] .price {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: var(--dark-text) !important;
+  color: var(--dark-text) !important;
+}
+[data-theme="dark"] .abt {
+  color: var(--dark-text) !important;
 }
