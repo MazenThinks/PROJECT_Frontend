@@ -371,3 +371,12 @@ ul li {
   transform: none;
   box-shadow: none;
 }
+
+[data-theme="dark"] .price,
+[data-theme="dark"] .abt,
+[data-theme="dark"] .titleprice,
+[data-theme="dark"] .listprice,
+[data-theme="dark"] .productdesc,
+[data-theme="dark"] .productbrand {
+  color: var(--text-color) !important;
+}

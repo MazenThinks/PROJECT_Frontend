@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Meow+Script&display=swap");
 /* Dark Mode Variables */
 :root {
   --light-bg: #ffffff;
@@ -326,7 +326,10 @@ html {
 }
 
 .carsec {
-  color: white;
+  color: rgb(32, 32, 32);
+  font-family: "Meow Script";
+  font-size: 70px;
+  font-weight: bold;
 }
 
 .underlinedecoo {
@@ -2118,4 +2121,150 @@ textarea.form-control {
 }
 [data-theme="dark"] .abt {
   color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .price,
+[data-theme="dark"] .abt {
+  color: var(--text-color) !important;
+}
+
+/* Carousel fade effect */
+.carousel-fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Reduced height for a smaller fade area */
+  background: linear-gradient(
+    to top,
+    var(--body-bg, rgba(255, 255, 255, 1)) 0%,
+    var(--body-bg, rgba(255, 255, 255, 0.95)) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Dark mode support for carousel fade */
+[data-theme="dark"] .carousel-fade-overlay {
+  background: linear-gradient(
+    to top,
+    var(--body-bg, rgba(33, 37, 41, 1)) 0%,
+    var(--body-bg, rgba(33, 37, 41, 0.95)) 30%,
+    rgba(33, 37, 41, 0) 100%
+  );
+}
+
+/* Carousel */
+.carousel-inner {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Enhanced Carousel Styling */
+.carousel-inner {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* Improved carousel fade overlay with dark mode support */
+.carousel-fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(
+    to top,
+    var(--body-bg, rgba(255, 255, 255, 1)) 0%,
+    var(--body-bg, rgba(255, 255, 255, 0.95)) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Dark mode support for carousel fade */
+[data-theme="dark"] .carousel-fade-overlay {
+  background: linear-gradient(
+    to top,
+    var(--body-bg, rgba(33, 37, 41, 1)) 0%,
+    var(--body-bg, rgba(33, 37, 41, 0.95)) 30%,
+    rgba(33, 37, 41, 0) 100%
+  );
+}
+
+/* Enhanced carousel controls */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0.7;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+.carousel-indicators {
+  margin-bottom: 1rem;
+}
+
+.carousel-indicators button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+/* Caption styling */
+.carousel-caption {
+  bottom: 20%;
+  text-align: left;
+  max-width: 70%;
+}
+
+.carousel-caption h1 {
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-item img {
+    height: 400px !important;
+  }
+
+  .carousel-fade-overlay {
+    height: 100px;
+  }
+
+  .carousel-caption {
+    bottom: 25%;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-item img {
+    height: 300px !important;
+  }
+
+  .carousel-caption h1 {
+    font-size: 1.5rem;
+  }
 }

@@ -158,8 +158,9 @@
     <!-- Carousel -->
     <div
       id="myCarousel"
-      class="carousel slide container"
+      class="carousel slide container position-relative mb-4"
       data-bs-ride="carousel"
+      data-bs-interval="5000"
     >
       <div class="carousel-indicators">
         <button
@@ -190,13 +191,13 @@
           <img
             src="Assets/Banner1.jpg"
             alt="Banner1"
-            height="700px"
+            height="500px"
             width="100%"
+            style="object-fit: cover"
           />
           <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>Latest Electronics.</h1>
-              <p class="carsec">Apple Vision Pro and more...</p>
+            <div class="carousel-caption text-start" style="color: black">
+              <h1 class="mb-5 display-4 carsec">Latest Electronics.</h1>
             </div>
           </div>
         </div>
@@ -204,13 +205,13 @@
           <img
             src="Assets/Banner2.jpg"
             alt="Banner2"
-            height="700px"
+            height="500px"
             width="100%"
+            style="object-fit: cover"
           />
           <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>Check our newest products.</h1>
-              <p class="carsec">Electronics, Appliances and more...</p>
+            <div class="carousel-caption text-start" style="color: black">
+              <h1 class="mb-5 display-4 carsec">Check our newest products.</h1>
             </div>
           </div>
         </div>
@@ -218,39 +219,26 @@
           <img
             src="Assets/Banner3.jpg"
             alt="Banner3"
-            height="700px"
+            height="500px"
             width="100%"
+            style="object-fit: cover"
           />
           <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>Good measures.</h1>
-              <p class="carsec">Take Your Tiiiiiiiiiiiiiiiiime........</p>
+            <div class="carousel-caption text-start" style="color: black">
+              <h1 class="mb-5 display-4 carsec">Good measures.</h1>
             </div>
           </div>
         </div>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+      <!-- Fade-out effect overlay -->
+      <div class="carousel-fade-overlay"></div>
     </div>
 
     <!-- Recommended For You -->
-    <div class="container pt-4 pb-2">
+    <div
+      class="container pt-4 pb-2"
+      style="margin-top: -80px; position: relative; z-index: 2"
+    >
       <h2 class="pb-2 border-bottom">Recommended For You</h2>
 
       <div class="d-flex justify-content-evenly">
@@ -5079,6 +5067,155 @@
         searchInput.addEventListener("keydown", function (e) {
           if (e.key === "Enter") {
             hideDropdown();
+          }
+        });
+      });
+
+      // AI-powered search integration
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.querySelector(".navsearch");
+        const searchForm = searchInput && searchInput.closest("form");
+        if (!searchForm) return;
+
+        // Use the same productId-to-page mapping as the dropdown
+        const productIdToPage = {
+          // Appliances Products
+          "68252918a68b49cb06164204":
+            "ProductPages/AppliancesProducts/product1.html",
+          "68252918a68b49cb06164205":
+            "ProductPages/AppliancesProducts/product2.html",
+          "68252918a68b49cb06164206":
+            "ProductPages/AppliancesProducts/product3.html",
+          "68252918a68b49cb06164207":
+            "ProductPages/AppliancesProducts/product4.html",
+          "68252918a68b49cb06164208":
+            "ProductPages/AppliancesProducts/product5.html",
+          "68252918a68b49cb06164209":
+            "ProductPages/AppliancesProducts/product6.html",
+          "68252918a68b49cb0616420a":
+            "ProductPages/AppliancesProducts/product7.html",
+          "68252918a68b49cb0616420b":
+            "ProductPages/AppliancesProducts/product8.html",
+          "68252918a68b49cb0616420c":
+            "ProductPages/AppliancesProducts/product9.html",
+          "68252918a68b49cb0616420d":
+            "ProductPages/AppliancesProducts/product10.html",
+          "68252918a68b49cb0616420e":
+            "ProductPages/AppliancesProducts/product11.html",
+          "68252918a68b49cb0616420f":
+            "ProductPages/AppliancesProducts/product12.html",
+          "68252918a68b49cb06164210":
+            "ProductPages/AppliancesProducts/product13.html",
+          "68252918a68b49cb06164211":
+            "ProductPages/AppliancesProducts/product14.html",
+          "68252918a68b49cb06164212":
+            "ProductPages/AppliancesProducts/product15.html",
+
+          // Electronics Products
+          "6819e22b123a4faad16613be":
+            "ProductPages/Electronics products/product1.html",
+          "6819e22b123a4faad16613bf":
+            "ProductPages/Electronics products/product2.html",
+          "6819e22b123a4faad16613c0":
+            "ProductPages/Electronics products/product3.html",
+          "6819e22b123a4faad16613c1":
+            "ProductPages/Electronics products/product4.html",
+          "6819e22b123a4faad16613c3":
+            "ProductPages/Electronics products/product5.html",
+          "6819e22b123a4faad16613c4":
+            "ProductPages/Electronics products/product6.html",
+          "6819e22b123a4faad16613c5":
+            "ProductPages/Electronics products/product7.html",
+          "6819e22b123a4faad16613c6":
+            "ProductPages/Electronics products/product8.html",
+          "6819e22b123a4faad16613c7":
+            "ProductPages/Electronics products/product9.html",
+          "6819e22b123a4faad16613c8":
+            "ProductPages/Electronics products/product10.html",
+          "6819e22b123a4faad16613c9":
+            "ProductPages/Electronics products/product11.html",
+          "6819e22b123a4faad16613ca":
+            "ProductPages/Electronics products/product12.html",
+          "6819e22b123a4faad16613cb":
+            "ProductPages/Electronics products/product13.html",
+          "6819e22b123a4faad16613cc":
+            "ProductPages/Electronics products/product14.html",
+          "6819e22b123a4faad16613c2":
+            "ProductPages/Electronics products/product15.html",
+
+          // Home Products
+          "681dab0df9c9147444b452cd":
+            "ProductPages/home products/product1.html",
+          "681dab0df9c9147444b452ce":
+            "ProductPages/home products/product2.html",
+          "681dab0df9c9147444b452cf":
+            "ProductPages/home products/product3.html",
+          "681dab0df9c9147444b452d0":
+            "ProductPages/home products/product4.html",
+          "681dab0df9c9147444b452d1":
+            "ProductPages/home products/product5.html",
+          "681dab0df9c9147444b452d2":
+            "ProductPages/home products/product6.html",
+          "681dab0df9c9147444b452d3":
+            "ProductPages/home products/product7.html",
+          "681dab0df9c9147444b452d4":
+            "ProductPages/home products/product8.html",
+          "681dab0df9c9147444b452d5":
+            "ProductPages/home products/product9.html",
+          "681dab0df9c9147444b452d6":
+            "ProductPages/home products/product10.html",
+          "681dab0df9c9147444b452d7":
+            "ProductPages/home products/product11.html",
+          "681dab0df9c9147444b452d8":
+            "ProductPages/home products/product12.html",
+          "681dab0df9c9147444b452d9":
+            "ProductPages/home products/product13.html",
+          "681dab0df9c9147444b452da":
+            "ProductPages/home products/product14.html",
+          "681dab0df9c9147444b452db":
+            "ProductPages/home products/product15.html",
+          "681dab0df9c9147444b452dc":
+            "ProductPages/home products/product16.html",
+          "681dab0df9c9147444b452dd":
+            "ProductPages/home products/product17.html",
+          "681dab0df9c9147444b452de":
+            "ProductPages/home products/product18.html",
+          "681dab0df9c9147444b452df":
+            "ProductPages/home products/product19.html",
+          "681dab0df9c9147444b452e0":
+            "ProductPages/home products/product20.html",
+        };
+
+        searchForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const query = searchInput.value.trim();
+          if (!query) return;
+
+          try {
+            const res = await fetch(
+              "http://localhost:3000/api/v1/products/search",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query }),
+              }
+            );
+            const data = await res.json();
+            if (data.products && data.products.length > 0) {
+              const topProduct = data.products[0];
+              // Try both _id (string) and _id.$oid (if returned as object)
+              let prodId = topProduct._id;
+              if (prodId && typeof prodId === "object" && prodId.$oid)
+                prodId = prodId.$oid;
+              const page = productIdToPage[prodId];
+              // Check similarity score (default to 0 if not present)
+              const score =
+                typeof topProduct._score === "number" ? topProduct._score : 0;
+            }
+            // fallback: show a message only if no product page found or score too low
+            alert("No matching product page found.");
+          } catch (err) {
+            alert("AI search failed.");
           }
         });
       });
