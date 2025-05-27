@@ -946,20 +946,24 @@
     <script src="../../script.js"></script>
     <script src="../../cart.js"></script>
     <script>
-      // Replace with the actual product ID for this page
-      const PRODUCT_ID = "PRODUCT_ID_HERE"; // <-- Set this to the real product ID
+      const productId = "682b00d16977bd89257c0e9d";
+    </script>
 
+    <script>
+      /* Add to Cart Script Start */
       document.addEventListener("DOMContentLoaded", function () {
-        const addToCartBtn = document.querySelector(
-          ".sideboxbuttons.btn-primary"
-        );
+        const addToCartBtn = document.getElementById("addToCartBtn");
         if (addToCartBtn) {
           addToCartBtn.addEventListener("click", async function () {
-            // Optionally, get color/size if your UI supports it
-            // const color = ...;
-            const result = await document.addToCart(PRODUCT_ID);
+            const result = await document.addToCart(productId);
             if (result && !result.error) {
-              alert("Added to cart!");
+              addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+              addToCartBtn.classList.add("added");
+              setTimeout(() => {
+                addToCartBtn.innerHTML =
+                  '<i class="fas fa-shopping-cart me-2"></i> Add to Cart';
+                addToCartBtn.classList.remove("added");
+              }, 1500);
             } else if (result && result.error === "Not authenticated") {
               alert("Please sign in to add items to your cart.");
               window.location.href = "../../signinPage.html";
@@ -969,6 +973,7 @@
           });
         }
       });
+      /* Add to Cart Script End */
     </script>
   </body>
 </html>

@@ -918,7 +918,7 @@
         const addToCartBtn = document.getElementById("addToCartBtn");
         if (addToCartBtn) {
           addToCartBtn.addEventListener("click", async function () {
-            const result = await document.addToCart("68132a95ff7813b3d47f9da8");
+            const result = await document.addToCart(productId);
             if (result && !result.error) {
               addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
               addToCartBtn.classList.add("added");

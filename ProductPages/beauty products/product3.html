@@ -968,5 +968,36 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../../script.js"></script>
+    <script src="../../cart.js"></script>
+    <script>
+      const productId = "682b00d16977bd89257c0e9f";
+    </script>
+
+    <script>
+      /* Add to Cart Script Start */
+      document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        if (addToCartBtn) {
+          addToCartBtn.addEventListener("click", async function () {
+            const result = await document.addToCart(productId);
+            if (result && !result.error) {
+              addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+              addToCartBtn.classList.add("added");
+              setTimeout(() => {
+                addToCartBtn.innerHTML =
+                  '<i class="fas fa-shopping-cart me-2"></i> Add to Cart';
+                addToCartBtn.classList.remove("added");
+              }, 1500);
+            } else if (result && result.error === "Not authenticated") {
+              alert("Please sign in to add items to your cart.");
+              window.location.href = "../../signinPage.html";
+            } else {
+              alert("Could not add to cart.");
+            }
+          });
+        }
+      });
+      /* Add to Cart Script End */
+    </script>
   </body>
 </html>

@@ -378,6 +378,7 @@
             <li class="mt-3">Material : ABS (Plastic)</li>
           </ul>
         </div>
+        <!-- End of product info column -->
 
         <!-- Right side - Price Box -->
         <div class="col-lg-3 col-md-12">
@@ -454,6 +455,42 @@
             </div>
             <!--  -->
           </div>
+        </div>
+      </div>
+      <!-- Review & Comment Section (Full Width, under About this item) -->
+      <div
+        id="review-section"
+        class="mt-5 mb-4 p-4 border rounded bg-light w-100"
+        style="background: var(--review-bg, #f8f9fa)"
+      >
+        <h4 class="mb-3">Leave a Review</h4>
+        <form id="reviewForm">
+          <div class="mb-3">
+            <label class="form-label">Your Rating:</label>
+            <div id="starRating" class="mb-2">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <textarea
+              class="form-control"
+              id="reviewComment"
+              rows="3"
+              placeholder="Write your comment here..."
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+        <div class="mt-4" id="reviewsList">
+          <h5>Customer Reviews</h5>
+          <ul class="list-group" id="reviewsUl">
+            <!-- Reviews will appear here -->
+          </ul>
         </div>
       </div>
       <hr class="horiz" />
@@ -943,5 +980,133 @@
       });
       /* Add to Cart Script End */
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set your productId here (should match the backend product _id)
+        const productId = "68252918a68b49cb06164204"; // Replace with dynamic value if needed
+        const stars = document.querySelectorAll("#starRating .star");
+        let selectedRating = 0;
+        stars.forEach((star) => {
+          star.addEventListener("mouseover", function () {
+            const val = parseInt(this.getAttribute("data-value"));
+            stars.forEach((s, i) => {
+              s.classList.toggle("hovered", i < val);
+            });
+          });
+          star.addEventListener("mouseout", function () {
+            stars.forEach((s) => s.classList.remove("hovered"));
+          });
+          star.addEventListener("click", function () {
+            selectedRating = parseInt(this.getAttribute("data-value"));
+            stars.forEach((s, i) => {
+              s.classList.toggle("selected", i < selectedRating);
+            });
+          });
+        });
+
+        // Fetch and display reviews from backend
+        async function fetchReviews() {
+          try {
+            const res = await fetch(
+              `http://localhost:3000/api/v1/products/${productId}/reviews`
+            );
+            const data = await res.json();
+            const reviewsUl = document.getElementById("reviewsUl");
+            reviewsUl.innerHTML = "";
+            if (data && Array.isArray(data.data)) {
+              data.data.forEach((r) => {
+                const li = document.createElement("li");
+                li.className = "list-group-item";
+                li.innerHTML = `
+                  <div class="review-username">${
+                    r.user?.name || "Anonymous"
+                  }</div>
+                  <div class="review-stars">${"★".repeat(
+                    r.ratings
+                  )}${"☆".repeat(5 - r.ratings)}</div>
+                  <div class="review-comment">${r.title || ""}</div>
+                `;
+                reviewsUl.appendChild(li);
+              });
+            } else {
+              reviewsUl.innerHTML =
+                '<li class="list-group-item">No reviews yet.</li>';
+            }
+          } catch (err) {
+            document.getElementById("reviewsUl").innerHTML =
+              '<li class="list-group-item">Could not load reviews.</li>';
+          }
+        }
+        fetchReviews();
+
+        // Review form submission to backend
+        const form = document.getElementById("reviewForm");
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const comment = document.getElementById("reviewComment").value.trim();
+          if (selectedRating && comment) {
+            try {
+              const res = await fetch(
+                `http://localhost:3000/api/v1/products/${productId}/reviews`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    ratings: selectedRating,
+                    title: comment,
+                  }),
+                  credentials: "include", // send cookies if using session auth
+                }
+              );
+              if (res.ok) {
+                form.reset();
+                stars.forEach((s) => s.classList.remove("selected"));
+                selectedRating = 0;
+                fetchReviews();
+              } else {
+                let errorMsg = "Failed to submit review.";
+                try {
+                  const errorData = await res.json();
+                  if (errorData && errorData.message)
+                    errorMsg = errorData.message;
+                } catch (err) {}
+                alert(errorMsg);
+              }
+            } catch (err) {
+              alert("Network error: " + err.message);
+            }
+          } else {
+            alert("Please select a rating and enter a comment.");
+          }
+        });
+      });
+    </script>
+    <style>
+      #starRating .star {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+        user-select: none;
+      }
+      #starRating .star.selected,
+      #starRating .star.hovered {
+        color: #ffc107;
+      }
+      .review-username {
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+      }
+      .review-stars {
+        color: #ffc107;
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem;
+      }
+      .review-comment {
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
+        color: #222;
+      }
+    </style>
   </body>
 </html>
