@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product - Seller Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .seller-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .seller-header {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
+
+      .product-form {
+        display: grid;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .photo-upload {
+        position: relative;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 40px;
+        text-align: center;
+        transition: border-color 0.3s;
+        cursor: pointer;
+      }
+
+      .photo-upload:hover {
+        border-color: #007bff;
+      }
+
+      .photo-upload input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .upload-text {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .submit-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+      }
+
+      .submit-btn:hover {
+        background-color: #0056b3;
+      }
+
+      .submit-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="seller-container">
+      <div class="seller-header">
+        <h1>Seller Dashboard</h1>
+        <p>Add your products to our marketplace</p>
+        <div id="userStatus" class="mb-3"></div>
+      </div>
+
+      <div id="successMessage" class="success-message">
+        Product added successfully!
+      </div>
+
+      <div id="errorMessage" class="error-message">
+        Please fill in all required fields.
+      </div>
+
+      <form id="productForm" class="product-form">
+        <div class="form-group">
+          <label for="productName">Product Name *</label>
+          <input
+            type="text"
+            id="productName"
+            name="productName"
+            required
+            placeholder="Enter product name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productPrice">Price ($) *</label>
+          <input
+            type="number"
+            id="productPrice"
+            name="productPrice"
+            min="0"
+            step="0.01"
+            required
+            placeholder="0.00"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productCategory">Category *</label>
+          <select id="productCategory" name="productCategory" required>
+            <option value="">Select a category</option>
+            <option value="67906e19a68b49cb06164203">Electronics</option>
+            <option value="68252918a68b49cb06164203">Appliances</option>
+            <option value="681dab0df9c9147444b452cc">Home</option>
+            <option value="682b00a46977bd89257c0e7f">Video Games</option>
+            <option value="682b00c26977bd89257c0e8d">Fashion</option>
+            <option value="682b00d16977bd89257c0e9c">Beauty & Fragrance</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="productBrand">Brand</label>
+          <input
+            type="text"
+            id="productBrand"
+            name="productBrand"
+            placeholder="Enter brand name (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productQuantity">Quantity *</label>
+          <input
+            type="number"
+            id="productQuantity"
+            name="productQuantity"
+            min="1"
+            required
+            placeholder="Available quantity"
+            value="10"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="productDescription">Description *</label>
+          <textarea
+            id="productDescription"
+            name="productDescription"
+            required
+            placeholder="Describe your product..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="productPhoto">Product Photo *</label>
+          <div
+            class="photo-upload"
+            onclick="document.getElementById('productPhoto').click()"
+          >
+            <input
+              type="file"
+              id="productPhoto"
+              name="productPhoto"
+              accept="image/*"
+              required
+            />
+            <div class="upload-text">
+              <p>📷 Click to upload product photo</p>
+              <small>Supported formats: JPG, PNG, GIF (Max: 5MB)</small>
+            </div>
+            <img id="previewImage" class="preview-image" alt="Preview" />
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Add Product
+        </button>
+      </form>
+    </div>
+
+    <script>
+      // Check user authentication and role on page load
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const userStatusDiv = document.getElementById("userStatus");
+        const productForm = document.getElementById("productForm");
+
+        if (!token) {
+          userStatusDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>Please log in first!</strong> You need to be logged in to become a seller.
+                        <br><a href="signinPage.html" class="btn btn-primary btn-sm mt-2">Login</a>
+                    </div>
+                `;
+          productForm.style.display = "none";
+          return;
+        }
+
+        try {
+          // Check current user details
+          const userResponse = await fetch(
+            "http://localhost:3000/api/v1/users/getMe",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            const user = userData.data;
+            const currentRole = user.role;
+
+            if (
+              currentRole === "seller" ||
+              currentRole === "admin" ||
+              currentRole === "manager"
+            ) {
+              userStatusDiv.innerHTML = `
+                            <div class="alert alert-success">
+                                <strong>Welcome, ${
+                                  user.name
+                                }!</strong> You can add products to the marketplace.
+                                <br><small>Role: ${
+                                  currentRole.charAt(0).toUpperCase() +
+                                  currentRole.slice(1)
+                                }</small>
+                            </div>
+                        `;
+              productForm.style.display = "block";
+            } else {
+              userStatusDiv.innerHTML = `
+                            <div class="alert alert-info">
+                                <strong>Hello, ${user.name}!</strong> You need seller privileges to add products.
+                                <br><small>Current role: ${currentRole}</small>
+                                <br><small>Contact support to become a seller.</small>
+                            </div>
+                        `;
+              productForm.style.display = "none";
+            }
+          } else {
+            throw new Error("Failed to fetch user data");
+          }
+        } catch (error) {
+          console.error("Error checking user status:", error);
+          userStatusDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        Unable to verify user status. Please try refreshing the page.
+                    </div>
+                `;
+          productForm.style.display = "none";
+        }
+      });
+
+      // Preview image functionality
+      document
+        .getElementById("productPhoto")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const preview = document.getElementById("previewImage");
+              preview.src = e.target.result;
+              preview.style.display = "block";
+              document.querySelector(".upload-text").style.display = "none";
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      // Form submission with proper authentication
+      document
+        .getElementById("productForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const submitBtn = document.getElementById("submitBtn");
+          const successMessage = document.getElementById("successMessage");
+          const errorMessage = document.getElementById("errorMessage");
+
+          // Hide previous messages
+          successMessage.style.display = "none";
+          errorMessage.style.display = "none";
+
+          // Check authentication
+          const token = localStorage.getItem("token");
+          if (!token) {
+            errorMessage.textContent = "Please log in to add products.";
+            errorMessage.style.display = "block";
+            setTimeout(() => {
+              window.location.href = "signinPage.html";
+            }, 2000);
+            return;
+          }
+
+          // Get form data
+          const formData = new FormData();
+          formData.append(
+            "title",
+            document.getElementById("productName").value
+          );
+          formData.append(
+            "price",
+            document.getElementById("productPrice").value
+          );
+          formData.append(
+            "description",
+            document.getElementById("productDescription").value
+          );
+          formData.append(
+            "imageCover",
+            document.getElementById("productPhoto").files[0]
+          );
+          formData.append(
+            "category",
+            document.getElementById("productCategory").value
+          );
+          formData.append(
+            "brand",
+            document.getElementById("productBrand").value || "Generic"
+          );
+          formData.append(
+            "quantity",
+            document.getElementById("productQuantity").value
+          );
+
+          // Disable submit button
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Adding Product...";
+
+          try {
+            // API call to add product with authentication
+            const response = await fetch(
+              "http://localhost:3000/api/v1/products",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+              }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              successMessage.textContent = "Product added successfully!";
+              successMessage.style.display = "block";
+              document.getElementById("productForm").reset();
+              document.getElementById("previewImage").style.display = "none";
+              document.querySelector(".upload-text").style.display = "block";
+
+              // Scroll to success message
+              successMessage.scrollIntoView({ behavior: "smooth" });
+            } else {
+              throw new Error(data.message || "Failed to add product");
+            }
+          } catch (error) {
+            console.error("Error adding product:", error);
+            let errorText = "Failed to add product. Please try again.";
+
+            if (
+              error.message.includes("not allowed") ||
+              error.message.includes("403")
+            ) {
+              errorText =
+                "You are not authorized to add products. Please contact support to become a seller.";
+            } else if (error.message.includes("401")) {
+              errorText = "Please log in again to add products.";
+              setTimeout(() => {
+                localStorage.removeItem("token");
+                window.location.href = "signinPage.html";
+              }, 2000);
+            } else if (error.message) {
+              errorText = error.message;
+            }
+
+            errorMessage.textContent = errorText;
+            errorMessage.style.display = "block";
+            errorMessage.scrollIntoView({ behavior: "smooth" });
+          } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Add Product";
+          }
+        });
+
+      // Form validation
+      function validateForm() {
+        const name = document.getElementById("productName").value.trim();
+        const price = document.getElementById("productPrice").value;
+        const description = document
+          .getElementById("productDescription")
+          .value.trim();
+        const photo = document.getElementById("productPhoto").files[0];
+        const category = document.getElementById("productCategory").value;
+        const quantity = document.getElementById("productQuantity").value;
+
+        return name && price && description && photo && category && quantity;
+      }
+
+      // Real-time validation
+      document.querySelectorAll("input, textarea, select").forEach((input) => {
+        input.addEventListener("input", function () {
+          const submitBtn = document.getElementById("submitBtn");
+          if (validateForm()) {
+            submitBtn.disabled = false;
+          } else {
+            submitBtn.disabled = true;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

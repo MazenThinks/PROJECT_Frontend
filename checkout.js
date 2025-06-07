@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (checkoutForm) {
     checkoutForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+
       try {
         // 1. Get cart for logged-in user
         const cartData = await document.getCart();
@@ -125,39 +126,76 @@ document.addEventListener("DOMContentLoaded", async function () {
           city: document.getElementById("state").value,
           postalCode: "", // Add if you have a postal code field
         };
-        const paymentMethodType =
-          document.getElementById("paypal") &&
-          document.getElementById("paypal").checked
-            ? "card"
-            : "cash";
 
-        // 3. Call backend order API
-        const token = localStorage.getItem("token");
-        if (!token) {
-          alert("You must be logged in to place an order.");
-          return;
-        }
-        const res = await fetch(
-          `http://localhost:3000/api/v1/orders/${cartId}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ shippingAddress, paymentMethodType }),
+        // Check if cash on delivery is selected
+        const cashOnDelivery = document.getElementById("cash").checked;
+
+        if (cashOnDelivery) {
+          // Original cash on delivery flow
+          const token = localStorage.getItem("token");
+          const res = await fetch(
+            `http://localhost:3000/api/v1/orders/${cartId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                shippingAddress,
+                paymentMethodType: "cash",
+              }),
+            }
+          );
+          const data = await res.json();
+          if (res.ok && data.status === "success") {
+            // Store order ID in localStorage
+            if (data.data && data.data._id) {
+              localStorage.setItem("lastOrderId", data.data._id);
+            }
+            window.location.href = "OrderConfirmed.html";
+          } else {
+            alert("Order failed: " + (data.message || JSON.stringify(data)));
+            console.error("Order API error:", data);
           }
-        );
-        const data = await res.json();
-        if (res.ok && data.status === "success") {
-          // Store order ID in localStorage
-          if (data.data && data.data._id) {
-            localStorage.setItem("lastOrderId", data.data._id);
-          }
-          window.location.href = "OrderConfirmed.html";
         } else {
-          alert("Order failed: " + (data.message || JSON.stringify(data)));
-          console.error("Order API error:", data);
+          // For card payments, use Stripe checkout
+          const token = localStorage.getItem("token");
+          if (!token) {
+            alert("You must be logged in to place an order.");
+            return;
+          }
+
+          // Call the checkout session endpoint
+          const res = await fetch(
+            `http://localhost:3000/api/v1/orders/checkout-session/${cartId}`,
+            {
+              method: "POST", // Changed to POST since we're sending data in the body
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              // Send shipping address in the request body
+              body: JSON.stringify({ shippingAddress }),
+            }
+          );
+
+          const data = await res.json();
+          if (
+            res.ok &&
+            data.status === "success" &&
+            data.session &&
+            data.session.url
+          ) {
+            // Redirect to Stripe Checkout
+            window.location.href = data.session.url;
+          } else {
+            alert(
+              "Failed to initialize payment: " +
+                (data.message || "Unknown error")
+            );
+            console.error("Stripe session error:", data);
+          }
         }
       } catch (err) {
         alert("Unexpected error: " + err.message);

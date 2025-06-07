@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seller Dashboard - PickPay</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      .seller-sidebar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: white;
+      }
+      .nav-link {
+        color: white !important;
+        transition: all 0.3s ease;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+      }
+      .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: all 0.3s ease;
+      }
+      .card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      }
+      .product-image-preview {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .stats-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+      }
+      .loading {
+        display: none;
+      }
+      .error-message {
+        display: none;
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 seller-sidebar p-0">
+          <div class="p-3">
+            <h4 class="mb-4">
+              <i class="fas fa-store me-2"></i>Seller Dashboard
+            </h4>
+            <nav class="nav flex-column">
+              <a class="nav-link active" href="#" data-tab="overview">
+                <i class="fas fa-tachometer-alt me-2"></i>Overview
+              </a>
+              <a class="nav-link" href="#" data-tab="add-product">
+                <i class="fas fa-plus-circle me-2"></i>Add Product
+              </a>
+              <a class="nav-link" href="#" data-tab="manage-products">
+                <i class="fas fa-boxes me-2"></i>Manage Products
+              </a>
+              <a class="nav-link" href="#" data-tab="orders">
+                <i class="fas fa-shopping-cart me-2"></i>Orders
+              </a>
+              <hr class="my-3" />
+              <a class="nav-link" href="index.html">
+                <i class="fas fa-home me-2"></i>Back to Store
+              </a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10">
+          <div class="p-4">
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-content active">
+              <h2 class="mb-4">Dashboard Overview</h2>
+              <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                  <div class="card stats-card text-center p-3">
+                    <h3 id="total-products">0</h3>
+                    <p class="mb-0">Total Products</p>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <div class="card stats-card text-center p-3">
+                    <h3 id="total-orders">0</h3>
+                    <p class="mb-0">Total Orders</p>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <div class="card stats-card text-center p-3">
+                    <h3 id="total-revenue">$0</h3>
+                    <p class="mb-0">Total Revenue</p>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <div class="card stats-card text-center p-3">
+                    <h3 id="avg-rating">0.0</h3>
+                    <p class="mb-0">Avg Rating</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h5>Recent Products</h5>
+                </div>
+                <div class="card-body">
+                  <div id="recent-products">
+                    <p class="text-muted">Loading recent products...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Product Tab -->
+            <div id="add-product-tab" class="tab-content">
+              <h2 class="mb-4">Add New Product</h2>
+              <div class="card">
+                <div class="card-body">
+                  <form id="add-product-form" enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="product-title" class="form-label"
+                          >Product Name *</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="product-title"
+                          name="title"
+                          required
+                        />
+                        <div class="error-message" id="title-error"></div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="product-price" class="form-label"
+                          >Price ($) *</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="product-price"
+                          name="price"
+                          step="0.01"
+                          min="0"
+                          required
+                        />
+                        <div class="error-message" id="price-error"></div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="product-category" class="form-label"
+                          >Category *</label
+                        >
+                        <select
+                          class="form-select"
+                          id="product-category"
+                          name="category"
+                          required
+                        >
+                          <option value="">Select Category</option>
+                        </select>
+                        <div class="error-message" id="category-error"></div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="product-brand" class="form-label"
+                          >Brand *</label
+                        >
+                        <select
+                          class="form-select"
+                          id="product-brand"
+                          name="brand"
+                          required
+                        >
+                          <option value="">Select Brand</option>
+                        </select>
+                        <div class="error-message" id="brand-error"></div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="product-quantity" class="form-label"
+                          >Quantity *</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="product-quantity"
+                          name="quantity"
+                          min="1"
+                          value="1"
+                          required
+                        />
+                        <div class="error-message" id="quantity-error"></div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="product-colors" class="form-label"
+                          >Available Colors</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="product-colors"
+                          name="colors"
+                          placeholder="Red, Blue, Black (comma separated)"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="product-description" class="form-label"
+                        >Description *</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="product-description"
+                        name="description"
+                        rows="4"
+                        required
+                      ></textarea>
+                      <div class="error-message" id="description-error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="product-image-cover" class="form-label"
+                        >Cover Image *</label
+                      >
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="product-image-cover"
+                        name="imageCover"
+                        accept="image/*"
+                        required
+                      />
+                      <div class="error-message" id="imageCover-error"></div>
+                      <div id="cover-image-preview" class="mt-2"></div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="product-images" class="form-label"
+                        >Additional Images (up to 5)</label
+                      >
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="product-images"
+                        name="images"
+                        accept="image/*"
+                        multiple
+                      />
+                      <div class="error-message" id="images-error"></div>
+                      <div
+                        id="additional-images-preview"
+                        class="mt-2 d-flex flex-wrap gap-2"
+                      ></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="reset-form"
+                      >
+                        Reset Form
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        <span class="loading">
+                          <span
+                            class="spinner-border spinner-border-sm me-2"
+                            role="status"
+                          ></span>
+                          Adding Product...
+                        </span>
+                        <span class="not-loading">
+                          <i class="fas fa-plus me-2"></i>Add Product
+                        </span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Manage Products Tab -->
+            <div id="manage-products-tab" class="tab-content">
+              <h2 class="mb-4">Manage Products</h2>
+              <div class="card">
+                <div
+                  class="card-header d-flex justify-content-between align-items-center"
+                >
+                  <h5>Your Products</h5>
+                  <button class="btn btn-primary btn-sm" id="refresh-products">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                  </button>
+                </div>
+                <div class="card-body">
+                  <div id="products-list">
+                    <p class="text-muted">Loading products...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content">
+              <h2 class="mb-4">Orders</h2>
+              <div class="card">
+                <div class="card-header">
+                  <h5>Recent Orders</h5>
+                </div>
+                <div class="card-body">
+                  <div id="orders-list">
+                    <p class="text-muted">Loading orders...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-check-circle text-success me-2"></i>Success
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="success-message">
+            Product added successfully!
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-exclamation-triangle text-danger me-2"></i>Error
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="error-message">
+            An error occurred. Please try again.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="sellerDashboard.js"></script>
+  </body>
+</html>

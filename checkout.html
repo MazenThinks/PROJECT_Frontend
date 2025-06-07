@@ -145,7 +145,7 @@
         </div>
       </div>
     </nav>
-    <div class="container">
+    <div class="container mt-5">
       <main>
         <div class="py-5 text-center">
           <h2>Checkout</h2>
@@ -495,11 +495,13 @@
               </div>
 
               <hr class="my-4" />
-              <a href="/OrderConfirmed.html">
-                <button class="w-100 btn btn-primary btn-lg mb-5" type="submit">
-                  Place Order
-                </button>
-              </a>
+              <button
+                class="w-100 btn btn-primary btn-lg mb-5"
+                type="submit"
+                id="place-order-btn"
+              >
+                Checkout
+              </button>
             </form>
           </div>
         </div>
@@ -649,98 +651,79 @@
     <script src="cart.js"></script>
     <script src="checkout.js"></script>
     <script src="script.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
-      // User state display in navbar with username dropdown and avatar (Bootstrap default)
       document.addEventListener("DOMContentLoaded", async function () {
-        const token = localStorage.getItem("token");
-        const navEnd = document.querySelector(".text-end");
-        if (navEnd) {
-          if (token) {
-            let username = "User";
-            let avatarUrl = "Assets/BlankPFP.png";
-            try {
-              const payload = JSON.parse(atob(token.split(".")[1]));
-              if (payload.name) username = payload.name;
-              if (payload.photo) avatarUrl = payload.photo;
-            } catch (e) {
-              try {
-                const res = await fetch(
-                  "http://localhost:3000/api/v1/users/me",
-                  {
-                    headers: { Authorization: `Bearer ${token}` },
-                  }
-                );
-                if (res.ok) {
-                  const data = await res.json();
-                  username = data.data.name || username;
-                  avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
-                }
-              } catch {}
+        // Stripe publishable key
+        const stripe = Stripe(
+          "pk_test_51RRcTiDEyCHwA6a7WqC7ypXHyDk87xUoNpbs68TdhjjLffPN2fSaoKquzQY5desPmDodUWrxgprTlXYXy1H41bKw00BM6RT6wB"
+        );
+        // Find the Place Order button (id="place-order-btn")
+        const placeOrderBtn = document.getElementById("place-order-btn");
+        if (placeOrderBtn) {
+          placeOrderBtn.addEventListener("click", async function (e) {
+            e.preventDefault();
+            // Only allow card payments
+            const credit = document.getElementById("credit");
+            const debit = document.getElementById("debit");
+            if (!(credit.checked || debit.checked)) {
+              alert("Please select Credit or Debit card to pay online.");
+              return;
             }
-            navEnd.innerHTML = `
-              <div class="dropdown d-flex align-items-center">
-                <img src="${avatarUrl}" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
-                <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
-                  ${username}
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                  <li><a class="dropdown-item" href="orders.html">Orders</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
-                </ul>
-              </div>
-            `;
-            document.getElementById("logoutBtn").onclick = function () {
-              localStorage.removeItem("token");
-              location.reload();
-            };
-          } else {
-            navEnd.innerHTML = `
-              <a href="signinPage.html"><button type="button" class="btn btn-light text-dark me-2 ms-4">Login</button></a>
-              <a href="signupPage.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
-            `;
-          }
+            // Get token and cartId
+            const token = localStorage.getItem("token");
+            if (!token) {
+              alert("You must be logged in to place an order.");
+              window.location.href = "signinPage.html";
+              return;
+            }
+            // Get cartId from backend
+            let cartId = null;
+            if (document.getCart) {
+              const cartData = await document.getCart();
+              if (cartData && cartData.data && cartData.data._id) {
+                cartId = cartData.data._id;
+              }
+            }
+            if (!cartId) {
+              alert("No cart found for this user.");
+              return;
+            }
+            // Call backend to create Stripe session
+            try {
+              const res = await fetch(
+                `http://localhost:3000/api/v1/orders/checkout-session/${cartId}?success_url=${encodeURIComponent(
+                  window.location.origin + "/order-confirmation.html"
+                )}&cancel_url=${encodeURIComponent(
+                  window.location.origin + "/cart.html"
+                )}`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              const data = await res.json();
+              if (
+                res.ok &&
+                data.status === "success" &&
+                data.session &&
+                data.session.id
+              ) {
+                // Redirect to Stripe Checkout
+                stripe.redirectToCheckout({ sessionId: data.session.id });
+              } else {
+                alert(
+                  "Failed to start Stripe Checkout: " +
+                    (data.message || "Unknown error")
+                );
+              }
+            } catch (err) {
+              alert("Error connecting to payment: " + err.message);
+            }
+          });
         }
-      });
-
-      // Hide card fields if Cash on delivery is selected, show PayPal field if PayPal is selected
-      document.addEventListener("DOMContentLoaded", function () {
-        function togglePaymentFields() {
-          const isCash = document.getElementById("cash").checked;
-          const isPayPal = document.getElementById("paypal").checked;
-          const cardFieldsRow = document.getElementById("card-fields-row");
-          const paypalField = document.getElementById("paypal-field");
-          if (isCash) {
-            cardFieldsRow.style.display = "none";
-            paypalField.style.display = "none";
-          } else if (isPayPal) {
-            cardFieldsRow.style.display = "none";
-            paypalField.style.display = "";
-          } else {
-            cardFieldsRow.style.display = "";
-            paypalField.style.display = "none";
-          }
-        }
-        const paymentRadios = document.querySelectorAll(
-          'input[name="paymentMethod"]'
-        );
-        paymentRadios.forEach((radio) => {
-          radio.addEventListener("change", togglePaymentFields);
-        });
-        togglePaymentFields(); // Initial call
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        // Adjust selector as needed for your product title element(s)
-        const titleElements = document.querySelectorAll(
-          ".product-title, .checkout-product-title"
-        );
-        titleElements.forEach(function (el) {
-          if (el.textContent.length > 50) {
-            el.textContent = el.textContent.slice(0, 50) + "...";
-          }
-        });
       });
     </script>
   </body>

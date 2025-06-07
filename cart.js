@@ -10,11 +10,21 @@ function getToken() {
 document.getCart = async function () {
   const token = getToken();
   if (!token) return null;
-  const res = await fetch(API_URL, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const response = await fetch(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      console.error("Failed to fetch cart:", response.status);
+      return null;
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    return null;
+  }
 };
 
 // Add product to cart
@@ -83,3 +93,31 @@ document.updateCartItemQuantity = async function (itemId, quantity) {
   });
   return res.json();
 };
+
+document.addEventListener("DOMContentLoaded", async function () {
+  // Only execute cart page specific code if we're on the cart page
+  const cartContainer = document.querySelector(".cart-container");
+  if (!cartContainer) return;
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "signinPage.html";
+    return;
+  }
+
+  // Function to render cart items
+  async function loadCart() {
+    const cartData = await document.getCart();
+    if (!cartData || !cartData.data) {
+      cartContainer.innerHTML =
+        '<div class="alert alert-info">Your cart is empty</div>';
+      return;
+    }
+
+    // Render cart items here
+    // ...
+  }
+
+  // Initial load
+  await loadCart();
+});

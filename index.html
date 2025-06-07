@@ -1737,7 +1737,7 @@
                     </div>
                   </a>
                 </div>
-                <!-- Product 8-->
+                <!-- Product 8 -->
                 <div>
                   <a
                     href="ProductPages/AppliancesProducts/product4.html"
@@ -2499,7 +2499,6 @@
                           />
                           <img
                             src="Assets/star.png"
-                            alt="star"
                             alt="star"
                             height="20px"
                             width="20px"
@@ -4777,7 +4776,15 @@
           </div>
         </div>
 
-        <div class="py-5 border-top">
+        <div class="py-5 border-top d-flex flex-column align-items-center">
+          <div class="mb-3 d-flex gap-3">
+            <a href="seller.html" class="btn btn-success btn-lg">
+              <i class="fas fa-store me-2"></i>Become a Seller
+            </a>
+            <a href="seller-dashboard.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-tachometer-alt me-2"></i>Seller Dashboard
+            </a>
+          </div>
           <p>© 2025 PickPay, Inc. All rights reserved.</p>
         </div>
       </footer>
@@ -4867,6 +4874,214 @@
         let debounceTimeout;
 
         if (!searchInput || !dropdown) return;
+
+        // Function to call the AI search API
+        const searchProductsAI = async (query) => {
+          try {
+            const response = await fetch(
+              "http://localhost:3000/api/v1/products/search-ai",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query }),
+              }
+            );
+
+            if (!response.ok) throw new Error("Search failed");
+            return await response.json();
+          } catch (error) {
+            console.error("AI Search Error:", error);
+            return { products: [] };
+          }
+        };
+
+        // Generate a URL for a product based on its data
+        const getProductURL = (product) => {
+          // Extract category from product or fallback
+          let category = "AppliancesProducts";
+          if (product.category && product.category.name) {
+            const categoryName = product.category.name.toLowerCase();
+            if (categoryName.includes("electronics")) {
+              category = "Electronics products";
+            } else if (categoryName.includes("beauty")) {
+              category = "beauty products";
+            } else if (categoryName.includes("home")) {
+              category = "home products";
+            } else if (categoryName.includes("fashion")) {
+              category = "fashion products";
+            } else if (
+              categoryName.includes("videogames") ||
+              categoryName.includes("video games")
+            ) {
+              category = "videogames products";
+            }
+          }
+
+          // Try to extract a numeric ID, or use a default
+          const productId = product._id
+            ? product._id.toString().slice(-2)
+            : "1";
+          const numericId = parseInt(productId) || 1;
+
+          return `ProductPages/${category}/product${numericId}.html`;
+        };
+
+        // Function to display search results in dropdown
+        const showSearchResults = (products) => {
+          // Clear previous results
+          dropdown.innerHTML = "";
+
+          if (!products || products.length === 0) {
+            dropdown.style.display = "none";
+            return;
+          }
+
+          // Create and append result items
+          products.forEach((product) => {
+            const item = document.createElement("div");
+            item.className = "dropdown-item d-flex align-items-center p-2";
+            item.style.cursor = "pointer";
+
+            // Create thumbnail if available
+            if (product.imageCover) {
+              const img = document.createElement("img");
+              img.src = product.imageCover;
+              img.alt = product.title;
+              img.width = 40;
+              img.height = 40;
+              img.className = "me-2";
+              img.style.objectFit = "contain";
+              item.appendChild(img);
+            }
+
+            // Create product info
+            const info = document.createElement("div");
+
+            const title = document.createElement("div");
+            title.textContent = product.title;
+            title.className = "fw-bold";
+            info.appendChild(title);
+
+            const price = document.createElement("div");
+            price.textContent = `$${product.price.toFixed(2)}`;
+            price.className = "text-success";
+            info.appendChild(price);
+
+            item.appendChild(info);
+
+            // Handle click on result item
+            item.addEventListener("click", () => {
+              const url = getProductURL(product);
+              window.location.href = url;
+              dropdown.style.display = "none";
+            });
+
+            dropdown.appendChild(item);
+          });
+
+          // Show dropdown
+          dropdown.style.display = "block";
+        };
+
+        // Add event listener for search input with debouncing
+        searchInput.addEventListener("input", function () {
+          const query = this.value.trim();
+
+          // Clear previous timeout
+          clearTimeout(debounceTimeout);
+
+          // Don't search for empty queries or very short ones
+          if (!query || query.length < 2) {
+            dropdown.style.display = "none";
+            return;
+          }
+
+          // Set debounce timeout to avoid too many API calls
+          debounceTimeout = setTimeout(async () => {
+            // Show loading indicator
+            dropdown.innerHTML =
+              '<div class="p-2 text-center"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><span class="ms-2">Searching...</span></div>';
+            dropdown.style.display = "block";
+
+            // Call AI search API
+            const result = await searchProductsAI(query);
+
+            // Display the results
+            if (result && result.products && result.products.length > 0) {
+              showSearchResults(result.products);
+            } else {
+              dropdown.innerHTML =
+                '<div class="p-2 text-center">No products found</div>';
+            }
+          }, 400); // 400ms debounce delay
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = "none";
+          }
+        });
+
+        // Allow keyboard navigation in dropdown
+        searchInput.addEventListener("keydown", function (e) {
+          // If dropdown is not displayed, do nothing
+          if (dropdown.style.display !== "block") return;
+
+          const items = dropdown.querySelectorAll(".dropdown-item");
+          if (!items.length) return;
+
+          let activeIndex = -1;
+
+          // Find the current active item
+          items.forEach((item, index) => {
+            if (item.classList.contains("active")) {
+              activeIndex = index;
+            }
+          });
+
+          // Handle arrow keys and enter
+          switch (e.key) {
+            case "ArrowDown":
+              e.preventDefault();
+              // Move to next item or first if at end
+              activeIndex =
+                activeIndex < items.length - 1 ? activeIndex + 1 : 0;
+              break;
+            case "ArrowUp":
+              e.preventDefault();
+              // Move to previous item or last if at start
+              activeIndex =
+                activeIndex > 0 ? activeIndex - 1 : items.length - 1;
+              break;
+            case "Enter":
+              if (activeIndex >= 0) {
+                e.preventDefault();
+                // Simulate click on selected item
+                items[activeIndex].click();
+              }
+              return;
+            case "Escape":
+              dropdown.style.display = "none";
+              return;
+            default:
+              return;
+          }
+
+          // Remove active class from all items
+          items.forEach((item) => item.classList.remove("active"));
+
+          // Add active class to selected item
+          if (activeIndex >= 0) {
+            items[activeIndex].classList.add("active");
+            items[activeIndex].scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            });
+          }
+        });
 
         function showDropdown(items) {
           const query = searchInput.value.trim();

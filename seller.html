@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seller Dashboard - Add Product | PickPay</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #667eea;
+        --secondary-color: #764ba2;
+        --success-color: #10d876;
+        --danger-color: #ff6b6b;
+        --warning-color: #ffa726;
+        --info-color: #26c6da;
+        --light-bg: #f8fafc;
+        --white: #ffffff;
+        --text-dark: #2d3748;
+        --text-muted: #718096;
+        --border-light: #e2e8f0;
+        --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        min-height: 100vh;
+        color: var(--text-dark);
+      }
+
+      .navbar {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary-color) !important;
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand img {
+        margin-right: 0.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .seller-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .seller-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .seller-header .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .form-container {
+        background: var(--white);
+        border-radius: 20px;
+        box-shadow: var(--shadow-xl);
+        padding: 3rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+      }
+
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+        position: relative;
+      }
+
+      .section-subtitle {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .form-label i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+        width: 16px;
+      }
+
+      .form-control,
+      .form-select {
+        border-radius: 12px;
+        border: 2px solid var(--border-light);
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #fafafa;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background-color: var(--white);
+        outline: none;
+      }
+
+      .form-control:hover,
+      .form-select:hover {
+        border-color: #cbd5e0;
+        background-color: var(--white);
+      }
+
+      .input-group-text {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        color: white;
+        border: none;
+        font-weight: 600;
+      }
+
+      .upload-area {
+        border: 3px dashed var(--border-light);
+        border-radius: 16px;
+        padding: 3rem;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .upload-area:hover {
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+        transform: translateY(-2px);
+      }
+
+      .upload-area.dragover {
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, #e6f0ff 0%, #d4e8ff 100%);
+        transform: scale(1.02);
+      }
+
+      .upload-area i {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .upload-area h5 {
+        color: var(--text-dark);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .upload-area p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .preview-container {
+        display: none;
+        margin-top: 1.5rem;
+      }
+
+      .preview-image {
+        max-width: 150px;
+        max-height: 150px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: var(--shadow-md);
+        transition: transform 0.3s ease;
+      }
+
+      .preview-image:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        border: none;
+        padding: 14px 32px;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .loading {
+        display: none;
+      }
+
+      .loading .spinner-border {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .alert {
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid;
+        font-weight: 500;
+      }
+
+      .alert-success {
+        background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+        color: #22543d;
+        border-left-color: var(--success-color);
+      }
+
+      .alert-danger {
+        background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        color: #742a2a;
+        border-left-color: var(--danger-color);
+      }
+
+      .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .text-primary {
+        color: var(--primary-color) !important;
+      }
+
+      .bg-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        ) !important;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .seller-header {
+          padding: 2rem 0;
+        }
+
+        .form-container {
+          padding: 1.5rem;
+          margin: 1rem;
+        }
+
+        .upload-area {
+          padding: 2rem 1rem;
+        }
+
+        .btn-primary {
+          width: 100%;
+          padding: 16px;
+        }
+      }
+
+      /* Animation Classes */
+      .fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .slide-up {
+        animation: slideUp 0.6s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="index.html">
+          <img
+            src="logoo/logo1.png"
+            alt="PickPay Logo"
+            width="40px"
+            height="40px"
+          />
+          <i class="me-2"></i>PickPay
+        </a>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-home me-1"></i>Home
+          </a>
+          <a class="nav-link" href="#" onclick="logout()">
+            <i class="fas fa-sign-out-alt me-1"></i>Logout
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="seller-header">
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">
+          <i class="fas fa-store me-3"></i>Seller Dashboard
+        </h1>
+        <p class="lead">Add your products and start selling on PickPay</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="form-container">
+            <h2 class="text-center mb-4">
+              <i class="fas fa-plus-circle me-2 text-primary"></i>Add New
+              Product
+            </h2>
+
+            <form id="addProductForm" enctype="multipart/form-data">
+              <!-- Product Name -->
+              <div class="mb-4">
+                <label for="productName" class="form-label">
+                  <i class="fas fa-tag"></i>Product Name *
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="productName"
+                  name="title"
+                  placeholder="Enter your product name"
+                  required
+                />
+                <div class="form-text">
+                  Choose a clear, descriptive name for your product
+                </div>
+              </div>
+
+              <!-- Price -->
+              <div class="mb-4">
+                <label for="price" class="form-label">
+                  <i class="fas fa-dollar-sign"></i>Price *
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    required
+                  />
+                </div>
+                <div class="form-text">
+                  Set a competitive price for your product
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-4">
+                <label for="description" class="form-label">
+                  <i class="fas fa-align-left"></i>Product Description *
+                </label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  rows="5"
+                  placeholder="Describe your product in detail..."
+                  required
+                ></textarea>
+                <div class="form-text">
+                  Provide detailed information about features, benefits, and
+                  specifications
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div class="mb-4">
+                <label for="category" class="form-label">
+                  <i class="fas fa-list"></i>Category *
+                </label>
+                <select
+                  class="form-select"
+                  id="category"
+                  name="category"
+                  required
+                >
+                  <option value="">Select a category</option>
+                </select>
+                <div class="form-text">
+                  Choose the most appropriate category for your product
+                </div>
+              </div>
+
+              <!-- Brand -->
+              <div class="mb-4">
+                <label for="brand" class="form-label">
+                  <i class="fas fa-copyright"></i>Brand *
+                </label>
+                <select class="form-select" id="brand" name="brand" required>
+                  <option value="">Select a brand</option>
+                </select>
+                <div class="form-text">
+                  Select the brand or manufacturer of your product
+                </div>
+              </div>
+
+              <!-- Quantity -->
+              <div class="mb-4">
+                <label for="quantity" class="form-label">
+                  <i class="fas fa-boxes"></i>Available Quantity *
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity"
+                  name="quantity"
+                  placeholder="Enter available quantity"
+                  min="1"
+                  value="1"
+                  required
+                />
+                <div class="form-text">
+                  How many units do you have available for sale?
+                </div>
+              </div>
+
+              <!-- Photo Upload -->
+              <div class="mb-4">
+                <label class="form-label">
+                  <i class="fas fa-camera"></i>Product Images *
+                </label>
+                <div class="upload-area" id="uploadArea">
+                  <i class="fas fa-cloud-upload-alt fa-4x mb-3"></i>
+                  <h5>Drag & Drop Images Here</h5>
+                  <p>or click to browse files</p>
+                  <small class="text-muted">
+                    Upload up to 5 images (JPG, PNG, WEBP) • Max 5MB each
+                  </small>
+                  <input
+                    type="file"
+                    id="productImages"
+                    name="images"
+                    accept="image/*"
+                    multiple
+                    style="display: none"
+                    required
+                  />
+                </div>
+                <div id="previewContainer" class="preview-container">
+                  <div class="row" id="imagePreviewRow"></div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <span class="normal-text">
+                    <i class="fas fa-plus me-2"></i>Add Product to Store
+                  </span>
+                  <span class="loading">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Adding Product...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white py-4 mt-5">
+      <div class="container text-center">
+        <p class="text-muted mb-0">© 2025 PickPay, Inc. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+      const API_BASE_URL = "http://localhost:3000/api/v1";
+
+      // Get authentication token
+      function getToken() {
+        return localStorage.getItem("token");
+      }
+
+      // Check if user is authenticated
+      function checkAuth() {
+        const token = getToken();
+        if (!token) {
+          alert("Please login to access the seller dashboard");
+          window.location.href = "signinPage.html";
+          return false;
+        }
+        return true;
+      }
+
+      // Logout function
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "signinPage.html";
+      }
+
+      // Load categories and brands
+      async function loadCategoriesAndBrands() {
+        try {
+          // Load categories
+          const categoriesResponse = await fetch(`${API_BASE_URL}/categories`);
+          if (categoriesResponse.ok) {
+            const categoriesData = await categoriesResponse.json();
+            const categorySelect = document.getElementById("category");
+            categoriesData.data.forEach((category) => {
+              const option = document.createElement("option");
+              option.value = category._id;
+              option.textContent = category.name;
+              categorySelect.appendChild(option);
+            });
+          }
+
+          // Load brands
+          const brandsResponse = await fetch(`${API_BASE_URL}/brands`);
+          if (brandsResponse.ok) {
+            const brandsData = await brandsResponse.json();
+            const brandSelect = document.getElementById("brand");
+            brandsData.data.forEach((brand) => {
+              const option = document.createElement("option");
+              option.value = brand._id;
+              option.textContent = brand.name;
+              brandSelect.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading categories and brands:", error);
+        }
+      }
+
+      // File upload handling
+      const uploadArea = document.getElementById("uploadArea");
+      const fileInput = document.getElementById("productImages");
+      const previewContainer = document.getElementById("previewContainer");
+      const imagePreviewRow = document.getElementById("imagePreviewRow");
+
+      uploadArea.addEventListener("click", () => fileInput.click());
+
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        const files = e.dataTransfer.files;
+        handleFiles(files);
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        handleFiles(e.target.files);
+      });
+
+      function handleFiles(files) {
+        imagePreviewRow.innerHTML = "";
+        if (files.length > 0) {
+          previewContainer.style.display = "block";
+          Array.from(files).forEach((file, index) => {
+            if (file.type.startsWith("image/")) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                const col = document.createElement("div");
+                col.className = "col-md-3 mb-3";
+                col.innerHTML = `
+                  <div class="position-relative">
+                    <img src="${
+                      e.target.result
+                    }" class="preview-image w-100" alt="Preview ${index + 1}">
+                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" onclick="removeImage(this, ${index})">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `;
+                imagePreviewRow.appendChild(col);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+        } else {
+          previewContainer.style.display = "none";
+        }
+      }
+
+      function removeImage(button, index) {
+        button.closest(".col-md-3").remove();
+        // Note: This is a simplified version. In a real implementation,
+        // you'd need to properly manage the file list.
+      }
+
+      // Form submission
+      document
+        .getElementById("addProductForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          if (!checkAuth()) return;
+
+          const form = e.target;
+          const formData = new FormData();
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const normalText = submitBtn.querySelector(".normal-text");
+          const loadingText = submitBtn.querySelector(".loading");
+
+          // Show loading state
+          normalText.style.display = "none";
+          loadingText.style.display = "inline";
+          submitBtn.disabled = true;
+
+          try {
+            // Get form values
+            const title = document.getElementById("productName").value.trim();
+            const price = parseFloat(document.getElementById("price").value);
+            const description = document
+              .getElementById("description")
+              .value.trim();
+            const category = document.getElementById("category").value;
+            const brand = document.getElementById("brand").value;
+            const quantity = parseInt(
+              document.getElementById("quantity").value
+            );
+
+            // Validate required fields
+            if (
+              !title ||
+              !price ||
+              !description ||
+              !category ||
+              !brand ||
+              !quantity
+            ) {
+              throw new Error("Please fill in all required fields");
+            }
+
+            if (price <= 0) {
+              throw new Error("Price must be greater than 0");
+            }
+
+            if (quantity <= 0) {
+              throw new Error("Quantity must be greater than 0");
+            }
+
+            // Append form data with correct field names and types
+            formData.append("title", title);
+            formData.append("price", price.toString());
+            formData.append("description", description);
+            formData.append("category", category);
+            formData.append("brand", brand);
+            formData.append("quantity", quantity.toString());
+
+            // Add optional fields that might be required by backend
+            formData.append("ratingsAverage", "4.5");
+            formData.append("ratingsQuantity", "0");
+            formData.append("sold", "0");
+
+            // Append images
+            const files = document.getElementById("productImages").files;
+            if (files.length === 0) {
+              throw new Error("Please select at least one product image");
+            }
+
+            // Add main image
+            formData.append("imageCover", files[0]);
+
+            // Add additional images if any
+            for (let i = 1; i < files.length && i < 5; i++) {
+              formData.append("images", files[i]);
+            }
+
+            // Log form data for debugging
+            console.log("Sending form data:");
+            for (let pair of formData.entries()) {
+              console.log(
+                pair[0] +
+                  ": " +
+                  (pair[1] instanceof File ? pair[1].name : pair[1])
+              );
+            }
+
+            const response = await fetch(`${API_BASE_URL}/products`, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${getToken()}`,
+              },
+              body: formData,
+            });
+
+            const result = await response.json();
+            console.log("Response:", result);
+
+            if (response.ok) {
+              alert("Product added successfully!");
+              form.reset();
+              previewContainer.style.display = "none";
+              imagePreviewRow.innerHTML = "";
+            } else {
+              // Log the full error response for debugging
+              console.error("Backend error response:", result);
+              throw new Error(
+                result.message || `Server error: ${response.status}`
+              );
+            }
+          } catch (error) {
+            console.error("Error adding product:", error);
+            alert("Error adding product: " + error.message);
+          } finally {
+            // Reset button state
+            normalText.style.display = "inline";
+            loadingText.style.display = "none";
+            submitBtn.disabled = false;
+          }
+        });
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", () => {
+        if (checkAuth()) {
+          loadCategoriesAndBrands();
+        }
+      });
+    </script>
+  </body>
+</html>

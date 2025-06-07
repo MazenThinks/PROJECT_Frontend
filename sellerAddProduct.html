@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product - PickPay Seller</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .seller-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .image-preview {
+        max-width: 200px;
+        max-height: 200px;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+      .image-preview img {
+        max-width: 100%;
+        max-height: 150px;
+        border-radius: 5px;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 0.75rem 2rem;
+      }
+      .alert {
+        margin-top: 1rem;
+      }
+      .navbar-brand {
+        font-weight: bold;
+        color: #007bff !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <i class="fas fa-shopping-bag me-2"></i>PickPay Seller
+        </a>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-home me-1"></i>Back to Store
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="seller-container">
+        <div class="text-center mb-4">
+          <h2><i class="fas fa-plus-circle me-2"></i>Add New Product</h2>
+          <p class="text-muted">
+            Fill in the details below to add a new product to your store
+          </p>
+        </div>
+
+        <form id="addProductForm" enctype="multipart/form-data">
+          <!-- Product Title -->
+          <div class="form-group">
+            <label for="productTitle" class="form-label">
+              <i class="fas fa-tag me-2"></i>Product Name *
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="productTitle"
+              name="title"
+              required
+              placeholder="Enter product name"
+              maxlength="100"
+            />
+            <div class="form-text">Maximum 100 characters</div>
+          </div>
+
+          <!-- Product Description -->
+          <div class="form-group">
+            <label for="productDescription" class="form-label">
+              <i class="fas fa-align-left me-2"></i>Description *
+            </label>
+            <textarea
+              class="form-control"
+              id="productDescription"
+              name="description"
+              rows="4"
+              required
+              placeholder="Describe your product in detail"
+              minlength="20"
+            ></textarea>
+            <div class="form-text">Minimum 20 characters</div>
+          </div>
+
+          <!-- Product Price -->
+          <div class="form-group">
+            <label for="productPrice" class="form-label">
+              <i class="fas fa-dollar-sign me-2"></i>Price *
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input
+                type="number"
+                class="form-control"
+                id="productPrice"
+                name="price"
+                required
+                placeholder="0.00"
+                min="0"
+                max="200000"
+                step="0.01"
+              />
+            </div>
+            <div class="form-text">Maximum price: $200,000</div>
+          </div>
+
+          <!-- Product Quantity -->
+          <div class="form-group">
+            <label for="productQuantity" class="form-label">
+              <i class="fas fa-boxes me-2"></i>Quantity *
+            </label>
+            <input
+              type="number"
+              class="form-control"
+              id="productQuantity"
+              name="quantity"
+              required
+              placeholder="Available quantity"
+              min="1"
+              value="1"
+            />
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label for="productCategory" class="form-label">
+              <i class="fas fa-list me-2"></i>Category *
+            </label>
+            <select
+              class="form-select"
+              id="productCategory"
+              name="category"
+              required
+            >
+              <option value="">Select a category</option>
+              <option value="appliances">Appliances</option>
+              <option value="electronics">Electronics</option>
+              <option value="fashion">Fashion</option>
+              <option value="beauty">Beauty</option>
+              <option value="home">Home</option>
+            </select>
+          </div>
+
+          <!-- Brand Selection -->
+          <div class="form-group">
+            <label for="productBrand" class="form-label">
+              <i class="fas fa-copyright me-2"></i>Brand
+            </label>
+            <select class="form-select" id="productBrand" name="brand">
+              <option value="">Select a brand (optional)</option>
+            </select>
+          </div>
+
+          <!-- Product Colors -->
+          <div class="form-group">
+            <label for="productColors" class="form-label">
+              <i class="fas fa-palette me-2"></i>Available Colors
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="productColors"
+              name="colors"
+              placeholder="e.g., Red, Blue, Green (separate with commas)"
+            />
+            <div class="form-text">Separate colors with commas</div>
+          </div>
+
+          <!-- Product Images -->
+          <div class="form-group">
+            <label for="imageCover" class="form-label">
+              <i class="fas fa-image me-2"></i>Main Product Image *
+            </label>
+            <input
+              type="file"
+              class="form-control"
+              id="imageCover"
+              name="imageCover"
+              accept="image/*"
+              required
+            />
+            <div class="image-preview" id="coverPreview">
+              <i class="fas fa-image fa-2x text-muted"></i>
+              <p class="text-muted mt-2">Main image preview</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="images" class="form-label">
+              <i class="fas fa-images me-2"></i>Additional Images
+            </label>
+            <input
+              type="file"
+              class="form-control"
+              id="images"
+              name="images"
+              accept="image/*"
+              multiple
+            />
+            <div class="form-text">
+              You can select up to 5 additional images
+            </div>
+            <div class="row mt-2" id="additionalPreviews"></div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+              <i class="fas fa-plus-circle me-2"></i>Add Product
+            </button>
+          </div>
+        </form>
+
+        <!-- Alert Messages -->
+        <div id="alertContainer"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const API_BASE_URL = "http://localhost:3000/api/v1";
+
+      // Get token from localStorage
+      function getToken() {
+        return localStorage.getItem("token");
+      }
+
+      // Show alert message
+      function showAlert(message, type = "info") {
+        const alertContainer = document.getElementById("alertContainer");
+        alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+      }
+
+      // Load categories and brands from API
+      async function loadCategoriesAndBrands() {
+        try {
+          // Load categories
+          const categoriesResponse = await fetch(`${API_BASE_URL}/categories`);
+          if (categoriesResponse.ok) {
+            const categoriesData = await categoriesResponse.json();
+            const categorySelect = document.getElementById("productCategory");
+            categorySelect.innerHTML =
+              '<option value="">Select a category</option>';
+
+            categoriesData.data.forEach((category) => {
+              const option = document.createElement("option");
+              option.value = category._id;
+              option.textContent = category.name;
+              categorySelect.appendChild(option);
+            });
+          }
+
+          // Load brands
+          const brandsResponse = await fetch(`${API_BASE_URL}/brands`);
+          if (brandsResponse.ok) {
+            const brandsData = await brandsResponse.json();
+            const brandSelect = document.getElementById("productBrand");
+            brandSelect.innerHTML =
+              '<option value="">Select a brand (optional)</option>';
+
+            brandsData.data.forEach((brand) => {
+              const option = document.createElement("option");
+              option.value = brand._id;
+              option.textContent = brand.name;
+              brandSelect.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading categories and brands:", error);
+        }
+      }
+
+      // Image preview functionality
+      document
+        .getElementById("imageCover")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          const preview = document.getElementById("coverPreview");
+
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              preview.innerHTML = `<img src="${e.target.result}" alt="Cover preview">`;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            preview.innerHTML = `
+                    <i class="fas fa-image fa-2x text-muted"></i>
+                    <p class="text-muted mt-2">Main image preview</p>
+                `;
+          }
+        });
+
+      document
+        .getElementById("images")
+        .addEventListener("change", function (e) {
+          const files = Array.from(e.target.files);
+          const previewContainer =
+            document.getElementById("additionalPreviews");
+          previewContainer.innerHTML = "";
+
+          files.slice(0, 5).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const col = document.createElement("div");
+              col.className = "col-md-2 col-4 mb-2";
+              col.innerHTML = `
+                        <div class="image-preview">
+                            <img src="${e.target.result}" alt="Preview ${
+                index + 1
+              }">
+                        </div>
+                    `;
+              previewContainer.appendChild(col);
+            };
+            reader.readAsDataURL(file);
+          });
+        });
+
+      // Form submission
+      document
+        .getElementById("addProductForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const token = getToken();
+          if (!token) {
+            showAlert("Please log in to add products.", "warning");
+            return;
+          }
+
+          const submitBtn = document.getElementById("submitBtn");
+          submitBtn.disabled = true;
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin me-2"></i>Adding Product...';
+
+          try {
+            const formData = new FormData();
+
+            // Add form fields
+            formData.append(
+              "title",
+              document.getElementById("productTitle").value
+            );
+            formData.append(
+              "description",
+              document.getElementById("productDescription").value
+            );
+            formData.append(
+              "price",
+              document.getElementById("productPrice").value
+            );
+            formData.append(
+              "quantity",
+              document.getElementById("productQuantity").value
+            );
+            formData.append(
+              "category",
+              document.getElementById("productCategory").value
+            );
+
+            const brand = document.getElementById("productBrand").value;
+            if (brand) formData.append("brand", brand);
+
+            // Add colors array
+            const colors = document.getElementById("productColors").value;
+            if (colors) {
+              const colorArray = colors
+                .split(",")
+                .map((color) => color.trim())
+                .filter((color) => color);
+              colorArray.forEach((color) => formData.append("colors", color));
+            }
+
+            // Add images
+            const imageCover = document.getElementById("imageCover").files[0];
+            if (imageCover) formData.append("imageCover", imageCover);
+
+            const images = document.getElementById("images").files;
+            for (let i = 0; i < Math.min(images.length, 5); i++) {
+              formData.append("images", images[i]);
+            }
+
+            const response = await fetch(`${API_BASE_URL}/products`, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              showAlert("Product added successfully!", "success");
+              document.getElementById("addProductForm").reset();
+              document.getElementById("coverPreview").innerHTML = `
+                        <i class="fas fa-image fa-2x text-muted"></i>
+                        <p class="text-muted mt-2">Main image preview</p>
+                    `;
+              document.getElementById("additionalPreviews").innerHTML = "";
+            } else {
+              showAlert(
+                result.message || "Failed to add product. Please try again.",
+                "danger"
+              );
+            }
+          } catch (error) {
+            console.error("Error adding product:", error);
+            showAlert("An error occurred. Please try again.", "danger");
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML =
+              '<i class="fas fa-plus-circle me-2"></i>Add Product';
+          }
+        });
+
+      // Load data when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCategoriesAndBrands();
+      });
+    </script>
+  </body>
+</html>
