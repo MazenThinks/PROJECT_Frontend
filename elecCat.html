@@ -15,6 +15,90 @@
     />
     <link rel="stylesheet" href="styling.css" />
     <link rel="stylesheet" href="elecCat.css" />
+    <style>
+      /* Product animation styles */
+      .Product {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Staggered animation delays */
+      .col-md-3:nth-child(1) .Product {
+        animation-delay: 0.1s;
+      }
+      .col-md-3:nth-child(2) .Product {
+        animation-delay: 0.2s;
+      }
+      .col-md-3:nth-child(3) .Product {
+        animation-delay: 0.3s;
+      }
+      .col-md-3:nth-child(4) .Product {
+        animation-delay: 0.4s;
+      }
+      .col-md-3:nth-child(5) .Product {
+        animation-delay: 0.5s;
+      }
+      .col-md-3:nth-child(6) .Product {
+        animation-delay: 0.6s;
+      }
+      .col-md-3:nth-child(7) .Product {
+        animation-delay: 0.7s;
+      }
+      .col-md-3:nth-child(8) .Product {
+        animation-delay: 0.8s;
+      }
+
+      /* Different animation delays for different product sections */
+      #product-list-2 .col-md-3:nth-child(1) .Product {
+        animation-delay: 0.9s;
+      }
+      #product-list-2 .col-md-3:nth-child(2) .Product {
+        animation-delay: 1s;
+      }
+      #product-list-2 .col-md-3:nth-child(3) .Product {
+        animation-delay: 1.1s;
+      }
+      #product-list-2 .col-md-3:nth-child(4) .Product {
+        animation-delay: 1.2s;
+      }
+
+      #product-list-3 .col-md-3:nth-child(1) .Product {
+        animation-delay: 1.3s;
+      }
+      #product-list-3 .col-md-3:nth-child(2) .Product {
+        animation-delay: 1.4s;
+      }
+      #product-list-3 .col-md-3:nth-child(3) .Product {
+        animation-delay: 1.5s;
+      }
+      #product-list-3 .col-md-3:nth-child(4) .Product {
+        animation-delay: 1.6s;
+      }
+
+      .row.pt-2:last-of-type .col-md-3:nth-child(1) .Product {
+        animation-delay: 1.7s;
+      }
+      .row.pt-2:last-of-type .col-md-3:nth-child(2) .Product {
+        animation-delay: 1.8s;
+      }
+      .row.pt-2:last-of-type .col-md-3:nth-child(3) .Product {
+        animation-delay: 1.9s;
+      }
+
+      /* Hover effect enhancement */
+      .Product:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+      }
+    </style>
     <title>Electronics</title>
   </head>
   <body>
@@ -441,6 +525,42 @@
       </div>
       <div class="col-9">
         <div class="container">
+          <div
+            class="d-flex justify-content-between align-items-center mb-3 pt-2"
+          >
+            <h4 class="mb-0">Electronics Products</h4>
+            <div class="dropdown">
+              <button
+                class="btn btn-outline-secondary dropdown-toggle"
+                type="button"
+                id="sortDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Sort by Price
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="sortDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="#" data-sort="default"
+                    >Default</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" data-sort="low-to-high"
+                    >Price: Low to High</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" data-sort="high-to-low"
+                    >Price: High to Low</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
           <div class="row pt-2" id="product-list">
             <!-- Product 1 -->
             <div class="col-md-3 mb-4" data-brand="Samsung">
@@ -699,7 +819,7 @@
           </div>
         </div>
 
-        <div class="row pt-2">
+        <div class="row pt-2" id="product-list-2">
           <div class="col-md-3 mb-4" data-brand="Oraimo">
             <a
               href="ProductPages/Electronics products/product5.html"
@@ -953,8 +1073,7 @@
             </a>
           </div>
         </div>
-
-        <div class="row pt-2">
+        <div class="row pt-2" id="product-list-3">
           <div class="col-md-3 mb-4" data-brand="Sharp">
             <a
               href="ProductPages/Electronics products/product9.html"
@@ -1575,6 +1694,103 @@
     <script src="elecCat.js"></script>
     <script src="script.js"></script>
     <script>
+      // Sort functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const sortDropdown = document.getElementById("sortDropdown");
+        const sortItems = document.querySelectorAll("[data-sort]");
+
+        // Get all product containers
+        const productContainers = [
+          document.getElementById("product-list"),
+          document.getElementById("product-list-2"),
+          document.getElementById("product-list-3"),
+          document.querySelector(".row.pt-2:last-of-type"),
+        ].filter((container) => container);
+
+        function getProductPrice(productDiv) {
+          const priceSpan = productDiv.querySelector(".price");
+          if (!priceSpan) return 0;
+          return parseFloat(priceSpan.textContent.replace(/,/g, ""));
+        }
+
+        function resetAnimations() {
+          // Remove existing animations and reset opacity
+          document.querySelectorAll(".Product").forEach((product) => {
+            product.style.animation = "none";
+            product.style.opacity = "0";
+            product.style.transform = "translateY(30px)";
+          });
+        }
+
+        function applyStaggeredAnimation() {
+          // Get all visible products in order
+          const allVisibleProducts = [];
+          productContainers.forEach((container) => {
+            const products = Array.from(
+              container.querySelectorAll("[data-brand]")
+            ).filter((product) => product.style.display !== "none");
+            allVisibleProducts.push(...products);
+          });
+
+          // Apply staggered animation to all visible products
+          allVisibleProducts.forEach((product, index) => {
+            const productElement = product.querySelector(".Product");
+            if (productElement) {
+              setTimeout(() => {
+                productElement.style.animation =
+                  "fadeInUp 0.8s ease-out forwards";
+                productElement.style.animationDelay = `${index * 0.1}s`;
+              }, 50);
+            }
+          });
+        }
+
+        function sortProducts(sortType) {
+          // Reset animations first
+          resetAnimations();
+
+          productContainers.forEach((container) => {
+            const products = Array.from(
+              container.querySelectorAll("[data-brand]")
+            );
+
+            if (sortType === "low-to-high") {
+              products.sort((a, b) => getProductPrice(a) - getProductPrice(b));
+            } else if (sortType === "high-to-low") {
+              products.sort((a, b) => getProductPrice(b) - getProductPrice(a));
+            }
+
+            if (sortType !== "default") {
+              // Re-append products in sorted order
+              products.forEach((product) => container.appendChild(product));
+            }
+          });
+
+          // Apply staggered animation after sorting
+          setTimeout(() => {
+            applyStaggeredAnimation();
+          }, 100);
+        }
+
+        sortItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            const sortType = this.getAttribute("data-sort");
+
+            // Update dropdown button text
+            if (sortType === "default") {
+              sortDropdown.textContent = "Sort by Price";
+            } else if (sortType === "low-to-high") {
+              sortDropdown.textContent = "Price: Low to High";
+            } else if (sortType === "high-to-low") {
+              sortDropdown.textContent = "Price: High to Low";
+            }
+
+            sortProducts(sortType);
+          });
+        });
+      });
+
       // Sidebar filtering logic (copied and adapted from ApplianCat.html)
       document.addEventListener("DOMContentLoaded", function () {
         const brandsSection = document.querySelector(

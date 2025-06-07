@@ -15,6 +15,53 @@
     />
     <link rel="stylesheet" href="styling.css" />
     <link rel="stylesheet" href="elecCat.css" />
+    <style>
+      /* Product animation styles */
+      .Product {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Staggered animation delays */
+      div:nth-child(1) .Product {
+        animation-delay: 0.1s;
+      }
+      div:nth-child(2) .Product {
+        animation-delay: 0.2s;
+      }
+      div:nth-child(3) .Product {
+        animation-delay: 0.3s;
+      }
+      div:nth-child(4) .Product {
+        animation-delay: 0.4s;
+      }
+      div:nth-child(5) .Product {
+        animation-delay: 0.5s;
+      }
+      div:nth-child(6) .Product {
+        animation-delay: 0.6s;
+      }
+      div:nth-child(7) .Product {
+        animation-delay: 0.7s;
+      }
+      div:nth-child(8) .Product {
+        animation-delay: 0.8s;
+      }
+
+      /* Hover effect enhancement */
+      .Product:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+      }
+    </style>
     <title>Beauty</title>
   </head>
   <body>
@@ -438,6 +485,45 @@
         </div>
       </div>
       <div class="col-9">
+        <!-- Sort Header -->
+        <div class="container mt-3">
+          <div class="row align-items-center mb-3">
+            <div class="col-md-6">
+              <h2 class="mb-0">Beauty & Fragrance Products</h2>
+            </div>
+            <div class="col-md-6 text-end">
+              <div class="dropdown">
+                <button
+                  class="btn btn-outline-secondary dropdown-toggle"
+                  type="button"
+                  id="sortDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Sort by Price
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                  <li>
+                    <a class="dropdown-item" href="#" data-sort="default"
+                      >Default</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" data-sort="low-to-high"
+                      >Price: Low to High</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" data-sort="high-to-low"
+                      >Price: High to Low</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Products -->
         <div class="container">
           <div class="row pt-2">
@@ -1951,6 +2037,90 @@
             `;
           }
         }
+      });
+
+      // Sort functionality with animations
+      document.addEventListener("DOMContentLoaded", function () {
+        const productContainers = document.querySelectorAll(
+          ".container .row.pt-2"
+        );
+
+        function getProductPrice(productContainer) {
+          const priceSpan = productContainer.querySelector(".price");
+          if (!priceSpan) return 0;
+          return parseFloat(priceSpan.textContent.replace(/,/g, ""));
+        }
+
+        function resetAnimations() {
+          document.querySelectorAll(".Product").forEach((product) => {
+            product.style.animation = "none";
+            product.style.opacity = "0";
+            product.style.transform = "translateY(30px)";
+          });
+        }
+
+        function applyStaggeredAnimation() {
+          const allProducts = document.querySelectorAll(".Product");
+          allProducts.forEach((product, index) => {
+            setTimeout(() => {
+              product.style.animation = "fadeInUp 0.8s ease-out forwards";
+              product.style.animationDelay = `${index * 0.1}s`;
+            }, 50);
+          });
+        }
+
+        function sortProducts(sortType) {
+          resetAnimations();
+
+          const allProductContainers = Array.from(
+            document.querySelectorAll(".container .row.pt-2 > .container > div")
+          );
+          const mainContainer = document.querySelector(
+            ".container .row.pt-2 .container"
+          );
+
+          if (sortType === "low-to-high") {
+            allProductContainers.sort(
+              (a, b) => getProductPrice(a) - getProductPrice(b)
+            );
+          } else if (sortType === "high-to-low") {
+            allProductContainers.sort(
+              (a, b) => getProductPrice(b) - getProductPrice(a)
+            );
+          }
+
+          if (sortType !== "default") {
+            allProductContainers.forEach((container) =>
+              mainContainer.appendChild(container)
+            );
+          }
+
+          setTimeout(() => {
+            applyStaggeredAnimation();
+          }, 100);
+        }
+
+        // Sort event listeners
+        document
+          .querySelectorAll(".dropdown-item[data-sort]")
+          .forEach((link) => {
+            link.addEventListener("click", function (e) {
+              e.preventDefault();
+              const sortType = this.getAttribute("data-sort");
+
+              // Update button text
+              const button = document.getElementById("sortDropdown");
+              if (sortType === "default") {
+                button.textContent = "Sort by Price";
+              } else if (sortType === "low-to-high") {
+                button.textContent = "Price: Low to High";
+              } else if (sortType === "high-to-low") {
+                button.textContent = "Price: High to Low";
+              }
+
+              sortProducts(sortType);
+            });
+          });
       });
     </script>
   </body>
