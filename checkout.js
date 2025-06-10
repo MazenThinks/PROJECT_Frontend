@@ -1,3 +1,102 @@
+// Checkout page functionality
+document.addEventListener("DOMContentLoaded", async function () {
+  await loadCartData();
+});
+
+// Global function to update cart display
+document.updateCartDisplay = updateCartDisplay;
+
+async function loadCartData() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.log("No token found");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/api/v1/cart", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.status === "success" && data.data) {
+        updateCartDisplay(data.data);
+      }
+    }
+  } catch (error) {
+    console.error("Error loading cart:", error);
+  }
+}
+
+function updateCartDisplay(cartData) {
+  const cartList = document.querySelector(".list-group");
+  const badge = document.querySelector(".badge");
+
+  if (!cartData || !cartData.items) {
+    return;
+  }
+
+  // Update item count
+  if (badge) {
+    badge.textContent = cartData.items.length;
+  }
+
+  // Clear existing items (except promo and total)
+  const existingItems = cartList.querySelectorAll(
+    ".list-group-item:not(:nth-last-child(1)):not(:nth-last-child(2))"
+  );
+  existingItems.forEach((item) => item.remove());
+
+  // Add cart items
+  cartData.items.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.className = "list-group-item d-flex justify-content-between lh-sm";
+    listItem.innerHTML = `
+            <div>
+                <h6 class="my-0">${item.product.name}</h6>
+                <small class="text-body-secondary">Qty: ${item.quantity}</small>
+            </div>
+            <span class="text-body-secondary">EGP ${(
+              item.product.price * item.quantity
+            ).toFixed(2)}</span>
+        `;
+
+    // Insert before the promo code item (second to last item)
+    const promoItem = cartList.children[cartList.children.length - 2];
+    cartList.insertBefore(listItem, promoItem);
+  });
+
+  // Update totals
+  const subtotal = cartData.totalCartPrice || 0;
+  const discount = cartData.totalPriceAfterDiscount
+    ? subtotal - cartData.totalPriceAfterDiscount
+    : 0;
+  const total = cartData.totalPriceAfterDiscount || subtotal;
+
+  // Update or create promo code display
+  const promoItem = cartList.children[cartList.children.length - 2];
+  if (discount > 0) {
+    promoItem.style.display = "flex";
+    promoItem.querySelector(
+      ".text-success span"
+    ).textContent = `− EGP ${discount.toFixed(2)}`;
+  } else {
+    promoItem.style.display = "none";
+  }
+
+  // Update total
+  const totalItem = cartList.children[cartList.children.length - 1];
+  totalItem.querySelector("strong").textContent = `EGP ${total.toFixed(2)}`;
+}
+
+// Make updateCartDisplay available globally
+window.updateCartDisplay = updateCartDisplay;
+
 // Fetch and display cart items, handle promo code, validate form, and show confirmation
 
 // Redirect to sign in if not logged in
@@ -85,23 +184,102 @@ document.addEventListener("DOMContentLoaded", async function () {
     badge.textContent = items.length;
   }
 
+  // Apply coupon function
+  async function applyCoupon(couponName) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please sign in to apply coupons");
+      return null;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/cart/applyCoupon",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ coupon: couponName }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.status === "success") {
+        return data.data; // Returns the updated cart with discount applied
+      } else {
+        throw new Error(data.message || "Failed to apply coupon");
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      return null;
+    }
+  }
+
   // Promo code logic
   document
-    .querySelector("form.card.p-2")
-    .addEventListener("submit", function (e) {
+    .querySelector("#promoForm")
+    .addEventListener("submit", async function (e) {
       e.preventDefault();
-      const input = this.querySelector("input");
+      const input = document.getElementById("promoInput");
       const code = input.value.trim();
-      // Example: only one promo code
-      if (code.toUpperCase() === "SAVE50") {
-        promoDiscount = 50;
-        promoCode = code.toUpperCase();
-      } else {
+
+      if (!code) {
+        alert("Please enter a promo code");
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = document.getElementById("redeemBtn");
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Applying...";
+      submitBtn.disabled = true;
+
+      try {
+        const updatedCart = await applyCoupon(code);
+
+        if (updatedCart) {
+          // Calculate discount amount
+          const originalPrice = updatedCart.totalCartPrice;
+          const discountedPrice = updatedCart.totalPriceAfterDiscount;
+
+          if (discountedPrice && discountedPrice < originalPrice) {
+            promoDiscount = originalPrice - discountedPrice;
+            promoCode = code.toUpperCase();
+
+            // Update cart items with the new cart data
+            cartItems = updatedCart.cartItems;
+
+            alert(
+              `Coupon "${code}" applied successfully! You saved EGP ${promoDiscount.toFixed(
+                2
+              )}`
+            );
+            renderCartSummary(cartItems);
+
+            // Clear the input
+            input.value = "";
+          } else {
+            promoDiscount = 0;
+            promoCode = "";
+            alert("Coupon applied but no discount was calculated");
+          }
+        } else {
+          promoDiscount = 0;
+          promoCode = "";
+          alert("Invalid or expired coupon code");
+        }
+      } catch (error) {
         promoDiscount = 0;
         promoCode = "";
-        alert("Invalid promo code");
+        alert("Error applying coupon: " + error.message);
+      } finally {
+        // Restore button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
       }
-      renderCartSummary(cartItems);
     });
 
   // Form validation and order submission
