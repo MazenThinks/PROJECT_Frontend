@@ -1,1 +1,5 @@
-Link the search bar in index.html with the AI search API in backend and work on its functionality, when typing anything in searchbar, process it and direct the user to the proper product page, dont change anything in index.html in the structure or anything just work on the functionality. Searchbar already working and hardcoded on productsID to link it to product pages, so u can use that. I repeat, dont change anything in the structure
+voice search:
+    go to (Categories) needs adjustments
+    Scroll Down
+
+Zoom changing
