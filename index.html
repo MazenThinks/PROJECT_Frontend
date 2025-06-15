@@ -75,6 +75,16 @@
             <span class="cartext">Cart</span>
           </a>
         </div>
+        <div class="voice-search-toggle d-flex align-items-center mx-2">
+          <button
+            id="voiceSearchBtn"
+            class="btn btn-sm btn-outline-primary voice-search-trigger"
+            aria-label="Voice Search"
+            title="Voice Search - Click to start"
+          >
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
         <div class="dark-mode-toggle d-flex align-items-center mx-2">
           <button
             id="darkModeToggle"
@@ -154,6 +164,77 @@
         </div>
       </div>
     </nav>
+
+    <!-- Enhanced Voice Search Sidebar -->
+    <div id="voiceOverlay" class="voice-overlay"></div>
+    <div id="voiceSidebar" class="voice-sidebar">
+      <div class="voice-sidebar-header">
+        <h3><i class="fa-solid fa-microphone me-2"></i>Voice Search</h3>
+        <button id="closeSidebar" class="btn-close" aria-label="Close"></button>
+      </div>
+
+      <div class="voice-sidebar-content">
+        <div class="voice-status">
+          <div class="status-indicator">
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+          <p class="status-text">Click start to begin voice search</p>
+        </div>
+
+        <div class="voice-controls">
+          <button id="startListening" class="btn btn-primary">
+            <i class="fa-solid fa-play me-2"></i>Start Listening
+          </button>
+          <button id="stopListening" class="btn btn-danger">
+            <i class="fa-solid fa-stop me-2"></i>Stop
+          </button>
+        </div>
+
+        <div class="voice-transcript">
+          <h5>What you said:</h5>
+          <div id="transcriptContent" class="transcript-content">
+            Say something like "search for iPhone" or "go to electronics"
+          </div>
+        </div>
+
+        <div id="voiceResults" class="voice-results" style="display: none">
+          <h5>Search Results:</h5>
+          <div id="voiceResultsList" class="voice-results-list"></div>
+        </div>
+
+        <div class="voice-help">
+          <h6>Try saying:</h6>
+          <ul>
+            <li>
+              "Search for iPhone"
+              <small class="text-muted">(types in search bar)</small>
+            </li>
+            <li>
+              "Find Samsung TV"
+              <small class="text-muted">(types in search bar)</small>
+            </li>
+            <li>"Type laptop in search bar"</li>
+            <li>"Go to electronics"</li>
+            <li>"Show me bestsellers"</li>
+            <li>"Take me to cart"</li>
+            <li>"Go to my profile"</li>
+            <li>"Scroll down"</li>
+            <li>"Go back"</li>
+            <li>"Close" or "Stop"</li>
+            <li>
+              "I want black shoes"
+              <small class="text-muted">(smart search)</small>
+            </li>
+            <li>"Looking for makeup products"</li>
+          </ul>
+          <small class="text-muted"
+            >🎯 Voice automatically stops after 3 seconds of silence<br />
+            💬 Search commands will type into the search bar automatically<br />
+            🧠 Smart detection understands natural speech patterns</small
+          >
+        </div>
+      </div>
+    </div>
 
     <!-- Carousel -->
     <div
@@ -2484,270 +2565,7 @@
                             alt="star"
                             height="20px"
                             width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img src="Assets/star.png" alt=" height="20px"
-                          width="20px" />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="container d-flex justify-content-evenly pt-2">
-                <!-- Product 5 -->
-                <div>
-                  <a
-                    href="ProductPages/home products/product4.html"
-                    class="cardlinking"
-                  >
-                    <div
-                      class="Product d-flex flex-column blacking"
-                      data-brand="Furgle"
-                    >
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/HomeCat/Furniture/Furniture 4.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Gaming Chair, Furgle Gocker Ergonomic Adjustable 3D
-                          Swivel Chair Gaming Chair One-Piece Steel Frame
-                          Adjustable Tilt Angle PU Leather Adjustable Work Chair
-                          Gas Lift
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 9,696.55</span> &nbsp;&nbsp;<s
-                            class="oldprice"
-                            >12,071.00</s
-                          >
-                          <span class="discountpercentage">-20%</span>
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Product 6 -->
-                <div>
-                  <a
-                    href="ProductPages/home products/product6.html"
-                    class="cardlinking"
-                  >
-                    <div
-                      class="Product d-flex flex-column blacking"
-                      data-brand="Golden Lighting"
-                    >
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/HomeCat/Home Decor/Home Decor 1.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Golden Lighting LED Gold Lampshade + 1 Crystal
-                          Cylinder Bulb.
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price">1,128.00</span> &nbsp;&nbsp;
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Product 7 -->
-                <div>
-                  <a
-                    href="ProductPages/home products/product9.html"
-                    class="cardlinking"
-                  >
-                    <div
-                      class="Product d-flex flex-column blacking"
-                      data-brand="Amotpo"
-                    >
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/HomeCat/Home Decor/Home Decor 4.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Amotpo Indoor/Outdoor Wall Clock,12-Inch Waterproof
-                          Clock with Thermometer and Hygrometer Combo,Battery
-                          Operated Quality Quartz Round Clock,Silver
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 549.00</span> &nbsp;&nbsp;
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
-                            src="Assets/empty star.png"
-                            alt="star"
-                            height="15px"
-                            width="15px"
-                          />
-                          <span class="stars">(19)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Product 8 -->
-                <div>
-                  <a
-                    href="ProductPages/home products/product12.html"
-                    class="cardlinking"
-                  >
-                    <div
-                      class="Product d-flex flex-column blacking"
-                      data-brand="Pasabahce"
-                    >
-                      <div class="py-3 alignment">
-                        <img
-                          src="Assets/HomeCat/Kitchen&Dining/Kitchen 2.png"
-                          alt="Product1"
-                          height="200px"
-                        />
-                      </div>
-                      <div class="align-items-start productxt p-2">
-                        <p class="slicingText">
-                          Pasabahce Set of 6 Large Mug with Handle -340ml Turkey
-                          Made
-                        </p>
-                        <p>
-                          <span class="curr">EGP</span
-                          ><span class="price"> 495.00</span> &nbsp;&nbsp;
-                        </p>
-                        <p>
-                          <img
-                            src="Assets/star.png"
-                            alt="star"
-                            height="20px"
-                            width="20px"
-                          />
-                          <img
+                            <img
                             src="Assets/star.png"
                             alt="star"
                             height="20px"
@@ -4826,6 +4644,7 @@
     <script src="scroll-animations.js"></script>
     <script src="script.js"></script>
     <script src="cart.js"></script>
+    <script src="enhanced-voice-search.js"></script>
     <script>
       // User state display in navbar with username dropdown and avatar
       document.addEventListener("DOMContentLoaded", async function () {
@@ -4902,9 +4721,12 @@
 
         if (!searchInput || !dropdown) return;
 
-        // Function to call the AI search API
+        // Function to call the AI search API with enhanced query processing
         const searchProductsAI = async (query) => {
           try {
+            // Process the query to understand user intent
+            const processedQuery = processUserQuery(query);
+
             const response = await fetch(
               "http://localhost:3000/api/v1/products/search-ai",
               {
@@ -4912,7 +4734,7 @@
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ query }),
+                body: JSON.stringify({ query: processedQuery }),
               }
             );
 
@@ -4923,6 +4745,73 @@
             return { products: [] };
           }
         };
+
+        // Enhanced query processing function
+        function processUserQuery(query) {
+          let processed = query.toLowerCase().trim();
+
+          // Remove common filler words
+          const fillerWords = [
+            "i want",
+            "i need",
+            "looking for",
+            "search for",
+            "find me",
+            "show me",
+            "get me",
+            "buy",
+            "purchase",
+            "a",
+            "an",
+            "the",
+            "some",
+            "any",
+          ];
+
+          fillerWords.forEach((filler) => {
+            const regex = new RegExp(`\\b${filler}\\b`, "gi");
+            processed = processed.replace(regex, "");
+          });
+
+          processed = processed.replace(/\s+/g, " ").trim();
+
+          // Common corrections
+          const corrections = {
+            iphone: "iPhone",
+            ipad: "iPad",
+            samsung: "Samsung",
+            laptop: "laptop",
+            computer: "laptop",
+            mobile: "mobile phone",
+            phone: "mobile phone",
+            "washing machine": "washing machine",
+            washer: "washing machine",
+            "automatic washing machine": "washing machine",
+            fridge: "refrigerator",
+            tv: "television",
+            "smart tv": "Smart TV",
+            playstation: "PlayStation",
+            ps5: "PlayStation 5",
+            xbox: "Xbox",
+            "gaming console": "console",
+            perfume: "perfume",
+            fragrance: "perfume",
+            makeup: "makeup",
+            cosmetics: "makeup",
+          };
+
+          Object.keys(corrections).forEach((mistake) => {
+            const regex = new RegExp(`\\b${mistake}\\b`, "gi");
+            processed = processed.replace(regex, corrections[mistake]);
+          });
+
+          // Handle common patterns
+          if (processed.includes("automatic") && processed.includes("wash")) {
+            processed = "washing machine";
+          }
+
+          return processed || query;
+        }
 
         // Generate a URL for a product based on its data
         const getProductURL = (product) => {
@@ -5011,6 +4900,23 @@
           // Show dropdown
           dropdown.style.display = "block";
         };
+
+        // Handle search form submission to redirect to search results page
+        const searchForm = document.querySelector('form[role="search"]');
+        if (searchForm) {
+          searchForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const searchInput = document.querySelector(".navsearch");
+            const query = searchInput.value.trim();
+
+            if (query) {
+              // Redirect to search results page
+              window.location.href = `search-results.html?q=${encodeURIComponent(
+                query
+              )}`;
+            }
+          });
+        }
 
         // Add event listener for search input with debouncing
         searchInput.addEventListener("input", function () {
@@ -5414,155 +5320,6 @@
         searchInput.addEventListener("keydown", function (e) {
           if (e.key === "Enter") {
             hideDropdown();
-          }
-        });
-      });
-
-      // AI-powered search integration
-      document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.querySelector(".navsearch");
-        const searchForm = searchInput && searchInput.closest("form");
-        if (!searchForm) return;
-
-        // Use the same productId-to-page mapping as the dropdown
-        const productIdToPage = {
-          // Appliances Products
-          "68252918a68b49cb06164204":
-            "ProductPages/AppliancesProducts/product1.html",
-          "68252918a68b49cb06164205":
-            "ProductPages/AppliancesProducts/product2.html",
-          "68252918a68b49cb06164206":
-            "ProductPages/AppliancesProducts/product3.html",
-          "68252918a68b49cb06164207":
-            "ProductPages/AppliancesProducts/product4.html",
-          "68252918a68b49cb06164208":
-            "ProductPages/AppliancesProducts/product5.html",
-          "68252918a68b49cb06164209":
-            "ProductPages/AppliancesProducts/product6.html",
-          "68252918a68b49cb0616420a":
-            "ProductPages/AppliancesProducts/product7.html",
-          "68252918a68b49cb0616420b":
-            "ProductPages/AppliancesProducts/product8.html",
-          "68252918a68b49cb0616420c":
-            "ProductPages/AppliancesProducts/product9.html",
-          "68252918a68b49cb0616420d":
-            "ProductPages/AppliancesProducts/product10.html",
-          "68252918a68b49cb0616420e":
-            "ProductPages/AppliancesProducts/product11.html",
-          "68252918a68b49cb0616420f":
-            "ProductPages/AppliancesProducts/product12.html",
-          "68252918a68b49cb06164210":
-            "ProductPages/AppliancesProducts/product13.html",
-          "68252918a68b49cb06164211":
-            "ProductPages/AppliancesProducts/product14.html",
-          "68252918a68b49cb06164212":
-            "ProductPages/AppliancesProducts/product15.html",
-
-          // Electronics Products
-          "6819e22b123a4faad16613be":
-            "ProductPages/Electronics products/product1.html",
-          "6819e22b123a4faad16613bf":
-            "ProductPages/Electronics products/product2.html",
-          "6819e22b123a4faad16613c0":
-            "ProductPages/Electronics products/product3.html",
-          "6819e22b123a4faad16613c1":
-            "ProductPages/Electronics products/product4.html",
-          "6819e22b123a4faad16613c3":
-            "ProductPages/Electronics products/product5.html",
-          "6819e22b123a4faad16613c4":
-            "ProductPages/Electronics products/product6.html",
-          "6819e22b123a4faad16613c5":
-            "ProductPages/Electronics products/product7.html",
-          "6819e22b123a4faad16613c6":
-            "ProductPages/Electronics products/product8.html",
-          "6819e22b123a4faad16613c7":
-            "ProductPages/Electronics products/product9.html",
-          "6819e22b123a4faad16613c8":
-            "ProductPages/Electronics products/product10.html",
-          "6819e22b123a4faad16613c9":
-            "ProductPages/Electronics products/product11.html",
-          "6819e22b123a4faad16613ca":
-            "ProductPages/Electronics products/product12.html",
-          "6819e22b123a4faad16613cb":
-            "ProductPages/Electronics products/product13.html",
-          "6819e22b123a4faad16613cc":
-            "ProductPages/Electronics products/product14.html",
-          "6819e22b123a4faad16613c2":
-            "ProductPages/Electronics products/product15.html",
-
-          // Home Products
-          "681dab0df9c9147444b452cd":
-            "ProductPages/home products/product1.html",
-          "681dab0df9c9147444b452ce":
-            "ProductPages/home products/product2.html",
-          "681dab0df9c9147444b452cf":
-            "ProductPages/home products/product3.html",
-          "681dab0df9c9147444b452d0":
-            "ProductPages/home products/product4.html",
-          "681dab0df9c9147444b452d1":
-            "ProductPages/home products/product5.html",
-          "681dab0df9c9147444b452d2":
-            "ProductPages/home products/product6.html",
-          "681dab0df9c9147444b452d3":
-            "ProductPages/home products/product7.html",
-          "681dab0df9c9147444b452d4":
-            "ProductPages/home products/product8.html",
-          "681dab0df9c9147444b452d5":
-            "ProductPages/home products/product9.html",
-          "681dab0df9c9147444b452d6":
-            "ProductPages/home products/product10.html",
-          "681dab0df9c9147444b452d7":
-            "ProductPages/home products/product11.html",
-          "681dab0df9c9147444b452d8":
-            "ProductPages/home products/product12.html",
-          "681dab0df9c9147444b452d9":
-            "ProductPages/home products/product13.html",
-          "681dab0df9c9147444b452da":
-            "ProductPages/home products/product14.html",
-          "681dab0df9c9147444b452db":
-            "ProductPages/home products/product15.html",
-          "681dab0df9c9147444b452dc":
-            "ProductPages/home products/product16.html",
-          "681dab0df9c9147444b452dd":
-            "ProductPages/home products/product17.html",
-          "681dab0df9c9147444b452de":
-            "ProductPages/home products/product18.html",
-          "681dab0df9c9147444b452df":
-            "ProductPages/home products/product19.html",
-          "681dab0df9c9147444b452e0":
-            "ProductPages/home products/product20.html",
-        };
-
-        searchForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const query = searchInput.value.trim();
-          if (!query) return;
-
-          try {
-            const res = await fetch(
-              "http://localhost:3000/api/v1/products/search",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query }),
-              }
-            );
-            const data = await res.json();
-            if (data.products && data.products.length > 0) {
-              const topProduct = data.products[0];
-              // Try both _id (string) and _id.$oid (if returned as object)
-              let prodId = topProduct._id;
-              if (prodId && typeof prodId === "object" && prodId.$oid)
-                prodId = prodId.$oid;
-              const page = productIdToPage[prodId];
-              // Check similarity score (default to 0 if not present)
-              const score =
-                typeof topProduct._score === "number" ? topProduct._score : 0;
-            }
-            // fallback: show a message only if no product page found or score too low
-            alert("No matching product page found.");
-          } catch (err) {
-            alert("AI search failed.");
           }
         });
       });

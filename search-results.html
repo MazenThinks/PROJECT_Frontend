@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styling.css" />
+    <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
+    <title>Search Results - PickPay</title>
+    <style>
+      .search-results-container {
+        min-height: 60vh;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+      }
+
+      @media (min-width: 1200px) {
+        .product-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (min-width: 992px) and (max-width: 1199px) {
+        .product-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 991px) {
+        .product-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 767px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .product-card {
+        background: var(--card-bg, #fff);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color, #e0e0e0);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-image-container {
+        position: relative;
+        overflow: hidden;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        padding: 15px;
+      }
+
+      .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover .product-image {
+        transform: scale(1.05);
+      }
+
+      .product-info {
+        padding: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color, #333);
+        line-height: 1.4;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 44px;
+      }
+
+      .product-price {
+        margin-bottom: 10px;
+      }
+
+      .price-current {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--primary-color, #007bff);
+      }
+
+      .price-old {
+        font-size: 14px;
+        color: #888;
+        text-decoration: line-through;
+        margin-left: 8px;
+      }
+
+      .discount-badge {
+        background: #dc3545;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 8px;
+      }
+
+      .rating-section {
+        margin-bottom: 15px;
+      }
+
+      .stars {
+        color: #ffc107;
+        margin-right: 5px;
+      }
+
+      .rating-count {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .product-actions {
+        margin-top: auto;
+      }
+
+      .btn-add-cart {
+        background: var(--primary-color, #007bff);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .btn-add-cart:hover {
+        background: var(--primary-dark, #0056b3);
+        transform: translateY(-1px);
+      }
+
+      .search-header {
+        background: var(--navbar-bg, #f8f9fa);
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-color, #e0e0e0);
+      }
+
+      .search-filters {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-section {
+        margin-bottom: 15px;
+      }
+
+      .filter-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-color, #333);
+      }
+
+      .loading-spinner {
+        text-align: center;
+        padding: 50px;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 50px;
+        color: #666;
+      }
+
+      .results-count {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation (copied from index.html) -->
+    <header class="py-3 mb-0 border-bottom">
+      <div
+        class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center mb-0 me-2 link-body-emphasis text-decoration-none titleanimation"
+        >
+          <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
+          <span class="fs-4 me-1 title">PickPay</span>
+        </a>
+        <form
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          role="search"
+          style="max-width: 600px"
+        >
+          <input
+            class="form-control me-2 navsearch"
+            type="search"
+            placeholder="What are you looking for?"
+            aria-label="Search"
+            autocomplete="off"
+          />
+          <div
+            id="searchDropdown"
+            class="dropdown-menu w-100"
+            style="
+              max-height: 300px;
+              overflow-y: auto;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              z-index: 1000;
+              display: none;
+              background-color: var(--dropdown-bg, #fff);
+              color: var(--input-text, #212529);
+            "
+          ></div>
+        </form>
+        <div class="cart text-decoration-none me-2">
+          <a
+            href="cart.html"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none cartanim"
+          >
+            <img
+              src="Assets/cart.svg"
+              width="23"
+              height="23"
+              fill="currentColor"
+              class="bi bi-box-seam me-1"
+              viewBox="0 0 16 16"
+            />
+            <span class="cartext">Cart</span>
+          </a>
+        </div>
+        <div class="voice-search-toggle d-flex align-items-center mx-2">
+          <button
+            id="voiceSearchBtn"
+            class="btn btn-sm btn-outline-primary voice-search-trigger"
+            aria-label="Voice Search"
+            title="Voice Search - Click to start"
+          >
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
+        <div class="dark-mode-toggle d-flex align-items-center mx-2">
+          <button
+            id="darkModeToggle"
+            class="btn btn-sm theme-toggle-btn"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        <div class="text-end d-flex align-items-center ms-2">
+          <a href="signinPage.html"
+            ><button type="button" class="btn btn-light text-dark me-2 ms-2">
+              Login
+            </button></a
+          >
+          <a href="signupPage.html"
+            ><button type="button" class="btn btn-primary">Sign Up</button></a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Search Header -->
+    <div class="search-header">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Search Results
+            </li>
+          </ol>
+        </nav>
+        <h1 id="searchTitle">Search Results</h1>
+        <p id="searchQuery" class="text-muted mb-0"></p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+      <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 col-md-4 mb-4">
+          <div class="search-filters">
+            <h5>Filters</h5>
+
+            <div class="filter-section">
+              <div class="filter-label">Category</div>
+              <select id="categoryFilter" class="form-select form-select-sm">
+                <option value="">All Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="appliances">Appliances</option>
+                <option value="home">Home</option>
+                <option value="fashion">Fashion</option>
+                <option value="beauty">Beauty & Fragrance</option>
+                <option value="videogames">Video Games</option>
+              </select>
+            </div>
+
+            <div class="filter-section">
+              <div class="filter-label">Price Range</div>
+              <div class="row">
+                <div class="col-6">
+                  <input
+                    type="number"
+                    id="minPrice"
+                    class="form-control form-control-sm"
+                    placeholder="Min"
+                  />
+                </div>
+                <div class="col-6">
+                  <input
+                    type="number"
+                    id="maxPrice"
+                    class="form-control form-control-sm"
+                    placeholder="Max"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="filter-section">
+              <div class="filter-label">Sort By</div>
+              <select id="sortFilter" class="form-select form-select-sm">
+                <option value="relevance">Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Customer Rating</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+
+            <button id="applyFilters" class="btn btn-primary btn-sm w-100 mt-3">
+              Apply Filters
+            </button>
+            <button
+              id="clearFilters"
+              class="btn btn-outline-secondary btn-sm w-100 mt-2"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="col-lg-9 col-md-8">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div id="resultsCount" class="results-count">Loading...</div>
+            <div class="view-options">
+              <button
+                class="btn btn-sm btn-outline-secondary active"
+                id="gridView"
+              >
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" id="listView">
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="search-results-container">
+            <div id="loadingSpinner" class="loading-spinner">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-3">Searching products...</p>
+            </div>
+
+            <div
+              id="productsGrid"
+              class="product-grid"
+              style="display: none"
+            ></div>
+
+            <div id="noResults" class="no-results" style="display: none">
+              <i class="fas fa-search fa-3x text-muted mb-3"></i>
+              <h4>No products found</h4>
+              <p>Try adjusting your search terms or filters</p>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div
+            id="paginationContainer"
+            class="pagination-container"
+            style="display: none"
+          >
+            <nav aria-label="Search results pagination">
+              <ul class="pagination" id="pagination"></ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer (copied from index.html) -->
+    <div class="text-center bg-body-tertiary">
+      <footer class="py-4">
+        <div class="py-5 border-top d-flex flex-column align-items-center">
+          <p>© 2025 PickPay, Inc. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Enhanced Voice Search Sidebar -->
+    <div id="voiceOverlay" class="voice-overlay"></div>
+    <div id="voiceSidebar" class="voice-sidebar">
+      <div class="voice-sidebar-header">
+        <h3><i class="fa-solid fa-microphone me-2"></i>Voice Search</h3>
+        <button id="closeSidebar" class="btn-close" aria-label="Close"></button>
+      </div>
+
+      <div class="voice-sidebar-content">
+        <div class="voice-status">
+          <div class="status-indicator">
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+          <p class="status-text">Click start to begin voice search</p>
+        </div>
+
+        <div class="voice-controls">
+          <button id="startListening" class="btn btn-primary">
+            <i class="fa-solid fa-play me-2"></i>Start Listening
+          </button>
+          <button id="stopListening" class="btn btn-danger">
+            <i class="fa-solid fa-stop me-2"></i>Stop
+          </button>
+        </div>
+
+        <div class="voice-transcript">
+          <h5>What you said:</h5>
+          <div id="transcriptContent" class="transcript-content">
+            Say something like "search for iPhone" or "go to electronics"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <script src="cart.js"></script>
+    <script src="enhanced-voice-search.js"></script>
+
+    <script>
+      // Product mapping with proper image paths and product page links
+      const productPageMap = {
+        // Electronics Products
+        "6819e22b123a4faad16613be": {
+          page: "ProductPages/Electronics products/product1.html",
+          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 1.png",
+        },
+        "6819e22b123a4faad16613bf": {
+          page: "ProductPages/Electronics products/product2.html",
+          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 2.png",
+        },
+        "6819e22b123a4faad16613c0": {
+          page: "ProductPages/Electronics products/product3.html",
+          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 3.png",
+        },
+        "6819e22b123a4faad16613c1": {
+          page: "ProductPages/Electronics products/product4.html",
+          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 4.png",
+        },
+        "6819e22b123a4faad16613c3": {
+          page: "ProductPages/Electronics products/product5.html",
+          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 5.png",
+        },
+        "6819e22b123a4faad16613c4": {
+          page: "ProductPages/Electronics products/product6.html",
+          image: "Assets/elec Cat/Tvs/TV 1.png",
+        },
+        "6819e22b123a4faad16613c5": {
+          page: "ProductPages/Electronics products/product7.html",
+          image: "Assets/elec Cat/Tvs/TV 2.png",
+        },
+        "6819e22b123a4faad16613c6": {
+          page: "ProductPages/Electronics products/product8.html",
+          image: "Assets/elec Cat/Tvs/TV 3.png",
+        },
+        "6819e22b123a4faad16613c7": {
+          page: "ProductPages/Electronics products/product9.html",
+          image: "Assets/elec Cat/Tvs/TV 4.png",
+        },
+        "6819e22b123a4faad16613c8": {
+          page: "ProductPages/Electronics products/product10.html",
+          image: "Assets/elec Cat/Tvs/TV 5.png",
+        },
+        "6819e22b123a4faad16613c9": {
+          page: "ProductPages/Electronics products/product11.html",
+          image: "Assets/elec Cat/Laptop/laptop 1.png",
+        },
+        "6819e22b123a4faad16613ca": {
+          page: "ProductPages/Electronics products/product12.html",
+          image: "Assets/elec Cat/Laptop/laptop 2.png",
+        },
+        "6819e22b123a4faad16613cb": {
+          page: "ProductPages/Electronics products/product13.html",
+          image: "Assets/elec Cat/Laptop/laptop 3.png",
+        },
+        "6819e22b123a4faad16613cc": {
+          page: "ProductPages/Electronics products/product14.html",
+          image: "Assets/elec Cat/Laptop/laptop 4.png",
+        },
+        "6819e22b123a4faad16613c2": {
+          page: "ProductPages/Electronics products/product15.html",
+          image: "Assets/elec Cat/Laptop/laptop 5.png",
+        },
+
+        // Appliances Products
+        "68252918a68b49cb06164204": {
+          page: "ProductPages/AppliancesProducts/product1.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 1.png",
+        },
+        "68252918a68b49cb06164205": {
+          page: "ProductPages/AppliancesProducts/product2.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 2.png",
+        },
+        "68252918a68b49cb06164206": {
+          page: "ProductPages/AppliancesProducts/product3.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 3.png",
+        },
+        "68252918a68b49cb06164207": {
+          page: "ProductPages/AppliancesProducts/product4.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 4.png",
+        },
+        "68252918a68b49cb06164208": {
+          page: "ProductPages/AppliancesProducts/product5.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 5.png",
+        },
+        "68252918a68b49cb06164209": {
+          page: "ProductPages/AppliancesProducts/product6.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 1.png",
+        },
+        "68252918a68b49cb0616420a": {
+          page: "ProductPages/AppliancesProducts/product7.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 2.png",
+        },
+        "68252918a68b49cb0616420b": {
+          page: "ProductPages/AppliancesProducts/product8.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 3.png",
+        },
+        "68252918a68b49cb0616420c": {
+          page: "ProductPages/AppliancesProducts/product9.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 4.png",
+        },
+        "68252918a68b49cb0616420d": {
+          page: "ProductPages/AppliancesProducts/product10.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 5.png",
+        },
+        "68252918a68b49cb0616420e": {
+          page: "ProductPages/AppliancesProducts/product11.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 6.png",
+        },
+        "68252918a68b49cb0616420f": {
+          page: "ProductPages/AppliancesProducts/product12.html",
+          image: "Assets/AppCat/Large Appliances/Large Appliances 7.png",
+        },
+        "68252918a68b49cb06164210": {
+          page: "ProductPages/AppliancesProducts/product13.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 6.png",
+        },
+        "68252918a68b49cb06164211": {
+          page: "ProductPages/AppliancesProducts/product14.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 7.png",
+        },
+        "68252918a68b49cb06164212": {
+          page: "ProductPages/AppliancesProducts/product15.html",
+          image: "Assets/AppCat/Small Appliances/Small Appliances 8.png",
+        },
+
+        // Home Products
+        "681dab0df9c9147444b452cd": {
+          page: "ProductPages/home products/product1.html",
+          image: "Assets/HomeCat/Furniture/Furniture 1.png",
+        },
+        "681dab0df9c9147444b452ce": {
+          page: "ProductPages/home products/product2.html",
+          image: "Assets/HomeCat/Furniture/Furniture 2.png",
+        },
+        "681dab0df9c9147444b452cf": {
+          page: "ProductPages/home products/product3.html",
+          image: "Assets/HomeCat/Furniture/Furniture 3.png",
+        },
+        "681dab0df9c9147444b452d0": {
+          page: "ProductPages/home products/product4.html",
+          image: "Assets/HomeCat/Furniture/Furniture 4.png",
+        },
+        "681dab0df9c9147444b452d1": {
+          page: "ProductPages/home products/product5.html",
+          image: "Assets/HomeCat/Furniture/Furniture 5.png",
+        },
+        "681dab0df9c9147444b452d2": {
+          page: "ProductPages/home products/product6.html",
+          image: "Assets/HomeCat/Home Decor/Home Decor 1.png",
+        },
+        "681dab0df9c9147444b452d3": {
+          page: "ProductPages/home products/product7.html",
+          image: "Assets/HomeCat/Home Decor/Home Decor 2.png",
+        },
+        "681dab0df9c9147444b452d4": {
+          page: "ProductPages/home products/product8.html",
+          image: "Assets/HomeCat/Home Decor/Home Decor 3.png",
+        },
+        "681dab0df9c9147444b452d5": {
+          page: "ProductPages/home products/product9.html",
+          image: "Assets/HomeCat/Home Decor/Home Decor 4.png",
+        },
+        "681dab0df9c9147444b452d6": {
+          page: "ProductPages/home products/product10.html",
+          image: "Assets/HomeCat/Home Decor/Home Decor 5.png",
+        },
+        "681dab0df9c9147444b452d7": {
+          page: "ProductPages/home products/product11.html",
+          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 1.png",
+        },
+        "681dab0df9c9147444b452d8": {
+          page: "ProductPages/home products/product12.html",
+          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 2.png",
+        },
+        "681dab0df9c9147444b452d9": {
+          page: "ProductPages/home products/product13.html",
+          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 3.png",
+        },
+        "681dab0df9c9147444b452da": {
+          page: "ProductPages/home products/product14.html",
+          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 4.png",
+        },
+        "681dab0df9c9147444b452db": {
+          page: "ProductPages/home products/product15.html",
+          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 5.png",
+        },
+        "681dab0df9c9147444b452dc": {
+          page: "ProductPages/home products/product16.html",
+          image: "Assets/HomeCat/Bath&Bedding/Bath 1.png",
+        },
+        "681dab0df9c9147444b452dd": {
+          page: "ProductPages/home products/product17.html",
+          image: "Assets/HomeCat/Bath&Bedding/Bath 2.png",
+        },
+        "681dab0df9c9147444b452de": {
+          page: "ProductPages/home products/product18.html",
+          image: "Assets/HomeCat/Bath&Bedding/Bath 3.png",
+        },
+        "681dab0df9c9147444b452df": {
+          page: "ProductPages/home products/product19.html",
+          image: "Assets/HomeCat/Bath&Bedding/Bath 4.png",
+        },
+        "681dab0df9c9147444b452e0": {
+          page: "ProductPages/home products/product20.html",
+          image: "Assets/HomeCat/Bath&Bedding/Bath 5.png",
+        },
+
+        // Fashion Products
+        "682b00c26977bd89257c0e8e": {
+          page: "ProductPages/fashion products/product1.html",
+          image: "Assets/FashionCat/Women's Fashion/Women's fashion 1.png",
+        },
+        "682b00c26977bd89257c0e8f": {
+          page: "ProductPages/fashion products/product2.html",
+          image: "Assets/FashionCat/Women's Fashion/Women's fashion 2.png",
+        },
+        "682b00c26977bd89257c0e90": {
+          page: "ProductPages/fashion products/product3.html",
+          image: "Assets/FashionCat/Women's Fashion/Women's fashion 3.png",
+        },
+        "682b00c26977bd89257c0e91": {
+          page: "ProductPages/fashion products/product4.html",
+          image: "Assets/FashionCat/Women's Fashion/Women's fashion 4.png",
+        },
+        "682b00c26977bd89257c0e92": {
+          page: "ProductPages/fashion products/product5.html",
+          image: "Assets/FashionCat/Women's Fashion/Women's fashion 5.png",
+        },
+        "682b00c26977bd89257c0e93": {
+          page: "ProductPages/fashion products/product6.html",
+          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 1.png",
+        },
+        "682b00c26977bd89257c0e94": {
+          page: "ProductPages/fashion products/product7.html",
+          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 2.png",
+        },
+        "682b00c26977bd89257c0e95": {
+          page: "ProductPages/fashion products/product8.html",
+          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 3.png",
+        },
+        "682b00c26977bd89257c0e96": {
+          page: "ProductPages/fashion products/product9.html",
+          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 4.png",
+        },
+        "682b00c26977bd89257c0e97": {
+          page: "ProductPages/fashion products/product10.html",
+          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 5.png",
+        },
+        "682b00c26977bd89257c0e98": {
+          page: "ProductPages/fashion products/product11.html",
+          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 1.png",
+        },
+        "682b00c26977bd89257c0e99": {
+          page: "ProductPages/fashion products/product12.html",
+          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 2.png",
+        },
+        "682b00c26977bd89257c0e9a": {
+          page: "ProductPages/fashion products/product13.html",
+          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 3.png",
+        },
+        "682b00c26977bd89257c0e9b": {
+          page: "ProductPages/fashion products/product14.html",
+          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 4.png",
+        },
+        "682b00c26977bd89257c0e9c": {
+          page: "ProductPages/fashion products/product15.html",
+          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 5.png",
+        },
+
+        // Video Games Products
+        "682b00a46977bd89257c0e80": {
+          page: "ProductPages/videogames products/product1.html",
+          image: "Assets/VidCat/Consoles/Console1.png",
+        },
+        "682b00a46977bd89257c0e81": {
+          page: "ProductPages/videogames products/product2.html",
+          image: "Assets/VidCat/Consoles/Console2.png",
+        },
+        "682b00a46977bd89257c0e82": {
+          page: "ProductPages/videogames products/product3.html",
+          image: "Assets/VidCat/Consoles/Console3.png",
+        },
+        "682b00a46977bd89257c0e83": {
+          page: "ProductPages/videogames products/product4.html",
+          image: "Assets/VidCat/Consoles/Console4.png",
+        },
+        "682b00a46977bd89257c0e84": {
+          page: "ProductPages/videogames products/product5.html",
+          image: "Assets/VidCat/Controllers/Controller1.jpg.png",
+        },
+        "682b00a46977bd89257c0e85": {
+          page: "ProductPages/videogames products/product6.html",
+          image: "Assets/VidCat/Controllers/Controller2.jpg.png",
+        },
+        "682b00a46977bd89257c0e86": {
+          page: "ProductPages/videogames products/product7.html",
+          image: "Assets/VidCat/Controllers/Controller3.jpg.png",
+        },
+        "682b00a46977bd89257c0e87": {
+          page: "ProductPages/videogames products/product8.html",
+          image: "Assets/VidCat/Controllers/Controller4.jpg.png",
+        },
+        "682b00a46977bd89257c0e88": {
+          page: "ProductPages/videogames products/product9.html",
+          image: "Assets/VidCat/Controllers/Controller5.jpg.png",
+        },
+        "682b00a46977bd89257c0e89": {
+          page: "ProductPages/videogames products/product10.html",
+          image: "Assets/VidCat/Accessories/Accessories1.png",
+        },
+        "682b00a46977bd89257c0e8a": {
+          page: "ProductPages/videogames products/product11.html",
+          image: "Assets/VidCat/Accessories/Accessories2.png",
+        },
+        "682b00a46977bd89257c0e8b": {
+          page: "ProductPages/videogames products/product12.html",
+          image: "Assets/VidCat/Accessories/Accessories3.png",
+        },
+        "682b00a46977bd89257c0e8c": {
+          page: "ProductPages/videogames products/product13.html",
+          image: "Assets/VidCat/Accessories/Accessories4.png",
+        },
+        "682b00a46977bd89257c0e8d": {
+          page: "ProductPages/videogames products/product14.html",
+          image: "Assets/VidCat/Accessories/Accessories5.png",
+        },
+
+        // Beauty Products
+        "682b00d16977bd89257c0e9d": {
+          page: "ProductPages/beauty products/product1.html",
+          image: "Assets/Beautycat/Makeup/Makeup 1.png",
+        },
+        "682b00d16977bd89257c0e9e": {
+          page: "ProductPages/beauty products/product2.html",
+          image: "Assets/Beautycat/Makeup/Makeup 2.png",
+        },
+        "682b00d16977bd89257c0e9f": {
+          page: "ProductPages/beauty products/product3.html",
+          image: "Assets/Beautycat/Makeup/Makeup 3.png",
+        },
+        "682b00d16977bd89257c0ea0": {
+          page: "ProductPages/beauty products/product4.html",
+          image: "Assets/Beautycat/Makeup/Makeup 4.png",
+        },
+        "682b00d16977bd89257c0ea1": {
+          page: "ProductPages/beauty products/product5.html",
+          image: "Assets/Beautycat/Makeup/Makeup 5.png",
+        },
+        "682b00d16977bd89257c0ea2": {
+          page: "ProductPages/beauty products/product6.html",
+          image: "Assets/Beautycat/Skincare/Skincare 1.png",
+        },
+        "682b00d16977bd89257c0ea3": {
+          page: "ProductPages/beauty products/product7.html",
+          image: "Assets/Beautycat/Skincare/Skincare 2.png",
+        },
+        "682b00d16977bd89257c0ea4": {
+          page: "ProductPages/beauty products/product8.html",
+          image: "Assets/Beautycat/Skincare/Skincare 3.png",
+        },
+        "682b00d16977bd89257c0ea5": {
+          page: "ProductPages/beauty products/product9.html",
+          image: "Assets/Beautycat/Skincare/Skincare 4.png",
+        },
+        "682b00d16977bd89257c0ea6": {
+          page: "ProductPages/beauty products/product10.html",
+          image: "Assets/Beautycat/Skincare/Skincare 5.png",
+        },
+        "682b00d16977bd89257c0ea7": {
+          page: "ProductPages/beauty products/product11.html",
+          image: "Assets/Beautycat/Haircare/Haircare 1.png",
+        },
+        "682b00d16977bd89257c0ea8": {
+          page: "ProductPages/beauty products/product12.html",
+          image: "Assets/Beautycat/Haircare/Haircare 2.png",
+        },
+        "682b00d16977bd89257c0ea9": {
+          page: "ProductPages/beauty products/product13.html",
+          image: "Assets/Beautycat/Haircare/Haircare 3.png",
+        },
+        "682b00d16977bd89257c0eaa": {
+          page: "ProductPages/beauty products/product14.html",
+          image: "Assets/Beautycat/Haircare/Haircare 4.png",
+        },
+        "682b00d16977bd89257c0eab": {
+          page: "ProductPages/beauty products/product15.html",
+          image: "Assets/Beautycat/Haircare/Haircare 5.png",
+        },
+        "682b00d16977bd89257c0eac": {
+          page: "ProductPages/beauty products/product16.html",
+          image: "Assets/Beautycat/Fragrance/Fragrance 1.png",
+        },
+        "682b00d16977bd89257c0ead": {
+          page: "ProductPages/beauty products/product17.html",
+          image: "Assets/Beautycat/Fragrance/Fragrance 2.png",
+        },
+        "682b00d16977bd89257c0eae": {
+          page: "ProductPages/beauty products/product18.html",
+          image: "Assets/Beautycat/Fragrance/Fragrance 3.png",
+        },
+        "682b00d16977bd89257c0eaf": {
+          page: "ProductPages/beauty products/product19.html",
+          image: "Assets/Beautycat/Fragrance/Fragrance 4.png",
+        },
+        "682b00d16977bd89257c0eb0": {
+          page: "ProductPages/beauty products/product20.html",
+          image: "Assets/Beautycat/Fragrance/Fragrance 5.png",
+        },
+      };
+
+      class SearchResults {
+        constructor() {
+          this.currentPage = 1;
+          this.itemsPerPage = 20;
+          this.products = [];
+          this.filteredProducts = [];
+          this.totalResults = 0;
+          this.searchQuery = "";
+          this.currentFilters = {
+            category: "",
+            minPrice: null,
+            maxPrice: null,
+            sortBy: "relevance",
+          };
+
+          this.init();
+        }
+
+        init() {
+          this.getSearchQuery();
+          this.setupEventListeners();
+          this.searchProducts();
+        }
+
+        getSearchQuery() {
+          const urlParams = new URLSearchParams(window.location.search);
+          this.searchQuery = urlParams.get("q") || "";
+
+          document.getElementById("searchQuery").textContent = this.searchQuery
+            ? `Showing results for "${this.searchQuery}"`
+            : "All products";
+
+          // Update search input with current query
+          const searchInput = document.querySelector(".navsearch");
+          if (searchInput && this.searchQuery) {
+            searchInput.value = this.searchQuery;
+          }
+        }
+
+        setupEventListeners() {
+          // Filter controls
+          document
+            .getElementById("applyFilters")
+            .addEventListener("click", () => {
+              this.applyFilters();
+            });
+
+          document
+            .getElementById("clearFilters")
+            .addEventListener("click", () => {
+              this.clearFilters();
+            });
+
+          // Sort control
+          document
+            .getElementById("sortFilter")
+            .addEventListener("change", (e) => {
+              this.currentFilters.sortBy = e.target.value;
+              this.applyFilters();
+            });
+
+          // View toggle
+          document.getElementById("gridView").addEventListener("click", () => {
+            this.setGridView();
+          });
+
+          document.getElementById("listView").addEventListener("click", () => {
+            this.setListView();
+          });
+        }
+
+        async searchProducts() {
+          try {
+            this.showLoading();
+
+            let url = "http://localhost:3000/api/v1/products";
+            const params = new URLSearchParams();
+
+            if (this.searchQuery) {
+              params.append("keyword", this.searchQuery);
+            }
+
+            if (params.toString()) {
+              url += "?" + params.toString();
+            }
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.status === "success" && data.data) {
+              this.products = data.data;
+            } else {
+              this.products = [];
+            }
+
+            this.applyFilters();
+          } catch (error) {
+            console.error("Search error:", error);
+            this.showError();
+          }
+        }
+
+        applyFilters() {
+          // Get filter values
+          this.currentFilters.category =
+            document.getElementById("categoryFilter").value;
+          this.currentFilters.minPrice =
+            parseFloat(document.getElementById("minPrice").value) || null;
+          this.currentFilters.maxPrice =
+            parseFloat(document.getElementById("maxPrice").value) || null;
+          this.currentFilters.sortBy =
+            document.getElementById("sortFilter").value;
+
+          // Apply filters
+          this.filteredProducts = this.products.filter((product) => {
+            // Category filter
+            if (this.currentFilters.category && product.category) {
+              const categoryMatch =
+                product.category.name &&
+                product.category.name
+                  .toLowerCase()
+                  .includes(this.currentFilters.category.toLowerCase());
+              if (!categoryMatch) return false;
+            }
+
+            // Price filters
+            if (
+              this.currentFilters.minPrice &&
+              product.price < this.currentFilters.minPrice
+            ) {
+              return false;
+            }
+            if (
+              this.currentFilters.maxPrice &&
+              product.price > this.currentFilters.maxPrice
+            ) {
+              return false;
+            }
+
+            return true;
+          });
+
+          // Apply sorting
+          this.sortProducts();
+
+          // Update results
+          this.totalResults = this.filteredProducts.length;
+          this.currentPage = 1;
+          this.displayResults();
+        }
+
+        sortProducts() {
+          switch (this.currentFilters.sortBy) {
+            case "price-low":
+              this.filteredProducts.sort((a, b) => a.price - b.price);
+              break;
+            case "price-high":
+              this.filteredProducts.sort((a, b) => b.price - a.price);
+              break;
+            case "rating":
+              this.filteredProducts.sort(
+                (a, b) => (b.ratingsAverage || 0) - (a.ratingsAverage || 0)
+              );
+              break;
+            case "newest":
+              this.filteredProducts.sort(
+                (a, b) =>
+                  new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+              );
+              break;
+            default: // relevance
+              // Keep current order (from search API)
+              break;
+          }
+        }
+
+        displayResults() {
+          this.hideLoading();
+
+          if (this.filteredProducts.length === 0) {
+            this.showNoResults();
+            return;
+          }
+
+          this.showResults();
+          this.updateResultsCount();
+          this.renderProducts();
+          this.renderPagination();
+        }
+
+        renderProducts() {
+          const grid = document.getElementById("productsGrid");
+          const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+          const endIndex = startIndex + this.itemsPerPage;
+          const pageProducts = this.filteredProducts.slice(
+            startIndex,
+            endIndex
+          );
+
+          grid.innerHTML = pageProducts
+            .map((product) => this.createProductCard(product))
+            .join("");
+
+          // Add click handlers for product cards
+          grid.querySelectorAll(".product-card").forEach((card) => {
+            card.addEventListener("click", (e) => {
+              if (!e.target.closest(".btn-add-cart")) {
+                const productId = card.dataset.productId;
+                const productInfo = productPageMap[productId];
+                if (productInfo && productInfo.page) {
+                  window.location.href = productInfo.page;
+                }
+              }
+            });
+          });
+        }
+
+        createProductCard(product) {
+          const productInfo = productPageMap[product._id] || {};
+          const imageSrc =
+            productInfo.image || product.imageCover || "Assets/placeholder.jpg";
+          const pageLink = productInfo.page || "#";
+
+          // Calculate discount percentage if applicable
+          const discountPercentage =
+            product.priceBeforeDiscount &&
+            product.price < product.priceBeforeDiscount
+              ? Math.round(
+                  ((product.priceBeforeDiscount - product.price) /
+                    product.priceBeforeDiscount) *
+                    100
+                )
+              : 0;
+
+          // Generate star rating
+          const rating = product.ratingsAverage || 4;
+          const fullStars = Math.floor(rating);
+          const hasHalfStar = rating % 1 >= 0.5;
+          const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+          let starsHTML = "";
+          for (let i = 0; i < fullStars; i++) {
+            starsHTML +=
+              '<img src="Assets/star.png" alt="star" height="15px" width="15px" />';
+          }
+          if (hasHalfStar) {
+            starsHTML +=
+              '<img src="Assets/half-star.png" alt="half star" height="15px" width="15px" />';
+          }
+          for (let i = 0; i < emptyStars; i++) {
+            starsHTML +=
+              '<img src="Assets/empty star.png" alt="empty star" height="15px" width="15px" />';
+          }
+
+          return `
+                    <div class="product-card" data-product-id="${
+                      product._id
+                    }" style="cursor: pointer;">
+                        <div class="product-image-container">
+                            <img src="${imageSrc}" alt="${
+            product.title
+          }" class="product-image" 
+                                 onerror="this.src='Assets/placeholder.jpg'" />
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.title}</h3>
+                            <div class="product-price">
+                                <span class="price-current">EGP ${product.price.toFixed(
+                                  2
+                                )}</span>
+                                ${
+                                  product.priceBeforeDiscount &&
+                                  discountPercentage > 0
+                                    ? `<span class="price-old">EGP ${product.priceBeforeDiscount.toFixed(
+                                        2
+                                      )}</span>
+                                     <span class="discount-badge">-${discountPercentage}%</span>`
+                                    : ""
+                                }
+                            </div>
+                            <div class="rating-section">
+                                <div class="stars">${starsHTML}</div>
+                                <span class="rating-count">(${
+                                  product.ratingsQuantity || 0
+                                } reviews)</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-add-cart" data-product-id="${
+                                  product._id
+                                }" 
+                                        onclick="event.stopPropagation(); this.addToCart('${
+                                          product._id
+                                        }')">
+                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+
+        clearFilters() {
+          document.getElementById("categoryFilter").value = "";
+          document.getElementById("minPrice").value = "";
+          document.getElementById("maxPrice").value = "";
+          document.getElementById("sortFilter").value = "relevance";
+
+          this.currentFilters = {
+            category: "",
+            minPrice: null,
+            maxPrice: null,
+            sortBy: "relevance",
+          };
+
+          this.applyFilters();
+        }
+
+        setGridView() {
+          document.getElementById("gridView").classList.add("active");
+          document.getElementById("listView").classList.remove("active");
+          document.getElementById("productsGrid").className = "product-grid";
+        }
+
+        setListView() {
+          document.getElementById("listView").classList.add("active");
+          document.getElementById("gridView").classList.remove("active");
+          document.getElementById("productsGrid").className =
+            "product-grid list-view";
+        }
+
+        showLoading() {
+          document.getElementById("loadingSpinner").style.display = "block";
+          document.getElementById("productsGrid").style.display = "none";
+          document.getElementById("noResults").style.display = "none";
+          document.getElementById("paginationContainer").style.display = "none";
+        }
+
+        hideLoading() {
+          document.getElementById("loadingSpinner").style.display = "none";
+        }
+
+        showResults() {
+          document.getElementById("productsGrid").style.display = "grid";
+          document.getElementById("noResults").style.display = "none";
+          document.getElementById("paginationContainer").style.display =
+            "block";
+        }
+
+        showNoResults() {
+          document.getElementById("productsGrid").style.display = "none";
+          document.getElementById("noResults").style.display = "block";
+          document.getElementById("paginationContainer").style.display = "none";
+        }
+
+        showError() {
+          document.getElementById("loadingSpinner").style.display = "none";
+          document.getElementById("noResults").innerHTML = `
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <h4>Error loading results</h4>
+                    <p>Please try again later</p>
+                `;
+          document.getElementById("noResults").style.display = "block";
+        }
+
+        updateResultsCount() {
+          const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+          const end = Math.min(
+            start + this.itemsPerPage - 1,
+            this.totalResults
+          );
+
+          document.getElementById(
+            "resultsCount"
+          ).textContent = `Showing ${start}-${end} of ${this.totalResults} results`;
+        }
+
+        renderPagination() {
+          const totalPages = Math.ceil(this.totalResults / this.itemsPerPage);
+          const pagination = document.getElementById("pagination");
+
+          if (totalPages <= 1) {
+            document.getElementById("paginationContainer").style.display =
+              "none";
+            return;
+          }
+
+          let paginationHTML = "";
+
+          // Previous button
+          paginationHTML += `
+                    <li class="page-item ${
+                      this.currentPage === 1 ? "disabled" : ""
+                    }">
+                        <a class="page-link" href="#" data-page="${
+                          this.currentPage - 1
+                        }">Previous</a>
+                    </li>
+                `;
+
+          // Page numbers
+          for (let i = 1; i <= totalPages; i++) {
+            if (
+              i === 1 ||
+              i === totalPages ||
+              (i >= this.currentPage - 2 && i <= this.currentPage + 2)
+            ) {
+              paginationHTML += `
+                            <li class="page-item ${
+                              i === this.currentPage ? "active" : ""
+                            }">
+                                <a class="page-link" href="#" data-page="${i}">${i}</a>
+                            </li>
+                        `;
+            } else if (
+              i === this.currentPage - 3 ||
+              i === this.currentPage + 3
+            ) {
+              paginationHTML +=
+                '<li class="page-item disabled"><span class="page-link">...</span></li>';
+            }
+          }
+
+          // Next button
+          paginationHTML += `
+                    <li class="page-item ${
+                      this.currentPage === totalPages ? "disabled" : ""
+                    }">
+                        <a class="page-link" href="#" data-page="${
+                          this.currentPage + 1
+                        }">Next</a>
+                    </li>
+                `;
+
+          pagination.innerHTML = paginationHTML;
+
+          // Add click handlers
+          pagination.querySelectorAll("a.page-link").forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              const page = parseInt(e.target.dataset.page);
+              if (
+                page &&
+                page !== this.currentPage &&
+                page >= 1 &&
+                page <= totalPages
+              ) {
+                this.currentPage = page;
+                this.renderProducts();
+                this.updateResultsCount();
+                this.renderPagination();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            });
+          });
+        }
+      }
+
+      // Initialize search results when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        window.searchResults = new SearchResults();
+
+        // Add to cart functionality
+        window.addToCart = async function (productId) {
+          const result = await document.addToCart(productId);
+          if (result && !result.error) {
+            // Show success message
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
+            btn.disabled = true;
+
+            setTimeout(() => {
+              btn.innerHTML = originalText;
+              btn.disabled = false;
+            }, 2000);
+          } else if (result && result.error === "Not authenticated") {
+            alert("Please sign in to add items to your cart.");
+            window.location.href = "signinPage.html";
+          } else {
+            alert("Could not add to cart. Please try again.");
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

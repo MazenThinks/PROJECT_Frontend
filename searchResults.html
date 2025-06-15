@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styling.css" />
+    <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
+    <title>Search Results - PickPay</title>
+    <style>
+      .search-results-container {
+        margin-top: 2rem;
+      }
+
+      .search-info {
+        background: var(--bg-color, #f8f9fa);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .product-card {
+        border: 1px solid var(--border-color, #dee2e6);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background: var(--card-bg, #fff);
+      }
+
+      .product-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 0.375rem;
+      }
+
+      .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0.75rem 0 0.5rem 0;
+        color: var(--text-color, #212529);
+      }
+
+      .product-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color, #0d6efd);
+        margin-bottom: 0.5rem;
+      }
+
+      .relevance-score {
+        background: var(--accent-color, #e3f2fd);
+        color: var(--accent-text, #1976d2);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 3rem 1rem;
+      }
+
+      .no-results i {
+        font-size: 4rem;
+        color: var(--muted-color, #6c757d);
+        margin-bottom: 1rem;
+      }
+
+      .loading-spinner {
+        display: none;
+        text-align: center;
+        padding: 3rem;
+      }
+
+      .spinner-border {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .filter-section {
+        background: var(--bg-color, #f8f9fa);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .sort-dropdown {
+        min-width: 150px;
+      }
+
+      .btn-view-product {
+        background: var(--primary-color, #0d6efd);
+        border: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s;
+      }
+
+      .btn-view-product:hover {
+        background: var(--primary-hover, #0b5ed7);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="py-3 mb-0 border-bottom">
+      <div
+        class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
+      >
+        <a
+          href="index.html"
+          class="d-flex align-items-center mb-0 me-2 link-body-emphasis text-decoration-none titleanimation"
+        >
+          <img src="logoo/logo1.png" alt="logo" width="50px" height="40px" />
+          <span class="fs-4 me-1 title">PickPay</span>
+        </a>
+
+        <form
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          role="search"
+          style="max-width: 600px"
+        >
+          <input
+            id="searchInput"
+            class="form-control me-2 navsearch"
+            type="search"
+            placeholder="What are you looking for?"
+            aria-label="Search"
+            autocomplete="off"
+          />
+          <button class="btn btn-outline-primary" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+
+        <div class="cart text-decoration-none me-2">
+          <a
+            href="cart.html"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none cartanim"
+          >
+            <img src="Assets/cart.svg" width="23" height="23" class="me-1" />
+            <span class="cartext">Cart</span>
+          </a>
+        </div>
+
+        <div class="dark-mode-toggle d-flex align-items-center mx-2">
+          <button
+            id="darkModeToggle"
+            class="btn btn-sm theme-toggle-btn"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+
+        <div class="text-end d-flex align-items-center ms-2">
+          <a href="signinPage.html">
+            <button type="button" class="btn btn-light text-dark me-2 ms-2">
+              Login
+            </button>
+          </a>
+          <a href="signupPage.html">
+            <button type="button" class="btn btn-primary">Sign Up</button>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container search-results-container">
+      <!-- Search Information -->
+      <div class="search-info">
+        <h2 class="mb-2">Search Results</h2>
+        <p class="mb-1">
+          <span id="searchTerm"></span>
+          <span id="resultCount" class="text-muted"></span>
+        </p>
+        <small class="text-muted"
+          >Results are sorted by relevance using AI-powered search</small
+        >
+      </div>
+
+      <!-- Filter and Sort Section -->
+      <div class="filter-section">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center gap-2">
+              <label for="sortSelect" class="form-label mb-0">Sort by:</label>
+              <select id="sortSelect" class="form-select sort-dropdown">
+                <option value="relevance">Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <button
+              id="gridViewBtn"
+              class="btn btn-outline-secondary btn-sm me-1"
+            >
+              <i class="fas fa-th"></i>
+            </button>
+            <button id="listViewBtn" class="btn btn-outline-secondary btn-sm">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Searching for products...</p>
+      </div>
+
+      <!-- Results Container -->
+      <div id="resultsContainer" class="row">
+        <!-- Products will be populated here -->
+      </div>
+
+      <!-- No Results -->
+      <div id="noResults" class="no-results" style="display: none">
+        <i class="fas fa-search"></i>
+        <h3>No products found</h3>
+        <p class="text-muted">
+          Try adjusting your search terms or browse our categories.
+        </p>
+        <a href="index.html" class="btn btn-primary">Back to Home</a>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let currentResults = [];
+      let currentView = "grid";
+
+      // Get search query from URL
+      function getSearchQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("q") || "";
+      }
+
+      // Perform search using backend API
+      async function performSearch(query) {
+        if (!query.trim()) return;
+
+        document.getElementById("loadingSpinner").style.display = "block";
+        document.getElementById("resultsContainer").innerHTML = "";
+        document.getElementById("noResults").style.display = "none";
+
+        try {
+          const response = await fetch("/api/products/search-ai", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query: query }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Search failed");
+          }
+
+          const data = await response.json();
+          currentResults = data.products || [];
+
+          document.getElementById("loadingSpinner").style.display = "none";
+          displayResults(currentResults, query);
+        } catch (error) {
+          console.error("Search error:", error);
+          document.getElementById("loadingSpinner").style.display = "none";
+
+          // Fallback to mock data for demo purposes
+          currentResults = generateMockResults(query);
+          displayResults(currentResults, query);
+        }
+      }
+
+      // Generate mock results for demo
+      function generateMockResults(query) {
+        const mockProducts = [
+          {
+            title: "Samsung Galaxy S24 Ultra",
+            price: 1200,
+            slug: "samsung-galaxy-s24-ultra",
+            pageUrl: "ProductPages/Electronics products/product1.html",
+            _score: 0.95,
+          },
+          {
+            title: "iPhone 15 Pro Max",
+            price: 1100,
+            slug: "iphone-15-pro-max",
+            pageUrl: "ProductPages/Electronics products/product2.html",
+            _score: 0.87,
+          },
+          {
+            title: "MacBook Pro M3",
+            price: 2000,
+            slug: "macbook-pro-m3",
+            pageUrl: "ProductPages/Electronics products/product4.html",
+            _score: 0.75,
+          },
+        ];
+
+        // Filter mock products based on query
+        return mockProducts
+          .filter((product) =>
+            product.title.toLowerCase().includes(query.toLowerCase())
+          )
+          .slice(0, 6);
+      }
+
+      // Display search results
+      function displayResults(products, query) {
+        const searchTerm = document.getElementById("searchTerm");
+        const resultCount = document.getElementById("resultCount");
+        const resultsContainer = document.getElementById("resultsContainer");
+        const noResults = document.getElementById("noResults");
+
+        searchTerm.textContent = `Searching for: "${query}"`;
+        resultCount.textContent = `(${products.length} results found)`;
+
+        if (products.length === 0) {
+          noResults.style.display = "block";
+          return;
+        }
+
+        resultsContainer.innerHTML = products
+          .map((product) => createProductCard(product))
+          .join("");
+      }
+
+      // Create product card HTML
+      function createProductCard(product) {
+        const relevanceScore = Math.round((product._score || 0.5) * 100);
+        const colClass =
+          currentView === "grid" ? "col-md-4 col-lg-3" : "col-12";
+
+        return `
+          <div class="${colClass} mb-4">
+            <div class="product-card h-100">
+              <div class="relevance-score">
+                ${relevanceScore}% match
+              </div>
+              <img src="Assets/product-placeholder.jpg" alt="${
+                product.title
+              }" class="product-image" onerror="this.src='Assets/Banner1.jpg'">
+              <h5 class="product-title">${product.title}</h5>
+              <div class="product-price">$${product.price}</div>
+              <a href="${product.pageUrl || "#"}" class="btn-view-product">
+                View Product
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
+      // Sort results
+      function sortResults(criteria) {
+        let sorted = [...currentResults];
+
+        switch (criteria) {
+          case "price-low":
+            sorted.sort((a, b) => a.price - b.price);
+            break;
+          case "price-high":
+            sorted.sort((a, b) => b.price - a.price);
+            break;
+          case "name":
+            sorted.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          case "relevance":
+          default:
+            sorted.sort((a, b) => (b._score || 0) - (a._score || 0));
+            break;
+        }
+
+        currentResults = sorted;
+        displayResults(currentResults, getSearchQuery());
+      }
+
+      // Change view mode
+      function changeView(view) {
+        currentView = view;
+        document
+          .getElementById("gridViewBtn")
+          .classList.toggle("btn-primary", view === "grid");
+        document
+          .getElementById("gridViewBtn")
+          .classList.toggle("btn-outline-secondary", view !== "grid");
+        document
+          .getElementById("listViewBtn")
+          .classList.toggle("btn-primary", view === "list");
+        document
+          .getElementById("listViewBtn")
+          .classList.toggle("btn-outline-secondary", view !== "list");
+
+        displayResults(currentResults, getSearchQuery());
+      }
+
+      // Event listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        const query = getSearchQuery();
+        if (query) {
+          document.getElementById("searchInput").value = query;
+          performSearch(query);
+        } else {
+          document.getElementById("noResults").style.display = "block";
+          document.getElementById("searchTerm").textContent =
+            "No search query provided";
+        }
+
+        // Search form submission
+        document.querySelector("form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          const newQuery = document.getElementById("searchInput").value.trim();
+          if (newQuery) {
+            window.location.href = `searchResults.html?q=${encodeURIComponent(
+              newQuery
+            )}`;
+          }
+        });
+
+        // Sort functionality
+        document
+          .getElementById("sortSelect")
+          .addEventListener("change", function () {
+            sortResults(this.value);
+          });
+
+        // View mode buttons
+        document
+          .getElementById("gridViewBtn")
+          .addEventListener("click", () => changeView("grid"));
+        document
+          .getElementById("listViewBtn")
+          .addEventListener("click", () => changeView("list"));
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
