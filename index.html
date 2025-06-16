@@ -116,6 +116,159 @@
         border-radius: 8px;
         margin: 0.5rem;
       }
+
+      /* Enhanced Navbar Dropdown Styles */
+      .navbar-nav .nav-item {
+        position: relative;
+      }
+
+      .dropdown-submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--dropdown-bg, #ffffff);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15),
+          0 4px 8px rgba(0, 0, 0, 0.05);
+        min-width: 220px;
+        z-index: 1050;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        margin-top: 8px;
+      }
+
+      .nav-item:hover .dropdown-submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-submenu .dropdown-item {
+        padding: 12px 18px;
+        color: var(--input-text, #212529);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        margin: 4px 8px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dropdown-submenu .dropdown-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 3px;
+        background: linear-gradient(180deg, #007bff, #0056b3);
+        transform: scaleY(0);
+        transition: transform 0.2s ease;
+        border-radius: 0 3px 3px 0;
+      }
+
+      .dropdown-submenu .dropdown-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 123, 255, 0.08) 0%,
+          rgba(0, 123, 255, 0.12) 100%
+        );
+        transform: translateX(8px);
+        color: #007bff;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+      }
+
+      .dropdown-submenu .dropdown-item:hover::before {
+        transform: scaleY(1);
+      }
+
+      .dropdown-submenu .dropdown-item i {
+        margin-right: 10px;
+        font-size: 0.85rem;
+        width: 16px;
+        text-align: center;
+        color: #6c757d;
+        transition: color 0.2s ease;
+      }
+
+      .dropdown-submenu .dropdown-item:hover i {
+        color: #007bff;
+      }
+
+      .dropdown-submenu::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 20px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid var(--dropdown-bg, #ffffff);
+        filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .dropdown-submenu .dropdown-header {
+        padding: 8px 18px 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #e9ecef;
+        margin: 0 8px 8px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 991.98px) {
+        .dropdown-submenu {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border: none;
+          background: rgba(0, 123, 255, 0.05);
+          margin: 8px 0;
+          border-radius: 8px;
+        }
+
+        .dropdown-submenu::before {
+          display: none;
+        }
+      }
     </style>
     <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
     <title>PickPay</title>
@@ -250,22 +403,116 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="elecCat.html">Electronics</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Electronics Categories</div>
+                <a class="dropdown-item" href="mobileandtablets.html">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                  Mobile & Tablets
+                </a>
+                <a class="dropdown-item" href="tvs.html">
+                  <i class="fa-solid fa-tv"></i>
+                  TVs
+                </a>
+                <a class="dropdown-item" href="laptop.html">
+                  <i class="fa-solid fa-laptop"></i>
+                  Laptops
+                </a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="ApplianCat.html">Appliances</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Appliance Categories</div>
+                <a class="dropdown-item" href="largeAppliances.html">
+                  <i class="fa-solid fa-blender"></i>
+                  Large Appliances
+                </a>
+                <a class="dropdown-item" href="smallAppliances.html">
+                  <i class="fa-solid fa-blender"></i>
+                  Small Appliances
+                </a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="HomeCat.html">Home</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Home Categories</div>
+                <a class="dropdown-item" href="furniture.html">
+                  <i class="fa-solid fa-couch"></i>
+                  Furniture
+                </a>
+                <a class="dropdown-item" href="homeDecor.html">
+                  <i class="fa-solid fa-couch"></i>
+                  Home Decor
+                </a>
+                <a class="dropdown-item" href="bath&bedding.html">
+                  <i class="fa-solid fa-bed"></i>
+                  Bath & Bedding
+                </a>
+                <a class="dropdown-item" href="Kitchen&Dining.html">
+                  <i class="fa-solid fa-utensils"></i>
+                  Kitchen & Dining
+                </a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="videogamecat.html">Video Games</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Gaming Categories</div>
+                <a class="dropdown-item" href="console.html">
+                  <i class="fa-solid fa-gamepad"></i>
+                  Consoles
+                </a>
+                <a class="dropdown-item" href="controller.html">
+                  <i class="fa-brands fa-playstation"></i>
+                  Controllers
+                </a>
+                <a class="dropdown-item" href="accessories.html">
+                  <i class="fa-solid fa-headset"></i>
+                  Accessories
+                </a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Fashion.html">Fashion</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Fashion Categories</div>
+                <a class="dropdown-item" href="woman.html">
+                  <i class="fa-solid fa-female"></i>
+                  Women's Fashion
+                </a>
+                <a class="dropdown-item" href="men.html">
+                  <i class="fa-solid fa-male"></i>
+                  Men's Fashion
+                </a>
+                <a class="dropdown-item" href="kids.html">
+                  <i class="fa-solid fa-child"></i>
+                  Kids' Fashion
+                </a>
+              </div>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="Beauty.html">Beauty & Fragrance</a>
+              <div class="dropdown-submenu">
+                <div class="dropdown-header">Beauty Categories</div>
+                <a class="dropdown-item" href="makeup.html">
+                  <i class="fa-solid fa-palette"></i>
+                  Makeup
+                </a>
+                <a class="dropdown-item" href="skincare.html">
+                  <i class="fa-solid fa-spa"></i>
+                  Skincare
+                </a>
+                <a class="dropdown-item" href="haircare.html">
+                  <i class="fa-solid fa-scissors"></i>
+                  Haircare
+                </a>
+                <a class="dropdown-item" href="Fragrance.html">
+                  <i class="fa-solid fa-spray-can"></i>
+                  Fragrance
+                </a>
+              </div>
             </li>
           </ul>
         </div>
@@ -4946,22 +5193,76 @@
         function processUserQuery(query) {
           let processed = query.toLowerCase().trim();
 
-          // Remove common filler words
+          // Enhanced natural language processing for "I want/need" patterns
+          const intentPatterns = [
+            // Direct intent patterns
+            {
+              pattern:
+                /^(i want|i need|i'm looking for|looking for|find me|show me|get me|i would like|gimme|give me)\s+(.+)$/i,
+              extract: 2,
+            },
+            { pattern: /^(search for|find)\s+(.+)$/i, extract: 2 },
+            { pattern: /^(do you have|any)\s+(.+)$/i, extract: 2 },
+            {
+              pattern: /^(where (?:can i find|is)|where are)\s+(.+)$/i,
+              extract: 2,
+            },
+            { pattern: /^(can you show me|show me)\s+(.+)$/i, extract: 2 },
+
+            // Purchase intent patterns
+            {
+              pattern: /^(i want to buy|want to buy|buy me|purchase)\s+(.+)$/i,
+              extract: 2,
+            },
+            {
+              pattern: /^(i'm interested in|interested in)\s+(.+)$/i,
+              extract: 2,
+            },
+
+            // Question patterns
+            { pattern: /^(what about|how about)\s+(.+)$/i, extract: 2 },
+            { pattern: /^(do you sell|do you have)\s+(.+)$/i, extract: 2 },
+
+            // Article patterns
+            { pattern: /^(a|an|the|some)\s+(.+)$/i, extract: 2 },
+          ];
+
+          // Check for intent patterns first
+          for (const { pattern, extract } of intentPatterns) {
+            const match = processed.match(pattern);
+            if (match && match[extract]) {
+              processed = match[extract].trim();
+              break;
+            }
+          }
+
+          // Remove remaining common filler words that might be left
           const fillerWords = [
-            "i want",
-            "i need",
-            "looking for",
-            "search for",
-            "find me",
-            "show me",
-            "get me",
-            "buy",
-            "purchase",
-            "a",
-            "an",
-            "the",
-            "some",
-            "any",
+            "please",
+            "kindly",
+            "maybe",
+            "perhaps",
+            "possibly",
+            "actually",
+            "really",
+            "definitely",
+            "surely",
+            "good",
+            "best",
+            "nice",
+            "great",
+            "awesome",
+            "cheap",
+            "expensive",
+            "affordable",
+            "budget",
+            "for me",
+            "for my",
+            "that is",
+            "which is",
+            "something",
+            "anything",
+            "everything",
           ];
 
           fillerWords.forEach((filler) => {

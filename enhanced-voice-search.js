@@ -852,35 +852,335 @@ class EnhancedVoiceSearch {
     }
   }
 
-  // Handle search commands
+  // Handle search commands with enhanced query processing
   async handleSearchCommand(searchTerm, statusText) {
     const searchInput = document.querySelector(".navsearch");
 
+    // Process the search term with enhanced AI understanding
+    const processedSearchTerm = this.processVoiceQuery(searchTerm);
+
     if (statusText)
-      statusText.textContent = `⌨️ Typing "${searchTerm}" in search bar...`;
+      statusText.textContent = `⌨️ Typing "${processedSearchTerm}" in search bar...`;
 
     if (searchInput) {
-      // Type the search term into the search bar
-      await this.animateTyping(searchInput, searchTerm, statusText);
+      // Type the processed search term into the search bar
+      await this.animateTyping(searchInput, processedSearchTerm, statusText);
 
       // Auto-submit the search after a brief delay
       setTimeout(() => {
         if (statusText)
-          statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+          statusText.textContent = `🔍 Searching for: ${processedSearchTerm}`;
         window.location.href = `search-results.html?q=${encodeURIComponent(
-          searchTerm
+          processedSearchTerm
         )}`;
       }, 800);
     } else {
       // Direct navigation if search input not found
       if (statusText)
-        statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+        statusText.textContent = `🔍 Searching for: ${processedSearchTerm}`;
       setTimeout(() => {
         window.location.href = `search-results.html?q=${encodeURIComponent(
-          searchTerm
+          processedSearchTerm
         )}`;
       }, 500);
     }
+  }
+
+  // Enhanced query processing function for voice search
+  processVoiceQuery(query) {
+    let processed = query.toLowerCase().trim();
+
+    // Enhanced natural language processing for "I want/need" patterns
+    const intentPatterns = [
+      // Direct intent patterns
+      {
+        pattern:
+          /^(i want|i need|i'm looking for|looking for|find me|show me|get me|i would like|gimme|give me)\s+(.+)$/i,
+        extract: 2,
+      },
+      { pattern: /^(search for|find)\s+(.+)$/i, extract: 2 },
+      { pattern: /^(do you have|any)\s+(.+)$/i, extract: 2 },
+      { pattern: /^(where (?:can i find|is)|where are)\s+(.+)$/i, extract: 2 },
+      { pattern: /^(can you show me|show me)\s+(.+)$/i, extract: 2 },
+
+      // Purchase intent patterns
+      {
+        pattern: /^(i want to buy|want to buy|buy me|purchase)\s+(.+)$/i,
+        extract: 2,
+      },
+      { pattern: /^(i'm interested in|interested in)\s+(.+)$/i, extract: 2 },
+
+      // Question patterns
+      { pattern: /^(what about|how about)\s+(.+)$/i, extract: 2 },
+      { pattern: /^(do you sell|do you have)\s+(.+)$/i, extract: 2 },
+
+      // Article patterns
+      { pattern: /^(a|an|the|some)\s+(.+)$/i, extract: 2 },
+    ];
+
+    // Check for intent patterns first
+    for (const { pattern, extract } of intentPatterns) {
+      const match = processed.match(pattern);
+      if (match && match[extract]) {
+        processed = match[extract].trim();
+        break;
+      }
+    }
+
+    // Remove remaining common filler words that might be left
+    const fillerWords = [
+      "please",
+      "kindly",
+      "maybe",
+      "perhaps",
+      "possibly",
+      "actually",
+      "really",
+      "definitely",
+      "surely",
+      "good",
+      "best",
+      "nice",
+      "great",
+      "awesome",
+      "cheap",
+      "expensive",
+      "affordable",
+      "budget",
+      "for me",
+      "for my",
+      "that is",
+      "which is",
+      "something",
+      "anything",
+      "everything",
+    ];
+
+    fillerWords.forEach((filler) => {
+      const regex = new RegExp(`\\b${filler}\\b`, "gi");
+      processed = processed.replace(regex, "");
+    });
+
+    processed = processed.replace(/\s+/g, " ").trim();
+
+    // Advanced typo corrections and common mistakes
+    const typoCorrections = {
+      // Common typos
+      iphone: "iPhone",
+      ifone: "iPhone",
+      "i phone": "iPhone",
+      ipad: "iPad",
+      "i pad": "iPad",
+      samsng: "Samsung",
+      samsung: "Samsung",
+      samung: "Samsung",
+      labtop: "laptop",
+      laptop: "laptop",
+      computer: "laptop",
+      computr: "laptop",
+      moblie: "mobile phone",
+      mobile: "mobile phone",
+      phone: "mobile phone",
+      fone: "mobile phone",
+      "cel phone": "mobile phone",
+      cellphone: "mobile phone",
+
+      // Appliances typos
+      "washing machine": "washing machine",
+      "washng machine": "washing machine",
+      washer: "washing machine",
+      "automatic washing machine": "washing machine",
+      "washing machne": "washing machine",
+      dishwasher: "dishwasher",
+      "dish washer": "dishwasher",
+      "dish washing machine": "dishwasher",
+      fridge: "refrigerator",
+      refridgerator: "refrigerator",
+      refrigrator: "refrigerator",
+      frezer: "freezer",
+      freezr: "freezer",
+      tv: "television",
+      televison: "television",
+      "smart tv": "Smart TV",
+      "smat tv": "Smart TV",
+
+      // Gaming typos
+      playstation: "PlayStation",
+      "play station": "PlayStation",
+      plastation: "PlayStation",
+      ps5: "PlayStation 5",
+      "ps 5": "PlayStation 5",
+      playstation5: "PlayStation 5",
+      xbox: "Xbox",
+      "x box": "Xbox",
+      "gaming console": "console",
+      "game console": "console",
+      consol: "console",
+
+      // Beauty typos
+      perfume: "perfume",
+      perfum: "perfume",
+      parfume: "perfume",
+      fragrance: "perfume",
+      fragrnce: "perfume",
+      makeup: "makeup",
+      "make up": "makeup",
+      cosmetics: "makeup",
+      cosmetcs: "makeup",
+      lipstick: "lipstick",
+      lipstik: "lipstick",
+      mascara: "mascara",
+      maskara: "mascara",
+
+      // Fashion typos
+      shoes: "shoes",
+      shose: "shoes",
+      shoe: "shoes",
+      sneakers: "sneakers",
+      sneaker: "sneakers",
+      sneker: "sneakers",
+      jeans: "jeans",
+      jean: "jeans",
+      shirt: "shirt",
+      shrt: "shirt",
+
+      // Home typos
+      sofa: "sofa",
+      couch: "sofa",
+      chair: "chair",
+      chiar: "chair",
+      table: "table",
+      tabel: "table",
+      lamp: "lamp",
+      lmap: "lamp",
+      lighting: "lamp",
+      light: "lamp",
+    };
+
+    // Apply typo corrections
+    Object.keys(typoCorrections).forEach((typo) => {
+      const regex = new RegExp(`\\b${typo}\\b`, "gi");
+      processed = processed.replace(regex, typoCorrections[typo]);
+    });
+
+    // Advanced semantic mapping for non-products to closest products
+    const semanticMappings = {
+      // Activity to product mappings
+      cooking: "kitchen appliances cookware",
+      gaming: "PlayStation console Xbox",
+      entertainment: "television speakers headphones",
+      music: "speakers headphones audio",
+      photography: "camera accessories",
+      fitness: "fitness equipment sports",
+      reading: "lamp lighting books",
+      sleeping: "bed bedding pillows mattress",
+      cleaning: "vacuum cleaner cleaning supplies dishwasher",
+      washing: "washing machine laundry dishwasher",
+      storage: "furniture storage cabinet",
+      studying: "desk chair laptop books",
+      relaxing: "sofa chair comfort",
+      working: "desk chair laptop office",
+
+      // Location to product mappings
+      kitchen: "kitchen appliances cookware refrigerator microwave dishwasher",
+      bedroom: "bed furniture bedding mattress pillows",
+      "living room": "sofa television furniture coffee table",
+      bathroom: "bath towels shower accessories",
+      office: "desk chair laptop computer office supplies",
+      garage: "tools storage organization",
+      garden: "outdoor furniture gardening tools",
+      "dining room": "dining table chairs dinnerware dishwasher",
+
+      // Occasion to product mappings
+      birthday: "gifts electronics jewelry perfume",
+      wedding: "home decor furniture gifts",
+      christmas: "electronics gifts decorations",
+      valentine: "jewelry perfume gifts romantic",
+      party: "speakers electronics party supplies",
+      work: "laptop office chair business",
+      school: "laptop backpack student supplies",
+      travel: "luggage electronics portable",
+      anniversary: "jewelry perfume gifts romantic",
+
+      // Generic categories to specific products
+      technology: "electronics laptop smartphone tablet",
+      gadgets: "electronics smartphone accessories tech",
+      appliances: "washing machine refrigerator microwave dishwasher",
+      furniture: "sofa chair table bed",
+      beauty: "makeup skincare perfume cosmetics",
+      fashion: "shoes clothing accessories",
+      home: "furniture home decor appliances",
+      electronics: "smartphone laptop television",
+      accessories: "jewelry bags belts watches",
+
+      // Abstract concepts to products
+      comfort: "sofa bed pillows mattress",
+      convenience: "appliances electronics smart home dishwasher",
+      style: "fashion clothing shoes accessories",
+      luxury: "perfume jewelry watches premium",
+      efficiency: "appliances electronics productivity dishwasher",
+      performance: "gaming laptop electronics sports",
+      organization: "storage furniture organizers",
+      decoration: "home decor furniture lighting",
+      safety: "security electronics safety equipment",
+      health: "fitness equipment health products",
+    };
+
+    // Check for semantic mappings if no direct product match
+    let semanticMatch = "";
+    Object.keys(semanticMappings).forEach((concept) => {
+      if (processed.includes(concept)) {
+        semanticMatch = semanticMappings[concept];
+      }
+    });
+
+    if (semanticMatch) {
+      processed = semanticMatch;
+    }
+
+    // Handle common patterns and phrases
+    const patternMappings = [
+      {
+        pattern: /(?:automatic|auto).+wash/i,
+        replacement: "washing machine",
+      },
+      {
+        pattern: /(?:smart|led|4k).+tv/i,
+        replacement: "smart television",
+      },
+      {
+        pattern: /(?:gaming|game).+(?:laptop|computer)/i,
+        replacement: "gaming laptop",
+      },
+      {
+        pattern: /(?:wireless|bluetooth).+(?:headphone|earphone)/i,
+        replacement: "wireless headphones",
+      },
+      {
+        pattern: /(?:hair|shampoo|conditioner)/i,
+        replacement: "haircare",
+      },
+      {
+        pattern: /(?:skin|face|cream|moisturizer)/i,
+        replacement: "skincare",
+      },
+      {
+        pattern: /(?:running|sport|athletic).+shoe/i,
+        replacement: "athletic shoes",
+      },
+      {
+        pattern: /(?:dish|dishes).+(?:wash|clean)/i,
+        replacement: "dishwasher",
+      },
+    ];
+
+    patternMappings.forEach(({ pattern, replacement }) => {
+      if (pattern.test(processed)) {
+        processed = replacement;
+      }
+    });
+
+    return processed || query;
   }
 
   // Enhanced recommendation with current context
