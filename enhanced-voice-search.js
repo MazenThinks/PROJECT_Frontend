@@ -34,19 +34,38 @@ class EnhancedVoiceSearch {
     return {
       patterns: {
         search: {
-          keywords: ['search', 'find', 'look', 'show', 'get', 'need', 'want', 'type', 'enter'],
+          keywords: [
+            "search",
+            "find",
+            "look",
+            "show",
+            "get",
+            "need",
+            "want",
+            "type",
+            "enter",
+          ],
           phrases: [
             /(?:search\s+for|find|look\s+for|show\s+me|get\s+me|display|bring)\s+(.*)/i,
             /(?:i\s+(?:want|need|am\s+looking\s+for))\s+(.*)/i,
             /(?:type|enter|put|write)\s+(.*?)\s*(?:in\s+(?:search|bar)?)?/i,
             /(?:can\s+you\s+(?:find|search\s+for|look\s+for))\s+(.*)/i,
             /(?:where\s+(?:can\s+i\s+find|is))\s+(.*)/i,
-            /(?:give\s+me|bring\s+me)\s+(.*)/i
+            /(?:give\s+me|bring\s+me)\s+(.*)/i,
           ],
-          confidence: 0.9
+          confidence: 0.9,
         },
         navigation: {
-          keywords: ["go", "navigate", "open", "visit", "take", "redirect", "profile", "account"],
+          keywords: [
+            "go",
+            "navigate",
+            "open",
+            "visit",
+            "take",
+            "redirect",
+            "profile",
+            "account",
+          ],
           phrases: [
             /(?:go|navigate|take\s+me)\s+to\s+(.*)/i,
             /(?:open|show\s+me|display)\s+(?:the\s+)?(.*)\s*(?:page|section)?/i,
@@ -673,324 +692,187 @@ class EnhancedVoiceSearch {
     return "Low confidence - Please speak more clearly";
   }
 
-  // Enhanced command processing with advanced AI
+  // Enhanced command processing with specific keyword patterns
   async processIntelligentCommand(command) {
-    const context = this.contextAnalyzer.analyzeContext(
-      command,
-      this.commandHistory,
-      this.contextualMemory.currentPage
-    );
-
-    const intentResults = this.intentClassifier.classify(command);
-    const entities = this.entityExtractor.extract(command);
-
-    // Choose the highest confidence intent
-    const primaryIntent = intentResults[0] || {
-      intent: "unknown",
-      confidence: 0,
-      matches: [],
-    };
-
-    console.log("Advanced AI Analysis:", {
-      command,
-      intentResults,
-      entities,
-      context,
-      confidence: primaryIntent.confidence,
-    });
-
-    // Store command with enhanced metadata
-    this.commandHistory.push({
-      command,
-      intent: primaryIntent.intent,
-      confidence: primaryIntent.confidence,
-      entities,
-      context,
-      timestamp: new Date(),
-      success: false,
-    });
-
-    this.contextualMemory.sessionCommands.push(command);
-    this.contextualMemory.userIntentHistory.push(primaryIntent.intent);
-
     const statusText = document.querySelector(".status-text");
+    const lowerCommand = command.toLowerCase().trim();
+    
+    console.log("Processing voice command:", command);
+    
     if (statusText) {
-      statusText.textContent = `🧠 AI Processing: "${command}" (${Math.round(
-        primaryIntent.confidence * 100
-      )}% confidence)`;
+      statusText.textContent = `🧠 Processing: "${command}"`;
     }
 
-    // Route to appropriate handler based on intent confidence
-    if (primaryIntent.confidence > 0.6) {
-      switch (primaryIntent.intent) {
-        case "search":
-          await this.handleAdvancedSearchIntent(command, entities, context);
-          break;
-        case "navigation":
-          await this.handleAdvancedNavigationIntent(command, entities, context);
-          break;
-        case "action":
-          await this.handleAdvancedActionIntent(command, entities, context);
-          break;
-        case "filter":
-          await this.handleAdvancedFilterIntent(command, entities, context);
-          break;
-        default:
-          await this.handleIntelligentFallback(command, entities, context, intentResults);
-      }
-    } else {
-      await this.handleLowConfidenceCommand(command, entities, context, intentResults);
-    }
-
-    this.commandHistory[this.commandHistory.length - 1].success = true;
-  }
-
-  // Enhanced search intent with better pattern matching and direct search execution
-  async handleAdvancedSearchIntent(command, entities, context) {
-    let searchQuery = "";
-    const statusText = document.querySelector(".status-text");
-    const searchInput = document.querySelector(".navsearch");
-
-    // Enhanced search query extraction with better pattern matching
-    const searchPatterns = [
-      /(?:search\s+for|find|look\s+for|show\s+me|get\s+me)\s+(.*)/i,
-      /(?:i\s+(?:want|need|am\s+looking\s+for))\s+(.*)/i,
-      /(?:type|enter)\s+(.*?)\s*(?:in\s+(?:search|bar)?)?$/i,
-      /(?:can\s+you\s+(?:find|search\s+for))\s+(.*)/i,
-      /(?:where\s+(?:can\s+i\s+find|is))\s+(.*)/i,
-      /(.*?)(?:\s+please)?$/i, // Fallback pattern
-    ];
-
-    // Try to extract search terms using patterns
-    for (const pattern of searchPatterns) {
-      const match = command.match(pattern);
-      if (match && match[1]) {
-        searchQuery = match[1].trim();
-        break;
-      }
-    }
-
-    // If no pattern matched, use entity extraction
-    if (!searchQuery) {
-      if (entities.products.length > 0) {
-        searchQuery = entities.products.join(" ");
-      } else if (entities.subcategories.length > 0) {
-        searchQuery = entities.subcategories.join(" ");
-      } else if (entities.categories.length > 0) {
-        searchQuery = entities.categories.join(" ");
-      } else {
-        // Use AI to extract the most relevant search terms
-        searchQuery = this.extractSearchTermsWithAI(command);
-      }
-    }
-
-    // Clean the search query
-    searchQuery = this.cleanSearchQuery(searchQuery);
-
-    // Enhance query with entities if they weren't already included
-    if (
-      entities.brands.length > 0 &&
-      !searchQuery
-        .toLowerCase()
-        .includes(entities.brands[0].toLowerCase())
-    ) {
-      searchQuery = entities.brands[0] + " " + searchQuery;
-    }
-
-    if (
-      entities.colors.length > 0 &&
-      !entities.colors.some((color) =>
-        searchQuery.toLowerCase().includes(color.toLowerCase())
-      )
-    ) {
-      searchQuery += " " + entities.colors.join(" ");
-    }
-
-    if (searchQuery) {
-      this.contextualMemory.lastSearchQuery = searchQuery;
-
-      if (searchInput) {
-        if (statusText) statusText.textContent = `⌨️ Typing "${searchQuery}" in search bar...`;
-
-        // Enhanced typing animation
-        await this.animateTyping(searchInput, searchQuery, statusText);
-
-        // Auto-submit the search form after typing
-        setTimeout(() => {
-          this.executeSmartSearch(searchInput, searchQuery);
-        }, 500);
-      } else {
-        if (statusText) statusText.textContent = `🔍 Searching for: ${searchQuery}`;
-        // Direct navigation to search results
-        window.location.href = `search-results.html?q=${encodeURIComponent(
-          searchQuery
-        )}`;
-      }
-    } else {
-      if (statusText) {
-        statusText.textContent =
-          "🤔 I couldn't understand what you want to search for. Try saying 'search for iPhone' or 'find black shoes'.";
-      }
-    }
-  }
-
-  // Smart search execution with enhanced form handling
-  executeSmartSearch(input, query) {
-    const statusText = document.querySelector(".status-text");
-    
-    if (statusText) statusText.textContent = `🔍 Executing search for: ${query}`;
-    
-    // Direct navigation to search results page
-    setTimeout(() => {
-      window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
-    }, 200);
-  }
-
-  // Enhanced navigation intent with improved profile detection
-  async handleAdvancedNavigationIntent(command, entities, context) {
-    const statusText = document.querySelector(".status-text");
-    
-    // Enhanced profile detection first
-    const profilePatterns = [
-      /(?:go\s+to|open|show\s+me|take\s+me\s+to)\s+(?:my\s+)?profile/i,
-      /(?:go\s+to|open|show\s+me|take\s+me\s+to)\s+(?:my\s+)?account/i,
-      /(?:go\s+to|open|show\s+me|take\s+me\s+to)\s+(?:user\s+)?profile/i,
-      /profile/i,
-      /my\s+account/i,
-      /user\s+profile/i,
-      /personal\s+profile/i
-    ];
-    
-    const lowerCommand = command.toLowerCase();
-    console.log("Navigation command:", lowerCommand); // Debug log
-    
-    // Check profile patterns first
-    const isProfileCommand = profilePatterns.some(pattern => pattern.test(lowerCommand));
-    if (isProfileCommand) {
-      if (statusText) statusText.textContent = "🚀 Navigating to profile...";
-      this.contextualMemory.lastCategory = "profile.html";
-      
-      setTimeout(() => {
-        window.location.href = "profile.html";
-      }, 500);
+    // 1. Handle "Go to [Category name]" pattern
+    const goToPattern = /^go\s+to\s+(.+)$/i;
+    const goToMatch = command.match(goToPattern);
+    if (goToMatch) {
+      const destination = goToMatch[1].toLowerCase().trim();
+      await this.handleGoToCommand(destination, statusText);
       return;
     }
 
-    // Complete navigation mapping including all category pages
-    const navigationMap = {
-      electronics: { url: "elecCat.html", keywords: ["electronics", "electronic", "tech", "technology"] },
-      appliances: { url: "ApplianCat.html", keywords: ["appliances", "appliance", "home appliances"] },
-      fashion: { url: "Fashion.html", keywords: ["fashion", "clothes", "clothing", "wear"] },
-      beauty: { url: "Beauty.html", keywords: ["beauty", "makeup", "cosmetics", "fragrance", "skincare"] },
-      home: { url: "HomeCat.html", keywords: ["home", "furniture", "decor", "decoration"] },
-      videogames: { url: "videogamecat.html", keywords: ["video games", "games", "gaming", "console"] },
-      cart: { url: "cart.html", keywords: ["cart", "basket", "shopping cart"] },
-      profile: { url: "profile.html", keywords: ["profile", "account", "my account", "my profile", "user profile", "personal profile"] },
-      orders: { url: "orders.html", keywords: ["orders", "my orders", "purchase history", "order history"] },
+    // 2. Handle "Open [my profile/orders]" pattern
+    const openPattern = /^open\s+(.+)$/i;
+    const openMatch = command.match(openPattern);
+    if (openMatch) {
+      const target = openMatch[1].toLowerCase().trim();
+      await this.handleOpenCommand(target, statusText);
+      return;
+    }
+
+    // 3. Handle "Search for/Find/I want [Product name]" patterns
+    const searchPatterns = [
+      /^(?:search\s+for|find|i\s+want)\s+(.+)$/i,
+      /^(?:look\s+for|show\s+me|get\s+me)\s+(.+)$/i
+    ];
+    
+    for (const pattern of searchPatterns) {
+      const match = command.match(pattern);
+      if (match) {
+        const searchTerm = match[1].trim();
+        await this.handleSearchCommand(searchTerm, statusText);
+        return;
+      }
+    }
+
+    // Fallback for unrecognized commands
+    if (statusText) {
+      statusText.textContent = `🤔 Command not recognized. Try: "Go to electronics", "Open my profile", or "Search for iPhone"`;
+    }
+  }
+
+  // Handle "Go to [category]" commands
+  async handleGoToCommand(destination, statusText) {
+    const categoryMap = {
+      // Main categories
+      'electronics': 'elecCat.html',
+      'appliances': 'ApplianCat.html', 
+      'fashion': 'Fashion.html',
+      'beauty': 'Beauty.html',
+      'home': 'HomeCat.html',
+      'video games': 'videogamecat.html',
+      'videogames': 'videogamecat.html',
+      'games': 'videogamecat.html',
+      'cart': 'cart.html',
       
-      // Subcategory pages
-      mobile: { url: "mobileandtablets.html", keywords: ["mobile", "phone", "smartphone", "tablet"] },
-      tv: { url: "tvs.html", keywords: ["tv", "television", "smart tv"] },
-      laptop: { url: "laptop.html", keywords: ["laptop", "computer", "notebook"] },
+      // Electronics subcategories
+      'mobile': 'mobileandtablets.html',
+      'mobile and tablets': 'mobileandtablets.html',
+      'phones': 'mobileandtablets.html',
+      'tablets': 'mobileandtablets.html',
+      'tv': 'tvs.html',
+      'tvs': 'tvs.html',
+      'television': 'tvs.html',
+      'laptop': 'laptop.html',
+      'laptops': 'laptop.html',
+      'computers': 'laptop.html',
       
-      large_appliances: { url: "largeAppliances.html", keywords: ["large appliances", "washing machine", "refrigerator"] },
-      small_appliances: { url: "smallAppliances.html", keywords: ["small appliances", "toaster", "kettle"] },
+      // Appliances subcategories
+      'large appliances': 'largeAppliances.html',
+      'small appliances': 'smallAppliances.html',
       
-      furniture: { url: "furniture.html", keywords: ["furniture", "sofa", "chair", "table"] },
-      home_decor: { url: "homeDecor.html", keywords: ["home decor", "lamp", "mirror"] },
-      kitchen_dining: { url: "Kitchen&Dining.html", keywords: ["kitchen", "dining", "cookware"] },
-      bath_bedding: { url: "bath&bedding.html", keywords: ["bath", "bedding", "towel"] },
+      // Home subcategories
+      'furniture': 'furniture.html',
+      'home decor': 'homeDecor.html',
+      'kitchen': 'Kitchen&Dining.html',
+      'kitchen and dining': 'Kitchen&Dining.html',
+      'bath': 'bath&bedding.html',
+      'bath and bedding': 'bath&bedding.html',
+      'bedding': 'bath&bedding.html',
       
-      console: { url: "console.html", keywords: ["console", "playstation", "xbox"] },
-      controller: { url: "controller.html", keywords: ["controller", "gamepad"] },
-      accessories: { url: "accessories.html", keywords: ["gaming accessories", "headset"] },
+      // Video Games subcategories
+      'console': 'console.html',
+      'consoles': 'console.html',
+      'controller': 'controller.html',
+      'controllers': 'controller.html',
+      'accessories': 'accessories.html',
+      'gaming accessories': 'accessories.html',
       
-      women: { url: "woman.html", keywords: ["women", "women's fashion", "ladies"] },
-      men: { url: "men.html", keywords: ["men", "men's fashion", "mens"] },
-      kids: { url: "kids.html", keywords: ["kids", "children", "kids fashion"] },
+      // Fashion subcategories
+      'women': 'woman.html',
+      'womens fashion': 'woman.html',
+      'women fashion': 'woman.html',
+      'men': 'men.html',
+      'mens fashion': 'men.html',
+      'men fashion': 'men.html',
+      'kids': 'kids.html',
+      'kids fashion': 'kids.html',
       
-      makeup: { url: "makeup.html", keywords: ["makeup", "cosmetics", "lipstick"] },
-      skincare: { url: "skincare.html", keywords: ["skincare", "moisturizer", "cleanser"] },
-      haircare: { url: "haircare.html", keywords: ["haircare", "shampoo", "conditioner"] },
-      fragrance: { url: "Fragrance.html", keywords: ["fragrance", "perfume", "cologne"] }
+      // Beauty subcategories
+      'makeup': 'makeup.html',
+      'skincare': 'skincare.html',
+      'haircare': 'haircare.html',
+      'fragrance': 'Fragrance.html',
+      'perfume': 'Fragrance.html'
     };
 
-    let targetPage = null;
-
-    // AI-powered page detection
-    for (const [page, config] of Object.entries(navigationMap)) {
-      const matchFound = config.keywords.some(keyword => lowerCommand.includes(keyword));
-      if (matchFound) {
-        targetPage = config.url;
-        console.log("Found match:", page, "->", targetPage); // Debug log
-        break;
-      }
-    }
-
-    // Enhanced category detection using entities
-    if (!targetPage && entities.categories.length > 0) {
-      const category = entities.categories[0];
-      if (navigationMap[category]) {
-        targetPage = navigationMap[category].url;
-      }
-    }
-
+    const targetPage = categoryMap[destination];
+    
     if (targetPage) {
-      if (statusText) statusText.textContent = `🚀 Navigating to ${targetPage}...`;
-      this.contextualMemory.lastCategory = targetPage;
+      if (statusText) statusText.textContent = `🚀 Going to ${destination}...`;
       
       setTimeout(() => {
         window.location.href = targetPage;
       }, 500);
     } else {
       if (statusText) {
-        statusText.textContent = "🤔 I couldn't find that page. Try saying 'go to electronics', 'go to my profile', or 'open cart'.";
+        statusText.textContent = `❌ Category "${destination}" not found. Try: electronics, fashion, beauty, home, etc.`;
       }
     }
   }
 
-  // Enhanced action handling
-  async handleActionIntent(command, entities) {
-    const statusText = document.querySelector(".status-text");
+  // Handle "Open [profile/orders]" commands  
+  async handleOpenCommand(target, statusText) {
+    const pageMap = {
+      'my profile': 'profile.html',
+      'profile': 'profile.html',
+      'my account': 'profile.html',
+      'account': 'profile.html',
+      'my orders': 'orders.html',
+      'orders': 'orders.html',
+      'order history': 'orders.html',
+      'cart': 'cart.html',
+      'my cart': 'cart.html',
+      'shopping cart': 'cart.html'
+    };
 
-    if (entities.actions.includes("scroll")) {
-      if (command.toLowerCase().includes("down")) {
-        window.scrollBy(0, 300);
-        if (statusText) statusText.textContent = "Scrolling down...";
-      } else if (command.toLowerCase().includes("up")) {
-        window.scrollBy(0, -300);
-        if (statusText) statusText.textContent = "Scrolling up...";
-      }
-    } else if (entities.actions.includes("back")) {
-      window.history.back();
-      if (statusText) statusText.textContent = "Going back...";
-    } else if (entities.actions.includes("forward")) {
-      window.history.forward();
-      if (statusText) statusText.textContent = "Going forward...";
-    } else if (entities.actions.includes("close")) {
-      this.closeSidebar();
-      if (statusText) statusText.textContent = "Closing voice search...";
-    } else if (entities.actions.includes("checkout")) {
-      window.location.href = "cart.html";
-      if (statusText) statusText.textContent = "Going to checkout...";
+    const targetPage = pageMap[target];
+    
+    if (targetPage) {
+      if (statusText) statusText.textContent = `🚀 Opening ${target}...`;
+      
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 500);
     } else {
-      if (statusText)
-        statusText.textContent =
-          "Action not recognized. Try 'scroll down', 'go back', or 'checkout'.";
+      if (statusText) {
+        statusText.textContent = `❌ Page "${target}" not found. Try: "my profile", "orders", or "cart"`;
+      }
     }
   }
 
-  // Filter handling
-  async handleFilterIntent(command, entities) {
-    const statusText = document.querySelector(".status-text");
-
-    if (entities.price_range) {
-      if (statusText)
-        statusText.textContent = `Filtering by price: ${entities.price_range}`;
-      // Implement price filtering logic here
+  // Handle search commands
+  async handleSearchCommand(searchTerm, statusText) {
+    const searchInput = document.querySelector(".navsearch");
+    
+    if (statusText) statusText.textContent = `⌨️ Typing "${searchTerm}" in search bar...`;
+    
+    if (searchInput) {
+      // Type the search term into the search bar
+      await this.animateTyping(searchInput, searchTerm, statusText);
+      
+      // Auto-submit the search after a brief delay
+      setTimeout(() => {
+        if (statusText) statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+        window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+      }, 800);
     } else {
-      if (statusText)
-        statusText.textContent = "Filter options: price, rating, brand, color";
+      // Direct navigation if search input not found
+      if (statusText) statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+      setTimeout(() => {
+        window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+      }, 500);
     }
   }
 
@@ -1075,7 +957,7 @@ class EnhancedVoiceSearch {
   // Enhanced navigation intent with context awareness
   async handleAdvancedNavigationIntent(command, entities, context) {
     const statusText = document.querySelector(".status-text");
-    
+
     // Enhanced profile detection first
     const profilePatterns = [
       /(?:go\s+to|open|show\s+me|take\s+me\s+to)\s+(?:my\s+)?profile/i,
@@ -1084,18 +966,20 @@ class EnhancedVoiceSearch {
       /profile/i,
       /my\s+account/i,
       /user\s+profile/i,
-      /personal\s+profile/i
+      /personal\s+profile/i,
     ];
-    
+
     const lowerCommand = command.toLowerCase();
     console.log("Navigation command:", lowerCommand); // Debug log
-    
+
     // Check profile patterns first
-    const isProfileCommand = profilePatterns.some(pattern => pattern.test(lowerCommand));
+    const isProfileCommand = profilePatterns.some((pattern) =>
+      pattern.test(lowerCommand)
+    );
     if (isProfileCommand) {
       if (statusText) statusText.textContent = "🚀 Navigating to profile...";
       this.contextualMemory.lastCategory = "profile.html";
-      
+
       setTimeout(() => {
         window.location.href = "profile.html";
       }, 500);
@@ -1104,48 +988,132 @@ class EnhancedVoiceSearch {
 
     // Complete navigation mapping including all category pages
     const navigationMap = {
-      electronics: { url: "elecCat.html", keywords: ["electronics", "electronic", "tech", "technology"] },
-      appliances: { url: "ApplianCat.html", keywords: ["appliances", "appliance", "home appliances"] },
-      fashion: { url: "Fashion.html", keywords: ["fashion", "clothes", "clothing", "wear"] },
-      beauty: { url: "Beauty.html", keywords: ["beauty", "makeup", "cosmetics", "fragrance", "skincare"] },
-      home: { url: "HomeCat.html", keywords: ["home", "furniture", "decor", "decoration"] },
-      videogames: { url: "videogamecat.html", keywords: ["video games", "games", "gaming", "console"] },
+      electronics: {
+        url: "elecCat.html",
+        keywords: ["electronics", "electronic", "tech", "technology"],
+      },
+      appliances: {
+        url: "ApplianCat.html",
+        keywords: ["appliances", "appliance", "home appliances"],
+      },
+      fashion: {
+        url: "Fashion.html",
+        keywords: ["fashion", "clothes", "clothing", "wear"],
+      },
+      beauty: {
+        url: "Beauty.html",
+        keywords: ["beauty", "makeup", "cosmetics", "fragrance", "skincare"],
+      },
+      home: {
+        url: "HomeCat.html",
+        keywords: ["home", "furniture", "decor", "decoration"],
+      },
+      videogames: {
+        url: "videogamecat.html",
+        keywords: ["video games", "games", "gaming", "console"],
+      },
       cart: { url: "cart.html", keywords: ["cart", "basket", "shopping cart"] },
-      profile: { url: "profile.html", keywords: ["profile", "account", "my account", "my profile", "user profile", "personal profile"] },
-      orders: { url: "orders.html", keywords: ["orders", "my orders", "purchase history", "order history"] },
-      
+      profile: {
+        url: "profile.html",
+        keywords: [
+          "profile",
+          "account",
+          "my account",
+          "my profile",
+          "user profile",
+          "personal profile",
+        ],
+      },
+      orders: {
+        url: "orders.html",
+        keywords: ["orders", "my orders", "purchase history", "order history"],
+      },
+
       // Subcategory pages
-      mobile: { url: "mobileandtablets.html", keywords: ["mobile", "phone", "smartphone", "tablet"] },
+      mobile: {
+        url: "mobileandtablets.html",
+        keywords: ["mobile", "phone", "smartphone", "tablet"],
+      },
       tv: { url: "tvs.html", keywords: ["tv", "television", "smart tv"] },
-      laptop: { url: "laptop.html", keywords: ["laptop", "computer", "notebook"] },
-      
-      large_appliances: { url: "largeAppliances.html", keywords: ["large appliances", "washing machine", "refrigerator"] },
-      small_appliances: { url: "smallAppliances.html", keywords: ["small appliances", "toaster", "kettle"] },
-      
-      furniture: { url: "furniture.html", keywords: ["furniture", "sofa", "chair", "table"] },
-      home_decor: { url: "homeDecor.html", keywords: ["home decor", "lamp", "mirror"] },
-      kitchen_dining: { url: "Kitchen&Dining.html", keywords: ["kitchen", "dining", "cookware"] },
-      bath_bedding: { url: "bath&bedding.html", keywords: ["bath", "bedding", "towel"] },
-      
-      console: { url: "console.html", keywords: ["console", "playstation", "xbox"] },
-      controller: { url: "controller.html", keywords: ["controller", "gamepad"] },
-      accessories: { url: "accessories.html", keywords: ["gaming accessories", "headset"] },
-      
-      women: { url: "woman.html", keywords: ["women", "women's fashion", "ladies"] },
+      laptop: {
+        url: "laptop.html",
+        keywords: ["laptop", "computer", "notebook"],
+      },
+
+      large_appliances: {
+        url: "largeAppliances.html",
+        keywords: ["large appliances", "washing machine", "refrigerator"],
+      },
+      small_appliances: {
+        url: "smallAppliances.html",
+        keywords: ["small appliances", "toaster", "kettle"],
+      },
+
+      furniture: {
+        url: "furniture.html",
+        keywords: ["furniture", "sofa", "chair", "table"],
+      },
+      home_decor: {
+        url: "homeDecor.html",
+        keywords: ["home decor", "lamp", "mirror"],
+      },
+      kitchen_dining: {
+        url: "Kitchen&Dining.html",
+        keywords: ["kitchen", "dining", "cookware"],
+      },
+      bath_bedding: {
+        url: "bath&bedding.html",
+        keywords: ["bath", "bedding", "towel"],
+      },
+
+      console: {
+        url: "console.html",
+        keywords: ["console", "playstation", "xbox"],
+      },
+      controller: {
+        url: "controller.html",
+        keywords: ["controller", "gamepad"],
+      },
+      accessories: {
+        url: "accessories.html",
+        keywords: ["gaming accessories", "headset"],
+      },
+
+      women: {
+        url: "woman.html",
+        keywords: ["women", "women's fashion", "ladies"],
+      },
       men: { url: "men.html", keywords: ["men", "men's fashion", "mens"] },
-      kids: { url: "kids.html", keywords: ["kids", "children", "kids fashion"] },
-      
-      makeup: { url: "makeup.html", keywords: ["makeup", "cosmetics", "lipstick"] },
-      skincare: { url: "skincare.html", keywords: ["skincare", "moisturizer", "cleanser"] },
-      haircare: { url: "haircare.html", keywords: ["haircare", "shampoo", "conditioner"] },
-      fragrance: { url: "Fragrance.html", keywords: ["fragrance", "perfume", "cologne"] }
+      kids: {
+        url: "kids.html",
+        keywords: ["kids", "children", "kids fashion"],
+      },
+
+      makeup: {
+        url: "makeup.html",
+        keywords: ["makeup", "cosmetics", "lipstick"],
+      },
+      skincare: {
+        url: "skincare.html",
+        keywords: ["skincare", "moisturizer", "cleanser"],
+      },
+      haircare: {
+        url: "haircare.html",
+        keywords: ["haircare", "shampoo", "conditioner"],
+      },
+      fragrance: {
+        url: "Fragrance.html",
+        keywords: ["fragrance", "perfume", "cologne"],
+      },
     };
 
     let targetPage = null;
 
     // AI-powered page detection
     for (const [page, config] of Object.entries(navigationMap)) {
-      const matchFound = config.keywords.some(keyword => lowerCommand.includes(keyword));
+      const matchFound = config.keywords.some((keyword) =>
+        lowerCommand.includes(keyword)
+      );
       if (matchFound) {
         targetPage = config.url;
         console.log("Found match:", page, "->", targetPage); // Debug log
@@ -1162,148 +1130,64 @@ class EnhancedVoiceSearch {
     }
 
     if (targetPage) {
-      if (statusText) statusText.textContent = `🚀 Navigating to ${targetPage}...`;
+      if (statusText)
+        statusText.textContent = `🚀 Navigating to ${targetPage}...`;
       this.contextualMemory.lastCategory = targetPage;
-      
+
       setTimeout(() => {
         window.location.href = targetPage;
       }, 500);
     } else {
       if (statusText) {
-        statusText.textContent = "🤔 I couldn't find that page. Try saying 'go to electronics', 'go to my profile', or 'open cart'.";
+        statusText.textContent =
+          "🤔 I couldn't find that page. Try saying 'go to electronics', 'go to my profile', or 'open cart'.";
       }
     }
   }
 
-  // Enhanced action intent with smart detection
-  async handleAdvancedActionIntent(command, entities, context) {
+  // Enhanced action handling
+  async handleActionIntent(command, entities) {
     const statusText = document.querySelector(".status-text");
-    const lowerCommand = command.toLowerCase();
 
-    // Action detection with confidence scoring
-    const actions = [
-      {
-        keywords: ["scroll down", "go down", "move down"],
-        action: () => window.scrollBy({ top: 300, behavior: "smooth" }),
-        message: "📜 Scrolling down...",
-      },
-      {
-        keywords: ["scroll up", "go up", "move up"],
-        action: () => window.scrollBy({ top: -300, behavior: "smooth" }),
-        message: "📜 Scrolling up...",
-      },
-      {
-        keywords: ["go back", "back", "previous page"],
-        action: () => window.history.back(),
-        message: "⬅️ Going back...",
-      },
-      {
-        keywords: ["refresh", "reload"],
-        action: () => window.location.reload(),
-        message: "🔄 Refreshing page...",
-      },
-      {
-        keywords: ["checkout", "proceed to checkout"],
-        action: () => (window.location.href = "checkout.html"),
-        message: "💳 Proceeding to checkout...",
-      },
-    ];
-
-    for (const actionConfig of actions) {
-      const match = actionConfig.keywords.some((keyword) =>
-        lowerCommand.includes(keyword)
-      );
-      if (match) {
-        if (statusText) statusText.textContent = actionConfig.message;
-        setTimeout(actionConfig.action, 500);
-        return;
+    if (entities.actions.includes("scroll")) {
+      if (command.toLowerCase().includes("down")) {
+        window.scrollBy(0, 300);
+        if (statusText) statusText.textContent = "Scrolling down...";
+      } else if (command.toLowerCase().includes("up")) {
+        window.scrollBy(0, -300);
+        if (statusText) statusText.textContent = "Scrolling up...";
       }
-    }
-
-    if (statusText) {
-      statusText.textContent =
-        "🤔 I didn't understand that action. Try 'scroll down', 'go back', or 'checkout'.";
-    }
-  }
-
-  // Enhanced filter intent
-  async handleAdvancedFilterIntent(command, entities, context) {
-    const statusText = document.querySelector(".status-text");
-
-    if (statusText) statusText.textContent = "🔍 Applying smart filters...";
-
-    // Check if we're on a search results page
-    if (
-      window.location.pathname.includes("search-results") &&
-      window.searchResults
-    ) {
-      this.applySmartFilters(entities, command);
+    } else if (entities.actions.includes("back")) {
+      window.history.back();
+      if (statusText) statusText.textContent = "Going back...";
+    } else if (entities.actions.includes("forward")) {
+      window.history.forward();
+      if (statusText) statusText.textContent = "Going forward...";
+    } else if (entities.actions.includes("close")) {
+      this.closeSidebar();
+      if (statusText) statusText.textContent = "Closing voice search...";
+    } else if (entities.actions.includes("checkout")) {
+      window.location.href = "cart.html";
+      if (statusText) statusText.textContent = "Going to checkout...";
     } else {
-      // Navigate to search with filters
-      let searchQuery = "";
-      if (entities.products.length > 0) {
-        searchQuery = entities.products.join(" ");
-      } else if (entities.categories.length > 0) {
-        searchQuery = entities.categories.join(" ");
-      }
-
-      if (searchQuery) {
-        window.location.href = `search-results.html?q=${encodeURIComponent(
-          searchQuery
-        )}`;
-      }
+      if (statusText)
+        statusText.textContent =
+          "Action not recognized. Try 'scroll down', 'go back', or 'checkout'.";
     }
   }
 
-  // Apply smart filters to search results
-  applySmartFilters(entities, command) {
-    if (!window.searchResults) return;
+  // Filter handling
+  async handleFilterIntent(command, entities) {
+    const statusText = document.querySelector(".status-text");
 
-    // Apply category filter
-    if (entities.categories.length > 0) {
-      const categorySelect = document.getElementById("categoryFilter");
-      if (categorySelect) {
-        categorySelect.value = entities.categories[0];
-      }
+    if (entities.price_range) {
+      if (statusText)
+        statusText.textContent = `Filtering by price: ${entities.price_range}`;
+      // Implement price filtering logic here
+    } else {
+      if (statusText)
+        statusText.textContent = "Filter options: price, rating, brand, color";
     }
-
-    // Apply price range filter
-    if (entities.priceRange) {
-      const minPriceInput = document.getElementById("minPrice");
-      const maxPriceInput = document.getElementById("maxPrice");
-
-      if (entities.priceRange.min && minPriceInput) {
-        minPriceInput.value = entities.priceRange.min;
-      }
-      if (entities.priceRange.max && maxPriceInput) {
-        maxPriceInput.value = entities.priceRange.max;
-      }
-    }
-
-    // Apply sorting
-    const sortCommands = {
-      cheapest: "price-low",
-      "lowest price": "price-low",
-      "most expensive": "price-high",
-      "highest price": "price-high",
-      "best rated": "rating",
-      "highest rating": "rating",
-      newest: "newest",
-    };
-
-    const lowerCommand = command.toLowerCase();
-    for (const [phrase, sortValue] of Object.entries(sortCommands)) {
-      if (lowerCommand.includes(phrase)) {
-        const sortSelect = document.getElementById("sortFilter");
-        if (sortSelect) {
-          sortSelect.value = sortValue;
-        }
-        break;
-      }
-    }
-
-    // Apply filters
-    window.searchResults.applyFilters();
   }
 
   // Intelligent fallback with suggestions
@@ -1657,9 +1541,20 @@ class EnhancedVoiceSearch {
     const statusText = document.querySelector(".status-text");
 
     // First try to match common product terms even with low confidence
-    const commonTerms = ['iphone', 'samsung', 'laptop', 'tv', 'phone', 'shoes', 'makeup', 'perfume'];
-    const hasCommonTerm = commonTerms.some(term => command.toLowerCase().includes(term));
-    
+    const commonTerms = [
+      "iphone",
+      "samsung",
+      "laptop",
+      "tv",
+      "phone",
+      "shoes",
+      "makeup",
+      "perfume",
+    ];
+    const hasCommonTerm = commonTerms.some((term) =>
+      command.toLowerCase().includes(term)
+    );
+
     if (hasCommonTerm) {
       // Treat as search intent
       await this.handleAdvancedSearchIntent(command, entities, context);
