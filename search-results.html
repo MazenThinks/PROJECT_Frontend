@@ -16,218 +16,9 @@
     <link rel="stylesheet" href="styling.css" />
     <link rel="icon" type="image/x-icon" href="Assets/Box-seam.png" />
     <title>Search Results - PickPay</title>
-    <style>
-      .search-results-container {
-        min-height: 60vh;
-      }
-
-      .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        padding: 20px 0;
-      }
-
-      @media (min-width: 1200px) {
-        .product-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-
-      @media (min-width: 992px) and (max-width: 1199px) {
-        .product-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      @media (min-width: 768px) and (max-width: 991px) {
-        .product-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 767px) {
-        .product-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .product-card {
-        background: var(--card-bg, #fff);
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: all 0.3s ease;
-        border: 1px solid var(--border-color, #e0e0e0);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      }
-
-      .product-image-container {
-        position: relative;
-        overflow: hidden;
-        height: 250px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f8f9fa;
-        padding: 15px;
-      }
-
-      .product-image {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: transform 0.3s ease;
-      }
-
-      .product-card:hover .product-image {
-        transform: scale(1.05);
-      }
-
-      .product-info {
-        padding: 15px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .product-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-color, #333);
-        line-height: 1.4;
-        margin-bottom: 10px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 44px;
-      }
-
-      .product-price {
-        margin-bottom: 10px;
-      }
-
-      .price-current {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--primary-color, #007bff);
-      }
-
-      .price-old {
-        font-size: 14px;
-        color: #888;
-        text-decoration: line-through;
-        margin-left: 8px;
-      }
-
-      .discount-badge {
-        background: #dc3545;
-        color: white;
-        font-size: 12px;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-left: 8px;
-      }
-
-      .rating-section {
-        margin-bottom: 15px;
-      }
-
-      .stars {
-        color: #ffc107;
-        margin-right: 5px;
-      }
-
-      .rating-count {
-        color: #666;
-        font-size: 14px;
-      }
-
-      .product-actions {
-        margin-top: auto;
-      }
-
-      .btn-add-cart {
-        background: var(--primary-color, #007bff);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        width: 100%;
-      }
-
-      .btn-add-cart:hover {
-        background: var(--primary-dark, #0056b3);
-        transform: translateY(-1px);
-      }
-
-      .search-header {
-        background: var(--navbar-bg, #f8f9fa);
-        padding: 20px 0;
-        border-bottom: 1px solid var(--border-color, #e0e0e0);
-      }
-
-      .search-filters {
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .filter-section {
-        margin-bottom: 15px;
-      }
-
-      .filter-label {
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: var(--text-color, #333);
-      }
-
-      .loading-spinner {
-        text-align: center;
-        padding: 50px;
-      }
-
-      .no-results {
-        text-align: center;
-        padding: 50px;
-        color: #666;
-      }
-
-      .results-count {
-        color: #666;
-        margin-bottom: 20px;
-      }
-
-      .breadcrumb {
-        background: transparent;
-        padding: 0;
-        margin-bottom: 20px;
-      }
-
-      .pagination-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 40px;
-      }
-    </style>
   </head>
-  <body>
-    <!-- Navigation (copied from index.html) -->
+  <body class="d-flex flex-column min-vh-100">
+    <!-- navbar -->
     <header class="py-3 mb-0 border-bottom">
       <div
         class="container d-flex flex-row align-items-center justify-content-between gap-3 flex-wrap"
@@ -283,16 +74,6 @@
             <span class="cartext">Cart</span>
           </a>
         </div>
-        <div class="voice-search-toggle d-flex align-items-center mx-2">
-          <button
-            id="voiceSearchBtn"
-            class="btn btn-sm btn-outline-primary voice-search-trigger"
-            aria-label="Voice Search"
-            title="Voice Search - Click to start"
-          >
-            <i class="fa-solid fa-microphone"></i>
-          </button>
-        </div>
         <div class="dark-mode-toggle d-flex align-items-center mx-2">
           <button
             id="darkModeToggle"
@@ -315,1083 +96,857 @@
       </div>
     </header>
 
-    <!-- Search Header -->
-    <div class="search-header">
-      <div class="container">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Search Results
-            </li>
-          </ol>
-        </nav>
-        <h1 id="searchTitle">Search Results</h1>
-        <p id="searchQuery" class="text-muted mb-0"></p>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container my-4">
-      <div class="row">
-        <!-- Filters Sidebar -->
-        <div class="col-lg-3 col-md-4 mb-4">
-          <div class="search-filters">
-            <h5>Filters</h5>
-
-            <div class="filter-section">
-              <div class="filter-label">Category</div>
-              <select id="categoryFilter" class="form-select form-select-sm">
-                <option value="">All Categories</option>
-                <option value="electronics">Electronics</option>
-                <option value="appliances">Appliances</option>
-                <option value="home">Home</option>
-                <option value="fashion">Fashion</option>
-                <option value="beauty">Beauty & Fragrance</option>
-                <option value="videogames">Video Games</option>
-              </select>
-            </div>
-
-            <div class="filter-section">
-              <div class="filter-label">Price Range</div>
-              <div class="row">
-                <div class="col-6">
-                  <input
-                    type="number"
-                    id="minPrice"
-                    class="form-control form-control-sm"
-                    placeholder="Min"
-                  />
-                </div>
-                <div class="col-6">
-                  <input
-                    type="number"
-                    id="maxPrice"
-                    class="form-control form-control-sm"
-                    placeholder="Max"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="filter-section">
-              <div class="filter-label">Sort By</div>
-              <select id="sortFilter" class="form-select form-select-sm">
-                <option value="relevance">Relevance</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Customer Rating</option>
-                <option value="newest">Newest</option>
-              </select>
-            </div>
-
-            <button id="applyFilters" class="btn btn-primary btn-sm w-100 mt-3">
-              Apply Filters
-            </button>
-            <button
-              id="clearFilters"
-              class="btn btn-outline-secondary btn-sm w-100 mt-2"
-            >
-              Clear All
-            </button>
-          </div>
+    <!-- Search Results Content -->
+    <div class="container my-5 flex-grow-1">
+      <!-- Search Query Display -->
+      <div id="searchQueryDisplay" class="mb-4">
+        <h2>Search Results</h2>
+        <div id="queryAnalysis" class="alert alert-info" style="display: none">
+          <i class="fa-solid fa-brain me-2"></i>
+          <strong>AI Understanding:</strong>
+          <span id="analysisText"></span>
         </div>
+      </div>
 
-        <!-- Products Grid -->
-        <div class="col-lg-9 col-md-8">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div id="resultsCount" class="results-count">Loading...</div>
-            <div class="view-options">
-              <button
-                class="btn btn-sm btn-outline-secondary active"
-                id="gridView"
-              >
-                <i class="fas fa-th"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-secondary" id="listView">
-                <i class="fas fa-list"></i>
-              </button>
-            </div>
-          </div>
+      <!-- Loading State -->
+      <div id="loadingState" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Searching for products...</p>
+      </div>
 
-          <div class="search-results-container">
-            <div id="loadingSpinner" class="loading-spinner">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <p class="mt-3">Searching products...</p>
-            </div>
+      <!-- Search Results -->
+      <div id="searchResults" style="display: none">
+        <div class="row" id="resultsGrid"></div>
 
-            <div
-              id="productsGrid"
-              class="product-grid"
-              style="display: none"
-            ></div>
-
-            <div id="noResults" class="no-results" style="display: none">
-              <i class="fas fa-search fa-3x text-muted mb-3"></i>
-              <h4>No products found</h4>
-              <p>Try adjusting your search terms or filters</p>
-            </div>
-          </div>
-
-          <!-- Pagination -->
-          <div
+        <!-- Pagination -->
+        <nav aria-label="Search results pagination" class="mt-4">
+          <ul
+            class="pagination justify-content-center"
             id="paginationContainer"
-            class="pagination-container"
-            style="display: none"
+          ></ul>
+        </nav>
+      </div>
+
+      <!-- No Results Found -->
+      <div id="noResults" style="display: none">
+        <div class="text-center py-5">
+          <i class="fa-solid fa-search fa-3x text-muted mb-3"></i>
+          <h3>No products found</h3>
+          <p class="text-muted" id="noResultsMessage">
+            We couldn't find any products matching your search.
+          </p>
+
+          <!-- Search Tips -->
+          <div
+            class="alert alert-light mt-4"
+            style="max-width: 600px; margin: 0 auto"
           >
-            <nav aria-label="Search results pagination">
-              <ul class="pagination" id="pagination"></ul>
-            </nav>
+            <h6><i class="fa-solid fa-lightbulb me-2"></i>Search Tips:</h6>
+            <ul class="list-unstyled mb-0 text-start">
+              <li class="mb-2">
+                <strong>"laptop under 30k"</strong> - Find laptops under 30,000
+                EGP
+              </li>
+              <li class="mb-2">
+                <strong>"Samsung TV 55 inch"</strong> - Find Samsung TVs with
+                55" screen
+              </li>
+              <li class="mb-2">
+                <strong>"iPhone 16GB storage"</strong> - Find iPhones with 16GB
+                storage
+              </li>
+              <li class="mb-2">
+                <strong>"black Nike shoes"</strong> - Find black Nike shoes
+              </li>
+              <li>
+                <strong>"sofa between 5k and 15k"</strong> - Find sofas priced
+                between 5,000-15,000 EGP
+              </li>
+            </ul>
           </div>
+        </div>
+
+        <!-- You Might Also Like Section -->
+        <div id="youMightLike" class="mt-5">
+          <h4 class="text-center mb-4">
+            <i class="fa-solid fa-heart me-2 text-danger"></i>
+            You Might Also Like
+          </h4>
+          <div class="row" id="recommendedProducts"></div>
         </div>
       </div>
     </div>
 
-    <!-- Footer (copied from index.html) -->
-    <div class="text-center bg-body-tertiary">
-      <footer class="py-4">
-        <div class="py-5 border-top d-flex flex-column align-items-center">
-          <p>© 2025 PickPay, Inc. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
-
-    <!-- Enhanced Voice Search Sidebar -->
-    <div id="voiceOverlay" class="voice-overlay"></div>
-    <div id="voiceSidebar" class="voice-sidebar">
-      <div class="voice-sidebar-header">
-        <h3><i class="fa-solid fa-microphone me-2"></i>Voice Search</h3>
-        <button id="closeSidebar" class="btn-close" aria-label="Close"></button>
-      </div>
-
-      <div class="voice-sidebar-content">
-        <div class="voice-status">
-          <div class="status-indicator">
-            <i class="fa-solid fa-microphone"></i>
-          </div>
-          <p class="status-text">Click start to begin voice search</p>
-        </div>
-
-        <div class="voice-controls">
-          <button id="startListening" class="btn btn-primary">
-            <i class="fa-solid fa-play me-2"></i>Start Listening
-          </button>
-          <button id="stopListening" class="btn btn-danger">
-            <i class="fa-solid fa-stop me-2"></i>Stop
-          </button>
-        </div>
-
-        <div class="voice-transcript">
-          <h5>What you said:</h5>
-          <div id="transcriptContent" class="transcript-content">
-            Say something like "search for iPhone" or "go to electronics"
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Footer -->
+    <footer class="bg-body-tertiary text-center py-4 mt-auto">
+      <p class="mb-0">© 2025 PickPay, Inc. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="script.js"></script>
-    <script src="cart.js"></script>
-    <script src="enhanced-voice-search.js"></script>
 
     <script>
-      // Product mapping with proper image paths and product page links
-      const productPageMap = {
-        // Electronics Products
-        "6819e22b123a4faad16613be": {
-          page: "ProductPages/Electronics products/product1.html",
-          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 1.png",
-        },
-        "6819e22b123a4faad16613bf": {
-          page: "ProductPages/Electronics products/product2.html",
-          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 2.png",
-        },
-        "6819e22b123a4faad16613c0": {
-          page: "ProductPages/Electronics products/product3.html",
-          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 3.png",
-        },
-        "6819e22b123a4faad16613c1": {
-          page: "ProductPages/Electronics products/product4.html",
-          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 4.png",
-        },
-        "6819e22b123a4faad16613c3": {
-          page: "ProductPages/Electronics products/product5.html",
-          image: "Assets/elec Cat/Mobile&Tablet/mobile&tablet 5.png",
-        },
-        "6819e22b123a4faad16613c4": {
-          page: "ProductPages/Electronics products/product6.html",
-          image: "Assets/elec Cat/Tvs/TV 1.png",
-        },
-        "6819e22b123a4faad16613c5": {
-          page: "ProductPages/Electronics products/product7.html",
-          image: "Assets/elec Cat/Tvs/TV 2.png",
-        },
-        "6819e22b123a4faad16613c6": {
-          page: "ProductPages/Electronics products/product8.html",
-          image: "Assets/elec Cat/Tvs/TV 3.png",
-        },
-        "6819e22b123a4faad16613c7": {
-          page: "ProductPages/Electronics products/product9.html",
-          image: "Assets/elec Cat/Tvs/TV 4.png",
-        },
-        "6819e22b123a4faad16613c8": {
-          page: "ProductPages/Electronics products/product10.html",
-          image: "Assets/elec Cat/Tvs/TV 5.png",
-        },
-        "6819e22b123a4faad16613c9": {
-          page: "ProductPages/Electronics products/product11.html",
-          image: "Assets/elec Cat/Laptop/laptop 1.png",
-        },
-        "6819e22b123a4faad16613ca": {
-          page: "ProductPages/Electronics products/product12.html",
-          image: "Assets/elec Cat/Laptop/laptop 2.png",
-        },
-        "6819e22b123a4faad16613cb": {
-          page: "ProductPages/Electronics products/product13.html",
-          image: "Assets/elec Cat/Laptop/laptop 3.png",
-        },
-        "6819e22b123a4faad16613cc": {
-          page: "ProductPages/Electronics products/product14.html",
-          image: "Assets/elec Cat/Laptop/laptop 4.png",
-        },
-        "6819e22b123a4faad16613c2": {
-          page: "ProductPages/Electronics products/product15.html",
-          image: "Assets/elec Cat/Laptop/laptop 5.png",
-        },
+      document.addEventListener("DOMContentLoaded", async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get("q");
 
-        // Appliances Products
-        "68252918a68b49cb06164204": {
-          page: "ProductPages/AppliancesProducts/product1.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 1.png",
-        },
-        "68252918a68b49cb06164205": {
-          page: "ProductPages/AppliancesProducts/product2.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 2.png",
-        },
-        "68252918a68b49cb06164206": {
-          page: "ProductPages/AppliancesProducts/product3.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 3.png",
-        },
-        "68252918a68b49cb06164207": {
-          page: "ProductPages/AppliancesProducts/product4.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 4.png",
-        },
-        "68252918a68b49cb06164208": {
-          page: "ProductPages/AppliancesProducts/product5.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 5.png",
-        },
-        "68252918a68b49cb06164209": {
-          page: "ProductPages/AppliancesProducts/product6.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 1.png",
-        },
-        "68252918a68b49cb0616420a": {
-          page: "ProductPages/AppliancesProducts/product7.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 2.png",
-        },
-        "68252918a68b49cb0616420b": {
-          page: "ProductPages/AppliancesProducts/product8.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 3.png",
-        },
-        "68252918a68b49cb0616420c": {
-          page: "ProductPages/AppliancesProducts/product9.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 4.png",
-        },
-        "68252918a68b49cb0616420d": {
-          page: "ProductPages/AppliancesProducts/product10.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 5.png",
-        },
-        "68252918a68b49cb0616420e": {
-          page: "ProductPages/AppliancesProducts/product11.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 6.png",
-        },
-        "68252918a68b49cb0616420f": {
-          page: "ProductPages/AppliancesProducts/product12.html",
-          image: "Assets/AppCat/Large Appliances/Large Appliances 7.png",
-        },
-        "68252918a68b49cb06164210": {
-          page: "ProductPages/AppliancesProducts/product13.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 6.png",
-        },
-        "68252918a68b49cb06164211": {
-          page: "ProductPages/AppliancesProducts/product14.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 7.png",
-        },
-        "68252918a68b49cb06164212": {
-          page: "ProductPages/AppliancesProducts/product15.html",
-          image: "Assets/AppCat/Small Appliances/Small Appliances 8.png",
-        },
-
-        // Home Products
-        "681dab0df9c9147444b452cd": {
-          page: "ProductPages/home products/product1.html",
-          image: "Assets/HomeCat/Furniture/Furniture 1.png",
-        },
-        "681dab0df9c9147444b452ce": {
-          page: "ProductPages/home products/product2.html",
-          image: "Assets/HomeCat/Furniture/Furniture 2.png",
-        },
-        "681dab0df9c9147444b452cf": {
-          page: "ProductPages/home products/product3.html",
-          image: "Assets/HomeCat/Furniture/Furniture 3.png",
-        },
-        "681dab0df9c9147444b452d0": {
-          page: "ProductPages/home products/product4.html",
-          image: "Assets/HomeCat/Furniture/Furniture 4.png",
-        },
-        "681dab0df9c9147444b452d1": {
-          page: "ProductPages/home products/product5.html",
-          image: "Assets/HomeCat/Furniture/Furniture 5.png",
-        },
-        "681dab0df9c9147444b452d2": {
-          page: "ProductPages/home products/product6.html",
-          image: "Assets/HomeCat/Home Decor/Home Decor 1.png",
-        },
-        "681dab0df9c9147444b452d3": {
-          page: "ProductPages/home products/product7.html",
-          image: "Assets/HomeCat/Home Decor/Home Decor 2.png",
-        },
-        "681dab0df9c9147444b452d4": {
-          page: "ProductPages/home products/product8.html",
-          image: "Assets/HomeCat/Home Decor/Home Decor 3.png",
-        },
-        "681dab0df9c9147444b452d5": {
-          page: "ProductPages/home products/product9.html",
-          image: "Assets/HomeCat/Home Decor/Home Decor 4.png",
-        },
-        "681dab0df9c9147444b452d6": {
-          page: "ProductPages/home products/product10.html",
-          image: "Assets/HomeCat/Home Decor/Home Decor 5.png",
-        },
-        "681dab0df9c9147444b452d7": {
-          page: "ProductPages/home products/product11.html",
-          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 1.png",
-        },
-        "681dab0df9c9147444b452d8": {
-          page: "ProductPages/home products/product12.html",
-          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 2.png",
-        },
-        "681dab0df9c9147444b452d9": {
-          page: "ProductPages/home products/product13.html",
-          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 3.png",
-        },
-        "681dab0df9c9147444b452da": {
-          page: "ProductPages/home products/product14.html",
-          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 4.png",
-        },
-        "681dab0df9c9147444b452db": {
-          page: "ProductPages/home products/product15.html",
-          image: "Assets/HomeCat/Kitchen&Dining/Kitchen 5.png",
-        },
-        "681dab0df9c9147444b452dc": {
-          page: "ProductPages/home products/product16.html",
-          image: "Assets/HomeCat/Bath&Bedding/Bath 1.png",
-        },
-        "681dab0df9c9147444b452dd": {
-          page: "ProductPages/home products/product17.html",
-          image: "Assets/HomeCat/Bath&Bedding/Bath 2.png",
-        },
-        "681dab0df9c9147444b452de": {
-          page: "ProductPages/home products/product18.html",
-          image: "Assets/HomeCat/Bath&Bedding/Bath 3.png",
-        },
-        "681dab0df9c9147444b452df": {
-          page: "ProductPages/home products/product19.html",
-          image: "Assets/HomeCat/Bath&Bedding/Bath 4.png",
-        },
-        "681dab0df9c9147444b452e0": {
-          page: "ProductPages/home products/product20.html",
-          image: "Assets/HomeCat/Bath&Bedding/Bath 5.png",
-        },
-
-        // Fashion Products
-        "682b00c26977bd89257c0e8e": {
-          page: "ProductPages/fashion products/product1.html",
-          image: "Assets/FashionCat/Women's Fashion/Women's fashion 1.png",
-        },
-        "682b00c26977bd89257c0e8f": {
-          page: "ProductPages/fashion products/product2.html",
-          image: "Assets/FashionCat/Women's Fashion/Women's fashion 2.png",
-        },
-        "682b00c26977bd89257c0e90": {
-          page: "ProductPages/fashion products/product3.html",
-          image: "Assets/FashionCat/Women's Fashion/Women's fashion 3.png",
-        },
-        "682b00c26977bd89257c0e91": {
-          page: "ProductPages/fashion products/product4.html",
-          image: "Assets/FashionCat/Women's Fashion/Women's fashion 4.png",
-        },
-        "682b00c26977bd89257c0e92": {
-          page: "ProductPages/fashion products/product5.html",
-          image: "Assets/FashionCat/Women's Fashion/Women's fashion 5.png",
-        },
-        "682b00c26977bd89257c0e93": {
-          page: "ProductPages/fashion products/product6.html",
-          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 1.png",
-        },
-        "682b00c26977bd89257c0e94": {
-          page: "ProductPages/fashion products/product7.html",
-          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 2.png",
-        },
-        "682b00c26977bd89257c0e95": {
-          page: "ProductPages/fashion products/product8.html",
-          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 3.png",
-        },
-        "682b00c26977bd89257c0e96": {
-          page: "ProductPages/fashion products/product9.html",
-          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 4.png",
-        },
-        "682b00c26977bd89257c0e97": {
-          page: "ProductPages/fashion products/product10.html",
-          image: "Assets/FashionCat/Men's Fashion/Men's Fashion 5.png",
-        },
-        "682b00c26977bd89257c0e98": {
-          page: "ProductPages/fashion products/product11.html",
-          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 1.png",
-        },
-        "682b00c26977bd89257c0e99": {
-          page: "ProductPages/fashion products/product12.html",
-          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 2.png",
-        },
-        "682b00c26977bd89257c0e9a": {
-          page: "ProductPages/fashion products/product13.html",
-          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 3.png",
-        },
-        "682b00c26977bd89257c0e9b": {
-          page: "ProductPages/fashion products/product14.html",
-          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 4.png",
-        },
-        "682b00c26977bd89257c0e9c": {
-          page: "ProductPages/fashion products/product15.html",
-          image: "Assets/FashionCat/Kids' Fashion/Kids' Fashion 5.png",
-        },
-
-        // Video Games Products
-        "682b00a46977bd89257c0e80": {
-          page: "ProductPages/videogames products/product1.html",
-          image: "Assets/VidCat/Consoles/Console1.png",
-        },
-        "682b00a46977bd89257c0e81": {
-          page: "ProductPages/videogames products/product2.html",
-          image: "Assets/VidCat/Consoles/Console2.png",
-        },
-        "682b00a46977bd89257c0e82": {
-          page: "ProductPages/videogames products/product3.html",
-          image: "Assets/VidCat/Consoles/Console3.png",
-        },
-        "682b00a46977bd89257c0e83": {
-          page: "ProductPages/videogames products/product4.html",
-          image: "Assets/VidCat/Consoles/Console4.png",
-        },
-        "682b00a46977bd89257c0e84": {
-          page: "ProductPages/videogames products/product5.html",
-          image: "Assets/VidCat/Controllers/Controller1.jpg.png",
-        },
-        "682b00a46977bd89257c0e85": {
-          page: "ProductPages/videogames products/product6.html",
-          image: "Assets/VidCat/Controllers/Controller2.jpg.png",
-        },
-        "682b00a46977bd89257c0e86": {
-          page: "ProductPages/videogames products/product7.html",
-          image: "Assets/VidCat/Controllers/Controller3.jpg.png",
-        },
-        "682b00a46977bd89257c0e87": {
-          page: "ProductPages/videogames products/product8.html",
-          image: "Assets/VidCat/Controllers/Controller4.jpg.png",
-        },
-        "682b00a46977bd89257c0e88": {
-          page: "ProductPages/videogames products/product9.html",
-          image: "Assets/VidCat/Controllers/Controller5.jpg.png",
-        },
-        "682b00a46977bd89257c0e89": {
-          page: "ProductPages/videogames products/product10.html",
-          image: "Assets/VidCat/Accessories/Accessories1.png",
-        },
-        "682b00a46977bd89257c0e8a": {
-          page: "ProductPages/videogames products/product11.html",
-          image: "Assets/VidCat/Accessories/Accessories2.png",
-        },
-        "682b00a46977bd89257c0e8b": {
-          page: "ProductPages/videogames products/product12.html",
-          image: "Assets/VidCat/Accessories/Accessories3.png",
-        },
-        "682b00a46977bd89257c0e8c": {
-          page: "ProductPages/videogames products/product13.html",
-          image: "Assets/VidCat/Accessories/Accessories4.png",
-        },
-        "682b00a46977bd89257c0e8d": {
-          page: "ProductPages/videogames products/product14.html",
-          image: "Assets/VidCat/Accessories/Accessories5.png",
-        },
-
-        // Beauty Products
-        "682b00d16977bd89257c0e9d": {
-          page: "ProductPages/beauty products/product1.html",
-          image: "Assets/Beautycat/Makeup/Makeup 1.png",
-        },
-        "682b00d16977bd89257c0e9e": {
-          page: "ProductPages/beauty products/product2.html",
-          image: "Assets/Beautycat/Makeup/Makeup 2.png",
-        },
-        "682b00d16977bd89257c0e9f": {
-          page: "ProductPages/beauty products/product3.html",
-          image: "Assets/Beautycat/Makeup/Makeup 3.png",
-        },
-        "682b00d16977bd89257c0ea0": {
-          page: "ProductPages/beauty products/product4.html",
-          image: "Assets/Beautycat/Makeup/Makeup 4.png",
-        },
-        "682b00d16977bd89257c0ea1": {
-          page: "ProductPages/beauty products/product5.html",
-          image: "Assets/Beautycat/Makeup/Makeup 5.png",
-        },
-        "682b00d16977bd89257c0ea2": {
-          page: "ProductPages/beauty products/product6.html",
-          image: "Assets/Beautycat/Skincare/Skincare 1.png",
-        },
-        "682b00d16977bd89257c0ea3": {
-          page: "ProductPages/beauty products/product7.html",
-          image: "Assets/Beautycat/Skincare/Skincare 2.png",
-        },
-        "682b00d16977bd89257c0ea4": {
-          page: "ProductPages/beauty products/product8.html",
-          image: "Assets/Beautycat/Skincare/Skincare 3.png",
-        },
-        "682b00d16977bd89257c0ea5": {
-          page: "ProductPages/beauty products/product9.html",
-          image: "Assets/Beautycat/Skincare/Skincare 4.png",
-        },
-        "682b00d16977bd89257c0ea6": {
-          page: "ProductPages/beauty products/product10.html",
-          image: "Assets/Beautycat/Skincare/Skincare 5.png",
-        },
-        "682b00d16977bd89257c0ea7": {
-          page: "ProductPages/beauty products/product11.html",
-          image: "Assets/Beautycat/Haircare/Haircare 1.png",
-        },
-        "682b00d16977bd89257c0ea8": {
-          page: "ProductPages/beauty products/product12.html",
-          image: "Assets/Beautycat/Haircare/Haircare 2.png",
-        },
-        "682b00d16977bd89257c0ea9": {
-          page: "ProductPages/beauty products/product13.html",
-          image: "Assets/Beautycat/Haircare/Haircare 3.png",
-        },
-        "682b00d16977bd89257c0eaa": {
-          page: "ProductPages/beauty products/product14.html",
-          image: "Assets/Beautycat/Haircare/Haircare 4.png",
-        },
-        "682b00d16977bd89257c0eab": {
-          page: "ProductPages/beauty products/product15.html",
-          image: "Assets/Beautycat/Haircare/Haircare 5.png",
-        },
-        "682b00d16977bd89257c0eac": {
-          page: "ProductPages/beauty products/product16.html",
-          image: "Assets/Beautycat/Fragrance/Fragrance 1.png",
-        },
-        "682b00d16977bd89257c0ead": {
-          page: "ProductPages/beauty products/product17.html",
-          image: "Assets/Beautycat/Fragrance/Fragrance 2.png",
-        },
-        "682b00d16977bd89257c0eae": {
-          page: "ProductPages/beauty products/product18.html",
-          image: "Assets/Beautycat/Fragrance/Fragrance 3.png",
-        },
-        "682b00d16977bd89257c0eaf": {
-          page: "ProductPages/beauty products/product19.html",
-          image: "Assets/Beautycat/Fragrance/Fragrance 4.png",
-        },
-        "682b00d16977bd89257c0eb0": {
-          page: "ProductPages/beauty products/product20.html",
-          image: "Assets/Beautycat/Fragrance/Fragrance 5.png",
-        },
-      };
-
-      class SearchResults {
-        constructor() {
-          this.currentPage = 1;
-          this.itemsPerPage = 20;
-          this.products = [];
-          this.filteredProducts = [];
-          this.totalResults = 0;
-          this.searchQuery = "";
-          this.currentFilters = {
-            category: "",
-            minPrice: null,
-            maxPrice: null,
-            sortBy: "relevance",
-          };
-
-          this.init();
+        if (!query) {
+          window.location.href = "index.html";
+          return;
         }
 
-        init() {
-          this.getSearchQuery();
-          this.setupEventListeners();
-          this.searchProducts();
-        }
+        await performSearch(query);
+      });
 
-        getSearchQuery() {
-          const urlParams = new URLSearchParams(window.location.search);
-          this.searchQuery = urlParams.get("q") || "";
+      // Enhanced query analysis function
+      function analyzeQuery(query) {
+        let processed = query.toLowerCase().trim();
 
-          document.getElementById("searchQuery").textContent = this.searchQuery
-            ? `Showing results for "${this.searchQuery}"`
-            : "All products";
+        const queryAnalysis = {
+          baseQuery: processed,
+          priceConstraints: null,
+          specifications: [],
+          filters: {},
+          intent: "search",
+        };
 
-          // Update search input with current query
-          const searchInput = document.querySelector(".navsearch");
-          if (searchInput && this.searchQuery) {
-            searchInput.value = this.searchQuery;
-          }
-        }
+        // Advanced price extraction patterns
+        const pricePatterns = [
+          {
+            pattern:
+              /(?:under|below|less\s+than|cheaper\s+than|maximum|max)\s*(\d+)(?:k|,?\d{3})?/gi,
+            type: "max",
+          },
+          {
+            pattern:
+              /(?:over|above|more\s+than|expensive\s+than|minimum|min)\s*(\d+)(?:k|,?\d{3})?/gi,
+            type: "min",
+          },
+          {
+            pattern:
+              /(?:between|from)\s*(\d+)(?:k|,?\d{3})?\s*(?:to|and|-)\s*(\d+)(?:k|,?\d{3})?/gi,
+            type: "range",
+          },
+          {
+            pattern: /(?:around|about|approximately)\s*(\d+)(?:k|,?\d{3})?/gi,
+            type: "around",
+          },
+        ];
 
-        setupEventListeners() {
-          // Filter controls
-          document
-            .getElementById("applyFilters")
-            .addEventListener("click", () => {
-              this.applyFilters();
-            });
+        // Extract price constraints
+        pricePatterns.forEach(({ pattern, type }) => {
+          const matches = [...processed.matchAll(pattern)];
+          matches.forEach((match) => {
+            let price1 = parseFloat(match[1]);
+            let price2 = match[2] ? parseFloat(match[2]) : null;
 
-          document
-            .getElementById("clearFilters")
-            .addEventListener("click", () => {
-              this.clearFilters();
-            });
+            // Handle 'k' notation (20k = 20000)
+            if (match[0].includes("k")) {
+              price1 *= 1000;
+              if (price2) price2 *= 1000;
+            }
 
-          // Sort control
-          document
-            .getElementById("sortFilter")
-            .addEventListener("change", (e) => {
-              this.currentFilters.sortBy = e.target.value;
-              this.applyFilters();
-            });
+            switch (type) {
+              case "max":
+                queryAnalysis.priceConstraints = { max: price1 };
+                break;
+              case "min":
+                queryAnalysis.priceConstraints = { min: price1 };
+                break;
+              case "range":
+                queryAnalysis.priceConstraints = {
+                  min: Math.min(price1, price2),
+                  max: Math.max(price1, price2),
+                };
+                break;
+              case "around":
+                const margin = price1 * 0.1;
+                queryAnalysis.priceConstraints = {
+                  min: price1 - margin,
+                  max: price1 + margin,
+                };
+                break;
+            }
 
-          // View toggle
-          document.getElementById("gridView").addEventListener("click", () => {
-            this.setGridView();
+            processed = processed.replace(match[0], "").trim();
           });
+        });
 
-          document.getElementById("listView").addEventListener("click", () => {
-            this.setListView();
-          });
-        }
-
-        async searchProducts() {
-          try {
-            this.showLoading();
-
-            let url = "http://localhost:3000/api/v1/products";
-            const params = new URLSearchParams();
-
-            if (this.searchQuery) {
-              params.append("keyword", this.searchQuery);
-            }
-
-            if (params.toString()) {
-              url += "?" + params.toString();
-            }
-
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (data.status === "success" && data.data) {
-              this.products = data.data;
-            } else {
-              this.products = [];
-            }
-
-            this.applyFilters();
-          } catch (error) {
-            console.error("Search error:", error);
-            this.showError();
-          }
-        }
-
-        applyFilters() {
-          // Get filter values
-          this.currentFilters.category =
-            document.getElementById("categoryFilter").value;
-          this.currentFilters.minPrice =
-            parseFloat(document.getElementById("minPrice").value) || null;
-          this.currentFilters.maxPrice =
-            parseFloat(document.getElementById("maxPrice").value) || null;
-          this.currentFilters.sortBy =
-            document.getElementById("sortFilter").value;
-
-          // Apply filters
-          this.filteredProducts = this.products.filter((product) => {
-            // Category filter
-            if (this.currentFilters.category && product.category) {
-              const categoryMatch =
-                product.category.name &&
-                product.category.name
-                  .toLowerCase()
-                  .includes(this.currentFilters.category.toLowerCase());
-              if (!categoryMatch) return false;
-            }
-
-            // Price filters
-            if (
-              this.currentFilters.minPrice &&
-              product.price < this.currentFilters.minPrice
-            ) {
-              return false;
-            }
-            if (
-              this.currentFilters.maxPrice &&
-              product.price > this.currentFilters.maxPrice
-            ) {
-              return false;
-            }
-
-            return true;
-          });
-
-          // Apply sorting
-          this.sortProducts();
-
-          // Update results
-          this.totalResults = this.filteredProducts.length;
-          this.currentPage = 1;
-          this.displayResults();
-        }
-
-        sortProducts() {
-          switch (this.currentFilters.sortBy) {
-            case "price-low":
-              this.filteredProducts.sort((a, b) => a.price - b.price);
-              break;
-            case "price-high":
-              this.filteredProducts.sort((a, b) => b.price - a.price);
-              break;
-            case "rating":
-              this.filteredProducts.sort(
-                (a, b) => (b.ratingsAverage || 0) - (a.ratingsAverage || 0)
-              );
-              break;
-            case "newest":
-              this.filteredProducts.sort(
-                (a, b) =>
-                  new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-              );
-              break;
-            default: // relevance
-              // Keep current order (from search API)
-              break;
-          }
-        }
-
-        displayResults() {
-          this.hideLoading();
-
-          if (this.filteredProducts.length === 0) {
-            this.showNoResults();
-            return;
-          }
-
-          this.showResults();
-          this.updateResultsCount();
-          this.renderProducts();
-          this.renderPagination();
-        }
-
-        renderProducts() {
-          const grid = document.getElementById("productsGrid");
-          const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-          const endIndex = startIndex + this.itemsPerPage;
-          const pageProducts = this.filteredProducts.slice(
-            startIndex,
-            endIndex
+        // Extract brand filters
+        const brandPattern =
+          /(apple|samsung|xiaomi|sony|lg|hp|dell|lenovo|asus|nike|adidas|loreal|maybelline|black\s*&\s*decker|panasonic)/gi;
+        const brandMatches = [...processed.matchAll(brandPattern)];
+        if (brandMatches.length > 0) {
+          queryAnalysis.filters.brand = brandMatches.map((m) =>
+            m[0].toLowerCase()
           );
-
-          grid.innerHTML = pageProducts
-            .map((product) => this.createProductCard(product))
-            .join("");
-
-          // Add click handlers for product cards
-          grid.querySelectorAll(".product-card").forEach((card) => {
-            card.addEventListener("click", (e) => {
-              if (!e.target.closest(".btn-add-cart")) {
-                const productId = card.dataset.productId;
-                const productInfo = productPageMap[productId];
-                if (productInfo && productInfo.page) {
-                  window.location.href = productInfo.page;
-                }
-              }
-            });
+          brandMatches.forEach((match) => {
+            processed = processed.replace(match[0], "").trim();
           });
         }
 
-        createProductCard(product) {
-          const productInfo = productPageMap[product._id] || {};
-          const imageSrc =
-            productInfo.image || product.imageCover || "Assets/placeholder.jpg";
-          const pageLink = productInfo.page || "#";
+        // Extract specifications
+        const specPatterns = {
+          storage: { pattern: /(\d+)\s*(gb|tb)/gi },
+          ram: { pattern: /(\d+)\s*(?:gb\s+)?(?:ram|memory)/gi },
+          screenSize: { pattern: /(\d+(?:\.\d+)?)\s*(?:inch|"|inches)/gi },
+        };
 
-          // Calculate discount percentage if applicable
-          const discountPercentage =
-            product.priceBeforeDiscount &&
-            product.price < product.priceBeforeDiscount
-              ? Math.round(
-                  ((product.priceBeforeDiscount - product.price) /
-                    product.priceBeforeDiscount) *
-                    100
-                )
-              : 0;
-
-          // Generate star rating
-          const rating = product.ratingsAverage || 4;
-          const fullStars = Math.floor(rating);
-          const hasHalfStar = rating % 1 >= 0.5;
-          const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-
-          let starsHTML = "";
-          for (let i = 0; i < fullStars; i++) {
-            starsHTML +=
-              '<img src="Assets/star.png" alt="star" height="15px" width="15px" />';
+        Object.entries(specPatterns).forEach(([specType, config]) => {
+          const matches = [...processed.matchAll(config.pattern)];
+          if (matches.length > 0) {
+            queryAnalysis.specifications.push({
+              type: specType,
+              values: matches.map((m) => ({
+                value: parseFloat(m[1]),
+                unit: m[2] || "gb",
+              })),
+            });
+            matches.forEach((match) => {
+              processed = processed.replace(match[0], "").trim();
+            });
           }
-          if (hasHalfStar) {
-            starsHTML +=
-              '<img src="Assets/half-star.png" alt="half star" height="15px" width="15px" />';
+        });
+
+        queryAnalysis.baseQuery = processed.replace(/\s+/g, " ").trim();
+        return queryAnalysis;
+      }
+
+      // Display query analysis
+      function displayQueryAnalysis(queryAnalysis, originalQuery) {
+        const analysisDiv = document.getElementById("queryAnalysis");
+        const analysisText = document.getElementById("analysisText");
+
+        let analysisParts = [];
+
+        if (
+          queryAnalysis.baseQuery &&
+          queryAnalysis.baseQuery !== originalQuery.toLowerCase()
+        ) {
+          analysisParts.push(`Searching for: "${queryAnalysis.baseQuery}"`);
+        }
+
+        if (queryAnalysis.priceConstraints) {
+          const { min, max } = queryAnalysis.priceConstraints;
+          if (min && max) {
+            analysisParts.push(
+              `Price: EGP ${min.toFixed(0)} - ${max.toFixed(0)}`
+            );
+          } else if (max) {
+            analysisParts.push(`Price: Under EGP ${max.toFixed(0)}`);
+          } else if (min) {
+            analysisParts.push(`Price: Over EGP ${min.toFixed(0)}`);
           }
-          for (let i = 0; i < emptyStars; i++) {
-            starsHTML +=
-              '<img src="Assets/empty star.png" alt="empty star" height="15px" width="15px" />';
-          }
-
-          return `
-                    <div class="product-card" data-product-id="${
-                      product._id
-                    }" style="cursor: pointer;">
-                        <div class="product-image-container">
-                            <img src="${imageSrc}" alt="${
-            product.title
-          }" class="product-image" 
-                                 onerror="this.src='Assets/placeholder.jpg'" />
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">${product.title}</h3>
-                            <div class="product-price">
-                                <span class="price-current">EGP ${product.price.toFixed(
-                                  2
-                                )}</span>
-                                ${
-                                  product.priceBeforeDiscount &&
-                                  discountPercentage > 0
-                                    ? `<span class="price-old">EGP ${product.priceBeforeDiscount.toFixed(
-                                        2
-                                      )}</span>
-                                     <span class="discount-badge">-${discountPercentage}%</span>`
-                                    : ""
-                                }
-                            </div>
-                            <div class="rating-section">
-                                <div class="stars">${starsHTML}</div>
-                                <span class="rating-count">(${
-                                  product.ratingsQuantity || 0
-                                } reviews)</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn-add-cart" data-product-id="${
-                                  product._id
-                                }" 
-                                        onclick="event.stopPropagation(); this.addToCart('${
-                                          product._id
-                                        }')">
-                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
         }
 
-        clearFilters() {
-          document.getElementById("categoryFilter").value = "";
-          document.getElementById("minPrice").value = "";
-          document.getElementById("maxPrice").value = "";
-          document.getElementById("sortFilter").value = "relevance";
-
-          this.currentFilters = {
-            category: "",
-            minPrice: null,
-            maxPrice: null,
-            sortBy: "relevance",
-          };
-
-          this.applyFilters();
-        }
-
-        setGridView() {
-          document.getElementById("gridView").classList.add("active");
-          document.getElementById("listView").classList.remove("active");
-          document.getElementById("productsGrid").className = "product-grid";
-        }
-
-        setListView() {
-          document.getElementById("listView").classList.add("active");
-          document.getElementById("gridView").classList.remove("active");
-          document.getElementById("productsGrid").className =
-            "product-grid list-view";
-        }
-
-        showLoading() {
-          document.getElementById("loadingSpinner").style.display = "block";
-          document.getElementById("productsGrid").style.display = "none";
-          document.getElementById("noResults").style.display = "none";
-          document.getElementById("paginationContainer").style.display = "none";
-        }
-
-        hideLoading() {
-          document.getElementById("loadingSpinner").style.display = "none";
-        }
-
-        showResults() {
-          document.getElementById("productsGrid").style.display = "grid";
-          document.getElementById("noResults").style.display = "none";
-          document.getElementById("paginationContainer").style.display =
-            "block";
-        }
-
-        showNoResults() {
-          document.getElementById("productsGrid").style.display = "none";
-          document.getElementById("noResults").style.display = "block";
-          document.getElementById("paginationContainer").style.display = "none";
-        }
-
-        showError() {
-          document.getElementById("loadingSpinner").style.display = "none";
-          document.getElementById("noResults").innerHTML = `
-                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                    <h4>Error loading results</h4>
-                    <p>Please try again later</p>
-                `;
-          document.getElementById("noResults").style.display = "block";
-        }
-
-        updateResultsCount() {
-          const start = (this.currentPage - 1) * this.itemsPerPage + 1;
-          const end = Math.min(
-            start + this.itemsPerPage - 1,
-            this.totalResults
+        if (queryAnalysis.filters.brand) {
+          analysisParts.push(
+            `Brand: ${queryAnalysis.filters.brand.join(", ")}`
           );
-
-          document.getElementById(
-            "resultsCount"
-          ).textContent = `Showing ${start}-${end} of ${this.totalResults} results`;
         }
 
-        renderPagination() {
-          const totalPages = Math.ceil(this.totalResults / this.itemsPerPage);
-          const pagination = document.getElementById("pagination");
-
-          if (totalPages <= 1) {
-            document.getElementById("paginationContainer").style.display =
-              "none";
-            return;
-          }
-
-          let paginationHTML = "";
-
-          // Previous button
-          paginationHTML += `
-                    <li class="page-item ${
-                      this.currentPage === 1 ? "disabled" : ""
-                    }">
-                        <a class="page-link" href="#" data-page="${
-                          this.currentPage - 1
-                        }">Previous</a>
-                    </li>
-                `;
-
-          // Page numbers
-          for (let i = 1; i <= totalPages; i++) {
-            if (
-              i === 1 ||
-              i === totalPages ||
-              (i >= this.currentPage - 2 && i <= this.currentPage + 2)
-            ) {
-              paginationHTML += `
-                            <li class="page-item ${
-                              i === this.currentPage ? "active" : ""
-                            }">
-                                <a class="page-link" href="#" data-page="${i}">${i}</a>
-                            </li>
-                        `;
-            } else if (
-              i === this.currentPage - 3 ||
-              i === this.currentPage + 3
-            ) {
-              paginationHTML +=
-                '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        if (queryAnalysis.specifications.length > 0) {
+          queryAnalysis.specifications.forEach((spec) => {
+            if (spec.type === "storage") {
+              analysisParts.push(
+                `Storage: ${spec.values
+                  .map((v) => `${v.value}${v.unit}`)
+                  .join(", ")}`
+              );
+            } else if (spec.type === "ram") {
+              analysisParts.push(
+                `RAM: ${spec.values.map((v) => `${v.value}GB`).join(", ")}`
+              );
+            } else if (spec.type === "screenSize") {
+              analysisParts.push(
+                `Screen: ${spec.values.map((v) => `${v.value}"`).join(", ")}`
+              );
             }
-          }
-
-          // Next button
-          paginationHTML += `
-                    <li class="page-item ${
-                      this.currentPage === totalPages ? "disabled" : ""
-                    }">
-                        <a class="page-link" href="#" data-page="${
-                          this.currentPage + 1
-                        }">Next</a>
-                    </li>
-                `;
-
-          pagination.innerHTML = paginationHTML;
-
-          // Add click handlers
-          pagination.querySelectorAll("a.page-link").forEach((link) => {
-            link.addEventListener("click", (e) => {
-              e.preventDefault();
-              const page = parseInt(e.target.dataset.page);
-              if (
-                page &&
-                page !== this.currentPage &&
-                page >= 1 &&
-                page <= totalPages
-              ) {
-                this.currentPage = page;
-                this.renderProducts();
-                this.updateResultsCount();
-                this.renderPagination();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            });
           });
+        }
+
+        if (analysisParts.length > 0) {
+          analysisText.textContent = analysisParts.join(" | ");
+          analysisDiv.style.display = "block";
         }
       }
 
-      // Initialize search results when page loads
-      document.addEventListener("DOMContentLoaded", function () {
-        window.searchResults = new SearchResults();
+      // Perform search with AI analysis
+      async function performSearch(query) {
+        const loadingState = document.getElementById("loadingState");
+        const searchResults = document.getElementById("searchResults");
+        const noResults = document.getElementById("noResults");
+        const searchQueryDisplay =
+          document.getElementById("searchQueryDisplay");
 
-        // Add to cart functionality
-        window.addToCart = async function (productId) {
-          const result = await document.addToCart(productId);
-          if (result && !result.error) {
-            // Show success message
-            const btn = event.target;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-            btn.disabled = true;
+        // Update search query display
+        searchQueryDisplay.querySelector(
+          "h2"
+        ).textContent = `Search Results for "${query}"`;
 
-            setTimeout(() => {
-              btn.innerHTML = originalText;
-              btn.disabled = false;
-            }, 2000);
-          } else if (result && result.error === "Not authenticated") {
-            alert("Please sign in to add items to your cart.");
-            window.location.href = "signinPage.html";
-          } else {
-            alert("Could not add to cart. Please try again.");
+        // Analyze the query
+        const queryAnalysis = analyzeQuery(query);
+        displayQueryAnalysis(queryAnalysis, query);
+
+        try {
+          loadingState.style.display = "block";
+          searchResults.style.display = "none";
+          noResults.style.display = "none";
+
+          // Build search URL with filters
+          let searchUrl = `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(
+            queryAnalysis.baseQuery || query
+          )}&limit=20`;
+
+          if (queryAnalysis.priceConstraints) {
+            if (queryAnalysis.priceConstraints.min) {
+              searchUrl += `&price[gte]=${queryAnalysis.priceConstraints.min}`;
+            }
+            if (queryAnalysis.priceConstraints.max) {
+              searchUrl += `&price[lte]=${queryAnalysis.priceConstraints.max}`;
+            }
           }
+
+          if (
+            queryAnalysis.filters.brand &&
+            queryAnalysis.filters.brand.length > 0
+          ) {
+            searchUrl += `&brand=${encodeURIComponent(
+              queryAnalysis.filters.brand[0]
+            )}`;
+          }
+
+          // Try AI search first
+          let result = null;
+          try {
+            const aiResponse = await fetch(
+              "http://localhost:3000/api/v1/products/search-ai",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  query: queryAnalysis.baseQuery || query,
+                  priceConstraints: queryAnalysis.priceConstraints,
+                  specifications: queryAnalysis.specifications,
+                  filters: queryAnalysis.filters,
+                  fallbackSearch: true,
+                }),
+              }
+            );
+
+            if (aiResponse.ok) {
+              result = await aiResponse.json();
+            }
+          } catch (aiError) {
+            console.log("AI search failed, trying fallback");
+          }
+
+          // Fallback to regular search if AI fails
+          if (!result || !result.products || result.products.length === 0) {
+            const response = await fetch(searchUrl);
+            if (response.ok) {
+              const data = await response.json();
+              result = {
+                products: Array.isArray(data.data)
+                  ? data.data
+                  : Array.isArray(data.products)
+                  ? data.products
+                  : [],
+              };
+            }
+          }
+
+          loadingState.style.display = "none";
+
+          if (result && result.products && result.products.length > 0) {
+            // Apply client-side filtering
+            let filteredProducts = applyClientSideFiltering(
+              result.products,
+              queryAnalysis
+            );
+            displaySearchResults(filteredProducts);
+          } else {
+            await displayNoResults(query, queryAnalysis);
+          }
+        } catch (error) {
+          console.error("Search error:", error);
+          loadingState.style.display = "none";
+          await displayNoResults(query, queryAnalysis);
+        }
+      }
+
+      // Apply client-side filtering
+      function applyClientSideFiltering(products, queryAnalysis) {
+        let filtered = [...products];
+
+        // Price filtering
+        if (queryAnalysis.priceConstraints) {
+          filtered = filtered.filter((product) => {
+            const price = product.price || 0;
+            if (
+              queryAnalysis.priceConstraints.min &&
+              price < queryAnalysis.priceConstraints.min
+            )
+              return false;
+            if (
+              queryAnalysis.priceConstraints.max &&
+              price > queryAnalysis.priceConstraints.max
+            )
+              return false;
+            return true;
+          });
+        }
+
+        // Brand filtering
+        if (queryAnalysis.filters.brand) {
+          filtered = filtered.filter((product) => {
+            const title = product.title.toLowerCase();
+            const brand = product.brand ? product.brand.toLowerCase() : "";
+            return queryAnalysis.filters.brand.some(
+              (b) => title.includes(b) || brand.includes(b)
+            );
+          });
+        }
+
+        return filtered;
+      }
+
+      // Display search results
+      function displaySearchResults(products) {
+        const searchResults = document.getElementById("searchResults");
+        const resultsGrid = document.getElementById("resultsGrid");
+
+        resultsGrid.innerHTML = products
+          .map((product) => createProductCard(product))
+          .join("");
+        searchResults.style.display = "block";
+      }
+
+      // Create product card HTML with enhanced UI and proper images
+      function createProductCard(product) {
+        const productUrl = getProductURL(product);
+        const imageUrl = getProductImage(product);
+
+        return `
+          <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+            <div class="card h-100 product-card shadow-sm border-0 overflow-hidden recommendation-card">
+              <div class="position-relative overflow-hidden" style="height: 240px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                <img src="${imageUrl}" 
+                     alt="${product.title}" 
+                     class="card-img-top"
+                     style="height: 100%; width: 100%; object-fit: contain; padding: 20px; transition: transform 0.3s ease;"
+                     onmouseover="this.style.transform='scale(1.05)'"
+                     onmouseout="this.style.transform='scale(1)'"
+                     onerror="this.src='Assets/placeholder.png'">
+                ${
+                  product.category
+                    ? `<span class="badge bg-primary position-absolute top-0 end-0 m-3 px-3 py-2" style="border-radius: 15px; font-size: 0.75rem;">${product.category.name}</span>`
+                    : ""
+                }
+                <div class="position-absolute bottom-0 start-0 end-0" style="background: linear-gradient(transparent, rgba(0,0,0,0.05)); height: 40px;"></div>
+              </div>
+              <div class="card-body p-4 d-flex flex-column">
+                <h6 class="card-title mb-3 fw-semibold" title="${
+                  product.title
+                }" style="font-size: 0.95rem; line-height: 1.4; min-height: 2.8rem; overflow: hidden; color: #2c3e50;">
+                  ${
+                    product.title.length > 65
+                      ? product.title.substring(0, 65) + "..."
+                      : product.title
+                  }
+                </h6>
+                <div class="mt-auto">
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="fw-bold text-success fs-4" style="color: #27ae60 !important;">EGP ${
+                      product.price?.toFixed(2) || "N/A"
+                    }</span>
+                  </div>
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="text-warning me-2" style="font-size: 1.1rem;">
+                      ${"★".repeat(4)}${"☆".repeat(1)}
+                    </div>
+                    <span class="text-muted small">(${
+                      Math.floor(Math.random() * 80) + 15
+                    } reviews)</span>
+                  </div>
+                  <a href="${productUrl}" class="btn btn-primary w-100 fw-semibold py-2" style="border-radius: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; transition: all 0.3s ease;">
+                    <i class="fa-solid fa-eye me-2"></i>View Details
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Get proper product image with category-based fallbacks and smart product mapping
+      function getProductImage(product) {
+        // If product has a proper image cover, use it
+        if (
+          product.imageCover &&
+          product.imageCover !== "Assets/placeholder.png" &&
+          !product.imageCover.includes("placeholder")
+        ) {
+          return product.imageCover;
+        }
+
+        // Generate smart fallback image based on product ID, category, and title
+        const title = product.title.toLowerCase();
+        const category = product.category?.name?.toLowerCase() || "";
+        const productId = product._id || "";
+
+        // Map specific product IDs to their actual images from the main site
+        const productImageMap = {
+          // Electronics products - exact matches from index.html
+          "6819e22b123a4faad16613be":
+            "Assets/elec Cat/Mobile&Tablet/mobile&tablet 1.png", // Samsung Galaxy Tab
+          "6819e22b123a4faad16613c0":
+            "Assets/elec Cat/Mobile&Tablet/mobile&tablet 3.png", // iPhone 16
+          "6819e22b123a4faad16613c3":
+            "Assets/elec Cat/Mobile&Tablet/mobile&tablet 5.png", // Oraimo Charger
+          "6819e22b123a4faad16613c4": "Assets/elec Cat/Tvs/TV 1.png", // Samsung QLED TV
+          "6819e22b123a4faad16613c5": "Assets/elec Cat/Tvs/TV 2.png", // Xiaomi TV
+          "6819e22b123a4faad16613c7": "Assets/elec Cat/Tvs/TV 4.png", // Sharp TV
+          "6819e22b123a4faad16613ca": "Assets/elec Cat/Laptop/laptop 2.png", // Lenovo Legion
+          "6819e22b123a4faad16613cb": "Assets/elec Cat/Laptop/laptop 3.png", // HP Victus
+
+          // Appliances products
+          "68252918a68b49cb06164212":
+            "Assets/AppCat/Small Appliances/Small Appliances 8.png", // Dough Mixer
+          "68252918a68b49cb06164211":
+            "Assets/AppCat/Small Appliances/Small Appliances 7.png", // Kettle
+          "68252918a68b49cb06164209":
+            "Assets/AppCat/Small Appliances/Small Appliances 5.png", // Vacuum
+          "68252918a68b49cb0616420a":
+            "Assets/AppCat/Small Appliances/Small Appliances 2.png", // Coffee Maker
+          "68252918a68b49cb06164208":
+            "Assets/AppCat/Small Appliances/Small Appliances 1.png", // Air Fryer
+          "68252918a68b49cb0616420b":
+            "Assets/AppCat/Small Appliances/Small Appliances 3.png", // Toaster
+          "68252918a68b49cb06164207":
+            "Assets/AppCat/Large Appliances/Large Appliances 4.png", // Washing Machine
+          "68252918a68b49cb0616420f":
+            "Assets/AppCat/Large Appliances/Large Appliances 7.png", // Water Heater
+          "68252918a68b49cb0616420e":
+            "Assets/AppCat/Large Appliances/Large Appliances 6.png", // Wall Fan
+
+          // Home products
+          "681dab0df9c9147444b452cd":
+            "Assets/HomeCat/Furniture/Furniture 1.png", // Sofa Bed
+          "681dab0df9c9147444b452d0":
+            "Assets/HomeCat/Furniture/Furniture 4.png", // Gaming Chair
+          "681dab0df9c9147444b452d2":
+            "Assets/HomeCat/Home Decor/Home Decor 1.png", // LED Lampshade
+          "681dab0df9c9147444b452d5":
+            "Assets/HomeCat/Home Decor/Home Decor 4.png", // Wall Clock
+          "681dab0df9c9147444b452d8":
+            "Assets/HomeCat/Kitchen&Dining/Kitchen 2.png", // Mug Set
+          "681dab0df9c9147444b452db":
+            "Assets/HomeCat/Kitchen&Dining/Kitchen 5.png", // Dish Rack
+          "681dab0df9c9147444b452dc": "Assets/HomeCat/Bath&Bedding/Bath 1.png", // Cotton Towel
+          "681dab0df9c9147444b452de": "Assets/HomeCat/Bath&Bedding/Bath 3.png", // Cotton Blanket
+          "681dab0df9c9147444b452e0": "Assets/HomeCat/Bath&Bedding/Bath 5.png", // Duvet Cover
+
+          // Video Games products
+          "682b00a46977bd89257c0e80": "Assets/VidCat/Consoles/Console1.png", // PS5 Digital
+          "682b00a46977bd89257c0e82": "Assets/VidCat/Consoles/Console3.png", // PS5 Nordic
+          "682b00a46977bd89257c0e84":
+            "Assets/VidCat/Controllers/Controller1.jpg.png", // DualSense Controller
+          "682b00a46977bd89257c0e85":
+            "Assets/VidCat/Controllers/Controller2.jpg.png", // DualSense White
+          "682b00a46977bd89257c0e87":
+            "Assets/VidCat/Controllers/Controller4.jpg.png", // DualSense Edge
+          "682b00a46977bd89257c0e89":
+            "Assets/VidCat/Accessories/Accessories1.png", // Quick Charger
+          "682b00a46977bd89257c0e8a":
+            "Assets/VidCat/Accessories/Accessories2.png", // Charging Station
+          "682b00a46977bd89257c0e8c":
+            "Assets/VidCat/Accessories/Accessories4.png", // Cooling Station
+
+          // Fashion products
+          "682b00c26977bd89257c0e9c":
+            "Assets/FashionCat/Kids' Fashion/Kids' Fashion 5.png", // Ballerina Shoes
+          "682b00c26977bd89257c0e9b":
+            "Assets/FashionCat/Kids' Fashion/Kids' Fashion 4.png", // Baby Jacket
+          "682b00c26977bd89257c0e9a":
+            "Assets/FashionCat/Kids' Fashion/Kids' Fashion 3.png", // Denim Jacket
+          "682b00c26977bd89257c0e97":
+            "Assets/FashionCat/Men's Fashion/Men's Fashion 5.png", // Leather Wallet
+          "682b00c26977bd89257c0e96":
+            "Assets/FashionCat/Men's Fashion/Men's Fashion 4.png", // Timberland Boots
+          "682b00c26977bd89257c0e92":
+            "Assets/FashionCat/Women's Fashion/Women's fashion 5.png", // Aldo Handbag
+          "682b00c26977bd89257c0e91":
+            "Assets/FashionCat/Women's Fashion/Women's fashion 4.png", // Dejavu Sandal
+          "682b00c26977bd89257c0e90":
+            "Assets/FashionCat/Women's Fashion/Women's fashion 3.png", // American Eagle Jeans
+
+          // Beauty products
+          "682b00d16977bd89257c0e9d": "Assets/Beautycat/Makeup/Makeup 1.png", // L\'Oreal Mascara
+          "682b00d16977bd89257c0e9e": "Assets/Beautycat/Makeup/Makeup 2.png", // L\'Oreal Foundation
+          "682b00d16977bd89257c0ea1": "Assets/Beautycat/Makeup/Makeup 5.png", // Maybelline Lip Gloss
+          "682b00d16977bd89257c0ea3":
+            "Assets/Beautycat/Skincare/Skincare 2.png", // La Roche-Posay
+          "682b00d16977bd89257c0ea4":
+            "Assets/Beautycat/Skincare/Skincare 3.png", // Eva Toner
+          "682b00d16977bd89257c0ea6":
+            "Assets/Beautycat/Skincare/Skincare 5.png", // L\'Oreal Eye Serum
+          "682b00d16977bd89257c0ea9":
+            "Assets/Beautycat/Haircare/Haircare 3.png", // Garnier Hair Color
+          "682b00d16977bd89257c0ead":
+            "Assets/Beautycat/Fragrance/Fragrance 2.png", // Memwa Perfume
         };
+
+        // Check if we have a specific image for this product
+        if (productImageMap[productId]) {
+          return productImageMap[productId];
+        }
+
+        // Category-based fallback images with actual paths from the main site
+        if (
+          category.includes("electronics") ||
+          title.includes("phone") ||
+          title.includes("iphone") ||
+          title.includes("samsung") ||
+          title.includes("mobile")
+        ) {
+          return "Assets/elec Cat/Mobile&Tablet/mobile&tablet 1.png";
+        } else if (title.includes("laptop") || title.includes("computer")) {
+          return "Assets/elec Cat/Laptop/laptop 1.png";
+        } else if (title.includes("tv") || title.includes("television")) {
+          return "Assets/elec Cat/Tvs/TV 1.png";
+        } else if (
+          category.includes("appliances") ||
+          title.includes("washing") ||
+          title.includes("refrigerator") ||
+          title.includes("microwave")
+        ) {
+          return "Assets/AppCat/Large Appliances/Large Appliances 1.png";
+        } else if (
+          title.includes("air fryer") ||
+          title.includes("toaster") ||
+          title.includes("coffee")
+        ) {
+          return "Assets/AppCat/Small Appliances/Small Appliances 1.png";
+        } else if (
+          category.includes("home") ||
+          title.includes("sofa") ||
+          title.includes("chair") ||
+          title.includes("furniture")
+        ) {
+          return "Assets/HomeCat/Furniture/Furniture 1.png";
+        } else if (
+          title.includes("lamp") ||
+          title.includes("light") ||
+          title.includes("decor")
+        ) {
+          return "Assets/HomeCat/Home Decor/Home Decor 1.png";
+        } else if (
+          title.includes("towel") ||
+          title.includes("bedding") ||
+          title.includes("pillow")
+        ) {
+          return "Assets/HomeCat/Bath&Bedding/Bath 1.png";
+        } else if (
+          title.includes("kitchen") ||
+          title.includes("dining") ||
+          title.includes("plate") ||
+          title.includes("cup")
+        ) {
+          return "Assets/HomeCat/Kitchen&Dining/Kitchen 1.png";
+        } else if (
+          category.includes("fashion") ||
+          title.includes("shoe") ||
+          title.includes("clothing") ||
+          title.includes("jean") ||
+          title.includes("shirt")
+        ) {
+          return "Assets/FashionCat/Women's Fashion/Women's fashion 1.png";
+        } else if (title.includes("men") || title.includes("male")) {
+          return "Assets/FashionCat/Men's Fashion/Men's Fashion 1.png";
+        } else if (
+          title.includes("kid") ||
+          title.includes("child") ||
+          title.includes("baby")
+        ) {
+          return "Assets/FashionCat/Kids' Fashion/Kids' Fashion 1.png";
+        } else if (
+          category.includes("beauty") ||
+          title.includes("makeup") ||
+          title.includes("cosmetic") ||
+          title.includes("mascara") ||
+          title.includes("lipstick")
+        ) {
+          return "Assets/Beautycat/Makeup/Makeup 1.png";
+        } else if (
+          title.includes("skincare") ||
+          title.includes("cream") ||
+          title.includes("serum") ||
+          title.includes("moisturizer")
+        ) {
+          return "Assets/Beautycat/Skincare/Skincare 1.png";
+        } else if (
+          title.includes("perfume") ||
+          title.includes("fragrance") ||
+          title.includes("cologne")
+        ) {
+          return "Assets/Beautycat/Fragrance/Fragrance 1.png";
+        } else if (
+          title.includes("hair") ||
+          title.includes("shampoo") ||
+          title.includes("conditioner")
+        ) {
+          return "Assets/Beautycat/Haircare/Haircare 1.png";
+        } else if (
+          category.includes("videogames") ||
+          category.includes("gaming") ||
+          title.includes("playstation") ||
+          title.includes("xbox") ||
+          title.includes("console")
+        ) {
+          return "Assets/VidCat/Consoles/Console1.png";
+        } else if (title.includes("controller") || title.includes("gamepad")) {
+          return "Assets/VidCat/Controllers/Controller1.jpg.png";
+        } else if (
+          title.includes("gaming") &&
+          (title.includes("accessory") ||
+            title.includes("charger") ||
+            title.includes("stand"))
+        ) {
+          return "Assets/VidCat/Accessories/Accessories1.png";
+        }
+
+        return "Assets/placeholder.png";
+      }
+
+      // Get product URL
+      function getProductURL(product) {
+        const categoryMap = {
+          electronics: "Electronics products",
+          appliances: "AppliancesProducts",
+          home: "home products",
+          fashion: "fashion products",
+          beauty: "beauty products",
+          videogames: "videogames products",
+        };
+
+        let category = "AppliancesProducts";
+        if (product.category && product.category.name) {
+          const categoryName = product.category.name.toLowerCase();
+          for (const [key, value] of Object.entries(categoryMap)) {
+            if (categoryName.includes(key)) {
+              category = value;
+              break;
+            }
+          }
+        }
+
+        const productId = product._id ? product._id.toString().slice(-2) : "1";
+        const numericId = parseInt(productId) || 1;
+        return `ProductPages/${category}/product${numericId}.html`;
+      }
+
+      // Display no results with recommendations
+      async function displayNoResults(query, queryAnalysis) {
+        const noResults = document.getElementById("noResults");
+        const noResultsMessage = document.getElementById("noResultsMessage");
+        const recommendedProducts = document.getElementById(
+          "recommendedProducts"
+        );
+
+        // Update no results message
+        if (queryAnalysis.priceConstraints) {
+          const { min, max } = queryAnalysis.priceConstraints;
+          if (min && max) {
+            noResultsMessage.textContent = `No products found for "${query}" in the price range EGP ${min.toFixed(
+              0
+            )} - ${max.toFixed(0)}.`;
+          } else if (max) {
+            noResultsMessage.textContent = `No products found for "${query}" under EGP ${max.toFixed(
+              0
+            )}.`;
+          } else if (min) {
+            noResultsMessage.textContent = `No products found for "${query}" over EGP ${min.toFixed(
+              0
+            )}.`;
+          }
+        } else {
+          noResultsMessage.textContent = `We couldn't find any products matching "${query}".`;
+        }
+
+        // Load recommended products
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/v1/products?limit=8&sort=-ratingsAverage"
+          );
+          if (response.ok) {
+            const data = await response.json();
+            const products = Array.isArray(data.data) ? data.data : [];
+
+            if (products.length > 0) {
+              recommendedProducts.innerHTML = products
+                .map((product) => createProductCard(product))
+                .join("");
+            }
+          }
+        } catch (error) {
+          console.error("Error loading recommendations:", error);
+          recommendedProducts.innerHTML =
+            '<p class="text-center text-muted">Unable to load recommendations</p>';
+        }
+
+        noResults.style.display = "block";
+      }
+
+      // Handle user authentication display
+      document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        const navEnd = document.querySelector(".text-end");
+
+        if (token) {
+          let username = "User";
+          let avatarUrl = "Assets/BlankPFP.png";
+
+          try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            if (payload.name) username = payload.name;
+            if (payload.photo) avatarUrl = payload.photo;
+          } catch (e) {
+            try {
+              const res = await fetch("http://localhost:5000/api/v1/users/me", {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              if (res.ok) {
+                const data = await res.json();
+                username = data.data.name || username;
+                avatarUrl = data.data.photo ? data.data.photo : avatarUrl;
+              }
+            } catch {}
+          }
+
+          navEnd.innerHTML = `
+          <div class="dropdown d-flex align-items-center">
+            <img src="${avatarUrl}" alt="avatar" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+            <button class="btn btn-link dropdown-toggle p-0" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:500;text-decoration:none;color:inherit;">
+              ${username}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+              <li><a class="dropdown-item" href="orders.html">Orders</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+          </div>
+        `;
+
+          document.getElementById("logoutBtn").onclick = function () {
+            localStorage.removeItem("token");
+            location.reload();
+          };
+        }
       });
     </script>
   </body>

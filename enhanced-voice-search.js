@@ -692,6 +692,36 @@ class EnhancedVoiceSearch {
     return "Low confidence - Please speak more clearly";
   }
 
+  // Helper function to scroll to sections
+  scrollToSection(sectionId, sectionName, statusText) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      if (statusText) {
+        statusText.textContent = `📍 Scrolling to ${sectionName} section...`;
+      }
+
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      setTimeout(() => {
+        if (statusText) {
+          statusText.textContent = `✅ Showing ${sectionName} section`;
+        }
+        setTimeout(() => {
+          this.stopListening();
+        }, 1000);
+      }, 800);
+      return true;
+    } else {
+      if (statusText) {
+        statusText.textContent = `❌ ${sectionName} section not found on this page`;
+      }
+      return false;
+    }
+  }
+
   // Enhanced command processing with specific keyword patterns
   async processIntelligentCommand(command) {
     const statusText = document.querySelector(".status-text");
@@ -701,6 +731,100 @@ class EnhancedVoiceSearch {
 
     if (statusText) {
       statusText.textContent = `🧠 Processing: "${command}"`;
+    }
+
+    // 0. Handle section scrolling commands
+    // Today's Sale section
+    if (
+      lowerCommand.includes("what is today's sale") ||
+      lowerCommand.includes("what's today's sale") ||
+      lowerCommand.includes("show today's sale") ||
+      lowerCommand.includes("today sale") ||
+      lowerCommand.includes("go to today's sale") ||
+      lowerCommand.includes("scroll to today's sale") ||
+      lowerCommand.includes("what are today's sales") ||
+      lowerCommand.includes("show me today's sale") ||
+      lowerCommand.includes("scroll down to today's sale")
+    ) {
+      return this.scrollToSection("FreshSale", "Today's Sale", statusText);
+    }
+
+    // Electronics section
+    if (
+      lowerCommand.includes("scroll down to electronics") ||
+      lowerCommand.includes("scroll to electronics section") ||
+      lowerCommand.includes("go to electronics section") ||
+      lowerCommand.includes("show electronics section") ||
+      lowerCommand.includes("scroll down to electronics section")
+    ) {
+      return this.scrollToSection("Electronics", "Electronics", statusText);
+    }
+
+    // Appliances section
+    if (
+      lowerCommand.includes("scroll down to appliances") ||
+      lowerCommand.includes("scroll to appliances section") ||
+      lowerCommand.includes("go to appliances section") ||
+      lowerCommand.includes("show appliances section") ||
+      lowerCommand.includes("scroll down to appliances section")
+    ) {
+      return this.scrollToSection("Appliances", "Appliances", statusText);
+    }
+
+    // Home section
+    if (
+      lowerCommand.includes("scroll down to home") ||
+      lowerCommand.includes("scroll to home section") ||
+      lowerCommand.includes("go to home section") ||
+      lowerCommand.includes("show home section") ||
+      lowerCommand.includes("scroll down to home section") ||
+      lowerCommand.includes("scroll to furniture") ||
+      lowerCommand.includes("scroll down to furniture")
+    ) {
+      return this.scrollToSection("Home", "Home & Furniture", statusText);
+    }
+
+    // Video Games section
+    if (
+      lowerCommand.includes("scroll down to video games") ||
+      lowerCommand.includes("scroll to video games section") ||
+      lowerCommand.includes("go to video games section") ||
+      lowerCommand.includes("show video games section") ||
+      lowerCommand.includes("scroll down to video games section") ||
+      lowerCommand.includes("scroll to games") ||
+      lowerCommand.includes("scroll down to games") ||
+      lowerCommand.includes("scroll to gaming") ||
+      lowerCommand.includes("scroll down to gaming")
+    ) {
+      return this.scrollToSection("Video Games", "Video Games", statusText);
+    }
+
+    // Fashion section
+    if (
+      lowerCommand.includes("scroll down to fashion") ||
+      lowerCommand.includes("scroll to fashion section") ||
+      lowerCommand.includes("go to fashion section") ||
+      lowerCommand.includes("show fashion section") ||
+      lowerCommand.includes("scroll down to fashion section") ||
+      lowerCommand.includes("scroll to clothing") ||
+      lowerCommand.includes("scroll down to clothing")
+    ) {
+      return this.scrollToSection("Fashion", "Fashion", statusText);
+    }
+
+    // Beauty section
+    if (
+      lowerCommand.includes("scroll down to beauty") ||
+      lowerCommand.includes("scroll to beauty section") ||
+      lowerCommand.includes("go to beauty section") ||
+      lowerCommand.includes("show beauty section") ||
+      lowerCommand.includes("scroll down to beauty section") ||
+      lowerCommand.includes("scroll to beauty and fragrance") ||
+      lowerCommand.includes("scroll down to beauty and fragrance") ||
+      lowerCommand.includes("scroll to cosmetics") ||
+      lowerCommand.includes("scroll down to cosmetics")
+    ) {
+      return this.scrollToSection("beauty", "Beauty & Fragrance", statusText);
     }
 
     // 1. Handle "Go to [Category name]" pattern
