@@ -4741,19 +4741,90 @@
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ query: processedQuery }),
+                body: JSON.stringify({ query: processedQuery, fallbackSearch: true }),
               }
             );
 
-            if (!response.ok) throw new Error("Search failed");
-            return await response.json();
+            if (!response.ok) {
+              // If AI search fails, try fallback search with semantic mapping
+              return await fallbackSemanticSearch(query);
+            }
+            
+            const result = await response.json();
+            
+            // If no results found with AI search, try fallback
+            if (!result.products || result.products.length === 0) {
+              return await fallbackSemanticSearch(query);
+            }
+            
+            return result;
           } catch (error) {
             console.error("AI Search Error:", error);
+            // Try fallback search
+            return await fallbackSemanticSearch(query);
+          }
+        };
+
+        // Fallback semantic search for non-product terms
+        const fallbackSemanticSearch = async (originalQuery) => {
+          try {
+            const processedQuery = processUserQuery(originalQuery);
+            
+            // Try multiple search terms if semantic mapping occurred
+            const searchTerms = processedQuery.split(' ');
+            
+            // Search with regular API using processed query
+            const response = await fetch(
+              `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(processedQuery)}&limit=10`
+            );
+            
+            if (response.ok) {
+              const data = await response.json();
+              let products = [];
+              
+              if (Array.isArray(data.data)) {
+                products = data.data;
+              } else if (Array.isArray(data.products)) {
+                products = data.products;
+              }
+              
+              // If still no results, try individual search terms
+              if (products.length === 0 && searchTerms.length > 1) {
+                for (const term of searchTerms) {
+                  if (term.length > 2) {
+                    const termResponse = await fetch(
+                      `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(term)}&limit=5`
+                    );
+                    
+                    if (termResponse.ok) {
+                      const termData = await termResponse.json();
+                      const termProducts = Array.isArray(termData.data) ? termData.data : 
+                                         Array.isArray(termData.products) ? termData.products : [];
+                      
+                      products = products.concat(termProducts);
+                      
+                      if (products.length >= 8) break; // Limit results
+                    }
+                  }
+                }
+              }
+              
+              // Remove duplicates
+              products = products.filter((product, index, self) => 
+                index === self.findIndex(p => p._id === product._id)
+              );
+              
+              return { products: products.slice(0, 8) };
+            }
+            
+            return { products: [] };
+          } catch (error) {
+            console.error("Fallback search error:", error);
             return { products: [] };
           }
         };
 
-        // Enhanced query processing function
+        // Enhanced query processing function with advanced AI corrections
         function processUserQuery(query) {
           let processed = query.toLowerCase().trim();
 
@@ -4782,40 +4853,242 @@
 
           processed = processed.replace(/\s+/g, " ").trim();
 
-          // Common corrections
-          const corrections = {
-            iphone: "iPhone",
-            ipad: "iPad",
-            samsung: "Samsung",
-            laptop: "laptop",
-            computer: "laptop",
-            mobile: "mobile phone",
-            phone: "mobile phone",
+          // Advanced typo corrections and common mistakes
+          const typoCorrections = {
+            // Common typos
+            "iphone": "iPhone",
+            "ifone": "iPhone", 
+            "i phone": "iPhone",
+            "ipad": "iPad",
+            "i pad": "iPad",
+            "samsng": "Samsung",
+            "samsung": "Samsung",
+            "samung": "Samsung",
+            "labtop": "laptop",
+            "laptop": "laptop",
+            "computer": "laptop",
+            "computr": "laptop",
+            "moblie": "mobile phone",
+            "mobile": "mobile phone",
+            "phone": "mobile phone",
+            "fone": "mobile phone",
+            "cel phone": "mobile phone",
+            "cellphone": "mobile phone",
+            
+            // Appliances typos
             "washing machine": "washing machine",
-            washer: "washing machine",
+            "washng machine": "washing machine",
+            "washer": "washing machine",
             "automatic washing machine": "washing machine",
-            fridge: "refrigerator",
-            tv: "television",
+            "washing machne": "washing machine",
+            "fridge": "refrigerator",
+            "refridgerator": "refrigerator",
+            "refrigrator": "refrigerator",
+            "frezer": "freezer",
+            "freezr": "freezer",
+            "tv": "television",
+            "televison": "television",
             "smart tv": "Smart TV",
-            playstation: "PlayStation",
-            ps5: "PlayStation 5",
-            xbox: "Xbox",
+            "smat tv": "Smart TV",
+            
+            // Gaming typos
+            "playstation": "PlayStation",
+            "play station": "PlayStation",
+            "plastation": "PlayStation",
+            "ps5": "PlayStation 5",
+            "ps 5": "PlayStation 5",
+            "playstation5": "PlayStation 5",
+            "xbox": "Xbox",
+            "x box": "Xbox",
             "gaming console": "console",
-            perfume: "perfume",
-            fragrance: "perfume",
-            makeup: "makeup",
-            cosmetics: "makeup",
+            "game console": "console",
+            "consol": "console",
+            
+            // Beauty typos
+            "perfume": "perfume",
+            "perfum": "perfume",
+            "parfume": "perfume",
+            "fragrance": "perfume",
+            "fragrnce": "perfume",
+            "makeup": "makeup",
+            "make up": "makeup",
+            "cosmetics": "makeup",
+            "cosmetcs": "makeup",
+            "lipstick": "lipstick",
+            "lipstik": "lipstick",
+            "mascara": "mascara",
+            "maskara": "mascara",
+            
+            // Fashion typos
+            "shoes": "shoes",
+            "shose": "shoes",
+            "shoe": "shoes",
+            "sneakers": "sneakers",
+            "sneaker": "sneakers",
+            "sneker": "sneakers",
+            "jeans": "jeans",
+            "jean": "jeans",
+            "shirt": "shirt",
+            "shrt": "shirt",
+            
+            // Home typos
+            "sofa": "sofa",
+            "couch": "sofa",
+            "chair": "chair",
+            "chiar": "chair",
+            "table": "table",
+            "tabel": "table",
+            "lamp": "lamp",
+            "lmap": "lamp",
+            "lighting": "lamp",
+            "light": "lamp"
           };
 
-          Object.keys(corrections).forEach((mistake) => {
-            const regex = new RegExp(`\\b${mistake}\\b`, "gi");
-            processed = processed.replace(regex, corrections[mistake]);
+          // Apply typo corrections
+          Object.keys(typoCorrections).forEach((typo) => {
+            const regex = new RegExp(`\\b${typo}\\b`, "gi");
+            processed = processed.replace(regex, typoCorrections[typo]);
           });
 
-          // Handle common patterns
-          if (processed.includes("automatic") && processed.includes("wash")) {
-            processed = "washing machine";
+          // Advanced semantic mapping for non-products to closest products
+          const semanticMappings = {
+            // Activity to product mappings
+            "cooking": "kitchen appliances cookware",
+            "gaming": "PlayStation console Xbox",
+            "entertainment": "television speakers headphones",
+            "music": "speakers headphones audio",
+            "photography": "camera accessories",
+            "fitness": "fitness equipment sports",
+            "reading": "lamp lighting books",
+            "sleeping": "bed bedding pillows mattress",
+            "cleaning": "vacuum cleaner cleaning supplies",
+            "washing": "washing machine laundry",
+            "storage": "furniture storage cabinet",
+            "studying": "desk chair laptop books",
+            "relaxing": "sofa chair comfort",
+            "working": "desk chair laptop office",
+            
+            // Location to product mappings
+            "kitchen": "kitchen appliances cookware refrigerator microwave",
+            "bedroom": "bed furniture bedding mattress pillows",
+            "living room": "sofa television furniture coffee table",
+            "bathroom": "bath towels shower accessories",
+            "office": "desk chair laptop computer office supplies",
+            "garage": "tools storage organization",
+            "garden": "outdoor furniture gardening tools",
+            "dining room": "dining table chairs dinnerware",
+            
+            // Occasion to product mappings
+            "birthday": "gifts electronics jewelry perfume",
+            "wedding": "home decor furniture gifts",
+            "christmas": "electronics gifts decorations",
+            "valentine": "jewelry perfume gifts romantic",
+            "party": "speakers electronics party supplies",
+            "work": "laptop office chair business",
+            "school": "laptop backpack student supplies",
+            "travel": "luggage electronics portable",
+            "anniversary": "jewelry perfume gifts romantic",
+            
+            // Generic categories to specific products
+            "technology": "electronics laptop smartphone tablet",
+            "gadgets": "electronics smartphone accessories tech",
+            "appliances": "washing machine refrigerator microwave",
+            "furniture": "sofa chair table bed",
+            "beauty": "makeup skincare perfume cosmetics",
+            "fashion": "shoes clothing accessories",
+            "home": "furniture home decor appliances",
+            "electronics": "smartphone laptop television",
+            "accessories": "jewelry bags belts watches",
+            
+            // Abstract concepts to products
+            "comfort": "sofa bed pillows mattress",
+            "convenience": "appliances electronics smart home",
+            "style": "fashion clothing shoes accessories",
+            "luxury": "perfume jewelry watches premium",
+            "efficiency": "appliances electronics productivity",
+            "performance": "gaming laptop electronics sports",
+            "organization": "storage furniture organizers",
+            "decoration": "home decor furniture lighting",
+            "safety": "security electronics safety equipment",
+            "health": "fitness equipment health products",
+            
+            // Problem-solving to products
+            "back pain": "chair mattress ergonomic",
+            "storage space": "storage furniture organizers",
+            "entertainment": "television gaming console books",
+            "productivity": "laptop desk chair office",
+            "relaxation": "sofa chair spa products",
+            "organization": "storage containers furniture",
+            "lighting": "lamps lighting fixtures bulbs",
+            "temperature": "fan heater air conditioning",
+            
+            // Mood/feeling to products
+            "stressed": "spa products relaxation comfort",
+            "tired": "bed mattress comfort relaxation",
+            "bored": "games books entertainment electronics",
+            "creative": "art supplies crafting electronics",
+            "romantic": "perfume jewelry candles",
+            "energetic": "fitness equipment sports",
+            "professional": "office supplies business attire",
+            
+            // Time-based needs
+            "morning": "coffee maker breakfast kitchen",
+            "evening": "lighting relaxation entertainment",
+            "weekend": "entertainment relaxation hobbies",
+            "vacation": "travel luggage portable electronics",
+            "summer": "cooling fan outdoor furniture",
+            "winter": "heating warm clothing bedding"
+          };
+
+          // Check for semantic mappings if no direct product match
+          let semanticMatch = "";
+          Object.keys(semanticMappings).forEach((concept) => {
+            if (processed.includes(concept)) {
+              semanticMatch = semanticMappings[concept];
+            }
+          });
+
+          if (semanticMatch) {
+            processed = semanticMatch;
           }
+
+          // Handle common patterns and phrases
+          const patternMappings = [
+            {
+              pattern: /(?:automatic|auto).+wash/i,
+              replacement: "washing machine"
+            },
+            {
+              pattern: /(?:smart|led|4k).+tv/i,
+              replacement: "smart television"
+            },
+            {
+              pattern: /(?:gaming|game).+(?:laptop|computer)/i,
+              replacement: "gaming laptop"
+            },
+            {
+              pattern: /(?:wireless|bluetooth).+(?:headphone|earphone)/i,
+              replacement: "wireless headphones"
+            },
+            {
+              pattern: /(?:hair|shampoo|conditioner)/i,
+              replacement: "haircare"
+            },
+            {
+              pattern: /(?:skin|face|cream|moisturizer)/i,
+              replacement: "skincare"
+            },
+            {
+              pattern: /(?:running|sport|athletic).+shoe/i,
+              replacement: "athletic shoes"
+            }
+          ];
+
+          patternMappings.forEach(({pattern, replacement}) => {
+            if (pattern.test(processed)) {
+              processed = replacement;
+            }
+          });
 
           return processed || query;
         }
@@ -4852,17 +5125,40 @@
         };
 
         // Function to display search results in dropdown
-        const showSearchResults = (products) => {
+        const showSearchResults = (products, originalQuery, processedQuery) => {
           // Clear previous results
           dropdown.innerHTML = "";
 
           if (!products || products.length === 0) {
-            dropdown.style.display = "none";
+            dropdown.innerHTML = `
+              <div class="p-3 text-center text-muted">
+                <i class="fa-solid fa-search mb-2"></i>
+                <div>No products found for "${originalQuery}"</div>
+                <small>Try searching for specific products like "iPhone", "laptop", or "sofa"</small>
+              </div>
+            `;
+            dropdown.style.display = "block";
             return;
           }
 
+          // Check if we're showing semantic results (processed query is different from original)
+          const isSemanticSearch = processedQuery && processedQuery.toLowerCase() !== originalQuery.toLowerCase();
+          
+          // Add header if showing semantic results
+          if (isSemanticSearch) {
+            const headerDiv = document.createElement("div");
+            headerDiv.className = "dropdown-header bg-light border-bottom";
+            headerDiv.innerHTML = `
+              <small class="text-muted">
+                <i class="fa-solid fa-lightbulb text-warning"></i> 
+                Showing products related to "${originalQuery}"
+              </small>
+            `;
+            dropdown.appendChild(headerDiv);
+          }
+
           // Create and append result items
-          products.forEach((product) => {
+          products.forEach((product, index) => {
             const item = document.createElement("div");
             item.className = "dropdown-item d-flex align-items-center p-2";
             item.style.cursor = "pointer";
@@ -4874,25 +5170,52 @@
               img.alt = product.title;
               img.width = 40;
               img.height = 40;
-              img.className = "me-2";
+              img.className = "me-2 rounded";
               img.style.objectFit = "contain";
+              img.style.border = "1px solid #eee";
               item.appendChild(img);
             }
 
             // Create product info
             const info = document.createElement("div");
+            info.className = "flex-grow-1";
 
             const title = document.createElement("div");
-            title.textContent = product.title;
-            title.className = "fw-bold";
+            title.textContent = product.title.length > 60 
+              ? product.title.substring(0, 60) + "..." 
+              : product.title;
+            title.className = "fw-bold text-dark";
+            title.style.fontSize = "0.9em";
             info.appendChild(title);
 
-            const price = document.createElement("div");
-            price.textContent = `$${product.price.toFixed(2)}`;
-            price.className = "text-success";
-            info.appendChild(price);
+            const priceDiv = document.createElement("div");
+            priceDiv.className = "d-flex align-items-center";
+            
+            const price = document.createElement("span");
+            price.textContent = `EGP ${product.price?.toFixed(2) || "N/A"}`;
+            price.className = "text-success fw-semibold";
+            priceDiv.appendChild(price);
 
+            // Add category badge if available
+            if (product.category && product.category.name) {
+              const categoryBadge = document.createElement("span");
+              categoryBadge.textContent = product.category.name;
+              categoryBadge.className = "badge bg-secondary ms-2";
+              categoryBadge.style.fontSize = "0.7em";
+              priceDiv.appendChild(categoryBadge);
+            }
+
+            info.appendChild(priceDiv);
             item.appendChild(info);
+
+            // Add relevance indicator for semantic search
+            if (isSemanticSearch && index < 3) {
+              const relevanceIcon = document.createElement("div");
+              relevanceIcon.className = "text-warning ms-2";
+              relevanceIcon.innerHTML = '<i class="fa-solid fa-star" style="font-size: 0.8em;"></i>';
+              relevanceIcon.title = "Highly relevant";
+              item.appendChild(relevanceIcon);
+            }
 
             // Handle click on result item
             item.addEventListener("click", () => {
@@ -4901,8 +5224,33 @@
               dropdown.style.display = "none";
             });
 
+            // Add hover effect
+            item.addEventListener("mouseenter", () => {
+              item.style.backgroundColor = "#f8f9fa";
+            });
+            item.addEventListener("mouseleave", () => {
+              item.style.backgroundColor = "";
+            });
+
             dropdown.appendChild(item);
           });
+
+          // Add "See all results" link
+          if (products.length >= 8) {
+            const seeAllDiv = document.createElement("div");
+            seeAllDiv.className = "dropdown-item text-center border-top pt-2";
+            seeAllDiv.innerHTML = `
+              <small class="text-primary">
+                <i class="fa-solid fa-external-link-alt me-1"></i>
+                See all results for "${originalQuery}"
+              </small>
+            `;
+            seeAllDiv.style.cursor = "pointer";
+            seeAllDiv.addEventListener("click", () => {
+              window.location.href = `search-results.html?q=${encodeURIComponent(originalQuery)}`;
+            });
+            dropdown.appendChild(seeAllDiv);
+          }
 
           // Show dropdown
           dropdown.style.display = "block";
@@ -4945,15 +5293,24 @@
               '<div class="p-2 text-center"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><span class="ms-2">Searching...</span></div>';
             dropdown.style.display = "block";
 
+            // Process the query to understand user intent
+            const processedQuery = processUserQuery(query);
+
             // Call AI search API
             const result = await searchProductsAI(query);
 
-            // Display the results
+            // Display the results with context about semantic mapping
             if (result && result.products && result.products.length > 0) {
-              showSearchResults(result.products);
+              showSearchResults(result.products, query, processedQuery);
             } else {
-              dropdown.innerHTML =
-                '<div class="p-2 text-center">No products found</div>';
+              dropdown.innerHTML = `
+                <div class="p-3 text-center text-muted">
+                  <i class="fa-solid fa-search mb-2"></i>
+                  <div>No products found for "${query}"</div>
+                  <small>Try searching for specific products like "iPhone", "laptop", or "sofa"</small>
+                </div>
+              `;
+              dropdown.style.display = "block";
             }
           }, 400); // 400ms debounce delay
         });

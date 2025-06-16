@@ -696,9 +696,9 @@ class EnhancedVoiceSearch {
   async processIntelligentCommand(command) {
     const statusText = document.querySelector(".status-text");
     const lowerCommand = command.toLowerCase().trim();
-    
+
     console.log("Processing voice command:", command);
-    
+
     if (statusText) {
       statusText.textContent = `🧠 Processing: "${command}"`;
     }
@@ -724,9 +724,9 @@ class EnhancedVoiceSearch {
     // 3. Handle "Search for/Find/I want [Product name]" patterns
     const searchPatterns = [
       /^(?:search\s+for|find|i\s+want)\s+(.+)$/i,
-      /^(?:look\s+for|show\s+me|get\s+me)\s+(.+)$/i
+      /^(?:look\s+for|show\s+me|get\s+me)\s+(.+)$/i,
     ];
-    
+
     for (const pattern of searchPatterns) {
       const match = command.match(pattern);
       if (match) {
@@ -746,72 +746,72 @@ class EnhancedVoiceSearch {
   async handleGoToCommand(destination, statusText) {
     const categoryMap = {
       // Main categories
-      'electronics': 'elecCat.html',
-      'appliances': 'ApplianCat.html', 
-      'fashion': 'Fashion.html',
-      'beauty': 'Beauty.html',
-      'home': 'HomeCat.html',
-      'video games': 'videogamecat.html',
-      'videogames': 'videogamecat.html',
-      'games': 'videogamecat.html',
-      'cart': 'cart.html',
-      
+      electronics: "elecCat.html",
+      appliances: "ApplianCat.html",
+      fashion: "Fashion.html",
+      beauty: "Beauty.html",
+      home: "HomeCat.html",
+      "video games": "videogamecat.html",
+      videogames: "videogamecat.html",
+      games: "videogamecat.html",
+      cart: "cart.html",
+
       // Electronics subcategories
-      'mobile': 'mobileandtablets.html',
-      'mobile and tablets': 'mobileandtablets.html',
-      'phones': 'mobileandtablets.html',
-      'tablets': 'mobileandtablets.html',
-      'tv': 'tvs.html',
-      'tvs': 'tvs.html',
-      'television': 'tvs.html',
-      'laptop': 'laptop.html',
-      'laptops': 'laptop.html',
-      'computers': 'laptop.html',
-      
+      mobile: "mobileandtablets.html",
+      "mobile and tablets": "mobileandtablets.html",
+      phones: "mobileandtablets.html",
+      tablets: "mobileandtablets.html",
+      tv: "tvs.html",
+      tvs: "tvs.html",
+      television: "tvs.html",
+      laptop: "laptop.html",
+      laptops: "laptop.html",
+      computers: "laptop.html",
+
       // Appliances subcategories
-      'large appliances': 'largeAppliances.html',
-      'small appliances': 'smallAppliances.html',
-      
+      "large appliances": "largeAppliances.html",
+      "small appliances": "smallAppliances.html",
+
       // Home subcategories
-      'furniture': 'furniture.html',
-      'home decor': 'homeDecor.html',
-      'kitchen': 'Kitchen&Dining.html',
-      'kitchen and dining': 'Kitchen&Dining.html',
-      'bath': 'bath&bedding.html',
-      'bath and bedding': 'bath&bedding.html',
-      'bedding': 'bath&bedding.html',
-      
+      furniture: "furniture.html",
+      "home decor": "homeDecor.html",
+      kitchen: "Kitchen&Dining.html",
+      "kitchen and dining": "Kitchen&Dining.html",
+      bath: "bath&bedding.html",
+      "bath and bedding": "bath&bedding.html",
+      bedding: "bath&bedding.html",
+
       // Video Games subcategories
-      'console': 'console.html',
-      'consoles': 'console.html',
-      'controller': 'controller.html',
-      'controllers': 'controller.html',
-      'accessories': 'accessories.html',
-      'gaming accessories': 'accessories.html',
-      
+      console: "console.html",
+      consoles: "console.html",
+      controller: "controller.html",
+      controllers: "controller.html",
+      accessories: "accessories.html",
+      "gaming accessories": "accessories.html",
+
       // Fashion subcategories
-      'women': 'woman.html',
-      'womens fashion': 'woman.html',
-      'women fashion': 'woman.html',
-      'men': 'men.html',
-      'mens fashion': 'men.html',
-      'men fashion': 'men.html',
-      'kids': 'kids.html',
-      'kids fashion': 'kids.html',
-      
+      women: "woman.html",
+      "womens fashion": "woman.html",
+      "women fashion": "woman.html",
+      men: "men.html",
+      "mens fashion": "men.html",
+      "men fashion": "men.html",
+      kids: "kids.html",
+      "kids fashion": "kids.html",
+
       // Beauty subcategories
-      'makeup': 'makeup.html',
-      'skincare': 'skincare.html',
-      'haircare': 'haircare.html',
-      'fragrance': 'Fragrance.html',
-      'perfume': 'Fragrance.html'
+      makeup: "makeup.html",
+      skincare: "skincare.html",
+      haircare: "haircare.html",
+      fragrance: "Fragrance.html",
+      perfume: "Fragrance.html",
     };
 
     const targetPage = categoryMap[destination];
-    
+
     if (targetPage) {
       if (statusText) statusText.textContent = `🚀 Going to ${destination}...`;
-      
+
       setTimeout(() => {
         window.location.href = targetPage;
       }, 500);
@@ -822,26 +822,26 @@ class EnhancedVoiceSearch {
     }
   }
 
-  // Handle "Open [profile/orders]" commands  
+  // Handle "Open [profile/orders]" commands
   async handleOpenCommand(target, statusText) {
     const pageMap = {
-      'my profile': 'profile.html',
-      'profile': 'profile.html',
-      'my account': 'profile.html',
-      'account': 'profile.html',
-      'my orders': 'orders.html',
-      'orders': 'orders.html',
-      'order history': 'orders.html',
-      'cart': 'cart.html',
-      'my cart': 'cart.html',
-      'shopping cart': 'cart.html'
+      "my profile": "profile.html",
+      profile: "profile.html",
+      "my account": "profile.html",
+      account: "profile.html",
+      "my orders": "orders.html",
+      orders: "orders.html",
+      "order history": "orders.html",
+      cart: "cart.html",
+      "my cart": "cart.html",
+      "shopping cart": "cart.html",
     };
 
     const targetPage = pageMap[target];
-    
+
     if (targetPage) {
       if (statusText) statusText.textContent = `🚀 Opening ${target}...`;
-      
+
       setTimeout(() => {
         window.location.href = targetPage;
       }, 500);
@@ -855,23 +855,30 @@ class EnhancedVoiceSearch {
   // Handle search commands
   async handleSearchCommand(searchTerm, statusText) {
     const searchInput = document.querySelector(".navsearch");
-    
-    if (statusText) statusText.textContent = `⌨️ Typing "${searchTerm}" in search bar...`;
-    
+
+    if (statusText)
+      statusText.textContent = `⌨️ Typing "${searchTerm}" in search bar...`;
+
     if (searchInput) {
       // Type the search term into the search bar
       await this.animateTyping(searchInput, searchTerm, statusText);
-      
+
       // Auto-submit the search after a brief delay
       setTimeout(() => {
-        if (statusText) statusText.textContent = `🔍 Searching for: ${searchTerm}`;
-        window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+        if (statusText)
+          statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+        window.location.href = `search-results.html?q=${encodeURIComponent(
+          searchTerm
+        )}`;
       }, 800);
     } else {
       // Direct navigation if search input not found
-      if (statusText) statusText.textContent = `🔍 Searching for: ${searchTerm}`;
+      if (statusText)
+        statusText.textContent = `🔍 Searching for: ${searchTerm}`;
       setTimeout(() => {
-        window.location.href = `search-results.html?q=${encodeURIComponent(searchTerm)}`;
+        window.location.href = `search-results.html?q=${encodeURIComponent(
+          searchTerm
+        )}`;
       }, 500);
     }
   }
