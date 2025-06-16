@@ -206,54 +206,32 @@
           <h6>Try saying:</h6>
           <ul>
             <li>
-              <strong>"What is today's sale"</strong>
-              <small class="text-muted"
-                >(scrolls to Today's Sale section)</small
-              >
-            </li>
-            <li>
-              <strong>"Scroll down to electronics"</strong>
-              <small class="text-muted">(scrolls to Electronics section)</small>
-            </li>
-            <li>
-              <strong>"Scroll down to appliances"</strong>
-              <small class="text-muted">(scrolls to Appliances section)</small>
-            </li>
-            <li>
-              <strong>"Scroll down to home"</strong>
-              <small class="text-muted">(scrolls to Home section)</small>
-            </li>
-            <li>
-              <strong>"Scroll down to video games"</strong>
-              <small class="text-muted">(scrolls to Video Games section)</small>
-            </li>
-            <li>
-              <strong>"Scroll down to fashion"</strong>
-              <small class="text-muted">(scrolls to Fashion section)</small>
-            </li>
-            <li>
-              <strong>"Scroll down to beauty"</strong>
-              <small class="text-muted">(scrolls to Beauty section)</small>
-            </li>
-            <li>
               <strong>"Go to electronics"</strong>
-              <small class="text-muted">(navigates to category page)</small>
+              <small class="text-muted">(navigates to category)</small>
+            </li>
+            <li>
+              <strong>"Go to fashion"</strong>
+              <small class="text-muted">(navigates to category)</small>
             </li>
             <li>
               <strong>"Open my profile"</strong>
               <small class="text-muted">(opens profile page)</small>
             </li>
             <li>
+              <strong>"Open orders"</strong>
+              <small class="text-muted">(opens orders page)</small>
+            </li>
+            <li>
               <strong>"Search for iPhone"</strong>
               <small class="text-muted">(types in search bar)</small>
             </li>
             <li>
-              <strong>"Find TV under 30k"</strong>
-              <small class="text-muted">(searches with price filter)</small>
+              <strong>"Find Samsung TV"</strong>
+              <small class="text-muted">(types in search bar)</small>
             </li>
             <li>
-              <strong>"Samsung laptop 16GB"</strong>
-              <small class="text-muted">(brand and spec search)</small>
+              <strong>"I want black shoes"</strong>
+              <small class="text-muted">(types in search bar)</small>
             </li>
           </ul>
           <small class="text-muted">
@@ -4756,10 +4734,6 @@
             // Process the query to understand user intent
             const processedQuery = processUserQuery(query);
 
-            // Extract query analysis for advanced filtering
-            const queryAnalysis = analyzeQuery(query);
-
-            // Try AI search first
             const response = await fetch(
               "http://localhost:3000/api/v1/products/search-ai",
               {
@@ -4767,501 +4741,82 @@
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                  query: processedQuery,
-                  fallbackSearch: true,
-                  priceConstraints: queryAnalysis.priceConstraints,
-                  specifications: queryAnalysis.specifications,
-                  filters: queryAnalysis.filters,
-                }),
+                body: JSON.stringify({ query: processedQuery, fallbackSearch: true }),
               }
             );
 
-            let result = null;
-            if (response.ok) {
-              result = await response.json();
-            }          // If AI search fails or returns no results, try enhanced fallback
-          if (!result || !result.products || result.products.length === 0) {
-            result = await fallbackSemanticSearch(query, queryAnalysis);
-          }
-
-          // Apply client-side filtering for better results
-          if (result && result.products) {
-            result.products = applyClientSideFiltering(
-              result.products,
-              queryAnalysis
-            );
-
-            // Sort by relevance and price if price constraints exist
-            if (queryAnalysis.priceConstraints) {
-              result.products = result.products.sort((a, b) => {
-                const aPrice = a.price || 0;
-                const bPrice = b.price || 0;
-
-                // Prioritize products within price range
-                const aInRange = isPriceInRange(aPrice, queryAnalysis.priceConstraints);
-                const bInRange = isPriceInRange(bPrice, queryAnalysis.priceConstraints);
-
-                if (aInRange && !bInRange) return -1;
-                if (!aInRange && bInRange) return 1;
-
-                // If both in range or both out of range, sort by price
-                return aPrice - bPrice;
-              });
+            if (!response.ok) {
+              // If AI search fails, try fallback search with semantic mapping
+              return await fallbackSemanticSearch(query);
             }
-
-            // Display better feedback for price searches
-            if (queryAnalysis.priceConstraints && result.products.length === 0) {
-              const { min, max } = queryAnalysis.priceConstraints;
-              let priceMessage = '';
-              if (min && max) {
-                priceMessage = `No products found between EGP ${min.toFixed(0)} - ${max.toFixed(0)}`;
-              } else if (max) {
-                priceMessage = `No products found under EGP ${max.toFixed(0)}`;
-              } else if (min) {
-                priceMessage = `No products found over EGP ${min.toFixed(0)}`;
-              }
-
-              dropdown.innerHTML = `
-                <div class="p-3 text-center text-muted">
-                  <i class="fa-solid fa-search mb-2"></i>
-                  <div>${priceMessage}</div>
-                  <small>Try adjusting your price range or searching for other products</small>
-                </div>
-              `;
-              dropdown.style.display = "block";
-              return { products: [] };
+            
+            const result = await response.json();
+            
+            // If no results found with AI search, try fallback
+            if (!result.products || result.products.length === 0) {
+              return await fallbackSemanticSearch(query);
             }
-          }
-
-            // Display better feedback for price searches
-            if (queryAnalysis.priceConstraints && result.products.length === 0) {
-              const { min, max } = queryAnalysis.priceConstraints;
-              let priceMessage = '';
-              if (min && max) {
-                priceMessage = `No products found between EGP ${min.toFixed(0)} - ${max.toFixed(0)}`;
-              } else if (max) {
-                priceMessage = `No products found under EGP ${max.toFixed(0)}`;
-              } else if (min) {
-                priceMessage = `No products found over EGP ${min.toFixed(0)}`;
-              }
-
-              dropdown.innerHTML = `
-                <div class="p-3 text-center text-muted">
-                  <i class="fa-solid fa-search mb-2"></i>
-                  <div>${priceMessage}</div>
-                  <small>Try adjusting your price range or searching for other products</small>
-                </div>
-              `;
-              dropdown.style.display = "block";
-              return { products: [] };
-            }
-          }
-
-            return result || { products: [] };
+            
+            return result;
           } catch (error) {
             console.error("AI Search Error:", error);
             // Try fallback search
-            const queryAnalysis = analyzeQuery(query);
-            return await fallbackSemanticSearch(query, queryAnalysis);
+            return await fallbackSemanticSearch(query);
           }
         };
 
-        // Helper function to check if price is in range
-        function isPriceInRange(price, constraints) {
-          if (!constraints) return true;
-
-          const { min, max } = constraints;
-
-          if (min && price < min) return false;
-          if (max && price > max) return false;
-
-          return true;
-        }
-
-        // Enhanced query analysis function with improved price recognition
-        function analyzeQuery(query) {
-          let processed = query.toLowerCase().trim();
-
-          const queryAnalysis = {
-            baseQuery: processed,
-            priceConstraints: null,
-            specifications: [],
-            filters: {},
-            intent: "search",
-          };
-
-          // Advanced price extraction patterns with better recognition
-          const pricePatterns = [
-            // Under/below patterns - enhanced for natural language
-            {
-              pattern:
-                /(?:under|below|less\s+than|cheaper\s+than|maximum|max|up\s+to|within)\s*(\d+)(?:k|,?\d{3})?(?:\s*(?:egp|pounds?|le))?/gi,
-              type: "max",
-            },
-            // Over/above patterns - enhanced
-            {
-              pattern:
-                /(?:over|above|more\s+than|expensive\s+than|minimum|min|starting\s+from|at\s+least)\s*(\d+)(?:k|,?\d{3})?(?:\s*(?:egp|pounds?|le))?/gi,
-              type: "min",
-            },
-            // Between patterns - enhanced for various formats
-            {
-              pattern:
-                /(?:between|from)\s*(\d+)(?:k|,?\d{3})?\s*(?:to|and|-|up\s+to)\s*(\d+)(?:k|,?\d{3})?(?:\s*(?:egp|pounds?|le))?/gi,
-              type: "range",
-            },
-            // Around/approximately patterns
-            {
-              pattern: /(?:around|about|approximately|roughly|near)\s*(\d+)(?:k|,?\d{3})?(?:\s*(?:egp|pounds?|le))?/gi,
-              type: "around",
-            },
-            // Budget patterns
-            {
-              pattern: /(?:budget\s+of|budget\s+is|have)\s*(\d+)(?:k|,?\d{3})?(?:\s*(?:egp|pounds?|le))?/gi,
-              type: "around",
-            },
-            // Direct price patterns like "30k TV"
-            {
-              pattern: /(\d+)(?:k|,?\d{3})?\s*(?:egp|pounds?|le)?\s+(?:tv|laptop|phone|iphone|samsung|sony|lg)/gi,
-              type: "around",
-            },
-          ];
-
-          // Extract price constraints
-          pricePatterns.forEach(({ pattern, type }) => {
-            const matches = [...processed.matchAll(pattern)];
-            matches.forEach((match) => {
-              let price1 = parseFloat(match[1]);
-              let price2 = match[2] ? parseFloat(match[2]) : null;
-
-              // Handle 'k' notation (20k = 20000)
-              if (match[0].includes("k")) {
-                price1 *= 1000;
-                if (price2) price2 *= 1000;
-              }
-
-              // Set price constraints based on type
-              switch (type) {
-                case "max":
-                  queryAnalysis.priceConstraints = { max: price1 };
-                  break;
-                case "min":
-                  queryAnalysis.priceConstraints = { min: price1 };
-                  break;
-                case "range":
-                  queryAnalysis.priceConstraints = {
-                    min: Math.min(price1, price2),
-                    max: Math.max(price1, price2),
-                  };
-                  break;
-                case "around":
-                  const margin = price1 * 0.1; // 10% margin
-                  queryAnalysis.priceConstraints = {
-                    min: price1 - margin,
-                    max: price1 + margin,
-                  };
-                  break;
-              }
-
-              // Remove price text from query
-              processed = processed.replace(match[0], "").trim();
-            });
-          });
-
-          // Extract specifications and features
-          const specPatterns = {
-            // Storage specifications
-            storage: {
-              pattern: /(\d+)\s*(gb|tb|giga|tera)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({
-                  value: parseFloat(m[1]),
-                  unit: m[2].toLowerCase(),
-                })),
-            },
-            // RAM specifications
-            ram: {
-              pattern: /(\d+)\s*(?:gb\s+)?(?:ram|memory)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "gb" })),
-            },
-            // Screen size
-            screenSize: {
-              pattern: /(\d+(?:\.\d+)?)\s*(?:inch|"|inches)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "inch" })),
-            },
-            // Processor/CPU
-            processor: {
-              pattern:
-                /(i\d|ryzen\s*\d|snapdragon\s*\d+|a\d+\s*bionic|exynos)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Graphics card
-            graphics: {
-              pattern: /(rtx\s*\d+|gtx\s*\d+|radeon|iris|adreno)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Camera specs
-            camera: {
-              pattern: /(\d+)\s*(?:mp|megapixel)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "mp" })),
-            },
-            // Display resolution
-            resolution: {
-              pattern: /(4k|uhd|fhd|hd|1080p|720p|2k)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Connectivity
-            connectivity: {
-              pattern: /(5g|4g|wifi\s*6|bluetooth\s*5|wireless)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-          };
-
-          // Extract all specifications
-          Object.entries(specPatterns).forEach(([specType, config]) => {
-            const matches = [...processed.matchAll(config.pattern)];
-            if (matches.length > 0) {
-              queryAnalysis.specifications.push({
-                type: specType,
-                values: config.extract(matches),
-              });
-
-              // Remove spec text from query
-              matches.forEach((match) => {
-                processed = processed.replace(match[0], "").trim();
-              });
-            }
-          });
-
-          // Extract quality/condition filters
-          const qualityPatterns = {
-            condition: /(new|used|refurbished|renewed)/gi,
-            quality:
-              /(premium|luxury|budget|cheap|expensive|high.end|low.end)/gi,
-            brand:
-              /(apple|samsung|xiaomi|sony|lg|hp|dell|lenovo|asus|nike|adidas|loreal|maybelline)/gi,
-            color:
-              /(black|white|red|blue|green|yellow|pink|purple|brown|gray|grey|silver|gold|rose.gold)/gi,
-            size: /(small|medium|large|xl|xxl|mini|compact)/gi,
-          };
-
-          Object.entries(qualityPatterns).forEach(([filterType, pattern]) => {
-            const matches = [...processed.matchAll(pattern)];
-            if (matches.length > 0) {
-              queryAnalysis.filters[filterType] = matches.map((m) =>
-                m[0].toLowerCase()
-              );
-
-              // Remove filter text from query
-              matches.forEach((match) => {
-                processed = processed.replace(match[0], "").trim();
-              });
-            }
-          });
-
-          queryAnalysis.baseQuery = processed;
-          return queryAnalysis;
-        }
-
-        // Client-side filtering function
-        function applyClientSideFiltering(products, queryAnalysis) {
-          let filteredProducts = [...products];
-
-          // Apply price constraints
-          if (queryAnalysis.priceConstraints) {
-            filteredProducts = filteredProducts.filter((product) => {
-              const price = product.price || 0;
-
-              if (
-                queryAnalysis.priceConstraints.min &&
-                price < queryAnalysis.priceConstraints.min
-              ) {
-                return false;
-              }
-
-              if (
-                queryAnalysis.priceConstraints.max &&
-                price > queryAnalysis.priceConstraints.max
-              ) {
-                return false;
-              }
-
-              return true;
-            });
-          }
-
-          // Apply brand filtering
-          if (queryAnalysis.filters.brand) {
-            filteredProducts = filteredProducts.filter((product) => {
-              const productTitle = product.title.toLowerCase();
-              const productBrand = product.brand
-                ? product.brand.toLowerCase()
-                : "";
-
-              return queryAnalysis.filters.brand.some(
-                (brand) =>
-                  productTitle.includes(brand) || productBrand.includes(brand)
-              );
-            });
-          }
-
-          // Apply color filtering
-          if (queryAnalysis.filters.color) {
-            filteredProducts = filteredProducts.filter((product) => {
-              const productTitle = product.title.toLowerCase();
-              const productColors = product.colors || [];
-
-              return queryAnalysis.filters.color.some(
-                (color) =>
-                  productTitle.includes(color) ||
-                  productColors.some((c) => c.toLowerCase().includes(color))
-              );
-            });
-          }
-
-          // Apply specification filtering (basic implementation)
-          if (queryAnalysis.specifications.length > 0) {
-            filteredProducts = filteredProducts.filter((product) => {
-              const productTitle = product.title.toLowerCase();
-              const productSpecs = product.specifications || {};
-
-              return queryAnalysis.specifications.some((spec) => {
-                switch (spec.type) {
-                  case "storage":
-                    return spec.values.some(
-                      (val) =>
-                        productTitle.includes(`${val.value}${val.unit}`) ||
-                        (productSpecs.storage &&
-                          productSpecs.storage.includes(val.value))
-                    );
-                  case "ram":
-                    return spec.values.some(
-                      (val) =>
-                        productTitle.includes(`${val.value}gb`) ||
-                        productTitle.includes(`${val.value} gb ram`) ||
-                        (productSpecs.ram && productSpecs.ram >= val.value)
-                    );
-                  case "screenSize":
-                    return spec.values.some(
-                      (val) =>
-                        productTitle.includes(`${val.value}"`) ||
-                        productTitle.includes(`${val.value} inch`) ||
-                        (productSpecs.screenSize &&
-                          Math.abs(productSpecs.screenSize - val.value) <= 0.5)
-                    );
-                  default:
-                    return true;
-                }
-              });
-            });
-          }
-
-          return filteredProducts;
-        }
-
         // Fallback semantic search for non-product terms
-        const fallbackSemanticSearch = async (
-          originalQuery,
-          queryAnalysis = null
-        ) => {
+        const fallbackSemanticSearch = async (originalQuery) => {
           try {
-            // If no query analysis provided, analyze the query
-            if (!queryAnalysis) {
-              queryAnalysis = analyzeQuery(originalQuery);
-            }
-
             const processedQuery = processUserQuery(originalQuery);
-
+            
             // Try multiple search terms if semantic mapping occurred
-            const searchTerms = processedQuery.split(" ");
-
-            // Build URL parameters for advanced search
-            let searchUrl = `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(
-              queryAnalysis.baseQuery || processedQuery
-            )}&limit=20`;
-
-            // Add price constraints to URL if available
-            if (queryAnalysis.priceConstraints) {
-              if (queryAnalysis.priceConstraints.min) {
-                searchUrl += `&price[gte]=${queryAnalysis.priceConstraints.min}`;
-              }
-              if (queryAnalysis.priceConstraints.max) {
-                searchUrl += `&price[lte]=${queryAnalysis.priceConstraints.max}`;
-              }
-            }
-
-            // Add brand filter if available
-            if (
-              queryAnalysis.filters.brand &&
-              queryAnalysis.filters.brand.length > 0
-            ) {
-              searchUrl += `&brand=${encodeURIComponent(
-                queryAnalysis.filters.brand[0]
-              )}`;
-            }
-
+            const searchTerms = processedQuery.split(' ');
+            
             // Search with regular API using processed query
-            const response = await fetch(searchUrl);
-
+            const response = await fetch(
+              `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(processedQuery)}&limit=10`
+            );
+            
             if (response.ok) {
               const data = await response.json();
               let products = [];
-
+              
               if (Array.isArray(data.data)) {
                 products = data.data;
               } else if (Array.isArray(data.products)) {
                 products = data.products;
               }
-
-              // Apply client-side filtering for additional parameters
-              if (products.length > 0) {
-                products = applyClientSideFiltering(products, queryAnalysis);
-              }
-
+              
               // If still no results, try individual search terms
               if (products.length === 0 && searchTerms.length > 1) {
                 for (const term of searchTerms) {
                   if (term.length > 2) {
                     const termResponse = await fetch(
-                      `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(
-                        term
-                      )}&limit=5`
+                      `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(term)}&limit=5`
                     );
-
+                    
                     if (termResponse.ok) {
                       const termData = await termResponse.json();
-                      const termProducts = Array.isArray(termData.data)
-                        ? termData.data
-                        : Array.isArray(termData.products)
-                        ? termData.products
-                        : [];
-
-                      // Apply filtering to term results as well
-                      const filteredTermProducts = applyClientSideFiltering(
-                        termProducts,
-                        queryAnalysis
-                      );
-                      products = products.concat(filteredTermProducts);
-
+                      const termProducts = Array.isArray(termData.data) ? termData.data : 
+                                         Array.isArray(termData.products) ? termData.products : [];
+                      
+                      products = products.concat(termProducts);
+                      
                       if (products.length >= 8) break; // Limit results
                     }
                   }
                 }
               }
-
+              
               // Remove duplicates
-              products = products.filter(
-                (product, index, self) =>
-                  index === self.findIndex((p) => p._id === product._id)
+              products = products.filter((product, index, self) => 
+                index === self.findIndex(p => p._id === product._id)
               );
-
+              
               return { products: products.slice(0, 8) };
             }
-
+            
             return { products: [] };
           } catch (error) {
             console.error("Fallback search error:", error);
@@ -5269,181 +4824,9 @@
           }
         };
 
-        // Enhanced query processing function with advanced AI corrections and price/spec understanding
+        // Enhanced query processing function with advanced AI corrections
         function processUserQuery(query) {
           let processed = query.toLowerCase().trim();
-          const originalQuery = processed;
-
-          // Extract price constraints and specifications
-          const queryAnalysis = {
-            baseQuery: processed,
-            priceConstraints: null,
-            specifications: [],
-            filters: {},
-            intent: "search",
-          };
-
-          // Advanced price extraction patterns
-          const pricePatterns = [
-            // Under/below patterns
-            {
-              pattern:
-                /(?:under|below|less\s+than|cheaper\s+than|maximum|max)\s*(\d+)(?:k|,?\d{3})?/gi,
-              type: "max",
-            },
-            // Over/above patterns
-            {
-              pattern:
-                /(?:over|above|more\s+than|expensive\s+than|minimum|min)\s*(\d+)(?:k|,?\d{3})?/gi,
-              type: "min",
-            },
-            // Between patterns
-            {
-              pattern:
-                /(?:between|from)\s*(\d+)(?:k|,?\d{3})?\s*(?:to|and|-)\s*(\d+)(?:k|,?\d{3})?/gi,
-              type: "range",
-            },
-            // Exact price patterns
-            {
-              pattern: /(?:around|about|approximately)\s*(\d+)(?:k|,?\d{3})?/gi,
-              type: "around",
-            },
-          ];
-
-          // Extract price constraints
-          pricePatterns.forEach(({ pattern, type }) => {
-            const matches = [...processed.matchAll(pattern)];
-            matches.forEach((match) => {
-              let price1 = parseFloat(match[1]);
-              let price2 = match[2] ? parseFloat(match[2]) : null;
-
-              // Handle 'k' notation (20k = 20000)
-              if (match[0].includes("k")) {
-                price1 *= 1000;
-                if (price2) price2 *= 1000;
-              }
-
-              // Set price constraints based on type
-              switch (type) {
-                case "max":
-                  queryAnalysis.priceConstraints = { max: price1 };
-                  break;
-                case "min":
-                  queryAnalysis.priceConstraints = { min: price1 };
-                  break;
-                case "range":
-                  queryAnalysis.priceConstraints = {
-                    min: Math.min(price1, price2),
-                    max: Math.max(price1, price2),
-                  };
-                  break;
-                case "around":
-                  const margin = price1 * 0.1; // 10% margin
-                  queryAnalysis.priceConstraints = {
-                    min: price1 - margin,
-                    max: price1 + margin,
-                  };
-                  break;
-              }
-
-              // Remove price text from query
-              processed = processed.replace(match[0], "").trim();
-            });
-          });
-
-          // Extract specifications and features
-          const specPatterns = {
-            // Storage specifications
-            storage: {
-              pattern: /(\d+)\s*(gb|tb|giga|tera)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({
-                  value: parseFloat(m[1]),
-                  unit: m[2].toLowerCase(),
-                })),
-            },
-            // RAM specifications
-            ram: {
-              pattern: /(\d+)\s*(?:gb\s+)?(?:ram|memory)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "gb" })),
-            },
-            // Screen size
-            screenSize: {
-              pattern: /(\d+(?:\.\d+)?)\s*(?:inch|"|inches)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "inch" })),
-            },
-            // Processor/CPU
-            processor: {
-              pattern:
-                /(i\d|ryzen\s*\d|snapdragon\s*\d+|a\d+\s*bionic|exynos)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Graphics card
-            graphics: {
-              pattern: /(rtx\s*\d+|gtx\s*\d+|radeon|iris|adreno)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Camera specs
-            camera: {
-              pattern: /(\d+)\s*(?:mp|megapixel)/gi,
-              extract: (matches) =>
-                matches.map((m) => ({ value: parseFloat(m[1]), unit: "mp" })),
-            },
-            // Display resolution
-            resolution: {
-              pattern: /(4k|uhd|fhd|hd|1080p|720p|2k)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-            // Connectivity
-            connectivity: {
-              pattern: /(5g|4g|wifi\s*6|bluetooth\s*5|wireless)/gi,
-              extract: (matches) => matches.map((m) => m[0]),
-            },
-          };
-
-          // Extract all specifications
-          Object.entries(specPatterns).forEach(([specType, config]) => {
-            const matches = [...processed.matchAll(config.pattern)];
-            if (matches.length > 0) {
-              queryAnalysis.specifications.push({
-                type: specType,
-                values: config.extract(matches),
-              });
-
-              // Remove spec text from query
-              matches.forEach((match) => {
-                processed = processed.replace(match[0], "").trim();
-              });
-            }
-          });
-
-          // Extract quality/condition filters
-          const qualityPatterns = {
-            condition: /(new|used|refurbished|renewed)/gi,
-            quality:
-              /(premium|luxury|budget|cheap|expensive|high.end|low.end)/gi,
-            brand:
-              /(apple|samsung|xiaomi|sony|lg|hp|dell|lenovo|asus|nike|adidas|loreal|maybelline)/gi,
-            color:
-              /(black|white|red|blue|green|yellow|pink|purple|brown|gray|grey|silver|gold|rose.gold)/gi,
-            size: /(small|medium|large|xl|xxl|mini|compact)/gi,
-          };
-
-          Object.entries(qualityPatterns).forEach(([filterType, pattern]) => {
-            const matches = [...processed.matchAll(pattern)];
-            if (matches.length > 0) {
-              queryAnalysis.filters[filterType] = matches.map((m) =>
-                m[0].toLowerCase()
-              );
-
-              // Remove filter text from query
-              matches.forEach((match) => {
-                processed = processed.replace(match[0], "").trim();
-              });
-            }
-          });
 
           // Remove common filler words
           const fillerWords = [
@@ -5461,9 +4844,6 @@
             "the",
             "some",
             "any",
-            "with",
-            "that",
-            "has",
           ];
 
           fillerWords.forEach((filler) => {
@@ -5476,92 +4856,92 @@
           // Advanced typo corrections and common mistakes
           const typoCorrections = {
             // Common typos
-            iphone: "iPhone",
-            ifone: "iPhone",
+            "iphone": "iPhone",
+            "ifone": "iPhone", 
             "i phone": "iPhone",
-            ipad: "iPad",
+            "ipad": "iPad",
             "i pad": "iPad",
-            samsng: "Samsung",
-            samsung: "Samsung",
-            samung: "Samsung",
-            labtop: "laptop",
-            laptop: "laptop",
-            computer: "laptop",
-            computr: "laptop",
-            moblie: "mobile phone",
-            mobile: "mobile phone",
-            phone: "mobile phone",
-            fone: "mobile phone",
+            "samsng": "Samsung",
+            "samsung": "Samsung",
+            "samung": "Samsung",
+            "labtop": "laptop",
+            "laptop": "laptop",
+            "computer": "laptop",
+            "computr": "laptop",
+            "moblie": "mobile phone",
+            "mobile": "mobile phone",
+            "phone": "mobile phone",
+            "fone": "mobile phone",
             "cel phone": "mobile phone",
-            cellphone: "mobile phone",
-
+            "cellphone": "mobile phone",
+            
             // Appliances typos
             "washing machine": "washing machine",
             "washng machine": "washing machine",
-            washer: "washing machine",
+            "washer": "washing machine",
             "automatic washing machine": "washing machine",
             "washing machne": "washing machine",
-            fridge: "refrigerator",
-            refridgerator: "refrigerator",
-            refrigrator: "refrigerator",
-            frezer: "freezer",
-            freezr: "freezer",
-            tv: "television",
-            televison: "television",
+            "fridge": "refrigerator",
+            "refridgerator": "refrigerator",
+            "refrigrator": "refrigerator",
+            "frezer": "freezer",
+            "freezr": "freezer",
+            "tv": "television",
+            "televison": "television",
             "smart tv": "Smart TV",
             "smat tv": "Smart TV",
-
+            
             // Gaming typos
-            playstation: "PlayStation",
+            "playstation": "PlayStation",
             "play station": "PlayStation",
-            plastation: "PlayStation",
-            ps5: "PlayStation 5",
+            "plastation": "PlayStation",
+            "ps5": "PlayStation 5",
             "ps 5": "PlayStation 5",
-            playstation5: "PlayStation 5",
-            xbox: "Xbox",
+            "playstation5": "PlayStation 5",
+            "xbox": "Xbox",
             "x box": "Xbox",
             "gaming console": "console",
             "game console": "console",
-            consol: "console",
-
+            "consol": "console",
+            
             // Beauty typos
-            perfume: "perfume",
-            perfum: "perfume",
-            parfume: "perfume",
-            fragrance: "perfume",
-            fragrnce: "perfume",
-            makeup: "makeup",
+            "perfume": "perfume",
+            "perfum": "perfume",
+            "parfume": "perfume",
+            "fragrance": "perfume",
+            "fragrnce": "perfume",
+            "makeup": "makeup",
             "make up": "makeup",
-            cosmetics: "makeup",
-            cosmetcs: "makeup",
-            lipstick: "lipstick",
-            lipstik: "lipstick",
-            mascara: "mascara",
-            maskara: "mascara",
-
+            "cosmetics": "makeup",
+            "cosmetcs": "makeup",
+            "lipstick": "lipstick",
+            "lipstik": "lipstick",
+            "mascara": "mascara",
+            "maskara": "mascara",
+            
             // Fashion typos
-            shoes: "shoes",
-            shose: "shoes",
-            shoe: "shoes",
-            sneakers: "sneakers",
-            sneaker: "sneakers",
-            sneker: "sneakers",
-            jeans: "jeans",
-            jean: "jeans",
-            shirt: "shirt",
-            shrt: "shirt",
-
+            "shoes": "shoes",
+            "shose": "shoes",
+            "shoe": "shoes",
+            "sneakers": "sneakers",
+            "sneaker": "sneakers",
+            "sneker": "sneakers",
+            "jeans": "jeans",
+            "jean": "jeans",
+            "shirt": "shirt",
+            "shrt": "shirt",
+            
             // Home typos
-            sofa: "sofa",
-            couch: "sofa",
-            chair: "chair",
-            chiar: "chair",
-            table: "table",
-            tabel: "table",
-            lamp: "lamp",
-            lmap: "lamp",
-            lighting: "lamp",
-            light: "lamp",
+            "sofa": "sofa",
+            "couch": "sofa",
+            "chair": "chair",
+            "chiar": "chair",
+            "table": "table",
+            "tabel": "table",
+            "lamp": "lamp",
+            "lmap": "lamp",
+            "lighting": "lamp",
+            "light": "lamp"
           };
 
           // Apply typo corrections
@@ -5573,91 +4953,91 @@
           // Advanced semantic mapping for non-products to closest products
           const semanticMappings = {
             // Activity to product mappings
-            cooking: "kitchen appliances cookware",
-            gaming: "PlayStation console Xbox",
-            entertainment: "television speakers headphones",
-            music: "speakers headphones audio",
-            photography: "camera accessories",
-            fitness: "fitness equipment sports",
-            reading: "lamp lighting books",
-            sleeping: "bed bedding pillows mattress",
-            cleaning: "vacuum cleaner cleaning supplies",
-            washing: "washing machine laundry",
-            storage: "furniture storage cabinet",
-            studying: "desk chair laptop books",
-            relaxing: "sofa chair comfort",
-            working: "desk chair laptop office",
-
+            "cooking": "kitchen appliances cookware",
+            "gaming": "PlayStation console Xbox",
+            "entertainment": "television speakers headphones",
+            "music": "speakers headphones audio",
+            "photography": "camera accessories",
+            "fitness": "fitness equipment sports",
+            "reading": "lamp lighting books",
+            "sleeping": "bed bedding pillows mattress",
+            "cleaning": "vacuum cleaner cleaning supplies",
+            "washing": "washing machine laundry",
+            "storage": "furniture storage cabinet",
+            "studying": "desk chair laptop books",
+            "relaxing": "sofa chair comfort",
+            "working": "desk chair laptop office",
+            
             // Location to product mappings
-            kitchen: "kitchen appliances cookware refrigerator microwave",
-            bedroom: "bed furniture bedding mattress pillows",
+            "kitchen": "kitchen appliances cookware refrigerator microwave",
+            "bedroom": "bed furniture bedding mattress pillows",
             "living room": "sofa television furniture coffee table",
-            bathroom: "bath towels shower accessories",
-            office: "desk chair laptop computer office supplies",
-            garage: "tools storage organization",
-            garden: "outdoor furniture gardening tools",
+            "bathroom": "bath towels shower accessories",
+            "office": "desk chair laptop computer office supplies",
+            "garage": "tools storage organization",
+            "garden": "outdoor furniture gardening tools",
             "dining room": "dining table chairs dinnerware",
-
+            
             // Occasion to product mappings
-            birthday: "gifts electronics jewelry perfume",
-            wedding: "home decor furniture gifts",
-            christmas: "electronics gifts decorations",
-            valentine: "jewelry perfume gifts romantic",
-            party: "speakers electronics party supplies",
-            work: "laptop office chair business",
-            school: "laptop backpack student supplies",
-            travel: "luggage electronics portable",
-            anniversary: "jewelry perfume gifts romantic",
-
+            "birthday": "gifts electronics jewelry perfume",
+            "wedding": "home decor furniture gifts",
+            "christmas": "electronics gifts decorations",
+            "valentine": "jewelry perfume gifts romantic",
+            "party": "speakers electronics party supplies",
+            "work": "laptop office chair business",
+            "school": "laptop backpack student supplies",
+            "travel": "luggage electronics portable",
+            "anniversary": "jewelry perfume gifts romantic",
+            
             // Generic categories to specific products
-            technology: "electronics laptop smartphone tablet",
-            gadgets: "electronics smartphone accessories tech",
-            appliances: "washing machine refrigerator microwave",
-            furniture: "sofa chair table bed",
-            beauty: "makeup skincare perfume cosmetics",
-            fashion: "shoes clothing accessories",
-            home: "furniture home decor appliances",
-            electronics: "smartphone laptop television",
-            accessories: "jewelry bags belts watches",
-
+            "technology": "electronics laptop smartphone tablet",
+            "gadgets": "electronics smartphone accessories tech",
+            "appliances": "washing machine refrigerator microwave",
+            "furniture": "sofa chair table bed",
+            "beauty": "makeup skincare perfume cosmetics",
+            "fashion": "shoes clothing accessories",
+            "home": "furniture home decor appliances",
+            "electronics": "smartphone laptop television",
+            "accessories": "jewelry bags belts watches",
+            
             // Abstract concepts to products
-            comfort: "sofa bed pillows mattress",
-            convenience: "appliances electronics smart home",
-            style: "fashion clothing shoes accessories",
-            luxury: "perfume jewelry watches premium",
-            efficiency: "appliances electronics productivity",
-            performance: "gaming laptop electronics sports",
-            organization: "storage furniture organizers",
-            decoration: "home decor furniture lighting",
-            safety: "security electronics safety equipment",
-            health: "fitness equipment health products",
-
+            "comfort": "sofa bed pillows mattress",
+            "convenience": "appliances electronics smart home",
+            "style": "fashion clothing shoes accessories",
+            "luxury": "perfume jewelry watches premium",
+            "efficiency": "appliances electronics productivity",
+            "performance": "gaming laptop electronics sports",
+            "organization": "storage furniture organizers",
+            "decoration": "home decor furniture lighting",
+            "safety": "security electronics safety equipment",
+            "health": "fitness equipment health products",
+            
             // Problem-solving to products
             "back pain": "chair mattress ergonomic",
             "storage space": "storage furniture organizers",
-            entertainment: "television gaming console books",
-            productivity: "laptop desk chair office",
-            relaxation: "sofa chair spa products",
-            organization: "storage containers furniture",
-            lighting: "lamps lighting fixtures bulbs",
-            temperature: "fan heater air conditioning",
-
+            "entertainment": "television gaming console books",
+            "productivity": "laptop desk chair office",
+            "relaxation": "sofa chair spa products",
+            "organization": "storage containers furniture",
+            "lighting": "lamps lighting fixtures bulbs",
+            "temperature": "fan heater air conditioning",
+            
             // Mood/feeling to products
-            stressed: "spa products relaxation comfort",
-            tired: "bed mattress comfort relaxation",
-            bored: "games books entertainment electronics",
-            creative: "art supplies crafting electronics",
-            romantic: "perfume jewelry candles",
-            energetic: "fitness equipment sports",
-            professional: "office supplies business attire",
-
+            "stressed": "spa products relaxation comfort",
+            "tired": "bed mattress comfort relaxation",
+            "bored": "games books entertainment electronics",
+            "creative": "art supplies crafting electronics",
+            "romantic": "perfume jewelry candles",
+            "energetic": "fitness equipment sports",
+            "professional": "office supplies business attire",
+            
             // Time-based needs
-            morning: "coffee maker breakfast kitchen",
-            evening: "lighting relaxation entertainment",
-            weekend: "entertainment relaxation hobbies",
-            vacation: "travel luggage portable electronics",
-            summer: "cooling fan outdoor furniture",
-            winter: "heating warm clothing bedding",
+            "morning": "coffee maker breakfast kitchen",
+            "evening": "lighting relaxation entertainment",
+            "weekend": "entertainment relaxation hobbies",
+            "vacation": "travel luggage portable electronics",
+            "summer": "cooling fan outdoor furniture",
+            "winter": "heating warm clothing bedding"
           };
 
           // Check for semantic mappings if no direct product match
@@ -5676,35 +5056,35 @@
           const patternMappings = [
             {
               pattern: /(?:automatic|auto).+wash/i,
-              replacement: "washing machine",
+              replacement: "washing machine"
             },
             {
               pattern: /(?:smart|led|4k).+tv/i,
-              replacement: "smart television",
+              replacement: "smart television"
             },
             {
               pattern: /(?:gaming|game).+(?:laptop|computer)/i,
-              replacement: "gaming laptop",
+              replacement: "gaming laptop"
             },
             {
               pattern: /(?:wireless|bluetooth).+(?:headphone|earphone)/i,
-              replacement: "wireless headphones",
+              replacement: "wireless headphones"
             },
             {
               pattern: /(?:hair|shampoo|conditioner)/i,
-              replacement: "haircare",
+              replacement: "haircare"
             },
             {
               pattern: /(?:skin|face|cream|moisturizer)/i,
-              replacement: "skincare",
+              replacement: "skincare"
             },
             {
               pattern: /(?:running|sport|athletic).+shoe/i,
-              replacement: "athletic shoes",
-            },
+              replacement: "athletic shoes"
+            }
           ];
 
-          patternMappings.forEach(({ pattern, replacement }) => {
+          patternMappings.forEach(({pattern, replacement}) => {
             if (pattern.test(processed)) {
               processed = replacement;
             }
@@ -5713,153 +5093,39 @@
           return processed || query;
         }
 
-        // Comprehensive product ID to page mapping
-        const productPageMap = {
-          // Appliances Products
-          "68252918a68b49cb06164204": "ProductPages/AppliancesProducts/product1.html",
-          "68252918a68b49cb06164205": "ProductPages/AppliancesProducts/product2.html",
-          "68252918a68b49cb06164206": "ProductPages/AppliancesProducts/product3.html",
-          "68252918a68b49cb06164207": "ProductPages/AppliancesProducts/product4.html",
-          "68252918a68b49cb06164208": "ProductPages/AppliancesProducts/product5.html",
-          "68252918a68b49cb06164209": "ProductPages/AppliancesProducts/product6.html",
-          "68252918a68b49cb0616420a": "ProductPages/AppliancesProducts/product7.html",
-          "68252918a68b49cb0616420b": "ProductPages/AppliancesProducts/product8.html",
-          "68252918a68b49cb0616420c": "ProductPages/AppliancesProducts/product9.html",
-          "68252918a68b49cb0616420d": "ProductPages/AppliancesProducts/product10.html",
-          "68252918a68b49cb0616420e": "ProductPages/AppliancesProducts/product11.html",
-          "68252918a68b49cb0616420f": "ProductPages/AppliancesProducts/product12.html",
-          "68252918a68b49cb06164210": "ProductPages/AppliancesProducts/product13.html",
-          "68252918a68b49cb06164211": "ProductPages/AppliancesProducts/product14.html",
-          "68252918a68b49cb06164212": "ProductPages/AppliancesProducts/product15.html",
-
-          // Electronics Products
-          "6819e22b123a4faad16613be": "ProductPages/Electronics products/product1.html",
-          "6819e22b123a4faad16613bf": "ProductPages/Electronics products/product2.html",
-          "6819e22b123a4faad16613c0": "ProductPages/Electronics products/product3.html",
-          "6819e22b123a4faad16613c1": "ProductPages/Electronics products/product4.html",
-          "6819e22b123a4faad16613c3": "ProductPages/Electronics products/product5.html",
-          "6819e22b123a4faad16613c4": "ProductPages/Electronics products/product6.html",
-          "6819e22b123a4faad16613c5": "ProductPages/Electronics products/product7.html",
-          "6819e22b123a4faad16613c6": "ProductPages/Electronics products/product8.html",
-          "6819e22b123a4faad16613c7": "ProductPages/Electronics products/product9.html",
-          "6819e22b123a4faad16613c8": "ProductPages/Electronics products/product10.html",
-          "6819e22b123a4faad16613c9": "ProductPages/Electronics products/product11.html",
-          "6819e22b123a4faad16613ca": "ProductPages/Electronics products/product12.html",
-          "6819e22b123a4faad16613cb": "ProductPages/Electronics products/product13.html",
-          "6819e22b123a4faad16613cc": "ProductPages/Electronics products/product14.html",
-          "6819e22b123a4faad16613c2": "ProductPages/Electronics products/product15.html",
-
-          // Home Products
-          "681dab0df9c9147444b452cd": "ProductPages/home products/product1.html",
-          "681dab0df9c9147444b452ce": "ProductPages/home products/product2.html",
-          "681dab0df9c9147444b452cf": "ProductPages/home products/product3.html",
-          "681dab0df9c9147444b452d0": "ProductPages/home products/product4.html",
-          "681dab0df9c9147444b452d1": "ProductPages/home products/product5.html",
-          "681dab0df9c9147444b452d2": "ProductPages/home products/product6.html",
-          "681dab0df9c9147444b452d3": "ProductPages/home products/product7.html",
-          "681dab0df9c9147444b452d4": "ProductPages/home products/product8.html",
-          "681dab0df9c9147444b452d5": "ProductPages/home products/product9.html",
-          "681dab0df9c9147444b452d6": "ProductPages/home products/product10.html",
-          "681dab0df9c9147444b452d7": "ProductPages/home products/product11.html",
-          "681dab0df9c9147444b452d8": "ProductPages/home products/product12.html",
-          "681dab0df9c9147444b452d9": "ProductPages/home products/product13.html",
-          "681dab0df9c9147444b452da": "ProductPages/home products/product14.html",
-          "681dab0df9c9147444b452db": "ProductPages/home products/product15.html",
-          "681dab0df9c9147444b452dc": "ProductPages/home products/product16.html",
-          "681dab0df9c9147444b452dd": "ProductPages/home products/product17.html",
-          "681dab0df9c9147444b452de": "ProductPages/home products/product18.html",
-          "681dab0df9c9147444b452df": "ProductPages/home products/product19.html",
-          "681dab0df9c9147444b452e0": "ProductPages/home products/product20.html",
-
-          // Fashion Products
-          "682b00c26977bd89257c0e8e": "ProductPages/fashion products/product1.html",
-          "682b00c26977bd89257c0e8f": "ProductPages/fashion products/product2.html",
-          "682b00c26977bd89257c0e90": "ProductPages/fashion products/product3.html",
-          "682b00c26977bd89257c0e91": "ProductPages/fashion products/product4.html",
-          "682b00c26977bd89257c0e92": "ProductPages/fashion products/product5.html",
-          "682b00c26977bd89257c0e93": "ProductPages/fashion products/product6.html",
-          "682b00c26977bd89257c0e94": "ProductPages/fashion products/product7.html",
-          "682b00c26977bd89257c0e95": "ProductPages/fashion products/product8.html",
-          "682b00c26977bd89257c0e96": "ProductPages/fashion products/product9.html",
-          "682b00c26977bd89257c0e97": "ProductPages/fashion products/product10.html",
-          "682b00c26977bd89257c0e98": "ProductPages/fashion products/product11.html",
-          "682b00c26977bd89257c0e99": "ProductPages/fashion products/product12.html",
-          "682b00c26977bd89257c0e9a": "ProductPages/fashion products/product13.html",
-          "682b00c26977bd89257c0e9b": "ProductPages/fashion products/product14.html",
-          "682b00c26977bd89257c0e9c": "ProductPages/fashion products/product15.html",
-
-          // Video Games Products
-          "682b00a46977bd89257c0e80": "ProductPages/videogames products/product1.html",
-          "682b00a46977bd89257c0e81": "ProductPages/videogames products/product2.html",
-          "682b00a46977bd89257c0e82": "ProductPages/videogames products/product3.html",
-          "682b00a46977bd89257c0e83": "ProductPages/videogames products/product4.html",
-          "682b00a46977bd89257c0e84": "ProductPages/videogames products/product5.html",
-          "682b00a46977bd89257c0e85": "ProductPages/videogames products/product6.html",
-          "682b00a46977bd89257c0e86": "ProductPages/videogames products/product7.html",
-          "682b00a46977bd89257c0e87": "ProductPages/videogames products/product8.html",
-          "682b00a46977bd89257c0e88": "ProductPages/videogames products/product9.html",
-          "682b00a46977bd89257c0e89": "ProductPages/videogames products/product10.html",
-          "682b00a46977bd89257c0e8a": "ProductPages/videogames products/product11.html",
-          "682b00a46977bd89257c0e8b": "ProductPages/videogames products/product12.html",
-          "682b00a46977bd89257c0e8c": "ProductPages/videogames products/product13.html",
-          "682b00a46977bd89257c0e8d": "ProductPages/videogames products/product14.html",
-
-          // Beauty Products
-          "682b00d16977bd89257c0e9d": "ProductPages/beauty products/product1.html",
-          "682b00d16977bd89257c0e9e": "ProductPages/beauty products/product2.html",
-          "682b00d16977bd89257c0e9f": "ProductPages/beauty products/product3.html",
-          "682b00d16977bd89257c0ea0": "ProductPages/beauty products/product4.html",
-          "682b00d16977bd89257c0ea1": "ProductPages/beauty products/product5.html",
-          "682b00d16977bd89257c0ea2": "ProductPages/beauty products/product6.html",
-          "682b00d16977bd89257c0ea3": "ProductPages/beauty products/product7.html",
-          "682b00d16977bd89257c0ea4": "ProductPages/beauty products/product8.html",
-          "682b00d16977bd89257c0ea5": "ProductPages/beauty products/product9.html",
-          "682b00d16977bd89257c0ea6": "ProductPages/beauty products/product10.html",
-          "682b00d16977bd89257c0ea7": "ProductPages/beauty products/product11.html",
-          "682b00d16977bd89257c0ea8": "ProductPages/beauty products/product12.html",
-          "682b00d16977bd89257c0ea9": "ProductPages/beauty products/product13.html",
-          "682b00d16977bd89257c0eaa": "ProductPages/beauty products/product14.html",
-          "682b00d16977bd89257c0eab": "ProductPages/beauty products/product15.html",
-          "682b00d16977bd89257c0eac": "ProductPages/beauty products/product16.html",
-          "682b00d16977bd89257c0ead": "ProductPages/beauty products/product17.html",
-          "682b00d16977bd89257c0eae": "ProductPages/beauty products/product18.html",
-          "682b00d16977bd89257c0eaf": "ProductPages/beauty products/product19.html",
-          "682b00d16977bd89257c0eb0": "ProductPages/beauty products/product20.html",
-        };
-
-        // Generate a URL for a product based on its data with exact product mapping
+        // Generate a URL for a product based on its data
         const getProductURL = (product) => {
-          // Check if we have an exact mapping for this product ID
-          if (product._id && productPageMap[product._id]) {
-            return productPageMap[product._id];
-          }
-
-          // Fallback: Try to determine category and use a generic mapping
-          let categoryFolder = "AppliancesProducts";
+          // Extract category from product or fallback
+          let category = "AppliancesProducts";
           if (product.category && product.category.name) {
             const categoryName = product.category.name.toLowerCase();
             if (categoryName.includes("electronics")) {
-              categoryFolder = "Electronics products";
+              category = "Electronics products";
             } else if (categoryName.includes("beauty")) {
-              categoryFolder = "beauty products";
+              category = "beauty products";
             } else if (categoryName.includes("home")) {
-              categoryFolder = "home products";
+              category = "home products";
             } else if (categoryName.includes("fashion")) {
-              categoryFolder = "fashion products";
+              category = "fashion products";
             } else if (
               categoryName.includes("videogames") ||
               categoryName.includes("video games")
             ) {
-              categoryFolder = "videogames products";
+              category = "videogames products";
             }
           }
 
-          // Generate a fallback URL - this might not exist but better than nothing
-          return `ProductPages/${categoryFolder}/product1.html`;
+          // Try to extract a numeric ID, or use a default
+          const productId = product._id
+            ? product._id.toString().slice(-2)
+            : "1";
+          const numericId = parseInt(productId) || 1;
+
+          return `ProductPages/${category}/product${numericId}.html`;
         };
 
         // Function to display search results in dropdown
-        const showSearchResults = (products, originalQuery, queryAnalysis) => {
+        const showSearchResults = (products, originalQuery, processedQuery) => {
           // Clear previous results
           dropdown.innerHTML = "";
 
@@ -5875,70 +5141,20 @@
             return;
           }
 
-          // Show AI understanding feedback if we have constraints
-          if (
-            queryAnalysis &&
-            (queryAnalysis.priceConstraints ||
-              queryAnalysis.filters.brand ||
-              queryAnalysis.specifications.length > 0)
-          ) {
-            const feedbackDiv = document.createElement("div");
-            feedbackDiv.className = "dropdown-header bg-primary text-white p-2";
-
-            let feedbackText =
-              '<i class="fa-solid fa-brain me-2"></i><small>AI Understanding: ';
-            let feedbackParts = [];
-
-            if (queryAnalysis.priceConstraints) {
-              const { min, max } = queryAnalysis.priceConstraints;
-              if (min && max) {
-                feedbackParts.push(
-                  `Price: EGP ${min.toFixed(0)} - ${max.toFixed(0)}`
-                );
-              } else if (max) {
-                feedbackParts.push(`Price: Under EGP ${max.toFixed(0)}`);
-              } else if (min) {
-                feedbackParts.push(`Price: Over EGP ${min.toFixed(0)}`);
-              }
-            }
-
-            if (queryAnalysis.filters.brand) {
-              feedbackParts.push(
-                `Brand: ${queryAnalysis.filters.brand.join(", ")}`
-              );
-            }
-
-            if (queryAnalysis.filters.color) {
-              feedbackParts.push(
-                `Color: ${queryAnalysis.filters.color.join(", ")}`
-              );
-            }
-
-            if (queryAnalysis.specifications.length > 0) {
-              queryAnalysis.specifications.forEach((spec) => {
-                if (spec.type === "storage") {
-                  feedbackParts.push(
-                    `Storage: ${spec.values
-                      .map((v) => `${v.value}${v.unit}`)
-                      .join(", ")}`
-                  );
-                } else if (spec.type === "ram") {
-                  feedbackParts.push(
-                    `RAM: ${spec.values.map((v) => `${v.value}GB`).join(", ")}`
-                  );
-                } else if (spec.type === "screenSize") {
-                  feedbackParts.push(
-                    `Screen: ${spec.values
-                      .map((v) => `${v.value}"`)
-                      .join(", ")}`
-                  );
-                }
-              });
-            }
-
-            feedbackText += feedbackParts.join(" | ") + "</small>";
-            feedbackDiv.innerHTML = feedbackText;
-            dropdown.appendChild(feedbackDiv);
+          // Check if we're showing semantic results (processed query is different from original)
+          const isSemanticSearch = processedQuery && processedQuery.toLowerCase() !== originalQuery.toLowerCase();
+          
+          // Add header if showing semantic results
+          if (isSemanticSearch) {
+            const headerDiv = document.createElement("div");
+            headerDiv.className = "dropdown-header bg-light border-bottom";
+            headerDiv.innerHTML = `
+              <small class="text-muted">
+                <i class="fa-solid fa-lightbulb text-warning"></i> 
+                Showing products related to "${originalQuery}"
+              </small>
+            `;
+            dropdown.appendChild(headerDiv);
           }
 
           // Create and append result items
@@ -5965,17 +5181,16 @@
             info.className = "flex-grow-1";
 
             const title = document.createElement("div");
-            title.textContent =
-              product.title.length > 60
-                ? product.title.substring(0, 60) + "..."
-                : product.title;
+            title.textContent = product.title.length > 60 
+              ? product.title.substring(0, 60) + "..." 
+              : product.title;
             title.className = "fw-bold text-dark";
             title.style.fontSize = "0.9em";
             info.appendChild(title);
 
             const priceDiv = document.createElement("div");
             priceDiv.className = "d-flex align-items-center";
-
+            
             const price = document.createElement("span");
             price.textContent = `EGP ${product.price?.toFixed(2) || "N/A"}`;
             price.className = "text-success fw-semibold";
@@ -5990,27 +5205,17 @@
               priceDiv.appendChild(categoryBadge);
             }
 
-            // Add relevance indicator if price matches constraints
-            if (queryAnalysis && queryAnalysis.priceConstraints) {
-              const productPrice = product.price || 0;
-              const { min, max } = queryAnalysis.priceConstraints;
-
-              let isInRange = true;
-              if (min && productPrice < min) isInRange = false;
-              if (max && productPrice > max) isInRange = false;
-
-              if (isInRange) {
-                const matchIcon = document.createElement("span");
-                matchIcon.className = "badge bg-success ms-2";
-                matchIcon.innerHTML =
-                  '<i class="fa-solid fa-check" style="font-size: 0.7em;"></i>';
-                matchIcon.title = "Matches your price criteria";
-                priceDiv.appendChild(matchIcon);
-              }
-            }
-
             info.appendChild(priceDiv);
             item.appendChild(info);
+
+            // Add relevance indicator for semantic search
+            if (isSemanticSearch && index < 3) {
+              const relevanceIcon = document.createElement("div");
+              relevanceIcon.className = "text-warning ms-2";
+              relevanceIcon.innerHTML = '<i class="fa-solid fa-star" style="font-size: 0.8em;"></i>';
+              relevanceIcon.title = "Highly relevant";
+              item.appendChild(relevanceIcon);
+            }
 
             // Handle click on result item
             item.addEventListener("click", () => {
@@ -6042,9 +5247,7 @@
             `;
             seeAllDiv.style.cursor = "pointer";
             seeAllDiv.addEventListener("click", () => {
-              window.location.href = `search-results.html?q=${encodeURIComponent(
-                originalQuery
-              )}`;
+              window.location.href = `search-results.html?q=${encodeURIComponent(originalQuery)}`;
             });
             dropdown.appendChild(seeAllDiv);
           }
@@ -6090,62 +5293,29 @@
               '<div class="p-2 text-center"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><span class="ms-2">Searching...</span></div>';
             dropdown.style.display = "block";
 
-            // Analyze the query to understand user intent
-            const queryAnalysis = analyzeQuery(query);
+            // Process the query to understand user intent
+            const processedQuery = processUserQuery(query);
 
             // Call AI search API
-            const result = await searchProductsAI(query);          // Display the results with context about AI understanding
-          if (result && result.products && result.products.length > 0) {
-            showSearchResults(result.products, query, queryAnalysis);
-          } else {
-            // Enhanced no results message with price feedback
-            let noResultsMessage = `No products found for "${query}"`;
-            if (queryAnalysis.priceConstraints) {
-              const { min, max } = queryAnalysis.priceConstraints;
-              if (min && max) {
-                noResultsMessage = `No products found for "${query}" between EGP ${min.toFixed(0)} - ${max.toFixed(0)}`;
-              } else if (max) {
-                noResultsMessage = `No products found for "${query}" under EGP ${max.toFixed(0)}`;
-              } else if (min) {
-                noResultsMessage = `No products found for "${query}" over EGP ${min.toFixed(0)}`;
-              }
+            const result = await searchProductsAI(query);
+
+            // Display the results with context about semantic mapping
+            if (result && result.products && result.products.length > 0) {
+              showSearchResults(result.products, query, processedQuery);
+            } else {
+              dropdown.innerHTML = `
+                <div class="p-3 text-center text-muted">
+                  <i class="fa-solid fa-search mb-2"></i>
+                  <div>No products found for "${query}"</div>
+                  <small>Try searching for specific products like "iPhone", "laptop", or "sofa"</small>
+                </div>
+              `;
+              dropdown.style.display = "block";
             }
+          }, 400); // 400ms debounce delay
+        });
 
-            dropdown.innerHTML = `
-              <div class="p-3 text-center text-muted">
-                <i class="fa-solid fa-search mb-2"></i>
-                <div>${noResultsMessage}</div>
-                <small>Try searching with constraints like:</small>
-                <div class="mt-2" style="font-size: 0.75em;">
-                  <div>"TV under 30k" - Find TVs under 30,000 EGP</div>
-                  <div>"laptop 16GB RAM" - Find laptops with 16GB RAM</div>
-                  <div>"Samsung phone" - Find Samsung phones</div>
-                  <div>"sofa between 5k and 15k" - Price range search</div>
-                </div>
-                <div class="mt-2">
-                  <a href="search-results.html?q=${encodeURIComponent(query)}" class="btn btn-sm btn-primary">
-                    See all results
-                  </a>
-                </div>
-              </div>
-            `;
-            dropdown.style.display = "block";
-          }        }, 400); // 400ms debounce delay
-      });
-
-      // Helper function to check if price is in range
-      function isPriceInRange(price, constraints) {
-        if (!constraints) return true;
-
-        const { min, max } = constraints;
-
-        if (min && price < min) return false;
-        if (max && price > max) return false;
-
-        return true;
-      }
-
-      // Close dropdown when clicking outside
+        // Close dropdown when clicking outside
         document.addEventListener("click", function (e) {
           if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
             dropdown.style.display = "none";
@@ -6218,6 +5388,218 @@
             dropdown.style.display = "block";
             return;
           }
+          // Automated mapping from productId to HTML page (AppliancesProducts only)
+          const productPageMap = {
+            // Appliances Products
+            "68252918a68b49cb06164204":
+              "ProductPages/AppliancesProducts/product1.html",
+            "68252918a68b49cb06164205":
+              "ProductPages/AppliancesProducts/product2.html",
+            "68252918a68b49cb06164206":
+              "ProductPages/AppliancesProducts/product3.html",
+            "68252918a68b49cb06164207":
+              "ProductPages/AppliancesProducts/product4.html",
+            "68252918a68b49cb06164208":
+              "ProductPages/AppliancesProducts/product5.html",
+            "68252918a68b49cb06164209":
+              "ProductPages/AppliancesProducts/product6.html",
+            "68252918a68b49cb0616420a":
+              "ProductPages/AppliancesProducts/product7.html",
+            "68252918a68b49cb0616420b":
+              "ProductPages/AppliancesProducts/product8.html",
+            "68252918a68b49cb0616420c":
+              "ProductPages/AppliancesProducts/product9.html",
+            "68252918a68b49cb0616420d":
+              "ProductPages/AppliancesProducts/product10.html",
+            "68252918a68b49cb0616420e":
+              "ProductPages/AppliancesProducts/product11.html",
+            "68252918a68b49cb0616420f":
+              "ProductPages/AppliancesProducts/product12.html",
+            "68252918a68b49cb06164210":
+              "ProductPages/AppliancesProducts/product13.html",
+            "68252918a68b49cb06164211":
+              "ProductPages/AppliancesProducts/product14.html",
+            "68252918a68b49cb06164212":
+              "ProductPages/AppliancesProducts/product15.html",
+
+            // Electronics Products
+            "6819e22b123a4faad16613be":
+              "ProductPages/Electronics products/product1.html",
+            "6819e22b123a4faad16613bf":
+              "ProductPages/Electronics products/product2.html",
+            "6819e22b123a4faad16613c0":
+              "ProductPages/Electronics products/product3.html",
+            "6819e22b123a4faad16613c1":
+              "ProductPages/Electronics products/product4.html",
+            "6819e22b123a4faad16613c3":
+              "ProductPages/Electronics products/product5.html",
+            "6819e22b123a4faad16613c4":
+              "ProductPages/Electronics products/product6.html",
+            "6819e22b123a4faad16613c5":
+              "ProductPages/Electronics products/product7.html",
+            "6819e22b123a4faad16613c6":
+              "ProductPages/Electronics products/product8.html",
+            "6819e22b123a4faad16613c7":
+              "ProductPages/Electronics products/product9.html",
+            "6819e22b123a4faad16613c8":
+              "ProductPages/Electronics products/product10.html",
+            "6819e22b123a4faad16613c9":
+              "ProductPages/Electronics products/product11.html",
+            "6819e22b123a4faad16613ca":
+              "ProductPages/Electronics products/product12.html",
+            "6819e22b123a4faad16613cb":
+              "ProductPages/Electronics products/product13.html",
+            "6819e22b123a4faad16613cc":
+              "ProductPages/Electronics products/product14.html",
+            "6819e22b123a4faad16613c2":
+              "ProductPages/Electronics products/product15.html",
+
+            // Home Products
+            "681dab0df9c9147444b452cd":
+              "ProductPages/home products/product1.html",
+            "681dab0df9c9147444b452ce":
+              "ProductPages/home products/product2.html",
+            "681dab0df9c9147444b452cf":
+              "ProductPages/home products/product3.html",
+            "681dab0df9c9147444b452d0":
+              "ProductPages/home products/product4.html",
+            "681dab0df9c9147444b452d1":
+              "ProductPages/home products/product5.html",
+            "681dab0df9c9147444b452d2":
+              "ProductPages/home products/product6.html",
+            "681dab0df9c9147444b452d3":
+              "ProductPages/home products/product7.html",
+            "681dab0df9c9147444b452d4":
+              "ProductPages/home products/product8.html",
+            "681dab0df9c9147444b452d5":
+              "ProductPages/home products/product9.html",
+            "681dab0df9c9147444b452d6":
+              "ProductPages/home products/product10.html",
+            "681dab0df9c9147444b452d7":
+              "ProductPages/home products/product11.html",
+            "681dab0df9c9147444b452d8":
+              "ProductPages/home products/product12.html",
+            "681dab0df9c9147444b452d9":
+              "ProductPages/home products/product13.html",
+            "681dab0df9c9147444b452da":
+              "ProductPages/home products/product14.html",
+            "681dab0df9c9147444b452db":
+              "ProductPages/home products/product15.html",
+            "681dab0df9c9147444b452dc":
+              "ProductPages/home products/product16.html",
+            "681dab0df9c9147444b452dd":
+              "ProductPages/home products/product17.html",
+            "681dab0df9c9147444b452de":
+              "ProductPages/home products/product18.html",
+            "681dab0df9c9147444b452df":
+              "ProductPages/home products/product19.html",
+            "681dab0df9c9147444b452e0":
+              "ProductPages/home products/product20.html",
+
+            // Fashion Products
+            "682b00c26977bd89257c0e8e":
+              "ProductPages/fashion products/product1.html",
+            "682b00c26977bd89257c0e8f":
+              "ProductPages/fashion products/product2.html",
+            "682b00c26977bd89257c0e90":
+              "ProductPages/fashion products/product3.html",
+            "682b00c26977bd89257c0e91":
+              "ProductPages/fashion products/product4.html",
+            "682b00c26977bd89257c0e92":
+              "ProductPages/fashion products/product5.html",
+            "682b00c26977bd89257c0e93":
+              "ProductPages/fashion products/product6.html",
+            "682b00c26977bd89257c0e94":
+              "ProductPages/fashion products/product7.html",
+            "682b00c26977bd89257c0e95":
+              "ProductPages/fashion products/product8.html",
+            "682b00c26977bd89257c0e96":
+              "ProductPages/fashion products/product9.html",
+            "682b00c26977bd89257c0e97":
+              "ProductPages/fashion products/product10.html",
+            "682b00c26977bd89257c0e98":
+              "ProductPages/fashion products/product11.html",
+            "682b00c26977bd89257c0e99":
+              "ProductPages/fashion products/product12.html",
+            "682b00c26977bd89257c0e9a":
+              "ProductPages/fashion products/product13.html",
+            "682b00c26977bd89257c0e9b":
+              "ProductPages/fashion products/product14.html",
+            "682b00c26977bd89257c0e9c":
+              "ProductPages/fashion products/product15.html",
+
+            // Video Games Products
+            "682b00a46977bd89257c0e80":
+              "ProductPages/videogames products/product1.html",
+            "682b00a46977bd89257c0e81":
+              "ProductPages/videogames products/product2.html",
+            "682b00a46977bd89257c0e82":
+              "ProductPages/videogames products/product3.html",
+            "682b00a46977bd89257c0e83":
+              "ProductPages/videogames products/product4.html",
+            "682b00a46977bd89257c0e84":
+              "ProductPages/videogames products/product5.html",
+            "682b00a46977bd89257c0e85":
+              "ProductPages/videogames products/product6.html",
+            "682b00a46977bd89257c0e86":
+              "ProductPages/videogames products/product7.html",
+            "682b00a46977bd89257c0e87":
+              "ProductPages/videogames products/product8.html",
+            "682b00a46977bd89257c0e88":
+              "ProductPages/videogames products/product9.html",
+            "682b00a46977bd89257c0e89":
+              "ProductPages/videogames products/product10.html",
+            "682b00a46977bd89257c0e8a":
+              "ProductPages/videogames products/product11.html",
+            "682b00a46977bd89257c0e8b":
+              "ProductPages/videogames products/product12.html",
+            "682b00a46977bd89257c0e8c":
+              "ProductPages/videogames products/product13.html",
+            "682b00a46977bd89257c0e8d":
+              "ProductPages/videogames products/product14.html",
+
+            // Beauty Products
+            "682b00d16977bd89257c0e9d":
+              "ProductPages/beauty products/product1.html",
+            "682b00d16977bd89257c0e9e":
+              "ProductPages/beauty products/product2.html",
+            "682b00d16977bd89257c0e9f":
+              "ProductPages/beauty products/product3.html",
+            "682b00d16977bd89257c0ea0":
+              "ProductPages/beauty products/product4.html",
+            "682b00d16977bd89257c0ea1":
+              "ProductPages/beauty products/product5.html",
+            "682b00d16977bd89257c0ea2":
+              "ProductPages/beauty products/product6.html",
+            "682b00d16977bd89257c0ea3":
+              "ProductPages/beauty products/product7.html",
+            "682b00d16977bd89257c0ea4":
+              "ProductPages/beauty products/product8.html",
+            "682b00d16977bd89257c0ea5":
+              "ProductPages/beauty products/product9.html",
+            "682b00d16977bd89257c0ea6":
+              "ProductPages/beauty products/product10.html",
+            "682b00d16977bd89257c0ea7":
+              "ProductPages/beauty products/product11.html",
+            "682b00d16977bd89257c0ea8":
+              "ProductPages/beauty products/product12.html",
+            "682b00d16977bd89257c0ea9":
+              "ProductPages/beauty products/product13.html",
+            "682b00d16977bd89257c0eaa":
+              "ProductPages/beauty products/product14.html",
+            "682b00d16977bd89257c0eab":
+              "ProductPages/beauty products/product15.html",
+            "682b00d16977bd89257c0eac":
+              "ProductPages/beauty products/product16.html",
+            "682b00d16977bd89257c0ead":
+              "ProductPages/beauty products/product17.html",
+            "682b00d16977bd89257c0eae":
+              "ProductPages/beauty products/product18.html",
+            "682b00d16977bd89257c0eaf":
+              "ProductPages/beauty products/product19.html",
+            "682b00d16977bd89257c0eb0":
+              "ProductPages/beauty products/product20.html",
+          };
 
           // Highlight function
           function highlight(text, term) {
@@ -6227,7 +5609,6 @@
               "<mark>$1</mark>"
             );
           }
-
           dropdown.innerHTML = items
             .map((item) => {
               const page = productPageMap[item._id] || "#";
