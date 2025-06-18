@@ -354,7 +354,7 @@
           <input
             class="form-control me-2 navsearch"
             type="search"
-            placeholder="What are you looking for?"
+            placeholder="Search for products or type any command"
             aria-label="Search"
             autocomplete="off"
           />
@@ -662,25 +662,25 @@
             <div class="row">
               <div class="col-md-4">
                 <small class="text-muted">
-                  <strong>Electronics:</strong><br>
-                  "Go to TVs"<br>
-                  "Go to laptops"<br>
+                  <strong>Electronics:</strong><br />
+                  "Go to TVs"<br />
+                  "Go to laptops"<br />
                   "Go to tablets"
                 </small>
               </div>
               <div class="col-md-4">
                 <small class="text-muted">
-                  <strong>Home & Kitchen:</strong><br>
-                  "Go to kitchen dining"<br>
-                  "Go to home decor"<br>
+                  <strong>Home & Kitchen:</strong><br />
+                  "Go to kitchen dining"<br />
+                  "Go to home decor"<br />
                   "Go to bath and bedding"
                 </small>
               </div>
               <div class="col-md-4">
                 <small class="text-muted">
-                  <strong>Beauty & Care:</strong><br>
-                  "Go to skincare"<br>
-                  "Go to haircare"<br>
+                  <strong>Beauty & Care:</strong><br />
+                  "Go to skincare"<br />
+                  "Go to haircare"<br />
                   "Go to fragrance"
                 </small>
               </div>
@@ -689,7 +689,7 @@
           <div class="alert alert-info mt-3 py-2">
             <small>
               <i class="fa-solid fa-lightbulb me-1"></i>
-              <strong>Pro Tips:</strong><br>
+              <strong>Pro Tips:</strong><br />
               🎯 Voice stops automatically after 2.5 seconds of silence<br />
               💬 Use natural language - "I want", "Show me", "Go to"<br />
               🧠 Speak clearly and wait for processing<br />
@@ -5652,16 +5652,8 @@
           dropdown.innerHTML = "";
 
           if (!products || products.length === 0) {
-            dropdown.innerHTML = `
-              <div class="p-4 text-center text-muted">
-                <div class="mb-3">
-                  <i class="fa-solid fa-search" style="font-size: 2rem; color: #dee2e6;"></i>
-                </div>
-                <div class="fw-semibold mb-2">No products found</div>
-                <small class="text-muted">Try searching for "iPhone", "laptop", "sofa", or "perfume"</small>
-              </div>
-            `;
-            dropdown.style.display = "block";
+            // Don't show dropdown for no results
+            dropdown.style.display = "none";
             return;
           }
 
@@ -5897,7 +5889,244 @@
           }, 10);
         };
 
-        // Handle search form submission to redirect to search results page
+        // Voice command navigation function (shared with voice search)
+        const processVoiceCommand = (command) => {
+          const lowerCommand = command.toLowerCase().trim();
+          console.log("Processing voice command:", lowerCommand);
+
+          // Navigation commands mapping
+          const navigationMap = {
+            // Main categories
+            "go to electronics": "elecCat.html",
+            "navigate to electronics": "elecCat.html",
+            "open electronics": "elecCat.html",
+            electronics: "elecCat.html",
+            "electronics section": "elecCat.html",
+
+            "go to appliances": "ApplianCat.html",
+            "navigate to appliances": "ApplianCat.html",
+            "open appliances": "ApplianCat.html",
+            appliances: "ApplianCat.html",
+            "appliances section": "ApplianCat.html",
+
+            "go to home": "HomeCat.html",
+            "navigate to home": "HomeCat.html",
+            "open home": "HomeCat.html",
+            "home section": "HomeCat.html",
+            "home category": "HomeCat.html",
+
+            "go to video games": "videogamecat.html",
+            "navigate to video games": "videogamecat.html",
+            "open video games": "videogamecat.html",
+            "video games": "videogamecat.html",
+            "gaming section": "videogamecat.html",
+            "go to gaming": "videogamecat.html",
+            gaming: "videogamecat.html",
+
+            "go to fashion": "Fashion.html",
+            "navigate to fashion": "Fashion.html",
+            "open fashion": "Fashion.html",
+            fashion: "Fashion.html",
+            "fashion section": "Fashion.html",
+
+            "go to beauty": "Beauty.html",
+            "navigate to beauty": "Beauty.html",
+            "open beauty": "Beauty.html",
+            beauty: "Beauty.html",
+            "beauty section": "Beauty.html",
+            "go to beauty and fragrance": "Beauty.html",
+            "beauty and fragrance": "Beauty.html",
+
+            // Subcategories - Electronics
+            "go to mobile": "mobileandtablets.html",
+            "go to mobile phones": "mobileandtablets.html",
+            "mobile phones": "mobileandtablets.html",
+            "go to tablets": "mobileandtablets.html",
+            tablets: "mobileandtablets.html",
+            "go to mobile and tablets": "mobileandtablets.html",
+            "mobile and tablets": "mobileandtablets.html",
+
+            "go to tvs": "tvs.html",
+            "go to tv": "tvs.html",
+            televisions: "tvs.html",
+            television: "tvs.html",
+            tvs: "tvs.html",
+
+            "go to laptops": "laptop.html",
+            "go to laptop": "laptop.html",
+            laptops: "laptop.html",
+            laptop: "laptop.html",
+            computers: "laptop.html",
+
+            // Subcategories - Appliances
+            "go to large appliances": "largeAppliances.html",
+            "large appliances": "largeAppliances.html",
+            "go to small appliances": "smallAppliances.html",
+            "small appliances": "smallAppliances.html",
+
+            // Subcategories - Home
+            "go to furniture": "furniture.html",
+            furniture: "furniture.html",
+            "go to home decor": "homeDecor.html",
+            "home decor": "homeDecor.html",
+            "go to kitchen": "Kitchen&Dining.html",
+            "go to kitchen and dining": "Kitchen&Dining.html",
+            "kitchen and dining": "Kitchen&Dining.html",
+            "kitchen dining": "Kitchen&Dining.html",
+            "go to bath and bedding": "bath&bedding.html",
+            "bath and bedding": "bath&bedding.html",
+
+            // Subcategories - Video Games
+            "go to console": "console.html",
+            "go to consoles": "console.html",
+            "gaming console": "console.html",
+            "gaming consoles": "console.html",
+            consoles: "console.html",
+            console: "console.html",
+
+            "go to controllers": "controller.html",
+            "go to controller": "controller.html",
+            controllers: "controller.html",
+            controller: "controller.html",
+            "gaming controllers": "controller.html",
+
+            "go to accessories": "accessories.html",
+            accessories: "accessories.html",
+            "gaming accessories": "accessories.html",
+
+            // Subcategories - Fashion
+            "go to women fashion": "woman.html",
+            "go to womens fashion": "woman.html",
+            "go to women's fashion": "woman.html",
+            "women's fashion": "woman.html",
+            "womens fashion": "woman.html",
+            "women fashion": "woman.html",
+
+            "go to men fashion": "men.html",
+            "go to mens fashion": "men.html",
+            "go to men's fashion": "men.html",
+            "men's fashion": "men.html",
+            "mens fashion": "men.html",
+            "men fashion": "men.html",
+
+            "go to kids fashion": "kids.html",
+            "go to kids' fashion": "kids.html",
+            "kids' fashion": "kids.html",
+            "kids fashion": "kids.html",
+
+            // Subcategories - Beauty
+            "go to makeup": "makeup.html",
+            makeup: "makeup.html",
+            "go to skincare": "skincare.html",
+            skincare: "skincare.html",
+            "skin care": "skincare.html",
+            "go to haircare": "haircare.html",
+            haircare: "haircare.html",
+            "hair care": "haircare.html",
+            "go to fragrance": "Fragrance.html",
+            fragrance: "Fragrance.html",
+            perfume: "Fragrance.html",
+
+            // Account and utility pages
+            "go to cart": "cart.html",
+            "open cart": "cart.html",
+            "my cart": "cart.html",
+            cart: "cart.html",
+            "shopping cart": "cart.html",
+
+            "go to profile": "profile.html",
+            "open profile": "profile.html",
+            "my profile": "profile.html",
+            profile: "profile.html",
+
+            "go to orders": "orders.html",
+            "open orders": "orders.html",
+            "my orders": "orders.html",
+            orders: "orders.html",
+            "order history": "orders.html",
+
+            "go to login": "signinPage.html",
+            "open login": "signinPage.html",
+            login: "signinPage.html",
+            "sign in": "signinPage.html",
+            "log in": "signinPage.html",
+
+            "go to signup": "signupPage.html",
+            "open signup": "signupPage.html",
+            signup: "signupPage.html",
+            "sign up": "signupPage.html",
+            register: "signupPage.html",
+
+            "go to seller dashboard": "seller-dashboard.html",
+            "seller dashboard": "seller-dashboard.html",
+            dashboard: "seller-dashboard.html",
+
+            "go to admin": "adminPage.html",
+            "admin panel": "adminPage.html",
+            admin: "adminPage.html",
+
+            "go to seller": "seller.html",
+            "become seller": "seller.html",
+            seller: "seller.html",
+
+            // Home navigation
+            "go home": "index.html",
+            "go to home page": "index.html",
+            "home page": "index.html",
+            "main page": "index.html",
+            "go to main": "index.html",
+
+            // Special sections
+            "go to sale": "#FreshSale",
+            "go to today sale": "#FreshSale",
+            "go to today's sale": "#FreshSale",
+            "today sale": "#FreshSale",
+            "today's sale": "#FreshSale",
+            sale: "#FreshSale",
+            deals: "#FreshSale",
+          };
+
+          // Check for exact navigation matches first
+          if (navigationMap[lowerCommand]) {
+            const destination = navigationMap[lowerCommand];
+            if (destination.startsWith("#")) {
+              // Scroll to section
+              const element = document.querySelector(destination);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+                return true;
+              }
+            } else {
+              // Navigate to page
+              window.location.href = destination;
+              return true;
+            }
+          }
+
+          // Check for partial matches with "go to" prefix
+          for (const [key, value] of Object.entries(navigationMap)) {
+            if (
+              key.includes(lowerCommand) ||
+              lowerCommand.includes(key.replace("go to ", ""))
+            ) {
+              const destination = value;
+              if (destination.startsWith("#")) {
+                const element = document.querySelector(destination);
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                  return true;
+                }
+              } else {
+                window.location.href = destination;
+                return true;
+              }
+            }
+          }
+
+          return false; // Command not recognized
+        };
+
+        // Handle search form submission with voice command processing
         const searchForm = document.querySelector('form[role="search"]');
         if (searchForm) {
           searchForm.addEventListener("submit", function (e) {
@@ -5906,7 +6135,15 @@
             const query = searchInput.value.trim();
 
             if (query) {
-              // Redirect to search results page
+              // First try to process as voice command
+              if (processVoiceCommand(query)) {
+                // Command was recognized and executed
+                searchInput.value = ""; // Clear the search input
+                dropdown.style.display = "none"; // Hide dropdown
+                return;
+              }
+
+              // If not a voice command, proceed with regular search
               window.location.href = `search-results.html?q=${encodeURIComponent(
                 query
               )}`;
@@ -5914,7 +6151,7 @@
           });
         }
 
-        // Add event listener for search input with debouncing
+        // Add event listener for search input with debouncing and command detection
         searchInput.addEventListener("input", function () {
           const query = this.value.trim();
 
@@ -5924,6 +6161,15 @@
           // Don't search for empty queries or very short ones
           if (!query || query.length < 2) {
             dropdown.style.display = "none";
+            return;
+          }
+
+          // Check if this looks like a voice command
+          const isCommand = isVoiceCommand(query);
+
+          if (isCommand) {
+            // Show command suggestion in dropdown and don't proceed with product search
+            showCommandSuggestion(query);
             return;
           }
 
@@ -5944,17 +6190,348 @@
             if (result && result.products && result.products.length > 0) {
               showSearchResults(result.products, query, processedQuery);
             } else {
-              dropdown.innerHTML = `
-                <div class="p-3 text-center text-muted">
-                  <i class="fa-solid fa-search mb-2"></i>
-                  <div>No products found for "${query}"</div>
-                  <small>Try searching for specific products like "iPhone", "laptop", or "sofa"</small>
-                </div>
-              `;
-              dropdown.style.display = "block";
+              // Don't show dropdown for no results
+              dropdown.style.display = "none";
             }
           }, 400); // 400ms debounce delay
         });
+
+        // Function to detect if input looks like a voice command
+        function isVoiceCommand(query) {
+          const lowerQuery = query.toLowerCase().trim();
+
+          // Command patterns
+          const commandPatterns = [
+            /^(go to|navigate to|open|show me)\s+/i,
+            /^(my|open my)\s+(cart|profile|orders)/i,
+            /^(login|log in|sign in|signup|sign up|register)$/i,
+            /^(cart|profile|orders|dashboard|admin)$/i,
+            /^(home|main)\s*page$/i,
+            /^(today|today's)\s*sale$/i,
+            /^(electronics|appliances|fashion|beauty|home|video games|gaming)(\s+(section|category))?$/i,
+            /^(mobile|tablets|tvs|laptops|computers|furniture|makeup|skincare|haircare|fragrance|console|controllers|accessories)$/i,
+            /^(women|men|kids)\s*fashion$/i,
+            /^(large|small)\s*appliances$/i,
+            /^(home\s*decor|kitchen\s*dining|bath\s*bedding)$/i,
+          ];
+
+          return commandPatterns.some((pattern) => pattern.test(lowerQuery));
+        }
+
+        // Function to show command suggestion in dropdown
+        function showCommandSuggestion(query) {
+          const lowerQuery = query.toLowerCase().trim();
+
+          // Try to get exact match first
+          const navigationMap = {
+            // Main categories
+            "go to electronics": "elecCat.html",
+            "navigate to electronics": "elecCat.html",
+            "open electronics": "elecCat.html",
+            electronics: "elecCat.html",
+            "electronics section": "elecCat.html",
+
+            "go to appliances": "ApplianCat.html",
+            "navigate to appliances": "ApplianCat.html",
+            "open appliances": "ApplianCat.html",
+            appliances: "ApplianCat.html",
+            "appliances section": "ApplianCat.html",
+
+            "go to home": "HomeCat.html",
+            "navigate to home": "HomeCat.html",
+            "open home": "HomeCat.html",
+            "home section": "HomeCat.html",
+            "home category": "HomeCat.html",
+
+            "go to video games": "videogamecat.html",
+            "navigate to video games": "videogamecat.html",
+            "open video games": "videogamecat.html",
+            "video games": "videogamecat.html",
+            "gaming section": "videogamecat.html",
+            "go to gaming": "videogamecat.html",
+            gaming: "videogamecat.html",
+
+            "go to fashion": "Fashion.html",
+            "navigate to fashion": "Fashion.html",
+            "open fashion": "Fashion.html",
+            fashion: "Fashion.html",
+            "fashion section": "Fashion.html",
+
+            "go to beauty": "Beauty.html",
+            "navigate to beauty": "Beauty.html",
+            "open beauty": "Beauty.html",
+            beauty: "Beauty.html",
+            "beauty section": "Beauty.html",
+            "go to beauty and fragrance": "Beauty.html",
+            "beauty and fragrance": "Beauty.html",
+
+            // Subcategories
+            "go to mobile": "mobileandtablets.html",
+            "go to mobile phones": "mobileandtablets.html",
+            "mobile phones": "mobileandtablets.html",
+            "go to tablets": "mobileandtablets.html",
+            tablets: "mobileandtablets.html",
+            "go to mobile and tablets": "mobileandtablets.html",
+            "mobile and tablets": "mobileandtablets.html",
+
+            "go to tvs": "tvs.html",
+            "go to tv": "tvs.html",
+            televisions: "tvs.html",
+            television: "tvs.html",
+            tvs: "tvs.html",
+
+            "go to laptops": "laptop.html",
+            "go to laptop": "laptop.html",
+            laptops: "laptop.html",
+            laptop: "laptop.html",
+            computers: "laptop.html",
+
+            "go to large appliances": "largeAppliances.html",
+            "large appliances": "largeAppliances.html",
+            "go to small appliances": "smallAppliances.html",
+            "small appliances": "smallAppliances.html",
+
+            "go to furniture": "furniture.html",
+            furniture: "furniture.html",
+            "go to home decor": "homeDecor.html",
+            "home decor": "homeDecor.html",
+            "go to kitchen": "Kitchen&Dining.html",
+            "go to kitchen and dining": "Kitchen&Dining.html",
+            "kitchen and dining": "Kitchen&Dining.html",
+            "kitchen dining": "Kitchen&Dining.html",
+            "go to bath and bedding": "bath&bedding.html",
+            "bath and bedding": "bath&bedding.html",
+
+            "go to console": "console.html",
+            "go to consoles": "console.html",
+            "gaming console": "console.html",
+            "gaming consoles": "console.html",
+            consoles: "console.html",
+            console: "console.html",
+
+            "go to controllers": "controller.html",
+            "go to controller": "controller.html",
+            controllers: "controller.html",
+            controller: "controller.html",
+            "gaming controllers": "controller.html",
+
+            "go to accessories": "accessories.html",
+            accessories: "accessories.html",
+            "gaming accessories": "accessories.html",
+
+            "go to women fashion": "woman.html",
+            "go to womens fashion": "woman.html",
+            "go to women's fashion": "woman.html",
+            "women's fashion": "woman.html",
+            "womens fashion": "woman.html",
+            "women fashion": "woman.html",
+
+            "go to men fashion": "men.html",
+            "go to mens fashion": "men.html",
+            "go to men's fashion": "men.html",
+            "men's fashion": "men.html",
+            "mens fashion": "men.html",
+            "men fashion": "men.html",
+
+            "go to kids fashion": "kids.html",
+            "go to kids' fashion": "kids.html",
+            "kids' fashion": "kids.html",
+            "kids fashion": "kids.html",
+
+            "go to makeup": "makeup.html",
+            makeup: "makeup.html",
+            "go to skincare": "skincare.html",
+            skincare: "skincare.html",
+            "skin care": "skincare.html",
+            "go to haircare": "haircare.html",
+            haircare: "haircare.html",
+            "hair care": "haircare.html",
+            "go to fragrance": "Fragrance.html",
+            fragrance: "Fragrance.html",
+            perfume: "Fragrance.html",
+
+            // Account and utility pages
+            "go to cart": "cart.html",
+            "open cart": "cart.html",
+            "my cart": "cart.html",
+            cart: "cart.html",
+            "shopping cart": "cart.html",
+
+            "go to profile": "profile.html",
+            "open profile": "profile.html",
+            "my profile": "profile.html",
+            profile: "profile.html",
+
+            "go to orders": "orders.html",
+            "open orders": "orders.html",
+            "my orders": "orders.html",
+            orders: "orders.html",
+            "order history": "orders.html",
+
+            "go to login": "signinPage.html",
+            "open login": "signinPage.html",
+            login: "signinPage.html",
+            "sign in": "signinPage.html",
+            "log in": "signinPage.html",
+
+            "go to signup": "signupPage.html",
+            "open signup": "signupPage.html",
+            signup: "signupPage.html",
+            "sign up": "signupPage.html",
+            register: "signupPage.html",
+
+            "go to seller dashboard": "seller-dashboard.html",
+            "seller dashboard": "seller-dashboard.html",
+            dashboard: "seller-dashboard.html",
+
+            "go to admin": "adminPage.html",
+            "admin panel": "adminPage.html",
+            admin: "adminPage.html",
+
+            "go to seller": "seller.html",
+            "become seller": "seller.html",
+            seller: "seller.html",
+
+            "go home": "index.html",
+            "go to home page": "index.html",
+            "home page": "index.html",
+            "main page": "index.html",
+            "go to main": "index.html",
+
+            "go to sale": "#FreshSale",
+            "go to today sale": "#FreshSale",
+            "go to today's sale": "#FreshSale",
+            "today sale": "#FreshSale",
+            "today's sale": "#FreshSale",
+            sale: "#FreshSale",
+            deals: "#FreshSale",
+          };
+
+          let suggestions = [];
+
+          // Find exact matches and similar commands
+          for (const [command, destination] of Object.entries(navigationMap)) {
+            if (command === lowerQuery) {
+              // Exact match - show as primary suggestion
+              suggestions.unshift({
+                command: command,
+                destination: destination,
+                type: "exact",
+                display: `Execute: "${command}"`,
+              });
+            } else if (
+              command.includes(lowerQuery) ||
+              (lowerQuery.length > 3 &&
+                command.includes(lowerQuery.slice(0, -1)))
+            ) {
+              // Partial match
+              suggestions.push({
+                command: command,
+                destination: destination,
+                type: "partial",
+                display: `Did you mean: "${command}"?`,
+              });
+            }
+          }
+
+          // Limit suggestions
+          suggestions = suggestions.slice(0, 5);
+
+          // Always show "Command: (typed command)" regardless of matches
+          dropdown.innerHTML = `
+            <div class="px-3 py-2 bg-white text-dark border-bottom">
+              <small class="d-flex align-items-center">
+                <i class="fa-solid fa-terminal me-2"></i> 
+                Command: "${query}"
+              </small>
+            </div>
+            ${
+              suggestions.length > 0
+                ? suggestions
+                    .map(
+                      (suggestion) => `
+              <div class="dropdown-item command-suggestion d-flex align-items-center p-3" 
+                   data-command="${suggestion.command}" 
+                   data-destination="${suggestion.destination}"
+                   style="cursor: pointer; border-bottom: 1px solid #f8f9fa;">
+                <div class="me-3">
+                  <i class="fa-solid fa-${
+                    suggestion.type === "exact"
+                      ? "check-circle text-success"
+                      : "lightbulb text-warning"
+                  }"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="fw-semibold ${
+                    suggestion.type === "exact"
+                      ? "text-success"
+                      : "text-primary"
+                  }">
+                    ${suggestion.display}
+                  </div>
+                  <small class="text-muted">
+                    ${
+                      suggestion.destination.startsWith("#")
+                        ? "Scroll to section"
+                        : "Navigate to page"
+                    }
+                  </small>
+                </div>
+                <div class="ms-2">
+                  <i class="fa-solid fa-arrow-right text-muted"></i>
+                </div>
+              </div>
+            `
+                    )
+                    .join("")
+                : ""
+            }
+            <div class="px-3 py-2 bg-light border-top">
+              <small class="text-muted">
+                <i class="fa-solid fa-info-circle me-1"></i>
+                Press Enter to execute command
+              </small>
+            </div>
+          `;
+
+          // Add click handlers for suggestions
+          dropdown.querySelectorAll(".command-suggestion").forEach((item) => {
+            item.addEventListener("click", function () {
+              const command = this.dataset.command;
+              const destination = this.dataset.destination;
+
+              // Execute the command
+              if (destination.startsWith("#")) {
+                const element = document.querySelector(destination);
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              } else {
+                window.location.href = destination;
+              }
+
+              // Clear search and hide dropdown
+              searchInput.value = "";
+              dropdown.style.display = "none";
+            });
+
+            // Add hover effects
+            item.addEventListener("mouseenter", function () {
+              this.style.background =
+                "linear-gradient(135deg, rgba(0,123,255,0.08) 0%, rgba(0,123,255,0.12) 100%)";
+              this.style.transform = "translateX(4px)";
+              this.style.borderLeft = "3px solid #007bff";
+            });
+
+            item.addEventListener("mouseleave", function () {
+              this.style.background = "";
+              this.style.transform = "";
+              this.style.borderLeft = "";
+            });
+          });
+
+          dropdown.style.display = "block";
+        }
 
         // Close dropdown when clicking outside
         document.addEventListener("click", function (e) {
@@ -6306,46 +6883,8 @@
           dropdown.style.display = "none";
         }
 
-        searchInput.addEventListener("input", function () {
-          const query = searchInput.value.trim();
-          clearTimeout(debounceTimeout);
-          if (!query) {
-            hideDropdown();
-            return;
-          }
-          debounceTimeout = setTimeout(() => {
-            fetch(
-              `http://localhost:3000/api/v1/products?keyword=${encodeURIComponent(
-                query
-              )}`
-            )
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("Search API response:", data); // Debug log
-                let products = [];
-                if (data) {
-                  if (Array.isArray(data.data)) {
-                    products = data.data;
-                  } else if (Array.isArray(data.products)) {
-                    products = data.products;
-                  }
-                }
-                if (products.length) {
-                  showDropdown(products.slice(0, 8));
-                } else {
-                  dropdown.innerHTML =
-                    '<span class="dropdown-item disabled">No results found</span>';
-                  dropdown.style.display = "block";
-                }
-              })
-              .catch((err) => {
-                console.error("Search error:", err);
-                dropdown.innerHTML =
-                  '<span class="dropdown-item disabled">Error fetching results</span>';
-                dropdown.style.display = "block";
-              });
-          }, 250);
-        });
+        // Remove this duplicate event listener that's interfering
+        // The command-aware event listener above handles everything
 
         document.addEventListener("click", function (e) {
           if (!dropdown.contains(e.target) && e.target !== searchInput) {
