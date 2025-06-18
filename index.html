@@ -364,9 +364,11 @@
             style="
               max-height: 400px;
               overflow-y: auto;
+              overflow-x: hidden;
               position: absolute;
               top: 100%;
-              left: 0;
+              left: -8px;
+              right: -8px;
               z-index: 1000;
               display: none;
               background-color: var(--dropdown-bg, #fff);
@@ -5617,33 +5619,221 @@
 
         // Generate a URL for a product based on its data
         const getProductURL = (product) => {
-          // Extract category from product or fallback
-          let category = "AppliancesProducts";
-          if (product.category && product.category.name) {
-            const categoryName = product.category.name.toLowerCase();
-            if (categoryName.includes("electronics")) {
-              category = "Electronics products";
-            } else if (categoryName.includes("beauty")) {
-              category = "beauty products";
-            } else if (categoryName.includes("home")) {
-              category = "home products";
-            } else if (categoryName.includes("fashion")) {
-              category = "fashion products";
-            } else if (
-              categoryName.includes("videogames") ||
-              categoryName.includes("video games")
-            ) {
-              category = "videogames products";
-            }
-          }
+          // Product ID to HTML page mapping
+          const productPageMap = {
+            // Appliances Products
+            "68252918a68b49cb06164204":
+              "ProductPages/AppliancesProducts/product1.html",
+            "68252918a68b49cb06164205":
+              "ProductPages/AppliancesProducts/product2.html",
+            "68252918a68b49cb06164206":
+              "ProductPages/AppliancesProducts/product3.html",
+            "68252918a68b49cb06164207":
+              "ProductPages/AppliancesProducts/product4.html",
+            "68252918a68b49cb06164208":
+              "ProductPages/AppliancesProducts/product5.html",
+            "68252918a68b49cb06164209":
+              "ProductPages/AppliancesProducts/product6.html",
+            "68252918a68b49cb0616420a":
+              "ProductPages/AppliancesProducts/product7.html",
+            "68252918a68b49cb0616420b":
+              "ProductPages/AppliancesProducts/product8.html",
+            "68252918a68b49cb0616420c":
+              "ProductPages/AppliancesProducts/product9.html",
+            "68252918a68b49cb0616420d":
+              "ProductPages/AppliancesProducts/product10.html",
+            "68252918a68b49cb0616420e":
+              "ProductPages/AppliancesProducts/product11.html",
+            "68252918a68b49cb0616420f":
+              "ProductPages/AppliancesProducts/product12.html",
+            "68252918a68b49cb06164210":
+              "ProductPages/AppliancesProducts/product13.html",
+            "68252918a68b49cb06164211":
+              "ProductPages/AppliancesProducts/product14.html",
+            "68252918a68b49cb06164212":
+              "ProductPages/AppliancesProducts/product15.html",
 
-          // Try to extract a numeric ID, or use a default
-          const productId = product._id
-            ? product._id.toString().slice(-2)
-            : "1";
-          const numericId = parseInt(productId) || 1;
+            // Electronics Products
+            "6819e22b123a4faad16613be":
+              "ProductPages/Electronics products/product1.html",
+            "6819e22b123a4faad16613bf":
+              "ProductPages/Electronics products/product2.html",
+            "6819e22b123a4faad16613c0":
+              "ProductPages/Electronics products/product3.html",
+            "6819e22b123a4faad16613c1":
+              "ProductPages/Electronics products/product4.html",
+            "6819e22b123a4faad16613c3":
+              "ProductPages/Electronics products/product5.html",
+            "6819e22b123a4faad16613c4":
+              "ProductPages/Electronics products/product6.html",
+            "6819e22b123a4faad16613c5":
+              "ProductPages/Electronics products/product7.html",
+            "6819e22b123a4faad16613c6":
+              "ProductPages/Electronics products/product8.html",
+            "6819e22b123a4faad16613c7":
+              "ProductPages/Electronics products/product9.html",
+            "6819e22b123a4faad16613c8":
+              "ProductPages/Electronics products/product10.html",
+            "6819e22b123a4faad16613c9":
+              "ProductPages/Electronics products/product11.html",
+            "6819e22b123a4faad16613ca":
+              "ProductPages/Electronics products/product12.html",
+            "6819e22b123a4faad16613cb":
+              "ProductPages/Electronics products/product13.html",
+            "6819e22b123a4faad16613cc":
+              "ProductPages/Electronics products/product14.html",
+            "6819e22b123a4faad16613c2":
+              "ProductPages/Electronics products/product15.html",
 
-          return `ProductPages/${category}/product${numericId}.html`;
+            // Home Products
+            "681dab0df9c9147444b452cd":
+              "ProductPages/home products/product1.html",
+            "681dab0df9c9147444b452ce":
+              "ProductPages/home products/product2.html",
+            "681dab0df9c9147444b452cf":
+              "ProductPages/home products/product3.html",
+            "681dab0df9c9147444b452d0":
+              "ProductPages/home products/product4.html",
+            "681dab0df9c9147444b452d1":
+              "ProductPages/home products/product5.html",
+            "681dab0df9c9147444b452d2":
+              "ProductPages/home products/product6.html",
+            "681dab0df9c9147444b452d3":
+              "ProductPages/home products/product7.html",
+            "681dab0df9c9147444b452d4":
+              "ProductPages/home products/product8.html",
+            "681dab0df9c9147444b452d5":
+              "ProductPages/home products/product9.html",
+            "681dab0df9c9147444b452d6":
+              "ProductPages/home products/product10.html",
+            "681dab0df9c9147444b452d7":
+              "ProductPages/home products/product11.html",
+            "681dab0df9c9147444b452d8":
+              "ProductPages/home products/product12.html",
+            "681dab0df9c9147444b452d9":
+              "ProductPages/home products/product13.html",
+            "681dab0df9c9147444b452da":
+              "ProductPages/home products/product14.html",
+            "681dab0df9c9147444b452db":
+              "ProductPages/home products/product15.html",
+            "681dab0df9c9147444b452dc":
+              "ProductPages/home products/product16.html",
+            "681dab0df9c9147444b452dd":
+              "ProductPages/home products/product17.html",
+            "681dab0df9c9147444b452de":
+              "ProductPages/home products/product18.html",
+            "681dab0df9c9147444b452df":
+              "ProductPages/home products/product19.html",
+            "681dab0df9c9147444b452e0":
+              "ProductPages/home products/product20.html",
+
+            // Fashion Products
+            "682b00c26977bd89257c0e8e":
+              "ProductPages/fashion products/product1.html",
+            "682b00c26977bd89257c0e8f":
+              "ProductPages/fashion products/product2.html",
+            "682b00c26977bd89257c0e90":
+              "ProductPages/fashion products/product3.html",
+            "682b00c26977bd89257c0e91":
+              "ProductPages/fashion products/product4.html",
+            "682b00c26977bd89257c0e92":
+              "ProductPages/fashion products/product5.html",
+            "682b00c26977bd89257c0e93":
+              "ProductPages/fashion products/product6.html",
+            "682b00c26977bd89257c0e94":
+              "ProductPages/fashion products/product7.html",
+            "682b00c26977bd89257c0e95":
+              "ProductPages/fashion products/product8.html",
+            "682b00c26977bd89257c0e96":
+              "ProductPages/fashion products/product9.html",
+            "682b00c26977bd89257c0e97":
+              "ProductPages/fashion products/product10.html",
+            "682b00c26977bd89257c0e98":
+              "ProductPages/fashion products/product11.html",
+            "682b00c26977bd89257c0e99":
+              "ProductPages/fashion products/product12.html",
+            "682b00c26977bd89257c0e9a":
+              "ProductPages/fashion products/product13.html",
+            "682b00c26977bd89257c0e9b":
+              "ProductPages/fashion products/product14.html",
+            "682b00c26977bd89257c0e9c":
+              "ProductPages/fashion products/product15.html",
+
+            // Video Games Products
+            "682b00a46977bd89257c0e80":
+              "ProductPages/videogames products/product1.html",
+            "682b00a46977bd89257c0e81":
+              "ProductPages/videogames products/product2.html",
+            "682b00a46977bd89257c0e82":
+              "ProductPages/videogames products/product3.html",
+            "682b00a46977bd89257c0e83":
+              "ProductPages/videogames products/product4.html",
+            "682b00a46977bd89257c0e84":
+              "ProductPages/videogames products/product5.html",
+            "682b00a46977bd89257c0e85":
+              "ProductPages/videogames products/product6.html",
+            "682b00a46977bd89257c0e86":
+              "ProductPages/videogames products/product7.html",
+            "682b00a46977bd89257c0e87":
+              "ProductPages/videogames products/product8.html",
+            "682b00a46977bd89257c0e88":
+              "ProductPages/videogames products/product9.html",
+            "682b00a46977bd89257c0e89":
+              "ProductPages/videogames products/product10.html",
+            "682b00a46977bd89257c0e8a":
+              "ProductPages/videogames products/product11.html",
+            "682b00a46977bd89257c0e8b":
+              "ProductPages/videogames products/product12.html",
+            "682b00a46977bd89257c0e8c":
+              "ProductPages/videogames products/product13.html",
+            "682b00a46977bd89257c0e8d":
+              "ProductPages/videogames products/product14.html",
+
+            // Beauty Products
+            "682b00d16977bd89257c0e9d":
+              "ProductPages/beauty products/product1.html",
+            "682b00d16977bd89257c0e9e":
+              "ProductPages/beauty products/product2.html",
+            "682b00d16977bd89257c0e9f":
+              "ProductPages/beauty products/product3.html",
+            "682b00d16977bd89257c0ea0":
+              "ProductPages/beauty products/product4.html",
+            "682b00d16977bd89257c0ea1":
+              "ProductPages/beauty products/product5.html",
+            "682b00d16977bd89257c0ea2":
+              "ProductPages/beauty products/product6.html",
+            "682b00d16977bd89257c0ea3":
+              "ProductPages/beauty products/product7.html",
+            "682b00d16977bd89257c0ea4":
+              "ProductPages/beauty products/product8.html",
+            "682b00d16977bd89257c0ea5":
+              "ProductPages/beauty products/product9.html",
+            "682b00d16977bd89257c0ea6":
+              "ProductPages/beauty products/product10.html",
+            "682b00d16977bd89257c0ea7":
+              "ProductPages/beauty products/product11.html",
+            "682b00d16977bd89257c0ea8":
+              "ProductPages/beauty products/product12.html",
+            "682b00d16977bd89257c0ea9":
+              "ProductPages/beauty products/product13.html",
+            "682b00d16977bd89257c0eaa":
+              "ProductPages/beauty products/product14.html",
+            "682b00d16977bd89257c0eab":
+              "ProductPages/beauty products/product15.html",
+            "682b00d16977bd89257c0eac":
+              "ProductPages/beauty products/product16.html",
+            "682b00d16977bd89257c0ead":
+              "ProductPages/beauty products/product17.html",
+            "682b00d16977bd89257c0eae":
+              "ProductPages/beauty products/product18.html",
+            "682b00d16977bd89257c0eaf":
+              "ProductPages/beauty products/product19.html",
+            "682b00d16977bd89257c0eb0":
+              "ProductPages/beauty products/product20.html",
+          };
+
+          // Return the mapped page or a fallback
+          return productPageMap[product._id] || "#";
         };
 
         // Function to display search results in dropdown
@@ -5687,48 +5877,18 @@
               background: linear-gradient(135deg, transparent 0%, rgba(0,123,255,0.02) 100%);
             `;
 
-            // Create thumbnail container
-            const imageContainer = document.createElement("div");
-            imageContainer.className =
-              "me-3 d-flex align-items-center justify-content-center";
-            imageContainer.style.cssText = `
-              width: 48px;
-              height: 48px;
-              border-radius: 8px;
-              background: #f8f9fa;
-              border: 1px solid #e9ecef;
-              overflow: hidden;
-            `;
-
-            if (product.imageCover) {
-              const img = document.createElement("img");
-              img.src = product.imageCover;
-              img.alt = product.title;
-              img.style.cssText = `
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: transform 0.2s ease;
-              `;
-              imageContainer.appendChild(img);
-            } else {
-              imageContainer.innerHTML =
-                '<i class="fa-solid fa-image text-muted"></i>';
-            }
-            item.appendChild(imageContainer);
-
-            // Create product info container
+            // Create product info container (no image)
             const info = document.createElement("div");
             info.className = "flex-grow-1 min-width-0";
 
             const title = document.createElement("div");
             title.textContent =
-              product.title.length > 50
-                ? product.title.substring(0, 50) + "..."
+              product.title.length > 60
+                ? product.title.substring(0, 60) + "..."
                 : product.title;
             title.className = "fw-semibold text-dark mb-1";
             title.style.cssText = `
-              font-size: 0.9rem;
+              font-size: 0.95rem;
               line-height: 1.3;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -5761,8 +5921,8 @@
               const ratingDiv = document.createElement("div");
               ratingDiv.className = "ms-2 d-flex align-items-center";
               ratingDiv.innerHTML = `
-                <i class="fa-solid fa-star text-warning" style="font-size: 0.7rem;"></i>
-                <span class="ms-1 text-muted" style="font-size: 0.7rem;">${product.ratingsAverage.toFixed(
+                <i class="fa-solid fa-star text-warning" style="font-size: 0.75rem;"></i>
+                <span class="ms-1 text-muted" style="font-size: 0.75rem;">${product.ratingsAverage.toFixed(
                   1
                 )}</span>
               `;
@@ -5816,10 +5976,6 @@
                 box-shadow: 0 2px 8px rgba(0,123,255,0.15);
                 border-left: 3px solid #007bff;
               `;
-              const img = item.querySelector("img");
-              if (img) {
-                img.style.transform = "scale(1.05)";
-              }
             });
 
             item.addEventListener("mouseleave", () => {
@@ -5832,10 +5988,6 @@
                 box-shadow: none;
                 border-left: none;
               `;
-              const img = item.querySelector("img");
-              if (img) {
-                img.style.transform = "scale(1)";
-              }
             });
 
             dropdown.appendChild(item);
@@ -6606,218 +6758,6 @@
             dropdown.style.display = "block";
             return;
           }
-          // Automated mapping from productId to HTML page (AppliancesProducts only)
-          const productPageMap = {
-            // Appliances Products
-            "68252918a68b49cb06164204":
-              "ProductPages/AppliancesProducts/product1.html",
-            "68252918a68b49cb06164205":
-              "ProductPages/AppliancesProducts/product2.html",
-            "68252918a68b49cb06164206":
-              "ProductPages/AppliancesProducts/product3.html",
-            "68252918a68b49cb06164207":
-              "ProductPages/AppliancesProducts/product4.html",
-            "68252918a68b49cb06164208":
-              "ProductPages/AppliancesProducts/product5.html",
-            "68252918a68b49cb06164209":
-              "ProductPages/AppliancesProducts/product6.html",
-            "68252918a68b49cb0616420a":
-              "ProductPages/AppliancesProducts/product7.html",
-            "68252918a68b49cb0616420b":
-              "ProductPages/AppliancesProducts/product8.html",
-            "68252918a68b49cb0616420c":
-              "ProductPages/AppliancesProducts/product9.html",
-            "68252918a68b49cb0616420d":
-              "ProductPages/AppliancesProducts/product10.html",
-            "68252918a68b49cb0616420e":
-              "ProductPages/AppliancesProducts/product11.html",
-            "68252918a68b49cb0616420f":
-              "ProductPages/AppliancesProducts/product12.html",
-            "68252918a68b49cb06164210":
-              "ProductPages/AppliancesProducts/product13.html",
-            "68252918a68b49cb06164211":
-              "ProductPages/AppliancesProducts/product14.html",
-            "68252918a68b49cb06164212":
-              "ProductPages/AppliancesProducts/product15.html",
-
-            // Electronics Products
-            "6819e22b123a4faad16613be":
-              "ProductPages/Electronics products/product1.html",
-            "6819e22b123a4faad16613bf":
-              "ProductPages/Electronics products/product2.html",
-            "6819e22b123a4faad16613c0":
-              "ProductPages/Electronics products/product3.html",
-            "6819e22b123a4faad16613c1":
-              "ProductPages/Electronics products/product4.html",
-            "6819e22b123a4faad16613c3":
-              "ProductPages/Electronics products/product5.html",
-            "6819e22b123a4faad16613c4":
-              "ProductPages/Electronics products/product6.html",
-            "6819e22b123a4faad16613c5":
-              "ProductPages/Electronics products/product7.html",
-            "6819e22b123a4faad16613c6":
-              "ProductPages/Electronics products/product8.html",
-            "6819e22b123a4faad16613c7":
-              "ProductPages/Electronics products/product9.html",
-            "6819e22b123a4faad16613c8":
-              "ProductPages/Electronics products/product10.html",
-            "6819e22b123a4faad16613c9":
-              "ProductPages/Electronics products/product11.html",
-            "6819e22b123a4faad16613ca":
-              "ProductPages/Electronics products/product12.html",
-            "6819e22b123a4faad16613cb":
-              "ProductPages/Electronics products/product13.html",
-            "6819e22b123a4faad16613cc":
-              "ProductPages/Electronics products/product14.html",
-            "6819e22b123a4faad16613c2":
-              "ProductPages/Electronics products/product15.html",
-
-            // Home Products
-            "681dab0df9c9147444b452cd":
-              "ProductPages/home products/product1.html",
-            "681dab0df9c9147444b452ce":
-              "ProductPages/home products/product2.html",
-            "681dab0df9c9147444b452cf":
-              "ProductPages/home products/product3.html",
-            "681dab0df9c9147444b452d0":
-              "ProductPages/home products/product4.html",
-            "681dab0df9c9147444b452d1":
-              "ProductPages/home products/product5.html",
-            "681dab0df9c9147444b452d2":
-              "ProductPages/home products/product6.html",
-            "681dab0df9c9147444b452d3":
-              "ProductPages/home products/product7.html",
-            "681dab0df9c9147444b452d4":
-              "ProductPages/home products/product8.html",
-            "681dab0df9c9147444b452d5":
-              "ProductPages/home products/product9.html",
-            "681dab0df9c9147444b452d6":
-              "ProductPages/home products/product10.html",
-            "681dab0df9c9147444b452d7":
-              "ProductPages/home products/product11.html",
-            "681dab0df9c9147444b452d8":
-              "ProductPages/home products/product12.html",
-            "681dab0df9c9147444b452d9":
-              "ProductPages/home products/product13.html",
-            "681dab0df9c9147444b452da":
-              "ProductPages/home products/product14.html",
-            "681dab0df9c9147444b452db":
-              "ProductPages/home products/product15.html",
-            "681dab0df9c9147444b452dc":
-              "ProductPages/home products/product16.html",
-            "681dab0df9c9147444b452dd":
-              "ProductPages/home products/product17.html",
-            "681dab0df9c9147444b452de":
-              "ProductPages/home products/product18.html",
-            "681dab0df9c9147444b452df":
-              "ProductPages/home products/product19.html",
-            "681dab0df9c9147444b452e0":
-              "ProductPages/home products/product20.html",
-
-            // Fashion Products
-            "682b00c26977bd89257c0e8e":
-              "ProductPages/fashion products/product1.html",
-            "682b00c26977bd89257c0e8f":
-              "ProductPages/fashion products/product2.html",
-            "682b00c26977bd89257c0e90":
-              "ProductPages/fashion products/product3.html",
-            "682b00c26977bd89257c0e91":
-              "ProductPages/fashion products/product4.html",
-            "682b00c26977bd89257c0e92":
-              "ProductPages/fashion products/product5.html",
-            "682b00c26977bd89257c0e93":
-              "ProductPages/fashion products/product6.html",
-            "682b00c26977bd89257c0e94":
-              "ProductPages/fashion products/product7.html",
-            "682b00c26977bd89257c0e95":
-              "ProductPages/fashion products/product8.html",
-            "682b00c26977bd89257c0e96":
-              "ProductPages/fashion products/product9.html",
-            "682b00c26977bd89257c0e97":
-              "ProductPages/fashion products/product10.html",
-            "682b00c26977bd89257c0e98":
-              "ProductPages/fashion products/product11.html",
-            "682b00c26977bd89257c0e99":
-              "ProductPages/fashion products/product12.html",
-            "682b00c26977bd89257c0e9a":
-              "ProductPages/fashion products/product13.html",
-            "682b00c26977bd89257c0e9b":
-              "ProductPages/fashion products/product14.html",
-            "682b00c26977bd89257c0e9c":
-              "ProductPages/fashion products/product15.html",
-
-            // Video Games Products
-            "682b00a46977bd89257c0e80":
-              "ProductPages/videogames products/product1.html",
-            "682b00a46977bd89257c0e81":
-              "ProductPages/videogames products/product2.html",
-            "682b00a46977bd89257c0e82":
-              "ProductPages/videogames products/product3.html",
-            "682b00a46977bd89257c0e83":
-              "ProductPages/videogames products/product4.html",
-            "682b00a46977bd89257c0e84":
-              "ProductPages/videogames products/product5.html",
-            "682b00a46977bd89257c0e85":
-              "ProductPages/videogames products/product6.html",
-            "682b00a46977bd89257c0e86":
-              "ProductPages/videogames products/product7.html",
-            "682b00a46977bd89257c0e87":
-              "ProductPages/videogames products/product8.html",
-            "682b00a46977bd89257c0e88":
-              "ProductPages/videogames products/product9.html",
-            "682b00a46977bd89257c0e89":
-              "ProductPages/videogames products/product10.html",
-            "682b00a46977bd89257c0e8a":
-              "ProductPages/videogames products/product11.html",
-            "682b00a46977bd89257c0e8b":
-              "ProductPages/videogames products/product12.html",
-            "682b00a46977bd89257c0e8c":
-              "ProductPages/videogames products/product13.html",
-            "682b00a46977bd89257c0e8d":
-              "ProductPages/videogames products/product14.html",
-
-            // Beauty Products
-            "682b00d16977bd89257c0e9d":
-              "ProductPages/beauty products/product1.html",
-            "682b00d16977bd89257c0e9e":
-              "ProductPages/beauty products/product2.html",
-            "682b00d16977bd89257c0e9f":
-              "ProductPages/beauty products/product3.html",
-            "682b00d16977bd89257c0ea0":
-              "ProductPages/beauty products/product4.html",
-            "682b00d16977bd89257c0ea1":
-              "ProductPages/beauty products/product5.html",
-            "682b00d16977bd89257c0ea2":
-              "ProductPages/beauty products/product6.html",
-            "682b00d16977bd89257c0ea3":
-              "ProductPages/beauty products/product7.html",
-            "682b00d16977bd89257c0ea4":
-              "ProductPages/beauty products/product8.html",
-            "682b00d16977bd89257c0ea5":
-              "ProductPages/beauty products/product9.html",
-            "682b00d16977bd89257c0ea6":
-              "ProductPages/beauty products/product10.html",
-            "682b00d16977bd89257c0ea7":
-              "ProductPages/beauty products/product11.html",
-            "682b00d16977bd89257c0ea8":
-              "ProductPages/beauty products/product12.html",
-            "682b00d16977bd89257c0ea9":
-              "ProductPages/beauty products/product13.html",
-            "682b00d16977bd89257c0eaa":
-              "ProductPages/beauty products/product14.html",
-            "682b00d16977bd89257c0eab":
-              "ProductPages/beauty products/product15.html",
-            "682b00d16977bd89257c0eac":
-              "ProductPages/beauty products/product16.html",
-            "682b00d16977bd89257c0ead":
-              "ProductPages/beauty products/product17.html",
-            "682b00d16977bd89257c0eae":
-              "ProductPages/beauty products/product18.html",
-            "682b00d16977bd89257c0eaf":
-              "ProductPages/beauty products/product19.html",
-            "682b00d16977bd89257c0eb0":
-              "ProductPages/beauty products/product20.html",
-          };
 
           // Highlight function
           function highlight(text, term) {
@@ -6829,7 +6769,7 @@
           }
           dropdown.innerHTML = items
             .map((item) => {
-              const page = productPageMap[item._id] || "#";
+              const page = getProductURL(item);
               const disabled = page === "#";
               const price = item.price
                 ? `EGP ${item.price.toFixed(2)}`
