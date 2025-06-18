@@ -703,28 +703,48 @@ class EnhancedVoiceSearch {
       statusText.textContent = `🧠 Processing: "${command}"`;
     }
 
-    // 1. Handle "Go to [Category name]" pattern
-    const goToPattern = /^go\s+to\s+(.+)$/i;
-    const goToMatch = command.match(goToPattern);
-    if (goToMatch) {
-      const destination = goToMatch[1].toLowerCase().trim();
-      await this.handleGoToCommand(destination, statusText);
-      return;
+    // 1. Handle "Go to [Category name]" pattern with more variations
+    const goToPatterns = [
+      /^(?:go\s+to|navigate\s+to|take\s+me\s+to|show\s+me)\s+(.+)$/i,
+      /^(?:open|display)\s+(.+)$/i,
+      /^(?:i\s+want\s+to\s+go\s+to|i\s+want\s+to\s+see)\s+(.+)$/i,
+    ];
+
+    for (const pattern of goToPatterns) {
+      const match = command.match(pattern);
+      if (match) {
+        const destination = match[1].toLowerCase().trim();
+        await this.handleGoToCommand(destination, statusText);
+        return;
+      }
     }
 
-    // 2. Handle "Open [my profile/orders]" pattern
-    const openPattern = /^open\s+(.+)$/i;
-    const openMatch = command.match(openPattern);
-    if (openMatch) {
-      const target = openMatch[1].toLowerCase().trim();
-      await this.handleOpenCommand(target, statusText);
-      return;
+    // 2. Handle "Open [my profile/orders]" pattern with more variations
+    const openPatterns = [
+      /^(?:open|show\s+me)\s+(?:my\s+)?(.+)$/i,
+      /^(?:take\s+me\s+to\s+my|go\s+to\s+my)\s+(.+)$/i,
+      /^(?:i\s+want\s+to\s+see\s+my|display\s+my)\s+(.+)$/i,
+    ];
+
+    for (const pattern of openPatterns) {
+      const match = command.match(pattern);
+      if (match) {
+        const target = match[1].toLowerCase().trim();
+        // Check if it's a profile/account related command
+        if (["profile", "account", "orders", "cart", "dashboard"].includes(target)) {
+          await this.handleOpenCommand(target, statusText);
+          return;
+        }
+      }
     }
 
-    // 3. Handle "Search for/Find/I want [Product name]" patterns
+    // 3. Handle "Search for/Find/I want [Product name]" patterns with more variations
     const searchPatterns = [
-      /^(?:search\s+for|find|i\s+want)\s+(.+)$/i,
-      /^(?:look\s+for|show\s+me|get\s+me)\s+(.+)$/i,
+      /^(?:search\s+for|find|look\s+for|i\s+want|i\s+need)\s+(.+)$/i,
+      /^(?:show\s+me|get\s+me|bring\s+me)\s+(.+)$/i,
+      /^(?:type|enter|put)\s+(.+?)(?:\s+in\s+search)?$/i,
+      /^(?:can\s+you\s+find|can\s+you\s+search\s+for)\s+(.+)$/i,
+      /^(?:where\s+can\s+i\s+find|where\s+is)\s+(.+)$/i,
     ];
 
     for (const pattern of searchPatterns) {
@@ -736,9 +756,123 @@ class EnhancedVoiceSearch {
       }
     }
 
+    // 4. Handle scroll commands
+    const scrollPatterns = [
+      /^(?:scroll\s+)?(?:up|down)$/i,
+      /^(?:go\s+)?(?:back|forward)$/i,
+      /^(?:page\s+)?(?:up|down)$/i,
+    ];
+
+    for (const pattern of scrollPatterns) {
+      if (pattern.test(lowerCommand)) {
+        await this.handleScrollCommand(lowerCommand, statusText);
+        return;
+      }
+    }
+
+    // 6. Handle close sidebar commands
+    const closeSidebarPatterns = [
+      /^(?:close|exit|stop|cancel)$/i,
+      /^(?:close\s+voice\s+search|stop\s+listening)$/i,
+      /^(?:exit\s+voice\s+mode|cancel\s+voice)$/i,
+    ];
+
+    for (const pattern of closeSidebarPatterns) {
+      if (pattern.test(lowerCommand)) {
+        if (statusText) statusText.textContent = "❌ Closing voice search...";
+        setTimeout(() => this.closeVoiceSidebar(), 500);
+        return;
+      }
+    }
+
+    // 7. Handle refresh/reload commands
+    if (lowerCommand.includes("refresh") || lowerCommand.includes("reload")) {
+      if (statusText) statusText.textContent = "🔄 Refreshing page...";
+      setTimeout(() => window.location.reload(), 500);
+      return;
+    }
+
+    // 8. Handle help commands
+    const helpPatterns = [
+      /^(?:help|what\s+can\s+i\s+say|commands|what\s+commands)$/i,
+      /^(?:show\s+me\s+help|voice\s+help|how\s+to\s+use)$/i,
+    ];
+
+    for (const pattern of helpPatterns) {
+      if (pattern.test(lowerCommand)) {
+        if (statusText) {
+          statusText.textContent = "ℹ️ Voice commands: 'Go to [category]', 'Search for [item]', 'Open [page]', 'Scroll up/down'";
+        }
+        return;
+      }
+    }
+
+    // 9. Handle "show me" or "take me to" patterns for categories
+    const showMePatterns = [
+      /^(?:show\s+me|take\s+me\s+to|navigate\s+to)\s+(.+)$/i,
+      /^(?:i\s+want\s+to\s+browse|browse)\s+(.+)$/i,
+      /^(?:visit|check\s+out)\s+(.+)$/i,
+    ];
+
+    for (const pattern of showMePatterns) {
+      const match = command.match(pattern);
+      if (match) {
+        const destination = match[1].toLowerCase().trim();
+        await this.handleGoToCommand(destination, statusText);
+        return;
+      }
+    }
+
+    // 10. Handle product-specific navigation (if someone says a product name, take them to relevant category)
+    const productCategoryMap = {
+      "iphone": "mobileandtablets.html",
+      "ipad": "mobileandtablets.html",
+      "samsung": "mobileandtablets.html",
+      "playstation": "console.html",
+      "ps5": "console.html",
+      "xbox": "console.html",
+      "washing machine": "largeAppliances.html",
+      "refrigerator": "largeAppliances.html",
+      "fridge": "largeAppliances.html",
+      "sofa": "furniture.html",
+      "chair": "furniture.html",
+      "table": "furniture.html",
+      "perfume": "Fragrance.html",
+      "makeup": "makeup.html",
+      "shoes": "Fashion.html",
+      "laptop": "laptop.html",
+      "tv": "tvs.html",
+      "television": "tvs.html",
+    };
+
+    for (const [product, page] of Object.entries(productCategoryMap)) {
+      if (lowerCommand.includes(product)) {
+        if (statusText) statusText.textContent = `🚀 Going to ${product} section...`;
+        setTimeout(() => window.location.href = page, 500);
+        return;
+      }
+    }
+
     // Fallback for unrecognized commands
     if (statusText) {
       statusText.textContent = `🤔 Command not recognized. Try: "Go to electronics", "Open my profile", or "Search for iPhone"`;
+    }
+  }
+
+  // New method to handle scroll commands
+  async handleScrollCommand(command, statusText) {
+    if (command.includes("down")) {
+      window.scrollBy(0, 400);
+      if (statusText) statusText.textContent = "📜 Scrolling down...";
+    } else if (command.includes("up")) {
+      window.scrollBy(0, -400);
+      if (statusText) statusText.textContent = "📜 Scrolling up...";
+    } else if (command.includes("back")) {
+      window.history.back();
+      if (statusText) statusText.textContent = "🔙 Going back...";
+    } else if (command.includes("forward")) {
+      window.history.forward();
+      if (statusText) statusText.textContent = "⏭️ Going forward...";
     }
   }
 
@@ -754,57 +888,226 @@ class EnhancedVoiceSearch {
       "video games": "videogamecat.html",
       videogames: "videogamecat.html",
       games: "videogamecat.html",
+      gaming: "videogamecat.html",
       cart: "cart.html",
+      "shopping cart": "cart.html",
+      basket: "cart.html",
+
+      // Special pages
+      homepage: "index.html",
+      "home page": "index.html",
+      "main page": "index.html",
+      index: "index.html",
+      login: "signinPage.html",
+      signin: "signinPage.html",
+      "sign in": "signinPage.html",
+      signup: "signupPage.html",
+      "sign up": "signupPage.html",
+      register: "signupPage.html",
+      profile: "profile.html",
+      "my profile": "profile.html",
+      "user profile": "profile.html",
+      account: "profile.html",
+      "my account": "profile.html",
+      orders: "orders.html",
+      "my orders": "orders.html",
+      "order history": "orders.html",
+      "purchase history": "orders.html",
+      seller: "seller.html",
+      "seller page": "seller.html",
+      "become seller": "seller.html",
+      "seller dashboard": "seller-dashboard.html",
+      admin: "adminPage.html",
+      "admin panel": "adminPage.html",
+      "admin page": "adminPage.html",
 
       // Electronics subcategories
       mobile: "mobileandtablets.html",
       "mobile and tablets": "mobileandtablets.html",
+      "mobile phones": "mobileandtablets.html",
       phones: "mobileandtablets.html",
+      smartphones: "mobileandtablets.html",
       tablets: "mobileandtablets.html",
+      ipad: "mobileandtablets.html",
+      iphone: "mobileandtablets.html",
       tv: "tvs.html",
       tvs: "tvs.html",
       television: "tvs.html",
+      televisions: "tvs.html",
+      "smart tv": "tvs.html",
+      "smart tvs": "tvs.html",
       laptop: "laptop.html",
       laptops: "laptop.html",
       computers: "laptop.html",
+      "gaming laptop": "laptop.html",
+      "gaming laptops": "laptop.html",
+      notebook: "laptop.html",
+      notebooks: "laptop.html",
 
       // Appliances subcategories
       "large appliances": "largeAppliances.html",
+      "big appliances": "largeAppliances.html",
+      "washing machines": "largeAppliances.html",
+      "washing machine": "largeAppliances.html",
+      refrigerator: "largeAppliances.html",
+      refrigerators: "largeAppliances.html",
+      fridge: "largeAppliances.html",
+      fridges: "largeAppliances.html",
+      dishwasher: "largeAppliances.html",
+      dishwashers: "largeAppliances.html",
       "small appliances": "smallAppliances.html",
+      "kitchen appliances": "smallAppliances.html",
+      microwave: "smallAppliances.html",
+      microwaves: "smallAppliances.html",
+      toaster: "smallAppliances.html",
+      toasters: "smallAppliances.html",
+      blender: "smallAppliances.html",
+      blenders: "smallAppliances.html",
 
       // Home subcategories
       furniture: "furniture.html",
+      sofa: "furniture.html",
+      sofas: "furniture.html",
+      couch: "furniture.html",
+      couches: "furniture.html",
+      chair: "furniture.html",
+      chairs: "furniture.html",
+      table: "furniture.html",
+      tables: "furniture.html",
+      bed: "furniture.html",
+      beds: "furniture.html",
+      desk: "furniture.html",
+      desks: "furniture.html",
       "home decor": "homeDecor.html",
+      "home decoration": "homeDecor.html",
+      decor: "homeDecor.html",
+      decoration: "homeDecor.html",
+      lamp: "homeDecor.html",
+      lamps: "homeDecor.html",
+      lighting: "homeDecor.html",
+      lights: "homeDecor.html",
+      mirror: "homeDecor.html",
+      mirrors: "homeDecor.html",
       kitchen: "Kitchen&Dining.html",
       "kitchen and dining": "Kitchen&Dining.html",
+      "kitchen dining": "Kitchen&Dining.html",
+      dining: "Kitchen&Dining.html",
+      cookware: "Kitchen&Dining.html",
+      utensils: "Kitchen&Dining.html",
+      plates: "Kitchen&Dining.html",
+      cups: "Kitchen&Dining.html",
       bath: "bath&bedding.html",
       "bath and bedding": "bath&bedding.html",
+      "bath bedding": "bath&bedding.html",
+      bathroom: "bath&bedding.html",
       bedding: "bath&bedding.html",
+      towels: "bath&bedding.html",
+      towel: "bath&bedding.html",
+      sheets: "bath&bedding.html",
+      pillows: "bath&bedding.html",
+      pillow: "bath&bedding.html",
 
       // Video Games subcategories
       console: "console.html",
       consoles: "console.html",
+      "gaming console": "console.html",
+      "gaming consoles": "console.html",
+      "game console": "console.html",
+      "game consoles": "console.html",
+      playstation: "console.html",
+      "play station": "console.html",
+      ps5: "console.html",
+      "ps 5": "console.html",
+      xbox: "console.html",
+      "x box": "console.html",
+      nintendo: "console.html",
+      switch: "console.html",
       controller: "controller.html",
       controllers: "controller.html",
+      gamepad: "controller.html",
+      gamepads: "controller.html",
+      "game controller": "controller.html",
+      "game controllers": "controller.html",
       accessories: "accessories.html",
       "gaming accessories": "accessories.html",
+      "game accessories": "accessories.html",
+      headset: "accessories.html",
+      headsets: "accessories.html",
+      "gaming headset": "accessories.html",
+      "gaming headsets": "accessories.html",
 
       // Fashion subcategories
       women: "woman.html",
       "womens fashion": "woman.html",
       "women fashion": "woman.html",
+      "women's fashion": "woman.html",
+      "ladies fashion": "woman.html",
+      "female fashion": "woman.html",
       men: "men.html",
       "mens fashion": "men.html",
       "men fashion": "men.html",
+      "men's fashion": "men.html",
+      "male fashion": "men.html",
+      "gentlemen fashion": "men.html",
       kids: "kids.html",
       "kids fashion": "kids.html",
+      "children fashion": "kids.html",
+      "children's fashion": "kids.html",
+      "baby fashion": "kids.html",
+      children: "kids.html",
+      child: "kids.html",
+      
+      // Additional fashion items
+      shoes: "Fashion.html",
+      shoe: "Fashion.html",
+      footwear: "Fashion.html",
+      sneakers: "Fashion.html",
+      sneaker: "Fashion.html",
+      boots: "Fashion.html",
+      sandals: "Fashion.html",
+      clothing: "Fashion.html",
+      clothes: "Fashion.html",
+      apparel: "Fashion.html",
+      shirt: "Fashion.html",
+      shirts: "Fashion.html",
+      pants: "Fashion.html",
+      jeans: "Fashion.html",
+      dress: "Fashion.html",
+      dresses: "Fashion.html",
 
       // Beauty subcategories
       makeup: "makeup.html",
+      "make up": "makeup.html",
+      cosmetics: "makeup.html",
+      lipstick: "makeup.html",
+      lipsticks: "makeup.html",
+      foundation: "makeup.html",
+      mascara: "makeup.html",
+      eyeshadow: "makeup.html",
       skincare: "skincare.html",
+      "skin care": "skincare.html",
+      moisturizer: "skincare.html",
+      moisturizers: "skincare.html",
+      cleanser: "skincare.html",
+      cleansers: "skincare.html",
+      serum: "skincare.html",
+      serums: "skincare.html",
+      sunscreen: "skincare.html",
       haircare: "haircare.html",
+      "hair care": "haircare.html",
+      shampoo: "haircare.html",
+      shampoos: "haircare.html",
+      conditioner: "haircare.html",
+      conditioners: "haircare.html",
+      "hair color": "haircare.html",
+      "hair dye": "haircare.html",
       fragrance: "Fragrance.html",
+      fragrances: "Fragrance.html",
       perfume: "Fragrance.html",
+      perfumes: "Fragrance.html",
+      cologne: "Fragrance.html",
+      colognes: "Fragrance.html",
+      "eau de parfum": "Fragrance.html",
     };
 
     const targetPage = categoryMap[destination];
@@ -1335,82 +1638,113 @@ class EnhancedVoiceSearch {
         url: "orders.html",
         keywords: ["orders", "my orders", "purchase history", "order history"],
       },
+      seller: {
+        url: "seller.html", 
+        keywords: ["seller", "seller page", "become seller"],
+      },
+      "seller dashboard": {
+        url: "seller-dashboard.html",
+        keywords: ["seller dashboard", "dashboard"],
+      },
+      admin: {
+        url: "adminPage.html",
+        keywords: ["admin", "admin panel", "admin page"],
+      },
+      login: {
+        url: "signinPage.html",
+        keywords: ["login", "signin", "sign in"],
+      },
+      signup: {
+        url: "signupPage.html",
+        keywords: ["signup", "sign up", "register"],
+      },
 
-      // Subcategory pages
+      // Electronics subcategories
       mobile: {
         url: "mobileandtablets.html",
-        keywords: ["mobile", "phone", "smartphone", "tablet"],
+        keywords: ["mobile", "phone", "smartphone", "tablet", "mobile phones", "mobile and tablets", "iphone", "ipad"],
       },
-      tv: { url: "tvs.html", keywords: ["tv", "television", "smart tv"] },
+      tv: { 
+        url: "tvs.html", 
+        keywords: ["tv", "television", "smart tv", "tvs", "televisions", "smart tvs"] 
+      },
       laptop: {
         url: "laptop.html",
-        keywords: ["laptop", "computer", "notebook"],
+        keywords: ["laptop", "computer", "notebook", "laptops", "computers", "gaming laptop", "gaming laptops", "notebooks"],
       },
 
+      // Appliances subcategories
       large_appliances: {
         url: "largeAppliances.html",
-        keywords: ["large appliances", "washing machine", "refrigerator"],
+        keywords: ["large appliances", "big appliances", "washing machine", "washing machines", "refrigerator", "refrigerators", "fridge", "fridges", "dishwasher", "dishwashers"],
       },
       small_appliances: {
         url: "smallAppliances.html",
-        keywords: ["small appliances", "toaster", "kettle"],
+        keywords: ["small appliances", "kitchen appliances", "microwave", "microwaves", "toaster", "toasters", "blender", "blenders"],
       },
 
+      // Home subcategories
       furniture: {
         url: "furniture.html",
-        keywords: ["furniture", "sofa", "chair", "table"],
+        keywords: ["furniture", "sofa", "chair", "table", "bed", "desk", "sofas", "chairs", "tables", "beds", "desks", "couch", "couches"],
       },
       home_decor: {
         url: "homeDecor.html",
-        keywords: ["home decor", "lamp", "mirror"],
+        keywords: ["home decor", "home decoration", "decor", "decoration", "lamp", "lamps", "lighting", "lights", "mirror", "mirrors"],
       },
       kitchen_dining: {
         url: "Kitchen&Dining.html",
-        keywords: ["kitchen", "dining", "cookware"],
+        keywords: ["kitchen", "dining", "kitchen and dining", "kitchen dining", "cookware", "utensils", "plates", "cups"],
       },
       bath_bedding: {
         url: "bath&bedding.html",
-        keywords: ["bath", "bedding", "towel"],
+        keywords: ["bath", "bedding", "bath and bedding", "bath bedding", "bathroom", "towels", "towel", "sheets", "pillows", "pillow"],
       },
 
+      // Video Games subcategories
       console: {
         url: "console.html",
-        keywords: ["console", "playstation", "xbox"],
+        keywords: ["console", "consoles", "gaming console", "gaming consoles", "game console", "game consoles", "playstation", "play station", "ps5", "ps 5", "xbox", "x box", "nintendo", "switch"],
       },
       controller: {
         url: "controller.html",
-        keywords: ["controller", "gamepad"],
+        keywords: ["controller", "controllers", "gamepad", "gamepads", "game controller", "game controllers"],
       },
-      accessories: {
+      gaming_accessories: {
         url: "accessories.html",
-        keywords: ["gaming accessories", "headset"],
+        keywords: ["accessories", "gaming accessories", "game accessories", "headset", "headsets", "gaming headset", "gaming headsets"],
       },
 
+      // Fashion subcategories
       women: {
         url: "woman.html",
-        keywords: ["women", "women's fashion", "ladies"],
+        keywords: ["women", "women's fashion", "womens fashion", "women fashion", "ladies fashion", "female fashion"],
       },
-      men: { url: "men.html", keywords: ["men", "men's fashion", "mens"] },
+      men: { 
+        url: "men.html", 
+        keywords: ["men", "men's fashion", "mens fashion", "men fashion", "male fashion", "gentlemen fashion"] 
+      },
       kids: {
         url: "kids.html",
-        keywords: ["kids", "children", "kids fashion"],
+        keywords: ["kids", "children", "child", "kids fashion", "children fashion", "children's fashion", "baby fashion"],
       },
 
+      // Beauty subcategories
       makeup: {
         url: "makeup.html",
-        keywords: ["makeup", "cosmetics", "lipstick"],
+        keywords: ["makeup", "make up", "cosmetics", "lipstick", "lipsticks", "foundation", "mascara", "eyeshadow"],
       },
       skincare: {
         url: "skincare.html",
-        keywords: ["skincare", "moisturizer", "cleanser"],
+        keywords: ["skincare", "skin care", "moisturizer", "moisturizers", "cleanser", "cleansers", "serum", "serums", "sunscreen"],
       },
       haircare: {
         url: "haircare.html",
-        keywords: ["haircare", "shampoo", "conditioner"],
+        keywords: ["haircare", "hair care", "shampoo", "shampoos", "conditioner", "conditioners", "hair color", "hair dye"],
       },
       fragrance: {
         url: "Fragrance.html",
-        keywords: ["fragrance", "perfume", "cologne"],
+        keywords: ["fragrance", "fragrances", "perfume", "perfumes", "cologne", "colognes", "eau de parfum"],
       },
     };
 
