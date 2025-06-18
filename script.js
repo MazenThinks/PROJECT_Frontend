@@ -269,6 +269,11 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("theme", newTheme);
     updateIcon(newTheme === "dark");
     updateBodyTertiaryElements(newTheme === "dark");
+
+    // Only refresh when switching from dark to light
+    if (currentTheme === "dark" && newTheme === "light") {
+      window.location.reload();
+    }
   });
 
   function updateIcon(isDark) {

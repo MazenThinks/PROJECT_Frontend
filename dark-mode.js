@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateIcon(newTheme === "dark");
     updateBodyTertiaryElements(newTheme === "dark");
+
+    // Instant page refresh
+    window.location.reload();
   });
 
   // Update the icon based on dark mode state
