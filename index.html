@@ -90,7 +90,66 @@
 
       .price-text {
         font-weight: 600 !important;
-        color: #28a745 !important;
+        background: linear-gradient(135deg, #28a745, #20c997) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+      }
+
+      .search-item {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+        margin: 2px 4px;
+      }
+
+      .search-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 123, 255, 0.08) 0%,
+          rgba(0, 123, 255, 0.12) 100%
+        ) !important;
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+        border-left: 4px solid #007bff !important;
+      }
+
+      .product-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #2d3748;
+        line-height: 1.4;
+        margin-bottom: 4px;
+      }
+
+      .product-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
+      }
+
+      .product-price {
+        font-size: 0.85rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .product-rating {
+        font-size: 0.75rem;
+        color: #ffc107;
+        margin-left: 8px;
+      }
+
+      .category-badge-search {
+        background: linear-gradient(45deg, #007bff, #0056b3) !important;
+        font-size: 0.7rem !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 12px !important;
+        font-weight: 500 !important;
+        border: none !important;
       }
 
       .see-all-link {
@@ -5650,8 +5709,15 @@
 
             const price = document.createElement("span");
             price.textContent = `EGP ${product.price?.toFixed(2) || "N/A"}`;
-            price.className = "text-success fw-bold";
-            price.style.fontSize = "0.9rem";
+            price.className = "text-success fw-bold price-text";
+            price.style.cssText = `
+              font-size: 0.9rem;
+              background: linear-gradient(135deg, #28a745, #20c997);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              font-weight: 600;
+            `;
             priceDiv.appendChild(price);
 
             // Add rating if available
@@ -6144,12 +6210,43 @@
             .map((item) => {
               const page = productPageMap[item._id] || "#";
               const disabled = page === "#";
+              const price = item.price
+                ? `EGP ${item.price.toFixed(2)}`
+                : "Price N/A";
+              const rating = item.ratingsAverage
+                ? `★ ${item.ratingsAverage.toFixed(1)}`
+                : "";
+
               return `<a href="${
                 !disabled ? page : "#"
-              }" class="dropdown-item d-flex align-items-center${
+              }" class="dropdown-item d-flex align-items-center justify-content-between${
                 disabled ? " disabled" : ""
-              }" style="gap:8px;">
-                <span>${highlight(item.title, query)}</span>
+              }" style="gap:8px; padding: 12px 16px; border-bottom: 1px solid #f8f9fa;">
+                <div class="flex-grow-1" style="min-width: 0;">
+                  <div class="fw-semibold text-dark" style="font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${highlight(
+                      item.title.length > 45
+                        ? item.title.substring(0, 45) + "..."
+                        : item.title,
+                      query
+                    )}
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mt-1">
+                    <span class="text-success fw-bold" style="font-size: 0.85rem; background: linear-gradient(135deg, #28a745, #20c997); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                      ${price}
+                    </span>
+                    ${
+                      rating
+                        ? `<small class="text-warning ms-2" style="font-size: 0.75rem;">${rating}</small>`
+                        : ""
+                    }
+                  </div>
+                </div>
+                ${
+                  item.category?.name
+                    ? `<span class="badge" style="background: linear-gradient(45deg, #007bff, #0056b3); font-size: 0.7rem; padding: 0.25rem 0.5rem; border-radius: 12px;">${item.category.name}</span>`
+                    : ""
+                }
                 ${
                   disabled
                     ? '<span class="text-danger ms-2">No page</span>'
