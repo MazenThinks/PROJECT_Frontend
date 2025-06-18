@@ -2621,3 +2621,134 @@ textarea.form-control {
 .voice-search-toggle .btn:hover {
   transform: scale(1.05);
 }
+
+/* Dark mode styles for product pages */
+[data-bs-theme="dark"] .product-detail-container .price,
+[data-bs-theme="dark"] .product-detail-container .current-price,
+[data-bs-theme="dark"] .product-detail-container .original-price,
+[data-bs-theme="dark"] .product-detail-container .discount-price,
+[data-bs-theme="dark"] .product-info-container .price,
+[data-bs-theme="dark"] .product-info-container h1,
+[data-bs-theme="dark"] .product-info-container h2,
+[data-bs-theme="dark"] .product-info-container h3,
+[data-bs-theme="dark"] .product-info-container h4,
+[data-bs-theme="dark"] .product-info-container h5,
+[data-bs-theme="dark"] .product-info-container h6,
+[data-bs-theme="dark"] .product-info-container p,
+[data-bs-theme="dark"] .product-info-container .product-title,
+[data-bs-theme="dark"] .product-info-container .product-description,
+[data-bs-theme="dark"] .product-info-container .product-brand,
+[data-bs-theme="dark"] .product-info-container .product-rating,
+[data-bs-theme="dark"] .product-info-container .product-availability,
+[data-bs-theme="dark"] .product-info-container .product-specs,
+[data-bs-theme="dark"] .product-info-container .product-features {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for "About this item" section */
+[data-bs-theme="dark"] .about-item,
+[data-bs-theme="dark"] .about-item h2,
+[data-bs-theme="dark"] .about-item h3,
+[data-bs-theme="dark"] .about-item h4,
+[data-bs-theme="dark"] .about-item p,
+[data-bs-theme="dark"] .about-item ul,
+[data-bs-theme="dark"] .about-item li,
+[data-bs-theme="dark"] .product-details,
+[data-bs-theme="dark"] .product-details h2,
+[data-bs-theme="dark"] .product-details h3,
+[data-bs-theme="dark"] .product-details h4,
+[data-bs-theme="dark"] .product-details p,
+[data-bs-theme="dark"] .product-details ul,
+[data-bs-theme="dark"] .product-details li {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for product price box */
+[data-bs-theme="dark"] .price-box,
+[data-bs-theme="dark"] .price-box .price,
+[data-bs-theme="dark"] .price-box .current-price,
+[data-bs-theme="dark"] .price-box .original-price,
+[data-bs-theme="dark"] .price-box .discount,
+[data-bs-theme="dark"] .price-box .savings,
+[data-bs-theme="dark"] .price-box h3,
+[data-bs-theme="dark"] .price-box h4,
+[data-bs-theme="dark"] .price-box h5,
+[data-bs-theme="dark"] .price-box p,
+[data-bs-theme="dark"] .price-box span {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for product specifications and features */
+[data-bs-theme="dark"] .specifications,
+[data-bs-theme="dark"] .specifications h2,
+[data-bs-theme="dark"] .specifications h3,
+[data-bs-theme="dark"] .specifications h4,
+[data-bs-theme="dark"] .specifications p,
+[data-bs-theme="dark"] .specifications ul,
+[data-bs-theme="dark"] .specifications li,
+[data-bs-theme="dark"] .specifications table,
+[data-bs-theme="dark"] .specifications td,
+[data-bs-theme="dark"] .specifications th {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for product reviews section */
+[data-bs-theme="dark"] .reviews,
+[data-bs-theme="dark"] .reviews h2,
+[data-bs-theme="dark"] .reviews h3,
+[data-bs-theme="dark"] .reviews h4,
+[data-bs-theme="dark"] .reviews p,
+[data-bs-theme="dark"] .review-item,
+[data-bs-theme="dark"] .review-item h5,
+[data-bs-theme="dark"] .review-item p,
+[data-bs-theme="dark"] .review-text {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for related products section */
+[data-bs-theme="dark"] .related-products h2,
+[data-bs-theme="dark"] .related-products h3,
+[data-bs-theme="dark"] .related-products h4,
+[data-bs-theme="dark"] .related-products p {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode for any remaining text elements in product pages */
+[data-bs-theme="dark"] .container h1,
+[data-bs-theme="dark"] .container h2,
+[data-bs-theme="dark"] .container h3,
+[data-bs-theme="dark"] .container h4,
+[data-bs-theme="dark"] .container h5,
+[data-bs-theme="dark"] .container h6,
+[data-bs-theme="dark"] .container p,
+[data-bs-theme="dark"] .container span,
+[data-bs-theme="dark"] .container div {
+  color: var(--bs-body-color);
+}
+
+/* Ensure text color inheritance for dynamic content */
+[data-bs-theme="dark"] .product-page,
+[data-bs-theme="dark"] .product-page * {
+  color: inherit;
+}
+
+/* Dark mode for price elements with specific classes */
+[data-bs-theme="dark"] .text-danger,
+[data-bs-theme="dark"] .text-success,
+[data-bs-theme="dark"] .text-warning,
+[data-bs-theme="dark"] .text-info {
+  opacity: 0.9;
+}
+
+/* Dark mode for strikethrough prices */
+[data-bs-theme="dark"] .text-decoration-line-through {
+  color: var(--bs-secondary-color) !important;
+}
+
+/* Dark mode for product badges and labels */
+[data-bs-theme="dark"] .badge,
+[data-bs-theme="dark"] .label,
+[data-bs-theme="dark"] .tag {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+}

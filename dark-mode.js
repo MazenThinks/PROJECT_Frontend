@@ -40,13 +40,71 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tertiaryElements.forEach((element) => {
       if (isDark) {
-        // In dark mode: add bg-dark.bg-gradient class and remove bg-body-tertiary
-        element.classList.add("bg-dark.bg-gradient");
+        // In dark mode: add bg-dark and bg-gradient classes and remove bg-body-tertiary
+        element.classList.add("bg-dark", "bg-gradient");
         element.classList.remove("bg-body-tertiary");
       } else {
-        // In light mode: restore bg-body-tertiary and remove bg-dark.bg-gradient
+        // In light mode: restore bg-body-tertiary and remove bg-dark and bg-gradient
         element.classList.add("bg-body-tertiary");
-        element.classList.remove("bg-dark.bg-gradient");
+        element.classList.remove("bg-dark", "bg-gradient");
+      }
+    });
+
+    // Update text colors for dark mode
+    updateTextColors(isDark);
+  }
+
+  // Update text colors for better dark mode visibility
+  function updateTextColors(isDark) {
+    // Price elements
+    const priceElements = document.querySelectorAll(
+      ".price, .price-current, .price-original, .fw-bold"
+    );
+    priceElements.forEach((element) => {
+      if (isDark) {
+        element.classList.add("text-light");
+        element.classList.remove("text-dark");
+      } else {
+        element.classList.remove("text-light");
+        element.classList.add("text-dark");
+      }
+    });
+
+    // General text elements
+    const textElements = document.querySelectorAll(
+      "h1, h2, h3, h4, h5, h6, p, span, div"
+    );
+    textElements.forEach((element) => {
+      // Skip elements that already have specific text color classes
+      if (
+        !element.classList.contains("text-light") &&
+        !element.classList.contains("text-dark") &&
+        !element.classList.contains("text-muted") &&
+        !element.classList.contains("text-primary") &&
+        !element.classList.contains("text-success") &&
+        !element.classList.contains("text-danger") &&
+        !element.classList.contains("text-warning") &&
+        !element.classList.contains("text-info")
+      ) {
+        if (isDark) {
+          element.style.color = "#fff";
+        } else {
+          element.style.color = "";
+        }
+      }
+    });
+
+    // Update cards and containers
+    const cardElements = document.querySelectorAll(
+      ".card, .container, .product-info-container"
+    );
+    cardElements.forEach((element) => {
+      if (isDark) {
+        element.classList.add("text-light");
+        element.style.backgroundColor = "#212529";
+      } else {
+        element.classList.remove("text-light");
+        element.style.backgroundColor = "";
       }
     });
   }
