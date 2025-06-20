@@ -15,6 +15,194 @@
     />
     <link rel="stylesheet" href="styling.css" />
     <style>
+      /* AI-Enhanced Search Styles */
+      .ai-search-container {
+        position: relative;
+        z-index: 10;
+      }
+
+      .ai-search-wrapper {
+        position: relative;
+        overflow: visible;
+      }
+
+      .ai-search-input {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(248, 250, 252, 0.9) 100%
+        );
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        border-radius: 50px !important;
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #2d3748;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.1),
+          0 2px 8px rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 2;
+      }
+
+      .ai-search-input::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50px;
+        padding: 2px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: subtract;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .ai-search-input:focus {
+        outline: none;
+        border-color: transparent;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.25),
+          0 4px 16px rgba(118, 75, 162, 0.15),
+          0 0 0 4px rgba(102, 126, 234, 0.1);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.98) 0%,
+          rgba(248, 250, 252, 0.95) 100%
+        );
+        transform: translateY(-1px);
+      }
+
+      .ai-search-input:focus::before {
+        opacity: 1;
+      }
+
+      .ai-search-input::placeholder {
+        color: #718096;
+        font-weight: 400;
+        opacity: 0.8;
+      }
+
+      /* AI Glow Effect */
+      .ai-glow-effect {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.3),
+          rgba(118, 75, 162, 0.3)
+        );
+        border-radius: 50px;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        z-index: 1;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        filter: blur(20px);
+        animation: aiGlow 3s ease-in-out infinite alternate;
+      }
+
+      @keyframes aiGlow {
+        0% {
+          opacity: 0.3;
+          transform: translate(-50%, -50%) scale(0.95);
+        }
+        100% {
+          opacity: 0.6;
+          transform: translate(-50%, -50%) scale(1.05);
+        }
+      }
+
+      .ai-search-input:focus ~ .ai-glow-effect {
+        opacity: 0.8;
+        animation-duration: 1.5s;
+      }
+
+      /* AI Pulse Ring */
+      .ai-pulse-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-radius: 50px;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.4),
+          rgba(118, 75, 162, 0.4)
+        );
+        background-clip: border-box;
+        opacity: 0;
+        z-index: 1;
+        animation: aiPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes aiPulse {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: translate(-50%, -50%) scale(1.02);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1.04);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .ai-search-input {
+          padding: 10px 16px;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Dark Mode Support */
+      [data-theme="dark"] .ai-search-input {
+        background: linear-gradient(
+          135deg,
+          rgba(45, 55, 72, 0.95) 0%,
+          rgba(26, 32, 44, 0.9) 100%
+        );
+        color: #e2e8f0;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2),
+          0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] .ai-search-input::placeholder {
+        color: #a0aec0;
+      }
+
+      [data-theme="dark"] .ai-search-input:focus {
+        background: linear-gradient(
+          135deg,
+          rgba(45, 55, 72, 0.98) 0%,
+          rgba(26, 32, 44, 0.95) 100%
+        );
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3),
+          0 4px 16px rgba(118, 75, 162, 0.2),
+          0 0 0 4px rgba(102, 126, 234, 0.15);
+      }
+
+      [data-theme="dark"] .ai-dropdown {
+        background: rgba(45, 55, 72, 0.95) !important;
+        border: 1px solid rgba(102, 126, 234, 0.3) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+          0 8px 24px rgba(102, 126, 234, 0.1) !important;
+      }
+
       /* Enhanced Search Dropdown Styles */
       #searchDropdown {
         backdrop-filter: blur(10px);
@@ -347,20 +535,29 @@
           <span class="fs-4 me-1 title">PickPay</span>
         </a>
         <form
-          class="d-flex searchmarg position-relative flex-grow-1 mx-2"
+          class="d-flex searchmarg position-relative flex-grow-1 mx-2 ai-search-container"
           role="search"
           style="max-width: 600px"
         >
-          <input
-            class="form-control me-2 navsearch"
-            type="search"
-            placeholder="Search for products or type any command"
-            aria-label="Search"
-            autocomplete="off"
-          />
+          <div class="ai-search-wrapper position-relative w-100">
+            <div class="ai-glow-effect"></div>
+            <div class="ai-pulse-ring"></div>
+            <input
+              class="form-control ai-search-input navsearch"
+              type="search"
+              placeholder="Search for products or type any command"
+              aria-label="Search"
+              autocomplete="off"
+            />
+            <div class="ai-typing-indicator">
+              <div class="ai-dot ai-dot-1"></div>
+              <div class="ai-dot ai-dot-2"></div>
+              <div class="ai-dot ai-dot-3"></div>
+            </div>
+          </div>
           <div
             id="searchDropdown"
-            class="dropdown-menu w-100 shadow-lg border-0"
+            class="dropdown-menu w-100 shadow-lg border-0 ai-dropdown"
             style="
               max-height: 400px;
               overflow-y: auto;
@@ -5294,1224 +5491,104 @@
           }
         };
 
-        // Comprehensive spell correction dictionary
+        // Category name spell corrections only
         const spellCorrections = {
-          // Common misspellings of product names
-          iphoen: "iPhone",
-          iphone: "iPhone",
-          ifone: "iPhone",
-          ipone: "iPhone",
-          ipohne: "iPhone",
-          iphne: "iPhone",
-          ihpone: "iPhone",
-          ioph: "iPhone",
-          ayfone: "iPhone",
-          "i fone": "iPhone",
-          samsng: "Samsung",
-          samung: "Samsung",
-          smasung: "Samsung",
-          samsung: "Samsung",
-          samsumg: "Samsung",
-          samusng: "Samsung",
-          samsungn: "Samsung",
-          samsnug: "Samsung",
-          samong: "Samsung",
+          // Main categories
+          elecronics: "electronics",
+          electonics: "electronics",
+          electronis: "electronics",
+          electornics: "electronics",
+          appliancs: "appliances",
+          applinces: "appliances",
+          appliances: "appliances",
+          applianc: "appliances",
+          applience: "appliances",
+          fasion: "fashion",
+          fashon: "fashion",
+          fashoin: "fashion",
+          fation: "fashion",
 
-          // Laptop variations
-          labtop: "laptop",
-          laptob: "laptop",
-          leptop: "laptop",
-          latop: "laptop",
-          laptp: "laptop",
-          laptpo: "laptop",
-          laktop: "laptop",
-          laptoop: "laptop",
-          lpatop: "laptop",
-          laptorp: "laptop",
-          labtoop: "laptop",
-
-          // Mobile variations
-          moblie: "mobile",
-          moble: "mobile",
-          mobil: "mobile",
-          mibile: "mobile",
-          moblie: "mobile",
-          mboile: "mobile",
-          mobilr: "mobile",
-          mobiel: "mobile",
-          "moblie phone": "mobile phone",
-          "mobile fone": "mobile phone",
-          "cell fone": "mobile phone",
-          "mobil phone": "mobile phone",
-
-          // Television variations
-          televisoin: "television",
-          televison: "television",
-          tv: "television",
-          telivision: "television",
-          televesion: "television",
-          televisio: "television",
-          telvision: "television",
-          televiosn: "television",
-          televison: "television",
-
-          // PlayStation variations
-          playstaion: "PlayStation",
-          plastation: "PlayStation",
-          "play station": "PlayStation",
-          playsation: "PlayStation",
-          playstatoin: "PlayStation",
-          playstatoin: "PlayStation",
-          playstion: "PlayStation",
-          ps: "PlayStation",
-          pstation: "PlayStation",
-
-          // Perfume variations
-          perfum: "perfume",
-          parfume: "perfume",
-          perfume: "perfume",
-          parfum: "perfume",
-          perfuem: "perfume",
-          perfmue: "perfume",
-          perume: "perfume",
-          profume: "perfume",
-          perfumee: "perfume",
-
-          // Shoes variations
-          shose: "shoes",
-          shoe: "shoes",
-          shoess: "shoes",
-          sheos: "shoes",
-          shos: "shoes",
-          shois: "shoes",
-          shues: "shoes",
-          shooes: "shoes",
-          sheos: "shoes",
-
-          // Clothes variations
-          cloths: "clothes",
-          clothe: "clothes",
-          clothing: "clothes",
-          clohtes: "clothes",
-          cothes: "clothes",
-          clothees: "clothes",
-          clotes: "clothes",
-          cloths: "clothes",
-
-          // Refrigerator variations
-          refridgerator: "refrigerator",
-          refrigrator: "refrigerator",
-          fridge: "refrigerator",
-          fridg: "refrigerator",
-          refrigeater: "refrigerator",
-          refridgeater: "refrigerator",
-          refrigrater: "refrigerator",
-          refigerator: "refrigerator",
-          refrigrator: "refrigerator",
-          refridgerater: "refrigerator",
-
-          // Washing machine variations
-          "washng machine": "washing machine",
-          "washing machne": "washing machine",
-          "washing machin": "washing machine",
-          "wasing machine": "washing machine",
-          "washign machine": "washing machine",
-          "washing mashine": "washing machine",
-          washer: "washing machine",
-          "washing machien": "washing machine",
-
-          // Microwave variations
-          microwav: "microwave",
-          microwave: "microwave",
-          micorwave: "microwave",
-          microwawe: "microwave",
-          microwae: "microwave",
-          microwve: "microwave",
-          microwavr: "microwave",
-          microwaw: "microwave",
-
-          // Air conditioner variations
-          airconditioner: "air conditioner",
-          airconditioner: "air conditioner",
-          aircon: "air conditioner",
-          "air conditoner": "air conditioner",
-          airconditionr: "air conditioner",
-          "air conditioer": "air conditioner",
-          ac: "air conditioner",
-          "air conditioning": "air conditioner",
-
-          // Headphones variations
-          headfones: "headphones",
-          headfone: "headphones",
-          headphons: "headphones",
-          headpohnes: "headphones",
-          headphonse: "headphones",
-          headpones: "headphones",
-          headfhones: "headphones",
-          hedphones: "headphones",
-
-          // Earphones variations
-          earfones: "earphones",
-          earphons: "earphones",
-          earpones: "earphones",
-          earfhones: "earphones",
-          eraphones: "earphones",
-          earfones: "earphones",
-          "ear phones": "earphones",
-
-          // Speaker variations
-          spekers: "speakers",
-          speker: "speakers",
-          speakr: "speakers",
-          speakerr: "speakers",
-          speekers: "speakers",
-          speakres: "speakers",
-          spekers: "speakers",
-
-          // Charger variations
-          charger: "charger",
-          chargr: "charger",
-          charjr: "charger",
-          chargerr: "charger",
-          chargre: "charger",
-          charger: "charger",
-          chargor: "charger",
-
-          // Camera variations
-          camra: "camera",
-          camera: "camera",
-          camara: "camera",
-          cameraa: "camera",
-          camerea: "camera",
-          camira: "camera",
-          camorra: "camera",
-
-          // Keyboard variations
-          keybord: "keyboard",
-          keyborad: "keyboard",
-          keyboard: "keyboard",
-          keybaord: "keyboard",
-          keyboard: "keyboard",
-          keybard: "keyboard",
-          keyoard: "keyboard",
-
-          // Mouse variations
-          mous: "mouse",
-          mice: "mouse",
-          "computer mouse": "mouse",
-          mose: "mouse",
-          moues: "mouse",
-          mousse: "mouse",
-
-          // Tablet variations
-          tablat: "tablet",
-          tablit: "tablet",
-          tabet: "tablet",
-          tablett: "tablet",
-          tableet: "tablet",
-          tablt: "tablet",
-
-          // Console variations
-          consol: "console",
-          concole: "console",
-          console: "console",
-          consle: "console",
-          consolr: "console",
-          consoel: "console",
-
-          // Controller variations
-          controler: "controller",
-          contorller: "controller",
-          contrller: "controller",
-          contrloler: "controller",
-          contoller: "controller",
-          controllerr: "controller",
-
-          // Accessories variations
-          accesories: "accessories",
-          accessories: "accessories",
-          accesory: "accessories",
-          acessories: "accessories",
-          accessoris: "accessories",
-          acceseries: "accessories",
-          accesarries: "accessories",
-
-          // Jewelry variations
-          jewlery: "jewelry",
-          jewelery: "jewelry",
-          jewellery: "jewelry",
-          jewlrey: "jewelry",
-          jewerly: "jewelry",
-          jewelary: "jewelry",
-          jewlry: "jewelry",
-
-          // Watch variations
-          watche: "watch",
-          wach: "watch",
-          watches: "watch",
-          wacth: "watch",
-          wtch: "watch",
-          wath: "watch",
-
-          // Backpack variations
-          backpac: "backpack",
-          bakpack: "backpack",
-          "back pack": "backpack",
-          backpakc: "backpack",
-          bakcpack: "backpack",
-          backpac: "backpack",
-
-          // Purse variations
-          purse: "purse",
-          purs: "purse",
-          purese: "purse",
-          purce: "purse",
-          perse: "purse",
-
-          // Handbag variations
-          handbag: "handbag",
-          handbagg: "handbag",
-          handbagr: "handbag",
-          handbeg: "handbag",
-          handag: "handbag",
-
-          // Makeup variations
+          // Beauty categories
+          beautty: "beauty",
+          beauy: "beauty",
+          beatuy: "beauty",
+          beaty: "beauty",
+          fragrence: "fragrance",
+          fragnce: "fragrance",
+          fragarnce: "fragrance",
           makeap: "makeup",
           "make up": "makeup",
           "make-up": "makeup",
-          mkeup: "makeup",
-          makepu: "makeup",
-          makup: "makeup",
-          makuep: "makeup",
-
-          // Lipstick variations
-          lipstik: "lipstick",
-          lipstick: "lipstick",
-          "lip stick": "lipstick",
-          lipstic: "lipstick",
-          lipstik: "lipstick",
-          lipstikc: "lipstick",
-          lipsitck: "lipstick",
-
-          // Mascara variations
-          maskara: "mascara",
-          mascra: "mascara",
-          mascara: "mascara",
-          masscara: "mascara",
-          masacra: "mascara",
-          marcara: "mascara",
-
-          // Foundation variations
-          foundatin: "foundation",
-          fundation: "foundation",
-          foundation: "foundation",
-          foundaton: "foundation",
-          foundtion: "foundation",
-          foundatioon: "foundation",
-
-          // Concealer variations
-          concealer: "concealer",
-          conceler: "concealer",
-          concealer: "concealer",
-          conceleaer: "concealer",
-          concelaer: "concealer",
-
-          // Eyeshadow variations
-          eyeshadow: "eyeshadow",
-          "eye shadow": "eyeshadow",
-          eyeshadow: "eyeshadow",
-          eyeshadw: "eyeshadow",
-          eyeshaodw: "eyeshadow",
-
-          // Skincare variations
           skincar: "skincare",
           "skin care": "skincare",
-          skincare: "skincare",
-          skincre: "skincare",
-          skincaer: "skincare",
-
-          // Haircare variations
           haircar: "haircare",
           "hair care": "haircare",
-          haircare: "haircare",
-          haircaer: "haircare",
-          haircre: "haircare",
 
-          // Shampoo variations
-          shmpoo: "shampoo",
-          shampoo: "shampoo",
-          shampo: "shampoo",
-          shmapo: "shampoo",
-          shamopoo: "shampoo",
-          shamoo: "shampoo",
-          shampoe: "shampoo",
-
-          // Conditioner variations
-          conditionr: "conditioner",
-          conditoner: "conditioner",
-          conditioner: "conditioner",
-          conditionir: "conditioner",
-          conditoiner: "conditioner",
-          conitioner: "conditioner",
-
-          // Fragrance variations
-          fragranc: "fragrance",
-          fragrance: "fragrance",
-          fragnance: "fragrance",
-          fragnce: "fragrance",
-          fragrence: "fragrance",
-          fragarnce: "fragrance",
-
-          // Cologne variations
-          cologne: "cologne",
-          cologn: "cologne",
-          cologne: "cologne",
-          colongne: "cologne",
-          colgne: "cologne",
-
-          // Sneakers variations
-          snekers: "sneakers",
-          sneekers: "sneakers",
-          sneaker: "sneakers",
-          sneeaker: "sneakers",
-          snekers: "sneakers",
-          sneker: "sneakers",
-          sneakrs: "sneakers",
-
-          // Sandals variations
-          sandls: "sandals",
-          sandel: "sandals",
-          sandals: "sandals",
-          sandlas: "sandals",
-          sandles: "sandals",
-          sandels: "sandals",
-
-          // Boots variations
-          boots: "boots",
-          boot: "boots",
-          bots: "boots",
-          botos: "boots",
-          boosts: "boots",
-          botts: "boots",
-
-          // Jeans variations
-          jens: "jeans",
-          jean: "jeans",
-          jeans: "jeans",
-          jenes: "jeans",
-          janes: "jeans",
-          jeanes: "jeans",
-
-          // T-shirt variations
-          tshirt: "t-shirt",
-          "t shirt": "t-shirt",
-          "tee shirt": "t-shirt",
-          "t-shrit": "t-shirt",
-          tshrit: "t-shirt",
-          teeshirt: "t-shirt",
-
-          // Sweater variations
-          swetr: "sweater",
-          sweter: "sweater",
-          sweater: "sweater",
-          sweatr: "sweater",
-          sweatter: "sweater",
-          sweetr: "sweater",
-
-          // Jacket variations
-          jaket: "jacket",
-          jackt: "jacket",
-          jacket: "jacket",
-          jakct: "jacket",
-          jackett: "jacket",
-          jaekt: "jacket",
-
-          // Dress variations
-          dres: "dress",
-          dress: "dress",
-          dresses: "dress",
-          drss: "dress",
-          dresss: "dress",
-
-          // Skirt variations
-          skrt: "skirt",
-          skirt: "skirt",
-          skirts: "skirt",
-          skrit: "skirt",
-          skitr: "skirt",
-
-          // Pants variations
-          pnts: "pants",
-          pant: "pants",
-          pants: "pants",
-          pnats: "pants",
-          panst: "pants",
-
-          // Shorts variations
-          shorts: "shorts",
-          short: "shorts",
-          shrts: "shorts",
-          shortss: "shorts",
-          shors: "shorts",
-
-          // Socks variations
-          soks: "socks",
-          sock: "socks",
-          socks: "socks",
-          scks: "socks",
-          sks: "socks",
-
-          // Underwear variations
-          underwar: "underwear",
-          "under wear": "underwear",
-          underwear: "underwear",
-          underwere: "underwear",
-          underwae: "underwear",
-
-          // Bra variations
-          bra: "bra",
-          bras: "bra",
-          brassiere: "bra",
-
-          // Sofa variations
-          sofa: "sofa",
-          couch: "sofa",
-          sofas: "sofa",
-          soffa: "sofa",
-          sopha: "sofa",
-
-          // Chair variations
-          chair: "chair",
-          chiar: "chair",
-          chairs: "chair",
-          chair: "chair",
-          chiar: "chair",
-          chaier: "chair",
-
-          // Table variations
-          tabl: "table",
-          tabel: "table",
-          tables: "table",
-          tbale: "table",
-          tabble: "table",
-          taple: "table",
-
-          // Bed variations
-          bed: "bed",
-          beds: "bed",
-          bedd: "bed",
-          beddd: "bed",
-
-          // Mattress variations
-          matres: "mattress",
-          matress: "mattress",
-          mattress: "mattress",
-          mattrss: "mattress",
-          mattres: "mattress",
-          matrress: "mattress",
-
-          // Pillow variations
-          pilow: "pillow",
-          pillo: "pillow",
-          pillows: "pillow",
-          pillos: "pillow",
-          pillwo: "pillow",
-
-          // Blanket variations
-          blanket: "blanket",
-          blankt: "blanket",
-          blankets: "blanket",
-          blankeet: "blanket",
-          blnket: "blanket",
-
-          // Sheet variations
-          sheet: "sheet",
-          sheets: "sheet",
-          "bed sheet": "sheet",
-          shee: "sheet",
-          sheeet: "sheet",
-
-          // Towel variations
-          towel: "towel",
-          towl: "towel",
-          towels: "towel",
-          toweel: "towel",
-          towell: "towel",
-
-          // Curtain variations
-          curtain: "curtain",
-          curtin: "curtain",
-          curtains: "curtain",
-          curtian: "curtain",
-          curtainn: "curtain",
-
-          // Lamp variations
-          lamp: "lamp",
-          lmap: "lamp",
-          lamps: "lamp",
-          lapm: "lamp",
-          lampp: "lamp",
-
-          // Light variations
-          light: "light",
-          lighting: "light",
-          lights: "light",
-          ligt: "light",
-          ligh: "light",
-          lightt: "light",
-
-          // Fan variations
-          fan: "fan",
-          fans: "fan",
-          "ceiling fan": "fan",
-          fann: "fan",
-
-          // Air conditioner variations (additional)
-          airconditionr: "air conditioner",
-          ac: "air conditioner",
-
-          // Heater variations
-          heater: "heater",
-          heatr: "heater",
-          heaters: "heater",
-          heter: "heater",
-          heateer: "heater",
-
-          // Vacuum variations
-          vaccum: "vacuum",
-          vacum: "vacuum",
-          "vacuum cleaner": "vacuum",
-          vacuun: "vacuum",
-          vacum: "vacuum",
-          vaccuum: "vacuum",
-
-          // Iron variations
-          iron: "iron",
-          irn: "iron",
-          "steam iron": "iron",
-          iorn: "iron",
-          iroon: "iron",
-
-          // Blender variations
-          blender: "blender",
-          blendr: "blender",
-          blenders: "blender",
-          blendeer: "blender",
-          blener: "blender",
-
-          // Mixer variations
-          mixer: "mixer",
-          mixr: "mixer",
-          mixers: "mixer",
-          mixeer: "mixer",
-          mxer: "mixer",
-
-          // Toaster variations
-          toastr: "toaster",
-          toaster: "toaster",
-          toasters: "toaster",
-          toasteer: "toaster",
-          toster: "toaster",
-
-          // Coffee maker variations
-          coffeemaker: "coffee maker",
-          "coffe maker": "coffee maker",
-          "cofee maker": "coffee maker",
-          "coffee makr": "coffee maker",
-          "coffe makr": "coffee maker",
-
-          // Kettle variations
-          ketl: "kettle",
-          ketle: "kettle",
-          kettles: "kettle",
-          kettel: "kettle",
-          ketlle: "kettle",
-
-          // Pot variations
-          pot: "pot",
-          pots: "pot",
-          "cooking pot": "pot",
-          pott: "pot",
-
-          // Pan variations
-          pan: "pan",
-          pans: "pan",
-          "frying pan": "pan",
-          pann: "pan",
-
-          // Dish variations
-          dish: "dish",
-          dishes: "dish",
-          dinnerware: "dish",
-          dishe: "dish",
-          dishh: "dish",
-
-          // Cup variations
-          cup: "cup",
-          cups: "cup",
-          "coffee cup": "cup",
-          cupp: "cup",
-
-          // Glass variations
-          glas: "glass",
-          glasses: "glass",
-          "drinking glass": "glass",
-          glasse: "glass",
-          glasss: "glass",
-
-          // Plate variations
-          plate: "plate",
-          plates: "plate",
-          "dinner plate": "plate",
-          platte: "plate",
-          pate: "plate",
-
-          // Bowl variations
-          bowl: "bowl",
-          bowls: "bowl",
-          "mixing bowl": "bowl",
-          bowll: "bowl",
-
-          // Spoon variations
-          spoon: "spoon",
-          spons: "spoon",
-          spoons: "spoon",
-          spooon: "spoon",
-          spoo: "spoon",
-
-          // Fork variations
-          fork: "fork",
-          frok: "fork",
-          forks: "fork",
-          forrk: "fork",
-          frk: "fork",
-
-          // Knife variations
-          knif: "knife",
-          knive: "knife",
-          knives: "knife",
-          knie: "knife",
-          kniffe: "knife",
-
-          // Cutting board variations
-          "cutting board": "cutting board",
-          "cuting board": "cutting board",
-          "cutting bord": "cutting board",
-          "cutin board": "cutting board",
-
-          // Electronics brand variations
-          apple: "Apple",
-          aple: "Apple",
-          appel: "Apple",
-          aplle: "Apple",
-          sony: "Sony",
-          siny: "Sony",
-          soni: "Sony",
-          hp: "HP",
-          dell: "Dell",
-          del: "Dell",
-          lenovoo: "Lenovo",
-          lenovo: "Lenovo",
-          lenova: "Lenovo",
-          huawei: "Huawei",
-          hauwei: "Huawei",
-          huweai: "Huawei",
-          xiaomi: "Xiaomi",
-          xiaomy: "Xiaomi",
-          xiomi: "Xiaomi",
-          lg: "LG",
-
-          // Computer/Tech terms
-          computer: "laptop",
-          computr: "laptop",
-          compter: "laptop",
-          computeer: "laptop",
-          pc: "laptop",
-          desktop: "laptop",
-
-          // Gaming terms
-          gaming: "gaming",
-          gamin: "gaming",
-          gamming: "gaming",
-          gmng: "gaming",
-          game: "gaming",
-          gmes: "games",
-          videogame: "video game",
-          "video gam": "video game",
-
-          // Storage terms
-          storage: "storage",
-          storag: "storage",
-          storge: "storage",
-          "hard drive": "storage",
-          "hard driv": "storage",
-          hdd: "storage",
-          ssd: "storage",
-
-          // Memory/RAM terms
-          memory: "memory",
-          memry: "memory",
-          ram: "RAM",
-
-          // Display terms
-          monitor: "monitor",
-          monitr: "monitor",
-          moniter: "monitor",
-          display: "display",
-          displai: "display",
-          screen: "screen",
-          scren: "screen",
-
-          // Audio terms
-          audio: "audio",
-          audi: "audio",
-          sound: "sound",
-          soudn: "sound",
-
-          // Beauty brand variations
-          loreal: "L'Oreal",
-          "l oreal": "L'Oreal",
-          maybelline: "Maybelline",
-          maybaline: "Maybelline",
-          revlon: "Revlon",
-          revlone: "Revlon",
-
-          // Home decor terms
-          decor: "decor",
-          decorr: "decor",
-          decoration: "decor",
-          decoraton: "decor",
-
-          // Kitchen appliance terms
-          kitchen: "kitchen",
-          kitchn: "kitchen",
-          kithen: "kitchen",
-          appliance: "appliance",
-          applianc: "appliance",
-          appliences: "appliances",
-
-          // Common typos
-          teh: "the",
-          adn: "and",
-          fo: "of",
-          "i want": "I want",
-          "i need": "I need",
-
-          // Bathroom terms
-          bathroom: "bathroom",
-          bathroo: "bathroom",
-          bathrom: "bathroom",
-          shower: "shower",
-          showr: "shower",
-          bath: "bath",
-
-          // Exercise/Sports terms
-          exercise: "exercise",
-          excersize: "exercise",
-          fitness: "fitness",
-          fitnes: "fitness",
-          sport: "sport",
-          sports: "sports",
-
-          // Office terms
-          office: "office",
-          offic: "office",
-          ofice: "office",
-          desk: "desk",
-          desl: "desk",
-
-          // Additional extensive misspellings and variations
-
-          // More smartphone/mobile variations
-          "smart phone": "smartphone",
-          smartfone: "smartphone",
-          "cell phone": "mobile phone",
-          "mobile device": "mobile phone",
-          cellphone: "mobile phone",
-          handphone: "mobile phone",
-          "hand phone": "mobile phone",
-
-          // Technology brand variations (more comprehensive)
-          microsoft: "Microsoft",
-          microsft: "Microsoft",
-          microsofy: "Microsoft",
-          nike: "Nike",
-          nikke: "Nike",
-          nkie: "Nike",
-          adidas: "Adidas",
-          addidas: "Adidas",
-          addias: "Adidas",
-
-          // More gaming console variations
-          xbox: "Xbox",
-          "x box": "Xbox",
-          xbx: "Xbox",
-          xbok: "Xbox",
-          nintendo: "Nintendo",
-          nintendoo: "Nintendo",
-          nitendo: "Nintendo",
-
-          // Additional food and kitchen related misspellings
-          recipee: "recipe",
-          recepie: "recipe",
-          receipe: "recipe",
-          recipe: "recipe",
-
-          // More clothing item misspellings
-          pajamas: "pajamas",
-          pyjamas: "pajamas",
-          pajama: "pajamas",
-          pjamas: "pajamas",
-          sleepwear: "pajamas",
-          nightwear: "pajamas",
-
-          // More fashion brand variations
-          gucci: "Gucci",
-          guchi: "Gucci",
-          guci: "Gucci",
-          prada: "Prada",
-          praada: "Prada",
-          pradda: "Prada",
-
-          // More beauty product variations
-          moisturizer: "moisturizer",
-          moisturiser: "moisturizer",
-          moisturzer: "moisturizer",
-          moistuizer: "moisturizer",
-          moisterizer: "moisturizer",
-
-          // More house/home variations
-          kitchenware: "kitchenware",
-          kichenware: "kitchenware",
-          kitchenwear: "kitchenware",
-          "kitchen ware": "kitchenware",
-
-          // More tool variations
-          screwdriver: "screwdriver",
-          screw: "screwdriver",
-          screwdrivr: "screwdriver",
-          scredriver: "screwdriver",
-          hammer: "hammer",
-          hamr: "hammer",
-          hammerr: "hammer",
-
-          // More electronic component variations
-          battery: "battery",
-          baterry: "battery",
-          batery: "battery",
-          battry: "battery",
-          batterie: "battery",
-          batteries: "battery",
-
-          // More sports equipment variations
-          basketball: "basketball",
-          basktball: "basketball",
-          basketbal: "basketball",
-          "basket ball": "basketball",
-          football: "football",
-          footbal: "football",
-          "foot ball": "football",
-          soccer: "soccer",
-          socer: "soccer",
-          socr: "soccer",
-
-          // More automotive related terms
-          car: "car",
-          cars: "car",
-          automobile: "car",
-          vehicle: "car",
-          auto: "car",
-
-          // More seasonal/weather related items
-          umbrella: "umbrella",
-          umbrlla: "umbrella",
-          umbrela: "umbrella",
-          umbrell: "umbrella",
-          raincoat: "raincoat",
-          rain: "raincoat",
-          "rain coat": "raincoat",
-
-          // More pet related items
-          "pet food": "pet food",
-          petfood: "pet food",
-          "dog food": "pet food",
-          "cat food": "pet food",
-
-          // More garden/outdoor items
-          gardening: "gardening",
-          gardenning: "gardening",
-          gardning: "gardening",
-
-          // More book/educational items
-          book: "book",
-          bok: "book",
-          boook: "book",
-          books: "book",
-          textbook: "textbook",
-          "text book": "textbook",
-
-          // More electronic accessories
-          "phone case": "phone case",
-          phonecase: "phone case",
-          "mobile case": "phone case",
-          "screen protector": "screen protector",
-          screenprotector: "screen protector",
-
-          // More furniture variations
-          bookshelf: "bookshelf",
-          "book shelf": "bookshelf",
-          bookcase: "bookshelf",
-          "book case": "bookshelf",
-          wardrobe: "wardrobe",
-          wardobe: "wardrobe",
-          closet: "wardrobe",
-
-          // More appliance specific misspellings
-          dishwasher: "dishwasher",
-          "dish washer": "dishwasher",
-          dishwashr: "dishwasher",
-          dishwasing: "dishwasher",
-          dishwash: "dishwasher",
-          dryer: "dryer",
-          drier: "dryer",
-          dryr: "dryer",
-
-          // More jewelry specific misspellings
-          necklace: "necklace",
-          neklace: "necklace",
-          neckless: "necklace",
-          necklas: "necklace",
-          bracelet: "bracelet",
-          bracellet: "bracelet",
-          braselet: "bracelet",
-          earrings: "earrings",
-          earings: "earrings",
-          earing: "earrings",
-          ring: "ring",
-          rig: "ring",
-          rings: "ring",
-
-          // More medical/health related items
-          medicine: "medicine",
-          medicin: "medicine",
-          medication: "medicine",
-          vitamins: "vitamins",
-          vitamin: "vitamins",
-          vitamine: "vitamins",
-
-          // More cleaning product variations
-          detergent: "detergent",
-          detergen: "detergent",
-          detergnt: "detergent",
-          soap: "soap",
-          sope: "soap",
-          soaps: "soap",
-
-          // More music/entertainment related
-          headset: "headset",
-          headst: "headset",
-          microphone: "microphone",
-          microfone: "microphone",
-          mic: "microphone",
-
-          // More common everyday items
-          wallet: "wallet",
-          walet: "wallet",
-          wallet: "wallet",
-          keychain: "keychain",
-          "key chain": "keychain",
-          keechain: "keychain",
-
-          // More common misspellings of product features
-          wireless: "wireless",
-          wirelss: "wireless",
-          wireles: "wireless",
-          bluetooth: "bluetooth",
-          blutooth: "bluetooth",
-          bluetoth: "bluetooth",
-
-          // More storage related terms
-          backpack: "backpack",
-          rucksack: "backpack",
-          schoolbag: "backpack",
-          "school bag": "backpack",
-
-          // More hobby/craft related items
-          pencil: "pencil",
-          pensil: "pencil",
-          pen: "pen",
-          pens: "pen",
-          marker: "marker",
-          markr: "marker",
-
-          // More outdoor/camping equipment
-          tent: "tent",
-          tnt: "tent",
-          "sleeping bag": "sleeping bag",
-          sleepingbag: "sleeping bag",
-
-          // More hardware/construction items
-          drill: "drill",
-          dril: "drill",
-          screws: "screws",
-          screw: "screws",
-          nails: "nails",
-          nail: "nails",
-
-          // More bathroom specific items
-          toothbrush: "toothbrush",
-          tooth: "toothbrush",
-          "tooth brush": "toothbrush",
-          toothpaste: "toothpaste",
-          "tooth paste": "toothpaste",
-          toothpast: "toothpaste",
-
-          // More baby/child related items
-          stroller: "stroller",
-          stoller: "stroller",
-          "baby stroller": "stroller",
-          babystroller: "stroller",
-
-          // More seasonal clothing
-          "winter coat": "winter coat",
-          wintercoat: "winter coat",
-          "summer dress": "summer dress",
-          summerdress: "summer dress",
-
-          // More coffee/tea related items
-          "coffee machine": "coffee machine",
-          coffeemachine: "coffee machine",
-          "espresso machine": "coffee machine",
-          teapot: "teapot",
-          "tea pot": "teapot",
-          teapt: "teapot",
-
-          // More air conditioning variants
-          aircon: "air conditioner",
-          "air con": "air conditioner",
-          cooling: "air conditioner",
-          cooler: "air conditioner",
-
-          // More specific electronic device misspellings
-          projector: "projector",
-          projetor: "projector",
-          projectr: "projector",
-          router: "router",
-          ruter: "router",
-          modem: "modem",
-          modm: "modem",
-
-          // More food storage items
-          container: "container",
-          containr: "container",
-          contaner: "container",
-          tupperware: "container",
-          "food container": "container",
-
-          // More toy related items
-          toy: "toy",
-          toys: "toy",
-          "toy car": "toy car",
-          toycar: "toy car",
-          puzzle: "puzzle",
-          puzel: "puzzle",
-
-          // More office supplies
-          stapler: "stapler",
-          stapl: "stapler",
-          stapler: "stapler",
-          calculator: "calculator",
-          calculatr: "calculator",
-          calc: "calculator",
-
-          // More party/event items
-          decoration: "decoration",
-          decoraton: "decoration",
-          decorations: "decoration",
-          balloon: "balloon",
-          baloon: "balloon",
-          ballon: "balloon",
-
-          // More scientific/educational equipment
-          microscope: "microscope",
-          microscop: "microscope",
-          telescope: "telescope",
-          telescop: "telescope",
-
-          // More art supplies
-          paintbrush: "paintbrush",
-          "paint brush": "paintbrush",
-          paintbrus: "paintbrush",
-          canvas: "canvas",
-          canvs: "canvas",
-          canva: "canvas",
-
-          // More musical instruments
-          guitar: "guitar",
-          guita: "guitar",
-          gitar: "guitar",
-          piano: "piano",
-          pian: "piano",
-          keyboard: "keyboard",
-
-          // More travel accessories
-          suitcase: "suitcase",
-          suit: "suitcase",
-          suitcas: "suitcase",
-          luggage: "luggage",
-          luggage: "luggage",
-
-          // More common everyday misspellings (additional)
-          receipt: "receipt",
-          recipt: "receipt",
-          receit: "receipt",
-          recipt: "receipt",
-
-          // More home security items
-          camera: "security camera",
-          "security camera": "security camera",
-          alarm: "alarm",
-          alrm: "alarm",
-
-          // More fitness equipment specific
-          treadmill: "treadmill",
-          tredmill: "treadmill",
-          treadmil: "treadmill",
-          dumbbell: "dumbbell",
-          dumbell: "dumbbell",
-          "dumb bell": "dumbbell",
-
-          // More kitchen gadgets
-          grinder: "grinder",
-          grindr: "grinder",
-          juicer: "juicer",
-          juicr: "juicer",
-          processor: "food processor",
-          "food processor": "food processor",
-
-          // More specific game console accessories
-          "ps4 controller": "controller",
-          "ps5 controller": "controller",
-          "xbox controller": "controller",
-          gamepad: "controller",
-
-          // More electronic cable types
-          cable: "cable",
-          cabl: "cable",
-          "usb cable": "cable",
-          usbcable: "cable",
-          "charging cable": "cable",
-
-          // More decoration items
-          vase: "vase",
-          vas: "vase",
-          flower: "flower",
-          flowrs: "flower",
-          plant: "plant",
-          plants: "plant",
+          // Home categories
+          furnituire: "furniture",
+          furnitur: "furniture",
+          furnitue: "furniture",
+          decor: "home decor",
+          decorr: "home decor",
+          "home decore": "home decor",
+          homedecor: "home decor",
+          kitchen: "kitchen dining",
+          kitchn: "kitchen dining",
+          "kitchen and dining": "kitchen dining",
+          "bath bedding": "bath bedding",
+          "bath and bedding": "bath bedding",
+
+          // Video games categories
+          "video games": "video games",
+          videogames: "video games",
+          "video game": "video games",
+          videogame: "video games",
+          gaming: "video games",
+          gamin: "video games",
+          gamming: "video games",
+          consol: "console",
+          concole: "console",
+          consle: "console",
+          controler: "controller",
+          contorller: "controller",
+          controlls: "controller",
+          accesories: "accessories",
+          acessories: "accessories",
+          accessoris: "accessories",
+
+          // Electronics subcategories
+          mobile: "mobile tablets",
+          moblie: "mobile tablets",
+          "mobile and tablets": "mobile tablets",
+          "mobiles and tablets": "mobile tablets",
+          tablets: "mobile tablets",
+          tvs: "tvs",
+          tv: "tvs",
+          televisions: "tvs",
+          televisoin: "tvs",
+          laptops: "laptop",
+          labtop: "laptop",
+          laptop: "laptop",
+
+          // Appliances subcategories
+          "large appliances": "large appliances",
+          "large appliancs": "large appliances",
+          "small appliances": "small appliances",
+          "small appliancs": "small appliances",
+
+          // Fashion subcategories
+          "women fashion": "women fashion",
+          "womens fashion": "women fashion",
+          "women's fashion": "women fashion",
+          "men fashion": "men fashion",
+          "mens fashion": "men fashion",
+          "men's fashion": "men fashion",
+          "kids fashion": "kids fashion",
+          "kids' fashion": "kids fashion",
+          "childrens fashion": "kids fashion",
         };
 
-        // Advanced spell correction function
+        // Simple spell correction function for categories only
         function correctSpelling(text) {
           let corrected = text.toLowerCase();
           let corrections = [];
@@ -6522,7 +5599,7 @@
             // Remove punctuation for correction check
             const cleanWord = word.replace(/[^\w]/g, "");
 
-            // Check direct corrections first
+            // Check direct corrections for categories only
             if (spellCorrections[cleanWord]) {
               corrections.push({
                 original: word,
@@ -6531,83 +5608,17 @@
               return spellCorrections[cleanWord];
             }
 
-            // Check for common letter swaps and typos
-            const typoPatterns = [
-              // Letter swaps
-              { pattern: /teh/g, replacement: "the" },
-              { pattern: /hte/g, replacement: "the" },
-              { pattern: /adn/g, replacement: "and" },
-              { pattern: /nad/g, replacement: "and" },
-              { pattern: /fo/g, replacement: "of" },
-              { pattern: /taht/g, replacement: "that" },
-              { pattern: /thsi/g, replacement: "this" },
-              { pattern: /wiht/g, replacement: "with" },
-              { pattern: /tihis/g, replacement: "this" },
-              { pattern: /yuor/g, replacement: "your" },
-              { pattern: /yuo/g, replacement: "you" },
-
-              // Common double letters
-              { pattern: /(\w)\1{2,}/g, replacement: "$1$1" }, // Remove extra duplicate letters
-
-              // Common endings
-              { pattern: /tion$/g, replacement: "tion" },
-              { pattern: /sion$/g, replacement: "sion" },
-              { pattern: /ment$/g, replacement: "ment" },
-              { pattern: /ness$/g, replacement: "ness" },
-
-              // Common prefixes
-              { pattern: /^un([aeiou])/g, replacement: "un$1" },
-              { pattern: /^re([aeiou])/g, replacement: "re$1" },
-              { pattern: /^pre([aeiou])/g, replacement: "pre$1" },
-            ];
-
-            let correctedWord = cleanWord;
-            typoPatterns.forEach(({ pattern, replacement }) => {
-              if (pattern.test(correctedWord)) {
-                const beforeCorrection = correctedWord;
-                correctedWord = correctedWord.replace(pattern, replacement);
-                if (beforeCorrection !== correctedWord) {
-                  corrections.push({
-                    original: word,
-                    corrected: correctedWord,
-                  });
-                }
-              }
-            });
-
-            // Levenshtein distance correction for close matches
-            if (correctedWord === cleanWord && cleanWord.length > 3) {
-              const possibleCorrections = Object.keys(spellCorrections).filter(
-                (correct) => {
-                  return (
-                    Math.abs(correct.length - cleanWord.length) <= 2 &&
-                    levenshteinDistance(cleanWord, correct) <= 2
-                  );
-                }
-              );
-
-              if (possibleCorrections.length > 0) {
-                // Choose the correction with smallest distance
-                const bestMatch = possibleCorrections.reduce(
-                  (best, current) => {
-                    const currentDistance = levenshteinDistance(
-                      cleanWord,
-                      current
-                    );
-                    const bestDistance = levenshteinDistance(cleanWord, best);
-                    return currentDistance < bestDistance ? current : best;
-                  }
-                );
-
-                corrections.push({
-                  original: word,
-                  corrected: spellCorrections[bestMatch],
-                });
-                return spellCorrections[bestMatch];
-              }
+            // Check for phrase corrections
+            const originalPhrase = words.join(" ");
+            if (spellCorrections[originalPhrase]) {
+              corrections.push({
+                original: originalPhrase,
+                corrected: spellCorrections[originalPhrase],
+              });
+              return spellCorrections[originalPhrase];
             }
 
-            return correctedWord || word;
+            return word;
           });
 
           return {
@@ -6617,34 +5628,9 @@
           };
         }
 
-        // Levenshtein distance calculation for fuzzy matching
-        function levenshteinDistance(str1, str2) {
-          const matrix = [];
-          for (let i = 0; i <= str2.length; i++) {
-            matrix[i] = [i];
-          }
-          for (let j = 0; j <= str1.length; j++) {
-            matrix[0][j] = j;
-          }
-          for (let i = 1; i <= str2.length; i++) {
-            for (let j = 1; j <= str1.length; j++) {
-              if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-              } else {
-                matrix[i][j] = Math.min(
-                  matrix[i - 1][j - 1] + 1,
-                  matrix[i][j - 1] + 1,
-                  matrix[i - 1][j] + 1
-                );
-              }
-            }
-          }
-          return matrix[str2.length][str1.length];
-        }
-
-        // Enhanced query processing function with advanced AI corrections
+        // Enhanced query processing function with simple category corrections
         function processUserQuery(query) {
-          // First apply spell correction
+          // First apply spell correction for categories only
           const spellResult = correctSpelling(query);
           let processed = spellResult.correctedText.toLowerCase().trim();
 
@@ -6730,103 +5716,6 @@
           });
 
           processed = processed.replace(/\s+/g, " ").trim();
-
-          // Advanced typo corrections and common mistakes
-          const typoCorrections = {
-            // Common typos
-            iphone: "iPhone",
-            ifone: "iPhone",
-            "i phone": "iPhone",
-            ipad: "iPad",
-            "i pad": "iPad",
-            samsng: "Samsung",
-            samsung: "Samsung",
-            samung: "Samsung",
-            labtop: "laptop",
-            laptop: "laptop",
-            computer: "laptop",
-            computr: "laptop",
-            moblie: "mobile phone",
-            mobile: "mobile phone",
-            phone: "mobile phone",
-            fone: "mobile phone",
-            "cel phone": "mobile phone",
-            cellphone: "mobile phone",
-
-            // Appliances typos
-            "washing machine": "washing machine",
-            "washng machine": "washing machine",
-            washer: "washing machine",
-            "automatic washing machine": "washing machine",
-            "washing machne": "washing machine",
-            fridge: "refrigerator",
-            refridgerator: "refrigerator",
-            refrigrator: "refrigerator",
-            frezer: "freezer",
-            freezr: "freezer",
-            tv: "television",
-            televison: "television",
-            "smart tv": "Smart TV",
-            "smat tv": "Smart TV",
-
-            // Gaming typos
-            playstation: "PlayStation",
-            "play station": "PlayStation",
-            plastation: "PlayStation",
-            ps5: "PlayStation 5",
-            "ps 5": "PlayStation 5",
-            playstation5: "PlayStation 5",
-            xbox: "Xbox",
-            "x box": "Xbox",
-            "gaming console": "console",
-            "game console": "console",
-            consol: "console",
-
-            // Beauty typos
-            perfume: "perfume",
-            perfum: "perfume",
-            parfume: "perfume",
-            fragrance: "perfume",
-            fragrnce: "perfume",
-            makeup: "makeup",
-            "make up": "makeup",
-            cosmetics: "makeup",
-            cosmetcs: "makeup",
-            lipstick: "lipstick",
-            lipstik: "lipstick",
-            mascara: "mascara",
-            maskara: "mascara",
-
-            // Fashion typos
-            shoes: "shoes",
-            shose: "shoes",
-            shoe: "shoes",
-            sneakers: "sneakers",
-            sneaker: "sneakers",
-            sneker: "sneakers",
-            jeans: "jeans",
-            jean: "jeans",
-            shirt: "shirt",
-            shrt: "shirt",
-
-            // Home typos
-            sofa: "sofa",
-            couch: "sofa",
-            chair: "chair",
-            chiar: "chair",
-            table: "table",
-            tabel: "table",
-            lamp: "lamp",
-            lmap: "lamp",
-            lighting: "lamp",
-            light: "lamp",
-          };
-
-          // Apply typo corrections
-          Object.keys(typoCorrections).forEach((typo) => {
-            const regex = new RegExp(`\\b${typo}\\b`, "gi");
-            processed = processed.replace(regex, typoCorrections[typo]);
-          });
 
           // Advanced semantic mapping for non-products to closest products
           const semanticMappings = {
@@ -8193,7 +7082,7 @@
           }
         });
 
-        // Allow keyboard navigation in dropdown
+        // Allow keyboard navigation in dropdown and Tab auto-completion
         searchInput.addEventListener("keydown", function (e) {
           // If dropdown is not displayed, do nothing
           if (dropdown.style.display !== "block") return;
@@ -8210,7 +7099,7 @@
             }
           });
 
-          // Handle arrow keys and enter
+          // Handle arrow keys, enter, tab, and escape
           switch (e.key) {
             case "ArrowDown":
               e.preventDefault();
@@ -8224,6 +7113,39 @@
               activeIndex =
                 activeIndex > 0 ? activeIndex - 1 : items.length - 1;
               break;
+            case "Tab":
+              e.preventDefault();
+              // Auto-complete with the first suggestion or selected item
+              const targetIndex = activeIndex >= 0 ? activeIndex : 0;
+              const suggestionItem = items[targetIndex];
+
+              if (
+                suggestionItem &&
+                suggestionItem.classList.contains("command-suggestion")
+              ) {
+                // It's a command suggestion - auto-complete the command
+                const command = suggestionItem.dataset.command;
+                if (command) {
+                  this.value = command;
+                  // Hide dropdown after completion
+                  dropdown.style.display = "none";
+                  // Put cursor at end
+                  this.setSelectionRange(command.length, command.length);
+                }
+              } else if (suggestionItem) {
+                // It's a product suggestion - auto-complete with product title
+                const titleElement =
+                  suggestionItem.querySelector(".fw-semibold");
+                if (titleElement) {
+                  const title = titleElement.textContent.trim();
+                  this.value = title;
+                  // Hide dropdown after completion
+                  dropdown.style.display = "none";
+                  // Put cursor at end
+                  this.setSelectionRange(title.length, title.length);
+                }
+              }
+              return;
             case "Enter":
               if (activeIndex >= 0) {
                 e.preventDefault();
