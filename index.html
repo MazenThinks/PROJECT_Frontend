@@ -6331,7 +6331,9 @@
 
         // Voice command navigation function (shared with voice search)
         const processVoiceCommand = (command) => {
-          const lowerCommand = command.toLowerCase().trim();
+          // Clean the command by removing trailing punctuation (especially periods)
+          const cleanedCommand = command.trim().replace(/[.!?]+$/, "");
+          const lowerCommand = cleanedCommand.toLowerCase().trim();
           console.log("Processing voice command:", lowerCommand);
 
           // Navigation commands mapping
